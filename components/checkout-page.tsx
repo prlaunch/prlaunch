@@ -622,7 +622,7 @@ export function CheckoutPage() {
                   ))}
                 </div>
 
-                
+                <p className="text-center text-xs text-slate-500">and 100s more...</p>
               </div>
             </div>
 

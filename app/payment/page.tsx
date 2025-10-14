@@ -177,13 +177,11 @@ function PaymentContent() {
   const [isCompany, setIsCompany] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
-
-  // Form fields
+  const [upgradeApplied, setUpgradeApplied] = useState(false)
   const [email, setEmail] = useState("")
   const [fullName, setFullName] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [companyNumber, setCompanyNumber] = useState("")
-
   const [emailError, setEmailError] = useState("")
   const [fullNameError, setFullNameError] = useState("")
   const informationCardRef = useRef<HTMLDivElement>(null)
@@ -204,7 +202,6 @@ function PaymentContent() {
     const initializePayment = async () => {
       try {
         console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
-        // Reset client secret to show loading state
         setClientSecret(null)
 
         const { clientSecret } = await createPaymentIntent({
@@ -244,6 +241,7 @@ function PaymentContent() {
       setSelectedPackage(currentPackage.upsellTo!)
       setShowUpsell(false)
       setShowCelebration(false)
+      setUpgradeApplied(true)
     }, 2000)
   }
 
@@ -305,8 +303,27 @@ function PaymentContent() {
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            {/* Package Card */}
-            <div className="bg-white rounded-2xl border-2 border-blue-500 p-6 shadow-lg">
+            <div
+              className={`bg-white rounded-2xl p-6 shadow-lg relative ${
+                upgradeApplied ? "border-2" : "border-2 border-blue-500"
+              }`}
+              style={
+                upgradeApplied
+                  ? {
+                      backgroundImage:
+                        "linear-gradient(white, white), linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #a855f7 100%)",
+                      backgroundOrigin: "border-box",
+                      backgroundClip: "padding-box, border-box",
+                      border: "2px solid transparent",
+                    }
+                  : {}
+              }
+            >
+              {upgradeApplied && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 text-white text-xs font-bold rounded-full shadow-lg">
+                  Upgrade Included
+                </div>
+              )}
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
@@ -328,7 +345,6 @@ function PaymentContent() {
               </div>
             </div>
 
-            {/* Upsell Card */}
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200 p-6 shadow-lg relative overflow-visible">
                 <div className="pt-4">
@@ -372,7 +388,6 @@ function PaymentContent() {
               </div>
             )}
 
-            {/* Your Information */}
             <div ref={informationCardRef} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-slate-900 mb-4">Your Information</h3>
               <div className="space-y-4">
@@ -450,7 +465,6 @@ function PaymentContent() {
               </div>
             </div>
 
-            {/* Free Bonuses */}
             <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
@@ -472,7 +486,6 @@ function PaymentContent() {
               </div>
             </div>
 
-            {/* Payment Section */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
               {clientSecret && (
@@ -488,8 +501,10 @@ function PaymentContent() {
                       },
                     },
                     layout: {
-                      type: "tabs",
+                      type: "accordion",
                       defaultCollapsed: false,
+                      radios: false,
+                      spacedAccordionItems: true,
                     },
                   }}
                 >
@@ -515,11 +530,9 @@ function PaymentContent() {
               )}
             </div>
 
-            {/* What Happens Next */}
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
               <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens Next</h3>
               <div className="space-y-3">
-                {/* Step 1 */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
                     1
@@ -531,14 +544,12 @@ function PaymentContent() {
                   </div>
                 </div>
 
-                {/* Connecting dots */}
                 <div className="flex flex-col items-start gap-0.5 pl-1.5">
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
 
-                {/* Step 2 */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
                     2
@@ -551,14 +562,12 @@ function PaymentContent() {
                   </div>
                 </div>
 
-                {/* Connecting dots */}
                 <div className="flex flex-col items-start gap-0.5 pl-1.5">
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
 
-                {/* Step 3 */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
                     3
@@ -568,14 +577,12 @@ function PaymentContent() {
                   </div>
                 </div>
 
-                {/* Connecting dots */}
                 <div className="flex flex-col items-start gap-0.5 pl-1.5">
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                   <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
 
-                {/* Step 4 */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
                     4
@@ -591,7 +598,6 @@ function PaymentContent() {
             </div>
           </div>
 
-          {/* Right Column - Reviews */}
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
