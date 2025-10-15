@@ -350,35 +350,20 @@ export function PRQuizLanding() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 md:pt-32">
       {/* Hero Section */}
       {currentQuestion === 0 && (
-        <div className="max-w-4xl mx-auto px-4 pb-8 text-center">
+        <div className="max-w-4xl mx-auto px-4 text-center pb-0">
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4">See If PR Is Right For You</h1>
           <p className="text-lg text-slate-600 mb-8">60-second assessment • Personalized insights • Completely free</p>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center gap-2 text-sm text-slate-700">
-              <Check className="w-5 h-5 text-green-600" />
-              <span>500+ clients published</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-slate-700">
-              <Check className="w-5 h-5 text-green-600" />
-              <span>USA media outlets</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-slate-700">
-              <Check className="w-5 h-5 text-green-600" />
-              <span>No experience needed</span>
-            </div>
-          </div>
+          
 
           {/* Testimonial */}
-          <p className="text-sm text-slate-600 italic">
-            "Join entrepreneurs getting featured in major publications for just $47"
-          </p>
+          
         </div>
       )}
 
       {/* Quiz */}
-      <div className="max-w-2xl mx-auto px-4 py-8 md:py-12">
+      <div className="max-w-2xl mx-auto px-4 md:py-12 py-0">
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-3">
