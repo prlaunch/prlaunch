@@ -12,6 +12,7 @@ import { FAQSection } from "@/components/faq-section"
 import { FinalCTASection } from "@/components/final-cta-section"
 import { FeatureCardsSection } from "@/components/feature-cards-section"
 import { RevenueCalculator } from "@/components/revenue-calculator"
+import { OutletSelectionSection } from "@/components/outlet-selection-section"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {
@@ -22,6 +23,7 @@ export default function HomePage() {
       <StoryScrollSection />
       <WhatYouGetSection />
       <PricingExplainerSection />
+      <OutletSelectionSection />
       <FeatureCardsSection />
       <RevenueCalculator />
       <PublicationsSection />
