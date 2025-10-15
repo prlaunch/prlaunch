@@ -531,7 +531,7 @@ function PaymentContent() {
             </div>
 
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens Next</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
