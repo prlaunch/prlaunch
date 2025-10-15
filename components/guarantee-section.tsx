@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Shield } from "lucide-react"
+import Link from "next/link"
 
 export function GuaranteeSection() {
   const scrollToSection = (id: string) => {
@@ -28,19 +29,20 @@ export function GuaranteeSection() {
           {/* Description */}
           <div className="mb-8 space-y-4 text-pretty text-lg leading-relaxed text-primary-foreground/90 md:text-xl">
             <p>
-              If we don&#39;t get you published in a major publication within 7 days of receiving your approval, you pay nothing. Zero risk. Zero hassle.
+              If we don&#39;t get you published in a major publication within 7 days of receiving your approval, you pay
+              nothing. Zero risk. Zero hassle.
             </p>
-            
           </div>
 
           {/* CTA */}
-          <Button
-            size="lg"
-            onClick={() => scrollToSection("pricing")}
-            className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
-          >
-            Get Featured — $47
-          </Button>
+          <Link href="/checkout">
+            <Button
+              size="lg"
+              className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            >
+              Get Featured — $47
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

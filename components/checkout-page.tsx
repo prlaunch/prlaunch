@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import {
   X,
   Check,
@@ -108,6 +109,7 @@ export function CheckoutPage() {
       title: "Marketing Consultant",
       initials: "SM",
       color: "bg-blue-500",
+      image: "/marketing-consultant-cafe-photo.jpg",
       rating: 5,
       date: "2 weeks ago",
       verified: true,
@@ -119,6 +121,7 @@ export function CheckoutPage() {
       title: "Business Coach",
       initials: "MC",
       color: "bg-purple-500",
+      image: "/casual-business-coach-selfie.jpg",
       rating: 5,
       date: "1 month ago",
       verified: true,
@@ -130,6 +133,7 @@ export function CheckoutPage() {
       title: "Tech Founder",
       initials: "DP",
       color: "bg-emerald-500",
+      image: "/tech-founder-office-photo.jpg",
       rating: 5,
       date: "3 weeks ago",
       verified: true,
@@ -141,6 +145,7 @@ export function CheckoutPage() {
       title: "Real Estate Agent",
       initials: "JL",
       color: "bg-pink-500",
+      image: "/business-consultant-smart-casual.jpg",
       rating: 5,
       date: "1 week ago",
       verified: true,
@@ -152,6 +157,7 @@ export function CheckoutPage() {
       title: "Fitness Coach",
       initials: "AR",
       color: "bg-indigo-500",
+      image: "/fitness-coach-outdoor-casual.jpg",
       rating: 5,
       date: "5 days ago",
       verified: true,
@@ -163,6 +169,7 @@ export function CheckoutPage() {
       title: "E-commerce Owner",
       initials: "EW",
       color: "bg-teal-500",
+      image: "/ecommerce-owner-warehouse-casual.jpg",
       rating: 5,
       date: "2 months ago",
       verified: true,
@@ -174,6 +181,7 @@ export function CheckoutPage() {
       title: "Financial Advisor",
       initials: "MB",
       color: "bg-orange-500",
+      image: "/financial-advisor-professional-headshot.jpg",
       rating: 5,
       date: "3 days ago",
       verified: true,
@@ -185,6 +193,7 @@ export function CheckoutPage() {
       title: "Life Coach",
       initials: "LA",
       color: "bg-red-500",
+      image: "/life-coach-outdoor-casual.jpg",
       rating: 5,
       date: "1 month ago",
       verified: true,
@@ -196,6 +205,7 @@ export function CheckoutPage() {
       title: "SaaS Founder",
       initials: "JW",
       color: "bg-blue-600",
+      image: "/saas-founder-home-office.jpg",
       rating: 5,
       date: "2 weeks ago",
       verified: true,
@@ -207,6 +217,7 @@ export function CheckoutPage() {
       title: "Interior Designer",
       initials: "RG",
       color: "bg-purple-600",
+      image: "/interior-designer-creative-workspace.jpg",
       rating: 5,
       date: "4 weeks ago",
       verified: true,
@@ -218,6 +229,7 @@ export function CheckoutPage() {
       title: "Real Estate Investor",
       initials: "TH",
       color: "bg-emerald-600",
+      image: "/real-estate-investor-business-casual.jpg",
       rating: 5,
       date: "1 week ago",
       verified: true,
@@ -229,6 +241,7 @@ export function CheckoutPage() {
       title: "Digital Marketing Expert",
       initials: "AC",
       color: "bg-pink-600",
+      image: "/ceo-conference-professional.jpg",
       rating: 5,
       date: "3 weeks ago",
       verified: true,
@@ -397,10 +410,14 @@ export function CheckoutPage() {
                 {/* Header with avatar and name */}
                 <div className="flex items-start gap-3 mb-4">
                   <div className="relative">
-                    <div
-                      className={`w-14 h-14 rounded-full ${review.color} flex items-center justify-center text-white font-semibold text-base shrink-0`}
-                    >
-                      {review.initials}
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted shrink-0">
+                      <Image
+                        src={review.image || "/placeholder.svg"}
+                        alt={review.name}
+                        width={56}
+                        height={56}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     {review.verified && (
                       <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">

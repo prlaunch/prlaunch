@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 export function SocialProofGrid() {
   const reviews = [
     {
@@ -5,6 +7,7 @@ export function SocialProofGrid() {
       title: "Business Coach",
       initials: "JM",
       color: "bg-blue-500",
+      image: "/casual-business-coach-selfie.jpg",
       rating: 5,
       date: "Jan 8, 2025",
       review: "got featured in forbes within 2 weeks. this is exactly what my coaching business needed",
@@ -15,6 +18,7 @@ export function SocialProofGrid() {
       title: "Tech Founder",
       initials: "MR",
       color: "bg-purple-500",
+      image: "/tech-founder-office-photo.jpg",
       rating: 5,
       date: "Dec 15, 2024",
       review: "Featured in 3 major publications in my first month. Worth every penny",
@@ -25,6 +29,7 @@ export function SocialProofGrid() {
       title: "Life Coach",
       initials: "SK",
       color: "bg-pink-500",
+      image: "/life-coach-outdoor-casual.jpg",
       rating: 5,
       date: "Jan 2, 2025",
       review: "just got my entrepreneur.com feature live!! my DMs are exploding with new opportunities",
@@ -35,19 +40,32 @@ export function SocialProofGrid() {
       title: "SaaS Founder",
       initials: "DL",
       color: "bg-indigo-500",
+      image: "/saas-founder-home-office.jpg",
       rating: 5,
       date: "Dec 28, 2024",
       review: "best investment I've made this year. professional, fast, and delivers real results",
       verified: true,
     },
     {
-      name: "Alex P.",
+      name: "Amanda P.",
       title: "Marketing Consultant",
       initials: "AP",
       color: "bg-emerald-500",
+      image: "/marketing-consultant-cafe-photo.jpg",
       rating: 5,
       date: "Jan 5, 2025",
       review: "Got my inc.com article published. The credibility boost has been incredible for my business",
+      verified: true,
+    },
+    {
+      name: "Marcus W.",
+      title: "E-commerce Owner",
+      initials: "MW",
+      color: "bg-orange-500",
+      image: "/ecommerce-owner-warehouse-casual.jpg",
+      rating: 5,
+      date: "Jan 10, 2025",
+      review: "never thought i'd see my name in fast company. this service changed everything for my brand",
       verified: true,
     },
     {
@@ -55,19 +73,10 @@ export function SocialProofGrid() {
       title: "Founder & CEO",
       initials: "RP",
       color: "bg-blue-600",
+      image: "/ceo-conference-professional.jpg",
       rating: 5,
       date: "Dec 20, 2024",
       review: "featured in business insider! huge thanks to PR Launch. highly recommend to any entrepreneur",
-      verified: true,
-    },
-    {
-      name: "Tom W.",
-      title: "E-commerce Owner",
-      initials: "TW",
-      color: "bg-orange-500",
-      rating: 5,
-      date: "Jan 10, 2025",
-      review: "never thought i'd see my name in fast company. this service changed everything for my brand",
       verified: true,
     },
     {
@@ -75,6 +84,7 @@ export function SocialProofGrid() {
       title: "Consultant",
       initials: "LH",
       color: "bg-teal-500",
+      image: "/business-consultant-smart-casual.jpg",
       rating: 5,
       date: "Dec 30, 2024",
       review: "5 features in 6 weeks. my linkedin is blowing up with partnership requests now",
@@ -85,6 +95,7 @@ export function SocialProofGrid() {
       title: "Fintech Founder",
       initials: "NK",
       color: "bg-red-500",
+      image: "/fintech-founder-startup-casual.jpg",
       rating: 5,
       date: "Jan 3, 2025",
       review: "yahoo finance picked up my story. the ROI on this has been absolutely insane",
@@ -111,10 +122,14 @@ export function SocialProofGrid() {
                   {/* Header with avatar and name */}
                   <div className="flex items-start gap-3 mb-4">
                     <div className="relative">
-                      <div
-                        className={`w-12 h-12 rounded-full ${review.color} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
-                      >
-                        {review.initials}
+                      <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-200">
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       {review.verified && (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
