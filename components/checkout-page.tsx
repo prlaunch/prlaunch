@@ -596,7 +596,6 @@ export function CheckoutPage() {
                         )}
                       </div>
                       <p className="text-slate-600 text-sm">{pkg.description}</p>
-                      
                     </div>
                     {selectedPlan === index && (
                       <div className="flex-shrink-0">
@@ -608,6 +607,23 @@ export function CheckoutPage() {
                   </div>
                 </button>
               ))}
+              <div className="pt-3 border-slate-200 mt-0 border-t-0">
+                <h3 className="text-center text-sm font-semibold text-slate-900 mb-2">You Will Pick Your Outlets</h3>
+
+                <div className="flex flex-wrap items-center justify-center gap-3 mb-2">
+                  {prLogos.map((logo, index) => (
+                    <div key={index} className="h-4 w-16 flex items-center justify-center">
+                      <img
+                        src={logo.src || "/placeholder.svg"}
+                        alt={logo.alt}
+                        className="h-full w-full object-contain grayscale opacity-60"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-center text-xs text-slate-500">and 100s more...</p>
+              </div>
             </div>
 
             <div className="p-5 border-t border-slate-200">
@@ -621,7 +637,7 @@ export function CheckoutPage() {
                 </a>
               </Button>
               <p className="text-center text-xs text-slate-500 mt-3">
-                You will be redirected to checkout. All purchases are backed by our unconditional 7-day money-back
+                You will be redirected to checkout. All purchases are backed by our unconditional 100% money-back
                 guarantee.
               </p>
             </div>

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -54,18 +55,57 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:hello@prlaunch.io"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex gap-2 items-center"
                 >
-                  hello@prlaunch.io
+                  <Image
+                    src="/email.png"
+                    alt="email"
+                    width={16}
+                    height={16}
+                  /> hello@prlaunch.io
                 </a>
               </li>
               <li>
-                <a href="tel:+971554470824" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +971 55 44 708 24
+                <a href="tel:+971554470824" className="text-muted-foreground hover:text-foreground transition-colors flex gap-2 items-center">
+                  <Image
+                    src="/telephone.png"
+                    alt="email"
+                    width={16}
+                    height={16}
+                  /> +971 55 44 708 24
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/prlaunch.io"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex gap-2 items-center"
+                >
+                  <Image
+                    src="/instagram.png"
+                    alt="Instagram"
+                    width={16}
+                    height={16}
+                  /> Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.facebook.com/prlaunch/"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex gap-2 items-center"
+                >
+                  <Image
+                    src="/facebook.png"
+                    alt="Facebook"
+                    width={16}
+                    height={16}
+                  /> Facebook
                 </a>
               </li>
             </ul>
           </div>
+
 
           {/* Company */}
         </div>

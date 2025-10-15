@@ -1,16 +1,17 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 
 export function StoryScrollSection() {
-  const [currentScreen, setCurrentScreen] = useState(0)
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
-  const lastScreenRef = useRef(0)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
+  const lastScrollTime = useRef(0)
+  const rawProgressRef = useRef(0)
+  const smoothingFrameRef = useRef<number | undefined>(undefined)
+  const lastTickRef = useRef(0)
 
   const entrepreneurs = [
     { name: "Sarah Chen", title: "Tech Founder", image: "/asian-woman-entrepreneur-smiling.jpg" },
@@ -24,80 +25,75 @@ export function StoryScrollSection() {
     { name: "CloudSync", logo: "/cloud-company-logo-purple.jpg" },
   ]
 
+
+  const updateScrollProgress = useCallback(() => {
+    if (!sectionRef.current) return
+
+    const rect = sectionRef.current.getBoundingClientRect()
+    const sectionHeight = rect.height
+    const viewportHeight = window.innerHeight
+
+
+    const scrollStart = rect.top
+    const maxScroll = sectionHeight - viewportHeight
+    let progress = Math.max(0, Math.min(1, -scrollStart / maxScroll))
+
+
+    progress = progress * progress * (3 - 2 * progress)
+
+    rawProgressRef.current = progress
+  }, [])
+
   useEffect(() => {
-    let ticking = false
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (!sectionRef.current) {
-            ticking = false
-            return
-          }
-
-          const rect = sectionRef.current.getBoundingClientRect()
-          const sectionHeight = rect.height
-          const viewportHeight = window.innerHeight
-
-          const scrollStart = rect.top
-          const scrollEnd = rect.bottom - viewportHeight
-          let progress = Math.max(0, Math.min(1, -scrollStart / (sectionHeight - viewportHeight)))
-
-          if (progress < 0.02) progress = 0
-          if (progress > 0.98) progress = 1
-
-          setScrollProgress(progress)
-
-          const totalProgress = progress * 4 // 4 screens total
-          const newScreen = Math.min(3, Math.floor(totalProgress))
-
-          const screenDiff = Math.abs(newScreen - lastScreenRef.current)
-          if (screenDiff >= 1 || newScreen === 0 || newScreen === 3) {
-            // Clear any pending timeout
-            if (scrollTimeoutRef.current) {
-              clearTimeout(scrollTimeoutRef.current)
-            }
-
-            scrollTimeoutRef.current = setTimeout(() => {
-              setCurrentScreen(newScreen)
-              lastScreenRef.current = newScreen
-            }, 50)
-          }
-
-          // Calculate card index based on scroll progress within each screen
-          const screenProgress = totalProgress % 1 // Progress within current screen (0-1)
-
-          if (newScreen === 1) {
-            // Entrepreneurs screen - divide progress by number of cards
-            const cardProgress = screenProgress * entrepreneurs.length
-            const cardIndex = Math.floor(cardProgress)
-            setCurrentCardIndex(Math.min(cardIndex, entrepreneurs.length - 1))
-          } else if (newScreen === 2) {
-            // Companies screen - divide progress by number of cards
-            const cardProgress = screenProgress * companies.length
-            const cardIndex = Math.floor(cardProgress)
-            setCurrentCardIndex(Math.min(cardIndex, companies.length - 1))
-          } else {
-            setCurrentCardIndex(0)
-          }
-
-          ticking = false
-        })
-
-        ticking = true
-      }
+    const tick = (timestamp: number) => {
+      const alpha = 0.18
+      setScrollProgress((prev) => {
+        const target = rawProgressRef.current
+        const next = prev + (target - prev) * alpha
+        // Snap when very close to avoid micro-jitter
+        return Math.abs(next - target) < 0.0005 ? target : next
+      })
+      smoothingFrameRef.current = requestAnimationFrame(tick)
     }
 
+    smoothingFrameRef.current = requestAnimationFrame(tick)
+    return () => {
+      if (smoothingFrameRef.current) cancelAnimationFrame(smoothingFrameRef.current)
+    }
+  }, [])
+
+  const handleScroll = useCallback(() => {
+    const now = Date.now()
+
+
+    const throttleMs = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 32 : 16
+
+    if (now - lastScrollTime.current < throttleMs) return
+
+    lastScrollTime.current = now
+
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current)
+    }
+
+    animationFrameRef.current = requestAnimationFrame(updateScrollProgress)
+  }, [updateScrollProgress])
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll() // Initial call
+    window.addEventListener("resize", handleScroll, { passive: true })
+
+    // Initial call
+    updateScrollProgress()
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current)
+      window.removeEventListener("resize", handleScroll)
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [entrepreneurs.length, companies.length])
+  }, [handleScroll, updateScrollProgress])
 
   const scrollToWhatYouGet = () => {
     const whatYouGetSection = document.getElementById("what-you-get")
@@ -106,44 +102,122 @@ export function StoryScrollSection() {
     }
   }
 
-  const getScreenOpacity = (screenIndex: number) => {
-    const screenProgress = scrollProgress * 4 - screenIndex
-    if (screenProgress < 0) return 0
-    if (screenProgress > 1) return 0
-    // Smoother fade in/out with longer transition zones
-    if (screenProgress < 0.2) return screenProgress / 0.2
-    if (screenProgress > 0.8) return (1 - screenProgress) / 0.2
-    return 1
+
+  const getScreenTransform = (screenIndex: number): React.CSSProperties => {
+    const totalProgress = scrollProgress * 4 // 4 screens total
+    const screenProgress = totalProgress - screenIndex
+
+    let opacity = 0
+    if (screenProgress > 0 && screenProgress < 1) {
+      const edge = 0.08
+      if (screenProgress < edge) {
+        const t = screenProgress / edge
+        opacity = t * t * (3 - 2 * t)
+      } else if (screenProgress > 1 - edge) {
+        const t = (1 - screenProgress) / edge
+        opacity = t * t * (3 - 2 * t)
+      } else {
+        opacity = 1
+      }
+    } else {
+      opacity = 0
+    }
+
+    const scale = 0.98 + (opacity * 0.02)
+    const translateY = (1 - opacity) * 24
+
+    return {
+      opacity,
+      transform: `translateY(${translateY}px) scale(${scale})`,
+      pointerEvents: opacity > 0.01 ? 'auto' : 'none' as React.CSSProperties['pointerEvents'],
+      transition: 'opacity 180ms ease-out, transform 220ms ease-out',
+      willChange: 'opacity, transform'
+    }
   }
 
-  const getCardOpacity = (cardIndex: number) => {
-    const diff = Math.abs(currentCardIndex - cardIndex)
-    if (diff === 0) return 1
-    if (diff === 1) return 0.3
-    return 0
+  const getCardTransform = (cardIndex: number, screenIndex: number): React.CSSProperties => {
+    const totalProgress = scrollProgress * 4
+    const screenProgress = totalProgress - screenIndex
+
+    if (screenProgress < 0 || screenProgress > 1) {
+      return {
+        opacity: 0,
+        transform: 'translateY(20px) scale(0.95)',
+        zIndex: 0,
+        pointerEvents: 'none' as React.CSSProperties['pointerEvents']
+      }
+    }
+
+    const cards = screenIndex === 1 ? entrepreneurs : companies
+    const cardProgress = screenProgress * cards.length
+    const cardOffset = cardIndex - cardProgress
+
+
+    if (Math.abs(cardOffset) > 1.5) {
+      return {
+        opacity: 0,
+        transform: 'translateY(20px) scale(0.95)',
+        zIndex: 0,
+        pointerEvents: 'none' as React.CSSProperties['pointerEvents']
+      }
+    }
+
+
+    let opacity = 0
+    let translateY = 20
+    let scale = 0.95
+    let zIndex = 0
+
+    if (Math.abs(cardOffset) <= 1) {
+      if (Math.abs(cardOffset) <= 0.5) {
+        opacity = 1
+        translateY = 0
+        scale = 1
+        zIndex = 10
+      } else {
+        opacity = Math.max(0, 1 - (Math.abs(cardOffset) - 0.5) * 2)
+        translateY = cardOffset * 20
+        scale = 0.95 + (opacity * 0.05)
+        zIndex = 5
+      }
+    }
+
+    return {
+      opacity,
+      transform: `translateY(${translateY}px) scale(${scale})`,
+      zIndex,
+      pointerEvents: opacity > 0.8 ? 'auto' : 'none' as React.CSSProperties['pointerEvents'],
+      transition: 'opacity 160ms ease-out, transform 200ms ease-out',
+      willChange: 'opacity, transform'
+    }
   }
 
   return (
     <section
       ref={sectionRef}
       id="story-scroll-section"
-      className="relative min-h-[400vh] bg-gradient-to-b from-background via-blue-50/30 to-background touch-pan-y"
+      className="relative min-h-[400vh] bg-gradient-to-b from-background via-blue-50/30 to-background"
       style={{
         WebkitOverflowScrolling: "touch",
         overscrollBehavior: "contain",
+        touchAction: "pan-y",
       }}
     >
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+      <div
+        className="sticky top-0 h-screen flex items-center justify-center overflow-hidden will-change-transform"
+        style={{
+          backfaceVisibility: 'hidden',
+          perspective: '1000px',
+          transform: 'translateZ(0)',
+        }}
+      >
         <div className="relative w-full h-full flex items-center justify-center">
           {/* Screen 0: Intro */}
           <div
-            className="absolute inset-0 flex items-center justify-center transition-opacity duration-1000 px-4"
-            style={{ opacity: getScreenOpacity(0), pointerEvents: currentScreen === 0 ? "auto" : "none" }}
+            className="absolute inset-0 flex items-center justify-center px-4"
+            style={getScreenTransform(0)}
           >
-            <div
-              className="text-center max-w-4xl transform transition-transform duration-700"
-              style={{ transform: `translateY(${currentScreen === 0 ? 0 : -20}px)` }}
-            >
+            <div className="text-center max-w-4xl relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 blur-3xl opacity-20 -z-10" />
               <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
                 <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 bg-clip-text text-transparent">
@@ -159,14 +233,11 @@ export function StoryScrollSection() {
 
           {/* Screen 1: Entrepreneurs */}
           <div
-            className="absolute inset-0 flex items-center justify-center transition-opacity duration-1000 px-4"
-            style={{ opacity: getScreenOpacity(1), pointerEvents: currentScreen === 1 ? "auto" : "none" }}
+            className="absolute inset-0 flex items-center justify-center px-4"
+            style={getScreenTransform(1)}
           >
             <div className="flex flex-col items-center justify-center w-full max-w-6xl">
-              <h3
-                className="mb-12 text-2xl font-bold text-foreground md:text-4xl lg:text-5xl text-center transform transition-all duration-1000"
-                style={{ transform: `translateY(${currentScreen === 1 ? 0 : 20}px)` }}
-              >
+              <h3 className="mb-12 text-2xl font-bold text-foreground md:text-4xl lg:text-5xl text-center">
                 We have helped{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                   entrepreneurs
@@ -176,11 +247,14 @@ export function StoryScrollSection() {
                 {entrepreneurs.map((entrepreneur, index) => (
                   <div
                     key={entrepreneur.name}
-                    className="absolute inset-0 flex items-center justify-center transform transition-all duration-700 ease-out"
+                    className="absolute inset-0 flex items-center justify-center"
                     style={{
-                      opacity: getCardOpacity(index),
-                      transform: `translateY(${currentCardIndex === index ? 0 : 20}px) scale(${currentCardIndex === index ? 1 : 0.95})`,
-                      pointerEvents: currentCardIndex === index ? "auto" : "none",
+                      ...getCardTransform(index, 1),
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
                     }}
                   >
                     <div className="rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-border w-full">
@@ -205,14 +279,11 @@ export function StoryScrollSection() {
 
           {/* Screen 2: Companies */}
           <div
-            className="absolute inset-0 flex items-center justify-center transition-opacity duration-1000 px-4"
-            style={{ opacity: getScreenOpacity(2), pointerEvents: currentScreen === 2 ? "auto" : "none" }}
+            className="absolute inset-0 flex items-center justify-center px-4"
+            style={getScreenTransform(2)}
           >
             <div className="flex flex-col items-center justify-center w-full max-w-6xl">
-              <h3
-                className="mb-12 text-2xl font-bold text-foreground md:text-4xl lg:text-5xl text-center transform transition-all duration-1000"
-                style={{ transform: `translateY(${currentScreen === 2 ? 0 : 20}px)` }}
-              >
+              <h3 className="mb-12 text-2xl font-bold text-foreground md:text-4xl lg:text-5xl text-center">
                 We empower{" "}
                 <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
                   companies
@@ -222,11 +293,14 @@ export function StoryScrollSection() {
                 {companies.map((company, index) => (
                   <div
                     key={company.name}
-                    className="absolute inset-0 flex items-center justify-center transform transition-all duration-700 ease-out"
+                    className="absolute inset-0 flex items-center justify-center"
                     style={{
-                      opacity: getCardOpacity(index),
-                      transform: `translateY(${currentCardIndex === index ? 0 : 20}px) scale(${currentCardIndex === index ? 1 : 0.95})`,
-                      pointerEvents: currentCardIndex === index ? "auto" : "none",
+                      ...getCardTransform(index, 2),
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
                     }}
                   >
                     <div className="rounded-2xl bg-white p-8 md:p-12 shadow-2xl border border-border flex flex-col items-center justify-center aspect-square w-full">
@@ -248,13 +322,10 @@ export function StoryScrollSection() {
 
           {/* Screen 3: You */}
           <div
-            className="absolute inset-0 flex items-center justify-center transition-opacity duration-1000 px-4"
-            style={{ opacity: getScreenOpacity(3), pointerEvents: currentScreen === 3 ? "auto" : "none" }}
+            className="absolute inset-0 flex items-center justify-center px-4"
+            style={getScreenTransform(3)}
           >
-            <div
-              className="text-center transform transition-transform duration-700"
-              style={{ transform: `translateY(${currentScreen === 3 ? 0 : 20}px)` }}
-            >
+            <div className="text-center">
               <h3 className="mb-8 text-2xl font-bold text-foreground md:text-4xl lg:text-5xl">
                 And now it's time for{" "}
                 <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 bg-clip-text text-transparent">
