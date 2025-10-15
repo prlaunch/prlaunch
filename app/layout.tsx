@@ -24,6 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <Script
+          async
+          defer
+          src="https://tools.luckyorange.com/core/lo.js?site-id=c3f8e351"
+          strategy="afterInteractive"
+        />
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
