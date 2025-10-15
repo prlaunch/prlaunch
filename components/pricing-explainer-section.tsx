@@ -44,7 +44,7 @@ export function PricingExplainerSection() {
   ]
 
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-muted/20 to-background">
+    <section id="how-it-works" ref={sectionRef} className="py-24 bg-gradient-to-b from-muted/20 to-background">
       <div className="container px-4 mx-auto">
         <div
           className={`text-center mb-16 max-w-3xl mx-auto transition-all duration-700 ${
@@ -55,11 +55,14 @@ export function PricingExplainerSection() {
           <div className="flex items-center justify-center gap-2 flex-wrap text-xl text-muted-foreground text-balance">
             <span>Yes.</span>
             <span className="font-bold tracking-tight text-black">
-              
               <span>{""}</span>
             </span>
             {/* </CHANGE> */}
-            <span>{"PR Launch is designed for small entrepreneurs and companies that are just building out their first social proof."}</span>
+            <span>
+              {
+                "PR Launch is designed for small entrepreneurs and companies that are just building out their first social proof."
+              }
+            </span>
           </div>
         </div>
 

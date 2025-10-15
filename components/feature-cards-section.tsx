@@ -28,6 +28,66 @@ const features = [
     id: "credibility",
     imagePath: "/images/features/bad-press-to-positive-pr.jpg",
   },
+  {
+    headline: "Featured on Charity and Life",
+    subhead: "Reach audiences passionate about making a difference in the world.",
+    id: "charityandlife",
+    imagePath: "/images/features/charityandlife.webp",
+  },
+  {
+    headline: "Breaking 9 to 5 Coverage",
+    subhead: "Connect with entrepreneurs breaking free from traditional careers.",
+    id: "breaking9to5",
+    imagePath: "/images/features/breaking9to5.webp",
+  },
+  {
+    headline: "The NYC Times Feature",
+    subhead: "Get noticed by New York's business and lifestyle community.",
+    id: "thenyctimes",
+    imagePath: "/images/features/thenyctimes.webp",
+  },
+  {
+    headline: "Health Fitness Wire Spotlight",
+    subhead: "Establish authority in the health and wellness industry.",
+    id: "healthfitnesswire",
+    imagePath: "/images/features/healthfitnesswire.webp",
+  },
+  {
+    headline: "Next Mentors Recognition",
+    subhead: "Position yourself as a thought leader and mentor to others.",
+    id: "nextmentors",
+    imagePath: "/images/features/nextmentors.webp",
+  },
+  {
+    headline: "Travels HQ Feature",
+    subhead: "Reach travel enthusiasts and adventure seekers worldwide.",
+    id: "travelshq",
+    imagePath: "/images/features/travelshq.webp",
+  },
+  {
+    headline: "Fashion and Beauty World",
+    subhead: "Get featured in the fashion and beauty lifestyle space.",
+    id: "fashionandbeautyworld",
+    imagePath: "/images/features/fashionandbeautyworld.webp",
+  },
+  {
+    headline: "GoPreneurs Coverage",
+    subhead: "Share your entrepreneurial journey with ambitious founders.",
+    id: "gopreneurs",
+    imagePath: "/images/features/gopreneurs.webp",
+  },
+  {
+    headline: "L.A. Tabloid Feature",
+    subhead: "Get noticed by Los Angeles' entertainment and business scene.",
+    id: "latabloid",
+    imagePath: "/images/features/latabloid.webp",
+  },
+  {
+    headline: "AtoAllLinks Publication",
+    subhead: "Expand your reach across business and technology audiences.",
+    id: "atoallinks",
+    imagePath: "/images/features/atoallinks.webp",
+  },
 ]
 
 export function FeatureCardsSection() {

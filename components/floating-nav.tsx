@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Briefcase, TrendingUp, Sparkles, Laptop, Activity, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
@@ -10,6 +10,7 @@ export function FloatingNav() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isOutletsOpen, setIsOutletsOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +35,14 @@ export function FloatingNav() {
       setIsMobileMenuOpen(false)
     }
   }
+
+  const outletCategories = [
+    { name: "Business & Entrepreneurship", icon: Briefcase, href: "/outlets/business-entrepreneurship" },
+    { name: "Finance & Economics", icon: TrendingUp, href: "/outlets/finance-economics" },
+    { name: "Lifestyle & Culture", icon: Sparkles, href: "/outlets/lifestyle-culture" },
+    { name: "Technology & Digital Marketing", icon: Laptop, href: "/outlets/technology-digital-marketing" },
+    { name: "Health & Wellness", icon: Activity, href: "/outlets/health-wellness" },
+  ]
 
   const Logo = () => (
     <Link href="/" className="text-lg font-bold tracking-tight hover:opacity-80 transition-opacity text-black">
@@ -74,6 +83,39 @@ export function FloatingNav() {
             >
               Pricing
             </Link>
+
+            <div
+              className="relative"
+              onMouseEnter={() => setIsOutletsOpen(true)}
+              onMouseLeave={() => setIsOutletsOpen(false)}
+            >
+              <button className="px-4 py-2 rounded-full text-sm font-medium text-black transition-all duration-300 hover:scale-110 hover:text-blue-500 flex items-center gap-1">
+                See Outlets
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${isOutletsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isOutletsOpen && (
+                <div className="absolute top-full left-0 mt-2 w-64 glass-nav rounded-2xl p-2 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+                  {outletCategories.map((category) => {
+                    const Icon = category.icon
+                    return (
+                      <Link
+                        key={category.name}
+                        href={category.href}
+                        onClick={() => setIsOutletsOpen(false)}
+                        className="w-full px-4 py-3 rounded-xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center gap-3"
+                      >
+                        <Icon className="w-4 h-4" />
+                        {category.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => scrollToSection("reviews")}
               className="px-4 py-2 rounded-full text-sm font-medium text-black transition-all duration-300 hover:scale-110 hover:text-blue-500"
@@ -144,6 +186,41 @@ export function FloatingNav() {
             >
               Pricing
             </Link>
+
+            <div>
+              <button
+                onClick={() => setIsOutletsOpen(!isOutletsOpen)}
+                className="w-full px-4 py-3 rounded-2xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center justify-between"
+              >
+                See Outlets
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${isOutletsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isOutletsOpen && (
+                <div className="ml-4 mt-2 space-y-1">
+                  {outletCategories.map((category) => {
+                    const Icon = category.icon
+                    return (
+                      <Link
+                        key={category.name}
+                        href={category.href}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false)
+                          setIsOutletsOpen(false)
+                        }}
+                        className="w-full px-4 py-2 rounded-xl text-xs font-medium text-black/70 transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 text-left flex items-center gap-2"
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        {category.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => scrollToSection("reviews")}
               className="px-4 py-3 rounded-2xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left"

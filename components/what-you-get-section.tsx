@@ -43,6 +43,108 @@ export function WhatYouGetSection() {
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9026%20%281%29%281%29-E7HhLCJq7zcXTHfM88bsNFdmd9c1oS.jpg",
     },
+    {
+      id: 7,
+      label: "Point News",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/050_thepointnews-oxnhVwikZ0leHVk97K11MKoacD0aV8.webp",
+    },
+    {
+      id: 8,
+      label: "Bomb Report",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/043_bombreport-XCiLIdfmdp2dPvdIB6BhpY7Qb9x3JU.webp",
+    },
+    {
+      id: 9,
+      label: "Faith Family America",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/048_faithfamilyamerica-OfmzNZzWlPJoStRqo6og5iVy6ZAh9j.webp",
+    },
+    {
+      id: 10,
+      label: "Article Rich",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/047_articlerich-viGoeBG7KXPncYxOKOrKEt1nrKPfjc.webp",
+    },
+    {
+      id: 11,
+      label: "Harcourt Health",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/044_harcourthealth-0AECRtcwJ7aM3LWP5xvxm04wqE21Fe.webp",
+    },
+    {
+      id: 12,
+      label: "Ribbon Co.",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/049_ribbon-wyqJXLkw0CrRIJU6Lx2q8UQZFbCobj.webp",
+    },
+    {
+      id: 13,
+      label: "Street Register",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/046_streetregister-YmAlKyJOTEyGbzyP5fiGDBJwneIHCk.webp",
+    },
+    {
+      id: 14,
+      label: "The Daily Haze",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/042_thedailyhaze-ENjQdSW9EAZi0EvJzwzLEepU22k3O0.webp",
+    },
+    {
+      id: 15,
+      label: "Washington Guardian",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/041_washingtonguardian-Spij7XMgp4v4RrN09HOmpc7FAEt56M.webp",
+    },
+    {
+      id: 16,
+      label: "Brights Future",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/045_brightsfuture-6Kc0k46nznip9V9B2SHoNXx5MijZa8.webp",
+    },
+    {
+      id: 17,
+      label: "Rolling Hype",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/055_rollinghype-OJC4Ke50ISd0aIyDVekplaK6DOJgh5.webp",
+    },
+    {
+      id: 18,
+      label: "New York Business Now",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/051_newyorkbusinessnow-SjD7FLK76PpeqY7eQ09Cj9FIR5MkwP.webp",
+    },
+    {
+      id: 19,
+      label: "Hustle Weekly",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/057_hustleweekly-J8QXJkiN4l64pGp2Rkdj2Mk54OtdUQ.webp",
+    },
+    {
+      id: 20,
+      label: "USA Wire",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/054_usawire-vp84Xws61SMzSwTbgHrNuc8J2CiHQN.webp",
+    },
+    {
+      id: 21,
+      label: "Medium",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/053_medium-3CYFD6uPXvlB2tPKyDbHxCLlB82trF.webp",
+    },
+    {
+      id: 22,
+      label: "The US Times",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/052_theustimes-xR2xTNNoRFWNMQ3zdwknsA8ZLtn93J.webp",
+    },
+    {
+      id: 23,
+      label: "New York Tech",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/056_nytech-QLYCxSA1HiC82vWsKrQq1Zs3NVWLcX.webp",
+    },
   ]
 
   const infiniteMockups = [...mockups, ...mockups, ...mockups]

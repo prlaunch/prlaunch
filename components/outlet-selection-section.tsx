@@ -22,7 +22,10 @@ const logos = [
 
 export function OutletSelectionSection() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-gradient-to-b from-white via-blue-50/30 to-white relative overflow-hidden">
+    <section
+      id="outlet-selection"
+      className="py-16 md:py-24 px-4 bg-gradient-to-b from-white via-blue-50/30 to-white relative overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full blur-3xl" />

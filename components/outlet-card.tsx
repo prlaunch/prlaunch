@@ -1,0 +1,62 @@
+import { ExternalLink } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+
+interface OutletCardProps {
+  name: string
+  url: string
+  description: string
+  isAvailable?: boolean
+  imageUrl?: string
+}
+
+export function OutletCard({ name, url, description, isAvailable = true, imageUrl }: OutletCardProps) {
+  return (
+    <div className="group relative bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-blue-300 transition-all duration-300 flex flex-col">
+      {isAvailable && (
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-2.5 py-1.5 rounded-full shadow-sm">
+          <div className="relative">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+          </div>
+          <span className="text-xs font-semibold text-green-600">Available</span>
+        </div>
+      )}
+
+      <div className="relative w-full h-40 bg-gradient-to-br from-slate-100 to-slate-200">
+        {imageUrl ? (
+          <Image src={imageUrl || "/placeholder.svg"} alt={name} fill className="object-cover" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-slate-400 text-sm font-medium px-4 text-center">{name}</div>
+          </div>
+        )}
+      </div>
+
+      <div className="p-5 space-y-3 flex-1 flex flex-col">
+        <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-tight">
+          {name}
+        </h3>
+
+        <p className="text-sm text-slate-600 leading-relaxed min-h-[3rem] flex-1">{description}</p>
+
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors pt-2"
+        >
+          Visit Website
+          <ExternalLink className="w-4 h-4" />
+        </a>
+
+        <Link
+          href="/checkout"
+          className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors text-center"
+        >
+          Buy Placement
+        </Link>
+      </div>
+    </div>
+  )
+}
