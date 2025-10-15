@@ -93,13 +93,13 @@ importers:
         specifier: latest
         version: 1.2.8(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@statsig/react-bindings':
-        specifier: ^3.26.0
+        specifier: latest
         version: 3.26.0(react@19.0.0)
       '@statsig/session-replay':
-        specifier: ^3.26.0
+        specifier: latest
         version: 3.26.0
       '@statsig/web-analytics':
-        specifier: ^3.26.0
+        specifier: latest
         version: 3.26.0
       '@stripe/react-stripe-js':
         specifier: latest

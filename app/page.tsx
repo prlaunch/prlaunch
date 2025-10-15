@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/hero-section"
-// import StoryScrollSection from "@/components/story-scroll-section"
+import { StoryScrollSection } from "@/components/story-scroll-section"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { PublicationsSection } from "@/components/publications-section"
 import { SocialProofGrid } from "@/components/social-proof-grid"
@@ -13,7 +13,6 @@ import { FinalCTASection } from "@/components/final-cta-section"
 import { FeatureCardsSection } from "@/components/feature-cards-section"
 import { RevenueCalculator } from "@/components/revenue-calculator"
 import { Footer } from "@/components/footer"
-import { StoryScrollSection } from "@/components/story-scroll-section"
 
 export default function HomePage() {
   return (

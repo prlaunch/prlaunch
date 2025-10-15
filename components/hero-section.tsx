@@ -62,7 +62,7 @@ export function HeroSection() {
 
             {/* Main Headline */}
             <h2 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
-              Get Featured in USA Publications in 7 Days
+              Get PR and Boost Your Sales in 7 Days
             </h2>
 
             {/* Subheadline */}
