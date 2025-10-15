@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Instagram, Facebook, Mail } from "lucide-react"
 
 export function Footer() {
   return (
@@ -14,10 +15,36 @@ export function Footer() {
               <span className="text-blue-500">pr</span>
               <span className="text-foreground">launch.io</span>
             </Link>
-            {/* </CHANGE> */}
             <p className="text-sm text-muted-foreground">
               Get featured in top publications and build instant credibility for your brand.
             </p>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://www.instagram.com/prlaunch.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/prlaunch/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                href="mailto:hello@prlaunch.io"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           {/* Legal */}
