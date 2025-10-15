@@ -88,6 +88,16 @@ export default function Glass3DCard() {
             <div className="relative rounded-[22px] w-full border border-white/20 backdrop-blur-2xl bg-white/70 shadow-[inset_0_0_24px_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.18)]" style={innerStyle}>
                 {/* moving glare layer */}
                 <div className="pointer-events-none absolute inset-0 rounded-[22px]" style={glareStyle} />
+
+                <div className="px-6 pt-6">
+                    <Image
+                        src="/google-icon-logo.svg"
+                        alt="google"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                    />
+                </div>
                 {/* Top search pill */}
                 <div className="px-6 pt-6">
                     <div className="relative flex items-center rounded-full border border-white/30 bg-white/90 px-5 py-2 shadow-[inset_0_0_10px_rgba(255,255,255,0.6)]">
@@ -102,18 +112,19 @@ export default function Glass3DCard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8">
                     {/* Left: Profile with big portrait and info list */}
                     <div className="relative rounded-2xl overflow-hidden border border-white/20 bg-white/50 shadow-[inset_0_0_20px_rgba(255,255,255,0.4)]">
-                        <Image src="/black-man-entrepreneur-confident.jpg" alt="portrait" fill className="object-cover opacity-95" />
+                        <Image src="/elon-musk.jpg" alt="portrait" fill className="object-cover opacity-95" />
                         <div className="relative h-full z-10 p-4 md:p-5 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)] bg-gradient-to-t from-black/80 via-black/70 to-transparent">
                             <div className="flex items-center gap-2 text-xl font-semibold">
-                                Name
+                                Elon Musk
                             </div>
                             <p className="mt-1 text-[12px] leading-snug opacity-95">
-                                Founder
+                                Founder, CEO, and chief engineer of SpaceX
                             </p>
                             <ul className="mt-3 space-y-1 text-[12px]">
-                                <li>Lorem ipsum</li>
-                                <li>Lorem ipsum Lorem ipsum</li>
-                                <li>Lorem ipsum</li>
+                                <li>Time Person to the year 2021</li>
+                                <li>SpacEx launches StarShip</li>
+                                <li>Tesla unveils Cybertruck</li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -123,35 +134,35 @@ export default function Glass3DCard() {
                         <div>
                             <div className="text-xs uppercase tracking-wide text-black mb-2">Press Coverage</div>
                             <div className="grid grid-cols-3 gap-3">
-                                {[0, 1, 2].map(i => (
-                                    <div key={i} className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
-                                        <Image src="/asian-man-entrepreneur-business.jpg" alt="thumb" fill className="object-cover h-15 w-15" />
-                                    </div>
-                                ))}
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon1.jpg" alt="img" fill className="object-cover h-15 w-15" />
+                                </div>
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon2.jpg" alt="img" fill className="object-cover h-15 w-15" />
+                                </div>
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon3.jpg" alt="img" fill className="object-cover h-15 w-15" />
+                                </div>
                             </div>
                         </div>
                         <div>
                             <div className="text-xs uppercase tracking-wide text-black mb-2">Interviews</div>
                             <div className="grid grid-cols-3 gap-3">
-                                {[0, 1, 2].map(i => (
-                                    <div key={i} className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
-                                        <Image src="/indian-woman-entrepreneur-success.jpg" alt="thumb" fill className="object-cover h-15 w-15" />
-                                    </div>
-                                ))}
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon4.jpg" alt="thumb" fill className="object-cover h-15 w-15" />
+                                </div>
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon5.jpg" alt="thumb" fill className="object-cover h-15 w-15" />
+                                </div>
+                                <div className="relative aspect-video rounded-xl overflow-hidden h-15 w-15 border border-white/30 bg-white/60 shadow-[inset_0_0_14px_rgba(255,255,255,0.5)]">
+                                    <Image src="/elon6.jpg" alt="thumb" fill className="object-cover h-15 w-15" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom social bar */}
-                <div className="px-6 pb-6">
-                    <div className="flex items-center gap-2 rounded-2xl border border-white/30 bg-white/30 px-4 py-3 shadow-[inset_0_0_12px_rgba(255,255,255,0.55)]">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-sky-500">
-                            <path d="M23 3c-.8.5-1.7.8-2.6 1 1-1 1.7-1.5 2-3-1 .6-2 .9-3 1.1A4.6 4.6 0 0 0 16.1 1c-2.6 0-4.7 2.2-4.7 4.8 0 .4 0 .8.1 1.1C7.5 6.7 4 4.9 1.7 2 .3 4.3 1 7.3 3.4 8.8c-.7 0-1.4-.2-2-.5 0 2.3 1.6 4.3 3.7 4.8-.4.1-.8.2-1.3.2-.3 0-.6 0-.9-.1.6 2 2.4 3.4 4.5 3.5-1.7 1.4-3.9 2.2-6.3 2.2H0c2.2 1.4 4.8 2.1 7.5 2.1 9 0 13.9-7.7 13.9-14.3v-.6C22 4.7 22.6 3.9 23 3z" />
-                        </svg>
-                        <span className="text-sm text-slate-700">Twitter: @Twitter</span>
-                    </div>
-                </div>
+
             </div>
         </div>
     );
