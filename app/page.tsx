@@ -13,6 +13,7 @@ import { FinalCTASection } from "@/components/final-cta-section"
 import { FeatureCardsSection } from "@/components/feature-cards-section"
 import { RevenueCalculator } from "@/components/revenue-calculator"
 import { OutletSelectionSection } from "@/components/outlet-selection-section"
+import { PRQuizSection } from "@/components/pr-quiz-section"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
       <StoryScrollSection />
       <WhatYouGetSection />
       <PricingExplainerSection />
+      <PRQuizSection />
       <OutletSelectionSection />
       <FeatureCardsSection />
       <RevenueCalculator />
