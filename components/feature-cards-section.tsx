@@ -8,7 +8,7 @@ const features = [
     headline: "Look Instantly Established",
     subhead: "Even one media feature makes you look like a name people should know.",
     id: "effortless",
-    imagePath: "/images/features/upload-transform.jpg",
+    imagePath: "/images/features/google-knowledge-panel.jpg",
   },
   {
     headline: "Built-In Social Proof",
@@ -100,30 +100,26 @@ export function FeatureCardsSection() {
                 }}
               >
                 <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift bg-[length:200%_200%] overflow-hidden">
-                  <div className="relative rounded-xl p-6 md:p-8 bg-white h-full transition-shadow duration-500 group-hover:shadow-2xl">
-                    <div className="mb-6 group-hover:scale-105 transition-transform duration-500 relative h-32 w-full">
+                  <div className="relative rounded-xl bg-white h-full transition-shadow duration-500 group-hover:shadow-2xl overflow-hidden">
+                    <div className="transition-transform duration-500 relative h-48 w-full overflow-hidden">
                       <Image
                         src={feature.imagePath || "/placeholder.svg"}
                         alt=""
                         fill
-                        className="object-contain"
+                        className="object-cover"
                         sizes="(max-width: 768px) 100vw, 400px"
                       />
                     </div>
 
-                    {/* Content */}
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 leading-tight text-center">
-                      {feature.headline}
-                    </h3>
-                    <p className="text-base md:text-lg text-slate-600 leading-relaxed text-center">{feature.subhead}</p>
-
-                    {/* Subtle gradient overlay on hover */}
-                    <div
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: "linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                      }}
-                    />
+                    <div className="p-6 md:p-8">
+                      {/* Content */}
+                      <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 leading-tight text-center">
+                        {feature.headline}
+                      </h3>
+                      <p className="text-base md:text-lg text-slate-600 leading-relaxed text-center">
+                        {feature.subhead}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
