@@ -14,19 +14,19 @@ const features = [
     headline: "Built-In Social Proof",
     subhead: "Post it on your site or socials and let credibility speak for you.",
     id: "money-back",
-    imagePath: "/images/features/coin-shield.jpg",
+    imagePath: "/images/features/social-proof-devices.jpg",
   },
   {
     headline: "Strengthen Your Online Presence",
     subhead: "Helps your name surface more on Google and AI platforms.",
     id: "seo",
-    imagePath: "/images/features/seo-graph.jpg",
+    imagePath: "/images/features/search-ranking-interface.jpg",
   },
   {
     headline: "Open Doors to Bigger Media",
     subhead: "Small press builds the foundation that major outlets look for.",
     id: "credibility",
-    imagePath: "/images/features/newspaper.jpg",
+    imagePath: "/images/features/bad-press-to-positive-pr.jpg",
   },
 ]
 

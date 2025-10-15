@@ -5,7 +5,7 @@ import { DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function RevenueCalculator() {
-  const [monthlyRevenue, setMonthlyRevenue] = useState(50000)
+  const [monthlyRevenue, setMonthlyRevenue] = useState(100000)
 
   const researchersPercent = 25
   const dropoffRate = 40
@@ -36,7 +36,9 @@ export function RevenueCalculator() {
 
       <div className="max-w-2xl mx-auto relative z-10">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">How Much Money Are You Losing Right Now?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+            How Much Money Are You Losing Right Now?
+          </h2>
           <p className="text-lg text-slate-600">Prospects leave when they can't trust you.</p>
         </div>
 
