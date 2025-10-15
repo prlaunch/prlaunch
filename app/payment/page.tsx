@@ -5,6 +5,7 @@ import type React from "react"
 import { useState, useEffect, Suspense, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -251,6 +252,7 @@ function PaymentContent() {
       title: "Marketing Consultant",
       initials: "SM",
       color: "bg-blue-500",
+      image: "/marketing-consultant-cafe-photo.jpg",
       rating: 5,
       review: "Featured in Forbes within 5 days. My LinkedIn engagement has tripled!",
     },
@@ -259,6 +261,7 @@ function PaymentContent() {
       title: "Business Coach",
       initials: "MC",
       color: "bg-purple-500",
+      image: "/casual-business-coach-selfie.jpg",
       rating: 5,
       review: "Best investment for my personal brand. The credibility boost is unreal.",
     },
@@ -267,6 +270,7 @@ function PaymentContent() {
       title: "Tech Founder",
       initials: "DP",
       color: "bg-emerald-500",
+      image: "/tech-founder-office-photo.jpg",
       rating: 5,
       review: "Got me in Business Insider in 4 days for $47. The ROI is insane!",
     },
@@ -346,7 +350,7 @@ function PaymentContent() {
             </div>
 
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200 p-6 shadow-lg relative overflow-visible">
+              <div className="lg:hidden bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-lg relative overflow-visible">
                 <div className="pt-4">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shrink-0">
@@ -388,9 +392,29 @@ function PaymentContent() {
               </div>
             )}
 
+            <div className="lg:hidden relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
+                <ul className="space-y-2">
+                  {[
+                    "Consultation with our Pro PR Team",
+                    "Exclusive access to our private marketplace",
+                    "Fast track to Google Knowledge Panel",
+                    "Backlinks from high-authority sites",
+                    "Professional editing & unlimited revisions",
+                  ].map((bonus, index) => (
+                    <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
+                      <Check className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                      <span>{bonus}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
             <div ref={informationCardRef} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-slate-900 mb-4">Your Information</h3>
-              <div className="space-y-4">
+              <div className="space-y-4 mb-8">
                 <div>
                   <Label htmlFor="email" className="text-slate-700 font-medium">
                     Email Address *
@@ -463,30 +487,9 @@ function PaymentContent() {
                   </div>
                 )}
               </div>
-            </div>
 
-            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
-              <div className="bg-white rounded-xl p-4 shadow-sm">
-                <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
-                <ul className="space-y-2">
-                  {[
-                    "1 free revision for each article",
-                    "Optional professional consultation with our team",
-                    "Access to our private exclusive services",
-                    "Fast-track to Google knowledge panel",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <div className="flex items-center justify-center w-4 h-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shrink-0 mt-0.5">
-                        <Check className="h-2.5 w-2.5 text-white stroke-[3]" />
-                      </div>
-                      <span className="text-xs text-slate-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+              <div className="border-t border-slate-200 my-6"></div>
 
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
               {clientSecret && (
                 <Elements
@@ -530,7 +533,159 @@ function PaymentContent() {
               )}
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
+            <div className="hidden lg:block relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
+                <ul className="space-y-2">
+                  {[
+                    "Consultation with our Pro PR Team",
+                    "Exclusive access to our private marketplace",
+                    "Fast track to Google Knowledge Panel",
+                    "Backlinks from high-authority sites",
+                    "Professional editing & unlimited revisions",
+                  ].map((bonus, index) => (
+                    <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
+                      <Check className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                      <span>{bonus}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="hidden lg:block">
+              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/sf-tribune.png"
+                    alt="The San Francisco Tribune"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/successxl.png"
+                    alt="Success XL"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/usawire.png"
+                    alt="USA Wire"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/la-tabloid.webp"
+                    alt="L.A. Tabloid"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/bosses-mag.png"
+                    alt="Bosses Mag"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/medium.png"
+                    alt="Medium"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+              </div>
+              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {showUpsell && upsellPackage && selectedPackage !== "agency" && (
+              <div className="hidden lg:block bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-lg relative overflow-visible">
+                <div className="pt-4">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shrink-0">
+                      <TrendingUp className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-1">Upgrade to {upsellPackage.name}?</h3>
+                      <p className="text-sm text-slate-600">
+                        Lower your price per article to ${upsellPackage.perArticle.toFixed(2)} and get more results
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-4 mb-4 space-y-3">
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                      <span className="text-slate-600">Current price per article:</span>
+                      <span className="text-lg font-semibold text-slate-900">
+                        ${currentPackage.perArticle.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                      <span className="text-slate-600">New price per article:</span>
+                      <span className="text-lg font-bold text-green-600">${upsellPackage.perArticle.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleUpgrade}
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-xl h-12 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+                  >
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Yes, Upgrade My Order
+                  </Button>
+                  <p className="text-center text-xs text-slate-500 mt-3">
+                    Get {upsellPackage.articles - currentPackage.articles} more articles • Save $
+                    {(currentPackage.perArticle - upsellPackage.perArticle).toFixed(2)}/article
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-slate-900 text-sm">What Our Customers Say</h3>
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
+                  ))}
+                  <span className="ml-1 text-sm font-semibold text-slate-900">4.8/5</span>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {reviews.map((review, index) => (
+                  <div key={index} className="border border-slate-200 rounded-xl p-4">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0">
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-slate-900">{review.name}</h4>
+                        <p className="text-sm text-slate-600">{review.title}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-0.5 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-blue-500 text-blue-500" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">{review.review}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden lg:block bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
               <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
@@ -596,42 +751,121 @@ function PaymentContent() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-slate-900">What Our Customers Say</h3>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
-                  ))}
-                  <span className="ml-1 text-sm font-semibold text-slate-900">4.8/5</span>
+            <div className="lg:hidden bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    1
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Fill out a quick 5 minute questionnaire
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    2
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Our writers send you articles for approval
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    3
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    4
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Your links and articles stay live forever
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
+                  </div>
                 </div>
               </div>
-              <div className="space-y-4">
-                {reviews.map((review, index) => (
-                  <div key={index} className="border border-slate-200 rounded-xl p-4">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className={`w-10 h-10 rounded-full ${review.color} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
-                      >
-                        {review.initials}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-slate-900">{review.name}</h4>
-                        <p className="text-sm text-slate-600">{review.title}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-0.5 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-blue-500 text-blue-500" />
-                      ))}
-                    </div>
-                    <p className="text-sm text-slate-700 leading-relaxed">{review.review}</p>
-                  </div>
-                ))}
+            </div>
+
+            <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/sf-tribune.png"
+                    alt="The San Francisco Tribune"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/successxl.png"
+                    alt="Success XL"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/usawire.png"
+                    alt="USA Wire"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/la-tabloid.webp"
+                    alt="L.A. Tabloid"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/bosses-mag.png"
+                    alt="Bosses Mag"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/medium.png"
+                    alt="Medium"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
               </div>
+              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
             </div>
           </div>
         </div>
