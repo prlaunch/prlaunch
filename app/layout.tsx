@@ -1,26 +1,23 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
-import Script from "next/script"
-import "./globals.css"
-import { Suspense } from "react"
-import { ConditionalNav } from "@/components/conditional-nav"
-import { ScrollToTop } from "@/components/scroll-to-top"
+import type React from "react";
+import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
+import "./globals.css";
+import { Suspense } from "react";
+import { ConditionalNav } from "@/components/conditional-nav";
+import { ScrollToTop } from "@/components/scroll-to-top";
+import { StatsigClient } from "./StatsigClient";
 
 export const metadata: Metadata = {
   title: "PR Launch - Get Featured in Major Publications in 7 Days",
   description:
     "Real placements in Forbes, Entrepreneur, Business Insider. No PR agency fees. No waiting months. Starting at $47.",
   generator: "v0.app",
-}
+};
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -49,11 +46,13 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <ScrollToTop />
-        <ConditionalNav />
-        <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
+        <StatsigClient>
+          <ScrollToTop />
+          <ConditionalNav />
+          <Suspense fallback={null}>{children}</Suspense>
+          <Analytics />
+        </StatsigClient>
       </body>
     </html>
-  )
+  );
 }
