@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import Glass3DCard from "./Glass3DCard"
 
 const features = [
   {
@@ -79,6 +80,9 @@ export function FeatureCardsSection() {
           </p>
         </div>
 
+        <div className="flex flex-col gap-6 md:gap-8 items-center mb-8">
+          <Glass3DCard />
+        </div>
         <div className="flex flex-col gap-6 md:gap-8 items-center">
           {features.map((feature, index) => {
             const isVisible = visibleCards.has(index)
