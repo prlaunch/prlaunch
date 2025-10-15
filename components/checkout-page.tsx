@@ -322,7 +322,7 @@ export function CheckoutPage() {
               </div>
             ))}
           </div>
-          <p className="text-center text-lg font-bold text-slate-700 tracking-wide">AND 100s MORE...</p>
+          <p className="text-center text-lg font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
         </div>
 
         <div className="mb-12 md:mb-16 flex justify-center">

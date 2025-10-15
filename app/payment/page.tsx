@@ -225,16 +225,7 @@ function PaymentContent() {
     }
 
     initializePayment()
-  }, [
-    selectedPackage,
-    currentPackage.price,
-    currentPackage.name,
-    currentPackage.articles,
-    email,
-    fullName,
-    companyName,
-    companyNumber,
-  ])
+  }, [selectedPackage, currentPackage.price, currentPackage.name, currentPackage.articles])
 
   const handleUpgrade = () => {
     setShowCelebration(true)
@@ -601,6 +592,55 @@ function PaymentContent() {
               </div>
               <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
             </div>
+
+            <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/sf-tribune.png"
+                    alt="The San Francisco Tribune"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/successxl.png"
+                    alt="Success XL"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/usawire.png"
+                    alt="USA Wire"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/la-tabloid.webp"
+                    alt="L.A. Tabloid"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/bosses-mag.png"
+                    alt="Bosses Mag"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
+                  <img
+                    src="/images/logos/medium.png"
+                    alt="Medium"
+                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+              </div>
+              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -817,55 +857,6 @@ function PaymentContent() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/sf-tribune.png"
-                    alt="The San Francisco Tribune"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/successxl.png"
-                    alt="Success XL"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/usawire.png"
-                    alt="USA Wire"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/la-tabloid.webp"
-                    alt="L.A. Tabloid"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/bosses-mag.png"
-                    alt="Bosses Mag"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/medium.png"
-                    alt="Medium"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-              </div>
-              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
             </div>
           </div>
         </div>

@@ -8,10 +8,10 @@ export function WhatYouGetSection() {
 
   const mockups = [
     {
-      id: 1,
-      label: "New York Tech",
+      id: 3,
+      label: "SF Tribune",
       screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-3izT3a7mEaIVM1xID1qeWOGTH2XQF1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-JD7TegIHS4A8rgzUdnIOyNi1BdaXyh.jpg",
     },
     {
       id: 2,
@@ -20,10 +20,10 @@ export function WhatYouGetSection() {
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9031%20%281%29%281%29-h2PB3GoMuQaW2oIjAgedltYa1lx355.jpg",
     },
     {
-      id: 3,
-      label: "SF Tribune",
+      id: 1,
+      label: "New York Tech",
       screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-JD7TegIHS4A8rgzUdnIOyNi1BdaXyh.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-3izT3a7mEaIVM1xID1qeWOGTH2XQF1.jpg",
     },
     {
       id: 4,
@@ -86,7 +86,7 @@ export function WhatYouGetSection() {
     <section id="what-you-get" className="py-24 bg-gradient-to-b from-background to-muted/20">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">The Stories We Write   </h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">The Stories We Write </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
             Editorials, features, and success stories that position you as the expert.
           </p>
