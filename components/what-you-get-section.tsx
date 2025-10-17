@@ -8,7 +8,7 @@ export function WhatYouGetSection() {
 
   const mockups = [
     {
-      id: 3,
+      id: 1,
       label: "SF Tribune",
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-JD7TegIHS4A8rgzUdnIOyNi1BdaXyh.jpg",
@@ -20,7 +20,7 @@ export function WhatYouGetSection() {
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9031%20%281%29%281%29-h2PB3GoMuQaW2oIjAgedltYa1lx355.jpg",
     },
     {
-      id: 1,
+      id: 3,
       label: "New York Tech",
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-3izT3a7mEaIVM1xID1qeWOGTH2XQF1.jpg",
@@ -45,105 +45,265 @@ export function WhatYouGetSection() {
     },
     {
       id: 7,
-      label: "Point News",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/050_thepointnews-oxnhVwikZ0leHVk97K11MKoacD0aV8.webp",
+      label: "Voyage LA",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 8,
-      label: "Bomb Report",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/043_bombreport-XCiLIdfmdp2dPvdIB6BhpY7Qb9x3JU.webp",
+      label: "Canvas Rebel",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 9,
-      label: "Faith Family America",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/048_faithfamilyamerica-OfmzNZzWlPJoStRqo6og5iVy6ZAh9j.webp",
+      label: "Bold Journey",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 10,
-      label: "Article Rich",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/047_articlerich-viGoeBG7KXPncYxOKOrKEt1nrKPfjc.webp",
+      label: "Shout Out LA",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 11,
-      label: "Harcourt Health",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/044_harcourthealth-0AECRtcwJ7aM3LWP5xvxm04wqE21Fe.webp",
+      label: "Voyage Houston",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 12,
-      label: "Ribbon Co.",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/049_ribbon-wyqJXLkw0CrRIJU6Lx2q8UQZFbCobj.webp",
+      label: "Voyage Dallas",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 13,
-      label: "Street Register",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/046_streetregister-YmAlKyJOTEyGbzyP5fiGDBJwneIHCk.webp",
+      label: "Voyage Austin",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 14,
-      label: "The Daily Haze",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/042_thedailyhaze-ENjQdSW9EAZi0EvJzwzLEepU22k3O0.webp",
+      label: "Voyage Phoenix",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 15,
-      label: "Washington Guardian",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/041_washingtonguardian-Spij7XMgp4v4RrN09HOmpc7FAEt56M.webp",
+      label: "Voyage San Diego",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 16,
-      label: "Brights Future",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/045_brightsfuture-6Kc0k46nznip9V9B2SHoNXx5MijZa8.webp",
+      label: "Voyage Tampa",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 17,
-      label: "Rolling Hype",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/055_rollinghype-OJC4Ke50ISd0aIyDVekplaK6DOJgh5.webp",
+      label: "Voyage Denver",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
     },
     {
       id: 18,
+      label: "Voyage Seattle",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 19,
+      label: "Voyage Portland",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 20,
+      label: "Voyage Boston",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 21,
+      label: "Voyage Chicago",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 22,
+      label: "Voyage Atlanta",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 23,
+      label: "Voyage Miami",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 24,
+      label: "Voyage New York",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 25,
+      label: "Shout Out Miami",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 26,
+      label: "Shout Out Atlanta",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 27,
+      label: "Shout Out DFW",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 28,
+      label: "Shout Out HTX",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 29,
+      label: "Shout Out Arizona",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 30,
+      label: "Shout Out Colorado",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 31,
+      label: "Shout Out San Diego",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 32,
+      label: "Shout Out New England",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 33,
+      label: "Shout Out Chicago",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 34,
+      label: "Shout Out South Carolina",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 35,
+      label: "Shout Out North Carolina",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 36,
+      label: "Shout Out SoCal",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 37,
+      label: "Shout Out NYC",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 38,
+      label: "Influencer Daily",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 39,
+      label: "Biz Catalyst 360",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 40,
+      label: "Disrupt Magazine",
+      screenshot: "https://blob.v0.app/Wd8Uw.webp",
+    },
+    {
+      id: 41,
+      label: "Washington Guardian",
+      screenshot: "https://blob.v0.app/Spij7XMgp4v4RrN09HOmpc7FAEt56M.webp",
+    },
+    {
+      id: 42,
+      label: "The Daily Haze",
+      screenshot: "https://blob.v0.app/ENjQdSW9EAZi0EvJzwzLEepU22k3O0.webp",
+    },
+    {
+      id: 43,
+      label: "Bomb Report",
+      screenshot: "https://blob.v0.app/XCiLIdfmdp2dPvdIB6BhpY7Qb9x3JU.webp",
+    },
+    {
+      id: 44,
+      label: "Harcourt Health",
+      screenshot: "https://blob.v0.app/0AECRtcwJ7aM3LWP5xvxm04wqE21Fe.webp",
+    },
+    {
+      id: 45,
+      label: "Brights Future",
+      screenshot: "https://blob.v0.app/6Kc0k46nznip9V9B2SHoNXx5MijZa8.webp",
+    },
+    {
+      id: 46,
+      label: "Street Register",
+      screenshot: "https://blob.v0.app/YmAlKyJOTEyGbzyP5fiGDBJwneIHCk.webp",
+    },
+    {
+      id: 47,
+      label: "Article Rich",
+      screenshot: "https://blob.v0.app/viGoeBG7KXPncYxOKOrKEt1nrKPfjc.webp",
+    },
+    {
+      id: 48,
+      label: "Faith Family America",
+      screenshot: "https://blob.v0.app/OfmzNZzWlPJoStRqo6og5iVy6ZAh9j.webp",
+    },
+    {
+      id: 49,
+      label: "Ribbon Co.",
+      screenshot: "https://blob.v0.app/wyqJXLkw0CrRIJU6Lx2q8UQZFbCobj.webp",
+    },
+    {
+      id: 50,
+      label: "Point News",
+      screenshot: "https://blob.v0.app/oxnhVwikZ0leHVk97K11MKoacD0aV8.webp",
+    },
+    {
+      id: 51,
       label: "New York Business Now",
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/051_newyorkbusinessnow-SjD7FLK76PpeqY7eQ09Cj9FIR5MkwP.webp",
     },
     {
-      id: 19,
-      label: "Hustle Weekly",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/057_hustleweekly-J8QXJkiN4l64pGp2Rkdj2Mk54OtdUQ.webp",
-    },
-    {
-      id: 20,
-      label: "USA Wire",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/054_usawire-vp84Xws61SMzSwTbgHrNuc8J2CiHQN.webp",
-    },
-    {
-      id: 21,
-      label: "Medium",
-      screenshot:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/053_medium-3CYFD6uPXvlB2tPKyDbHxCLlB82trF.webp",
-    },
-    {
-      id: 22,
+      id: 52,
       label: "The US Times",
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/052_theustimes-xR2xTNNoRFWNMQ3zdwknsA8ZLtn93J.webp",
     },
     {
-      id: 23,
+      id: 53,
+      label: "Medium",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/053_medium-3CYFD6uPXvlB2tPKyDbHxCLlB82trF.webp",
+    },
+    {
+      id: 54,
+      label: "USA Wire",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/054_usawire-vp84Xws61SMzSwTbgHrNuc8J2CiHQN.webp",
+    },
+    {
+      id: 55,
+      label: "Rolling Hype",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/055_rollinghype-OJC4Ke50ISd0aIyDVekplaK6DOJgh5.webp",
+    },
+    {
+      id: 56,
       label: "New York Tech",
       screenshot:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/056_nytech-QLYCxSA1HiC82vWsKrQq1Zs3NVWLcX.webp",
+    },
+    {
+      id: 57,
+      label: "Hustle Weekly",
+      screenshot:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/057_hustleweekly-J8QXJkiN4l64pGp2Rkdj2Mk54OtdUQ.webp",
     },
   ]
 
