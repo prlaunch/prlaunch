@@ -4,101 +4,110 @@ export function SocialProofGrid() {
   const reviews = [
     {
       name: "Jessica M.",
-      title: "Business Coach",
+      title: "Health Coach",
       initials: "JM",
       color: "bg-blue-500",
       image: "/casual-business-coach-selfie.jpg",
       rating: 5,
       date: "Jan 8, 2025",
-      review: "got featured in forbes within 2 weeks. this is exactly what my coaching business needed",
+      review:
+        "Honestly was skeptical at first but the team walked me through everything. Got featured in Thrive Insider within 2 weeks and my wellness coaching practice has never been busier.",
       verified: true,
     },
     {
       name: "Michael R.",
-      title: "Tech Founder",
+      title: "Tech Startup Founder",
       initials: "MR",
       color: "bg-purple-500",
       image: "/tech-founder-office-photo.jpg",
       rating: 5,
       date: "Dec 15, 2024",
-      review: "Featured in 3 major publications in my first month. Worth every penny",
+      review:
+        "The speed blew me away. Submitted my info on a Monday, had my first article live by Thursday. Way faster than I expected for this kind of service.",
       verified: true,
     },
     {
       name: "Sarah K.",
-      title: "Life Coach",
+      title: "Fashion Blogger",
       initials: "SK",
       color: "bg-pink-500",
       image: "/life-coach-outdoor-casual.jpg",
       rating: 5,
       date: "Jan 2, 2025",
-      review: "just got my entrepreneur.com feature live!! my DMs are exploding with new opportunities",
+      review:
+        "Best investment I made for my brand. Fashion And Beauty World feature went live and brand deals started rolling in immediately. ROI was insane.",
       verified: true,
     },
     {
       name: "David L.",
-      title: "SaaS Founder",
+      title: "E-commerce Owner",
       initials: "DL",
       color: "bg-indigo-500",
       image: "/saas-founder-home-office.jpg",
       rating: 5,
       date: "Dec 28, 2024",
-      review: "best investment I've made this year. professional, fast, and delivers real results",
+      review:
+        "Customer service was top notch. They answered all my questions at 11pm on a Saturday. Felt like I had a dedicated team working just for me.",
       verified: true,
     },
     {
       name: "Amanda P.",
-      title: "Marketing Consultant",
+      title: "Digital Marketing Consultant",
       initials: "AP",
       color: "bg-emerald-500",
       image: "/marketing-consultant-cafe-photo.jpg",
       rating: 5,
       date: "Jan 5, 2025",
-      review: "Got my inc.com article published. The credibility boost has been incredible for my business",
+      review:
+        "Was worried about the price but after getting featured in Social Media Explorer and landing 3 enterprise clients, I made back 10x what I spent. Worth every penny.",
       verified: true,
     },
     {
       name: "Marcus W.",
-      title: "E-commerce Owner",
+      title: "Real Estate Agent",
       initials: "MW",
       color: "bg-orange-500",
       image: "/ecommerce-owner-warehouse-casual.jpg",
       rating: 5,
       date: "Jan 10, 2025",
-      review: "never thought i'd see my name in fast company. this service changed everything for my brand",
+      review:
+        "Had some bad reviews showing up on Google. After getting published in multiple outlets, those negative results got pushed way down. Exactly what I needed.",
       verified: true,
     },
     {
       name: "Rachel P.",
-      title: "Founder & CEO",
+      title: "Business Consultant",
       initials: "RP",
       color: "bg-blue-600",
       image: "/ceo-conference-professional.jpg",
       rating: 5,
       date: "Dec 20, 2024",
-      review: "featured in business insider! huge thanks to PR Launch. highly recommend to any entrepreneur",
+      review:
+        "Thought this was too good to be true but took a chance. Featured in Time Business News within days and speaking requests tripled overnight. Should've done this years ago.",
       verified: true,
     },
     {
       name: "Lisa H.",
-      title: "Consultant",
+      title: "Financial Advisor",
       initials: "LH",
       color: "bg-teal-500",
       image: "/business-consultant-smart-casual.jpg",
       rating: 5,
       date: "Dec 30, 2024",
-      review: "5 features in 6 weeks. my linkedin is blowing up with partnership requests now",
+      review:
+        "The before and after is crazy. Before: struggling to get 2-3 clients a month. After: fully booked with a waitlist. Went from 20 clients to 60+ in less than a month.",
       verified: true,
     },
     {
       name: "Nina K.",
-      title: "Fintech Founder",
+      title: "Lifestyle Influencer",
       initials: "NK",
       color: "bg-red-500",
       image: "/fintech-founder-startup-casual.jpg",
       rating: 5,
       date: "Jan 3, 2025",
-      review: "yahoo finance picked up my story. the ROI on this has been absolutely insane",
+      review:
+        "Super easy process. Filled out a quick form, they handled everything else. No back and forth, no hassle. Just results. My follower count exploded after the features went live.",
       verified: true,
     },
   ]
@@ -136,7 +145,7 @@ export function SocialProofGrid() {
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path
                               fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                               clipRule="evenodd"
                             />
                           </svg>
@@ -145,6 +154,7 @@ export function SocialProofGrid() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-lg text-slate-900 truncate">{review.name}</h3>
+                      <p className="text-slate-500 text-sm mb-2">{review.title}</p>
                     </div>
                   </div>
 

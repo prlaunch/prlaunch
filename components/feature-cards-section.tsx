@@ -23,8 +23,8 @@ const features = [
     imagePath: "/images/features/search-ranking-interface.jpg",
   },
   {
-    headline: "Open Doors to Bigger Media",
-    subhead: "Small press builds the foundation that major outlets look for.",
+    headline: "Kill Bad Reviews",
+    subhead: "Burry bad reviews with positive PR articles and grow.",
     id: "credibility",
     imagePath: "/images/features/bad-press-to-positive-pr.jpg",
   },

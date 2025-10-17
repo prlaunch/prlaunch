@@ -97,21 +97,23 @@ export function FloatingNav() {
               </button>
 
               {isOutletsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-64 glass-nav rounded-2xl p-2 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
-                  {outletCategories.map((category) => {
-                    const Icon = category.icon
-                    return (
-                      <Link
-                        key={category.name}
-                        href={category.href}
-                        onClick={() => setIsOutletsOpen(false)}
-                        className="w-full px-4 py-3 rounded-xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center gap-3"
-                      >
-                        <Icon className="w-4 h-4" />
-                        {category.name}
-                      </Link>
-                    )
-                  })}
+                <div className="absolute top-full left-0 pt-2 w-64">
+                  <div className="glass-nav rounded-2xl p-2 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+                    {outletCategories.map((category) => {
+                      const Icon = category.icon
+                      return (
+                        <Link
+                          key={category.name}
+                          href={category.href}
+                          onClick={() => setIsOutletsOpen(false)}
+                          className="w-full px-4 py-3 rounded-xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center gap-3"
+                        >
+                          <Icon className="w-4 h-4" />
+                          {category.name}
+                        </Link>
+                      )
+                    })}
+                  </div>
                 </div>
               )}
             </div>
