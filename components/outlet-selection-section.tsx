@@ -1,14 +1,29 @@
 "use client"
 
 import { Clock, Sparkles, FileText } from "lucide-react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+
+interface Outlet {
+  number: number
+  name: string
+  url: string
+  category: string
+  description: string
+}
 
 const industries = [
-  { name: "Business", count: "25+ outlets", icon: "💼" },
-  { name: "Technology", count: "20+ outlets", icon: "💻" },
-  { name: "Finance", count: "18+ outlets", icon: "💰" },
-  { name: "Lifestyle", count: "15+ outlets", icon: "✨" },
-  { name: "Real Estate", count: "12+ outlets", icon: "🏠" },
-  { name: "Health & Wellness", count: "10+ outlets", icon: "🏥" },
+  { name: "Business & Entrepreneurship", count: 0, icon: "💼", href: "/outlets/business-entrepreneurship" },
+  { name: "Finance & Economics", count: 0, icon: "📈", href: "/outlets/finance-economics" },
+  { name: "Lifestyle & Culture", count: 0, icon: "✨", href: "/outlets/lifestyle-culture" },
+  {
+    name: "Technology & Digital Marketing",
+    count: 0,
+    icon: "💻",
+    href: "/outlets/technology-digital-marketing",
+  },
+  { name: "Health & Wellness", count: 0, icon: "🏥", href: "/outlets/health-wellness" },
+  { name: "Buy Article Credits", count: 0, icon: "🎯", href: "/checkout", isCheckout: true },
 ]
 
 const logos = [
@@ -21,6 +36,26 @@ const logos = [
 ]
 
 export function OutletSelectionSection() {
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch("/api/outlets")
+      .then((res) => res.json())
+      .then((data: Outlet[]) => {
+        const counts: Record<string, number> = {}
+        data.forEach((outlet) => {
+          counts[outlet.category] = (counts[outlet.category] || 0) + 1
+        })
+        setCategoryCounts(counts)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error("[v0] Error loading outlet counts:", err)
+        setLoading(false)
+      })
+  }, [])
+
   return (
     <section
       id="outlet-selection"
@@ -76,16 +111,41 @@ export function OutletSelectionSection() {
         <div className="mb-12 md:mb-16">
           <h3 className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-8">Browse Outlets by Industry</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {industries.map((industry) => (
-              <div
-                key={industry.name}
-                className="p-6 rounded-xl border-2 border-slate-200 bg-white hover:border-blue-300 hover:shadow-md transition-all duration-300"
-              >
-                <div className="text-4xl mb-3">{industry.icon}</div>
-                <h4 className="text-lg font-bold text-slate-900 mb-1">{industry.name}</h4>
-                <p className="text-sm text-slate-600">{industry.count}</p>
-              </div>
-            ))}
+            {industries.map((industry) => {
+              const realCount = categoryCounts[industry.name] || 0
+              const displayCount = industry.isCheckout
+                ? "Start your campaign"
+                : loading
+                  ? "Loading..."
+                  : `${realCount} outlets`
+
+              return (
+                <Link
+                  key={industry.name}
+                  href={industry.href}
+                  className={`group p-4 rounded-xl border-2 transition-all duration-300 ${
+                    industry.isCheckout
+                      ? "bg-gradient-to-br from-blue-600 to-blue-700 border-blue-600 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
+                      : "border-slate-200 bg-white hover:border-blue-300 hover:shadow-md"
+                  }`}
+                >
+                  <div className="text-3xl mb-2">{industry.icon}</div>
+                  <h4 className={`text-base font-bold mb-1 ${industry.isCheckout ? "text-white" : "text-slate-900"}`}>
+                    {industry.name}
+                  </h4>
+                  <p className={`text-sm mb-3 ${industry.isCheckout ? "text-blue-100" : "text-slate-600"}`}>
+                    {displayCount}
+                  </p>
+                  <span
+                    className={`text-sm font-medium underline transition-colors duration-200 ${
+                      industry.isCheckout ? "text-white hover:text-blue-100" : "text-blue-600 hover:text-blue-700"
+                    }`}
+                  >
+                    {industry.isCheckout ? "Get Started →" : "View Outlets"}
+                  </span>
+                </Link>
+              )
+            })}
           </div>
         </div>
 

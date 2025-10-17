@@ -14,6 +14,10 @@ function ThankYouContent() {
   const price = Number.parseInt(searchParams.get("price") || "47")
   const email = searchParams.get("email") || ""
   const fullName = searchParams.get("name") || ""
+  const upsellStatus = searchParams.get("upsell") || null
+  const upsellPrice = Number.parseInt(searchParams.get("upsellPrice") || "0")
+
+  const totalPrice = upsellStatus === "accepted" ? price + upsellPrice : price
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -58,15 +62,42 @@ function ThankYouContent() {
                 <span className="font-semibold text-slate-900">{articles}</span>
               </div>
               <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                <span className="text-slate-600">Package Price:</span>
+                <span className="font-semibold text-slate-900">${price}</span>
+              </div>
+              {upsellStatus === "accepted" && (
+                <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                  <span className="text-slate-600">EverybodyWiki Page:</span>
+                  <span className="font-semibold text-green-600">${upsellPrice}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between pb-3 border-b border-blue-200">
                 <span className="text-slate-600">Customer:</span>
                 <span className="font-semibold text-slate-900">{fullName}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-600">Total Paid:</span>
-                <span className="text-2xl font-bold text-slate-900">${price}</span>
+                <span className="text-2xl font-bold text-slate-900">${totalPrice}</span>
               </div>
             </div>
           </div>
+
+          {upsellStatus === "accepted" && (
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-500 p-6 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 shrink-0">
+                  <Check className="h-6 w-6 text-white stroke-[3]" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">EverybodyWiki Page Added!</h3>
+                  <p className="text-sm text-slate-700">
+                    Your EverybodyWiki page will be created and delivered within 5-7 days. We'll include this in your
+                    questionnaire.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Next Steps */}
           <div className="bg-white rounded-2xl border-2 border-blue-500 p-6 mb-8">

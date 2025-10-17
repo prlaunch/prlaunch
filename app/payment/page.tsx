@@ -99,7 +99,7 @@ function CheckoutForm({
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}`,
+          return_url: `${window.location.origin}/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}`,
           receipt_email: email,
         },
       })
@@ -524,7 +524,7 @@ function PaymentContent() {
               )}
             </div>
 
-            <div className="hidden lg:block relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
+            <div className="hidden lg:block relative rounded-xl p-[2px] bg-gradient-to-r from-blue-50 to-purple-50 animate-gradient-shift shadow-lg shadow-blue-500/20">
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
                 <ul className="space-y-2">
@@ -545,101 +545,137 @@ function PaymentContent() {
             </div>
 
             <div className="hidden lg:block">
-              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/sf-tribune.png"
-                    alt="The San Francisco Tribune"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+              <h3 className="text-base font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    1
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Fill out a quick 5 minute questionnaire
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/successxl.png"
-                    alt="Success XL"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/usawire.png"
-                    alt="USA Wire"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    2
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Our writers send you articles for approval
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/la-tabloid.webp"
-                    alt="L.A. Tabloid"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/bosses-mag.png"
-                    alt="Bosses Mag"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    3
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/medium.png"
-                    alt="Medium"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    4
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Your links and articles stay live forever
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
+                  </div>
                 </div>
               </div>
-              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
             </div>
 
             <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">You Will Pick Your Outlets</h3>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/sf-tribune.png"
-                    alt="The San Francisco Tribune"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">What Happens After Purchase </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    1
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Fill out a quick 5 minute questionnaire
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/successxl.png"
-                    alt="Success XL"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/usawire.png"
-                    alt="USA Wire"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    2
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Our writers send you articles for approval
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/la-tabloid.webp"
-                    alt="L.A. Tabloid"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/bosses-mag.png"
-                    alt="Bosses Mag"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    3
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center p-3 bg-slate-50 rounded-lg">
-                  <img
-                    src="/images/logos/medium.png"
-                    alt="Medium"
-                    className="h-10 w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  />
+
+                <div className="flex flex-col items-start gap-0.5 pl-1.5">
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
+                    4
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Your links and articles stay live forever
+                    </span>
+                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
+                  </div>
                 </div>
               </div>
-              <p className="text-center text-sm text-slate-600 font-medium">and 100+ more...</p>
             </div>
           </div>
 

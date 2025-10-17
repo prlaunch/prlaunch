@@ -39,3 +39,40 @@ export async function createPaymentIntent(data: {
     throw new Error("Failed to create payment intent")
   }
 }
+
+export async function createUpsellPaymentIntent(data: {
+  amount: number
+  email: string
+  fullName: string
+  originalPackage: string
+  originalArticles: number
+  originalPrice: number
+}) {
+  try {
+    console.log("[v0] Creating upsell payment intent for EverybodyWiki")
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: data.amount * 100, // Convert to cents
+      currency: "usd",
+      payment_method_types: ["card"],
+      metadata: {
+        type: "upsell",
+        product: "EverybodyWiki Page",
+        email: data.email,
+        fullName: data.fullName,
+        originalPackage: data.originalPackage,
+        originalArticles: data.originalArticles.toString(),
+        originalPrice: data.originalPrice.toString(),
+      },
+      receipt_email: data.email,
+      description: "EverybodyWiki Page - One-time Upsell Offer",
+    })
+
+    console.log("[v0] Upsell payment intent created:", paymentIntent.id)
+
+    return { clientSecret: paymentIntent.client_secret }
+  } catch (error) {
+    console.error("[v0] Error creating upsell payment intent:", error)
+    throw new Error("Failed to create upsell payment intent")
+  }
+}

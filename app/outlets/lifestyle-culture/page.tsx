@@ -5,6 +5,7 @@ import { Sparkles, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { getOutletImage } from "@/lib/outlet-images"
+import { StickyOutletCTA } from "@/components/sticky-outlet-cta"
 
 interface Outlet {
   number: number
@@ -58,7 +59,7 @@ export default function LifestyleCulturePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 pb-24">
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
@@ -83,6 +84,8 @@ export default function LifestyleCulturePage() {
           </div>
         )}
       </div>
+
+      <StickyOutletCTA />
     </div>
   )
 }
