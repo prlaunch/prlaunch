@@ -24,16 +24,16 @@ export function StickyOutletCTA() {
       }`}
     >
       <div className="bg-white border-t border-slate-200 shadow-lg">
-        <div className="container mx-auto px-4 py-2 flex items-center justify-between gap-3">
-          <p className="text-xs sm:text-sm text-slate-700">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <p className="text-sm text-slate-700">
             Not sure what to pick? <span className="font-medium">Buy Article Credits and our team will help.</span>
           </p>
           <Link
             href="/checkout"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors whitespace-nowrap flex-shrink-0"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors whitespace-nowrap flex-shrink-0"
           >
             Buy Credits
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
