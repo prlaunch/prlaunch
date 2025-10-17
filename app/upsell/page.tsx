@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Check, Clock, Sparkles, TrendingUp, Globe, Star } from "lucide-react"
 import { createUpsellPaymentIntent } from "@/app/actions/stripe"
 import { loadStripe } from "@stripe/stripe-js"
+import { ConfettiAnimation } from "@/components/confetti-animation"
+import { UpsellTestimonials } from "@/components/upsell-testimonials"
+import { WikiPageMockup } from "@/components/wiki-page-mockup"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -101,6 +104,8 @@ function UpsellContent() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <ConfettiAnimation />
+
       <div className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="container mx-auto px-4 py-2 max-w-2xl">
           <div className="flex items-center justify-center gap-2">
@@ -119,7 +124,7 @@ function UpsellContent() {
           </div>
 
           <h1 className="text-2xl font-bold text-slate-900 mb-3 leading-tight">
-            Wait! Add an EverybodyWiki Page for Just <span className="text-blue-600">$197</span>
+            🎉 Perfect Timing! Add Your EverybodyWiki Page Now for Just <span className="text-blue-600">$197</span>
           </h1>
 
           <div className="flex items-center gap-3 mb-4">
@@ -143,6 +148,11 @@ function UpsellContent() {
             qualifying for a full Wikipedia entry.
           </p>
 
+          <div className="mb-6">
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Preview: What Your Page Will Look Like</h3>
+            <WikiPageMockup />
+          </div>
+
           <div className="bg-blue-50 rounded-xl border border-blue-100 p-4 mb-4">
             <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
               <Check className="h-4 w-4 text-green-600" />
@@ -161,6 +171,37 @@ function UpsellContent() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="bg-amber-50 rounded-xl border-2 border-amber-200 p-4 mb-6">
+            <div className="flex items-start gap-2 mb-3">
+              <span className="text-lg">⚠️</span>
+              <p className="text-sm font-bold text-amber-900">Important: This one-time offer expires in 10 minutes.</p>
+            </div>
+
+            <p className="text-sm text-slate-700 mb-3 font-medium">If you skip this now, you'll have to:</p>
+
+            <ul className="space-y-2 mb-4">
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 font-bold shrink-0">❌</span>
+                <span className="text-slate-700 text-sm">Pay $497 later (regular price)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 font-bold shrink-0">❌</span>
+                <span className="text-slate-700 text-sm">Go through the entire ordering process again</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 font-bold shrink-0">❌</span>
+                <span className="text-slate-700 text-sm">Wait another 7 days for delivery</span>
+              </li>
+            </ul>
+
+            <div className="bg-white rounded-lg p-3 border border-amber-200">
+              <p className="text-sm text-slate-900">
+                <span className="font-bold">OR</span> you can add it right now for just{" "}
+                <span className="font-bold text-blue-600">$197</span> (save $300) and get everything done at once.
+              </p>
+            </div>
           </div>
 
           <div className="bg-green-50 rounded-xl border border-green-100 p-4 mb-6">
@@ -183,6 +224,8 @@ function UpsellContent() {
             </ul>
           </div>
 
+          <UpsellTestimonials />
+
           <Button
             onClick={handlePurchase}
             disabled={isProcessing}
@@ -197,9 +240,9 @@ function UpsellContent() {
               <span className="flex flex-col items-center gap-1">
                 <span className="flex items-center gap-2">
                   <Globe className="h-4 w-4" />
-                  <span>Yes! Add EverybodyWiki Page</span>
+                  <span>Add to My Order — $197 </span>
                 </span>
-                <span className="text-sm">for $197</span>
+                <span className="text-sm">(Save $300)</span>
               </span>
             )}
           </Button>

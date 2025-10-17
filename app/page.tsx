@@ -15,6 +15,7 @@ import { RevenueCalculator } from "@/components/revenue-calculator"
 import { OutletSelectionSection } from "@/components/outlet-selection-section"
 import { PRQuizSection } from "@/components/pr-quiz-section"
 import { Footer } from "@/components/footer"
+import { LiveProofNotification } from "@/components/live-proof-notification"
 
 export default function HomePage() {
   return (
@@ -36,6 +37,7 @@ export default function HomePage() {
       <FAQSection />
       <FinalCTASection />
       <Footer />
+      <LiveProofNotification />
     </main>
   )
 }

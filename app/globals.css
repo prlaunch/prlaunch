@@ -176,6 +176,16 @@
   }
 }
 
+/* Added shimmer-slide animation for notification effect */
+@keyframes shimmer-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @keyframes pulse-slow {
   0%,
   100% {
@@ -201,6 +211,11 @@
 
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Added shimmer-slide animation class */
+.animate-shimmer-slide {
+  animation: shimmer-slide 2s ease-in-out infinite;
 }
 
 .animate-pulse-slow {
