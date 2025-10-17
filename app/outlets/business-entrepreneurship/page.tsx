@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { getOutletImage } from "@/lib/outlet-images"
 import { StickyOutletCTA } from "@/components/sticky-outlet-cta"
+import { Footer } from "@/components/footer"
 
 interface Outlet {
   number: number
@@ -120,6 +121,8 @@ export default function BusinessEntrepreneurshipPage() {
 
       {/* Sticky CTA at bottom */}
       <StickyOutletCTA />
+
+      <Footer />
     </div>
   )
 }

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Check, Star } from "lucide-react"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
 export function HeroSection() {
   const scrollToSection = (id: string) => {
@@ -126,13 +127,16 @@ export function HeroSection() {
 
             {/* Primary and Secondary CTAs */}
             <div className="mb-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                asChild
-                className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+              <MovingBorderButton
+                borderRadius="1.75rem"
+                as="a"
+                href="/checkout"
+                containerClassName="h-14 w-auto"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+                duration={3000}
               >
-                <a href="/checkout">Get Featured — $47</a>
-              </Button>
+                Get Featured — $47
+              </MovingBorderButton>
               <Button
                 size="default"
                 variant="ghost"

@@ -17,8 +17,8 @@ const features = [
     imagePath: "/images/features/social-proof-devices.jpg",
   },
   {
-    headline: "Strengthen Your Online Presence",
-    subhead: "Helps your name surface more on Google and AI platforms.",
+    headline: "Boost Your AI Search",
+    subhead: "AI search is the new SEO. If you want to rank high, you will need mentions.",
     id: "seo",
     imagePath: "/images/features/search-ranking-interface.jpg",
   },

@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { Menu, X, Briefcase, TrendingUp, Sparkles, Laptop, Activity, ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
 export function FloatingNav() {
   const pathname = usePathname()
+  const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isOutletsOpen, setIsOutletsOpen] = useState(false)
@@ -20,13 +21,29 @@ export function FloatingNav() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  if (pathname === "/checkout") {
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      // Wait for page to fully load before scrolling
+      setTimeout(() => {
+        const id = hash.replace("#", "")
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" })
+        }
+      }, 100)
+    }
+  }, [pathname])
+
+  if (pathname === "/checkout" || pathname === "/upsell") {
     return null
   }
 
   const scrollToSection = (id: string) => {
     if (pathname !== "/") {
-      window.location.href = `/#${id}`
+      // Navigate instantly to home page with hash
+      router.push(`/#${id}`)
+      setIsMobileMenuOpen(false)
       return
     }
     const element = document.getElementById(id)
@@ -130,14 +147,24 @@ export function FloatingNav() {
             >
               FAQ
             </button>
+            <Link
+              href="/contact"
+              className="px-4 py-2 rounded-full text-sm font-medium text-black transition-all duration-300 hover:scale-110 hover:text-blue-500"
+            >
+              Contact Us
+            </Link>
           </div>
 
-          <Button
-            asChild
-            className="rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 text-sm font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            as={Link}
+            href="/checkout"
+            containerClassName="h-10 w-auto"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 text-sm font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            duration={3000}
           >
-            <Link href="/checkout">Get Featured</Link>
-          </Button>
+            Get Featured
+          </MovingBorderButton>
         </div>
       </nav>
 
@@ -155,13 +182,16 @@ export function FloatingNav() {
           <Logo />
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              size="sm"
-              className="rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-1.5 text-xs font-semibold shadow-lg shadow-blue-500/30"
+            <MovingBorderButton
+              borderRadius="1.75rem"
+              as={Link}
+              href="/checkout"
+              containerClassName="h-8 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-1.5 text-xs font-semibold shadow-lg shadow-blue-500/30"
+              duration={3000}
             >
-              <Link href="/checkout">Get Featured</Link>
-            </Button>
+              Get Featured
+            </MovingBorderButton>
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -235,6 +265,13 @@ export function FloatingNav() {
             >
               FAQ
             </button>
+            <Link
+              href="/contact"
+              className="px-4 py-3 rounded-2xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Contact Us
+            </Link>
           </div>
         )}
       </nav>

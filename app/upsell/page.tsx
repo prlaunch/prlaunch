@@ -130,7 +130,7 @@ function UpsellContent() {
 
           <div className="mb-4 rounded-xl overflow-hidden border border-slate-200">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-17%20at%2022.10.01%20%281%29-rw1L2WrLxQN1nZmzbUGpQg80vIhStL.jpg"
+              src="/images/design-mode/Screenshot%202025-10-17%20at%2022.10.01%20%281%29.jpg"
               alt="EverybodyWiki Page Benefits"
               width={800}
               height={400}

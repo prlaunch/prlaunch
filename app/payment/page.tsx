@@ -28,6 +28,7 @@ function CheckoutForm({
   setEmailError,
   setFullNameError,
   informationCardRef,
+  onRecreatePaymentIntent,
 }: {
   selectedPackage: string
   email: string
@@ -39,6 +40,7 @@ function CheckoutForm({
   setEmailError: (error: string) => void
   setFullNameError: (error: string) => void
   informationCardRef: React.RefObject<HTMLDivElement>
+  onRecreatePaymentIntent: () => Promise<void>
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -96,6 +98,9 @@ function CheckoutForm({
     setErrorMessage(null)
 
     try {
+      console.log("[v0] Recreating payment intent with customer data before payment confirmation")
+      await onRecreatePaymentIntent()
+
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -199,31 +204,31 @@ function PaymentContent() {
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
   const upsellOriginalDifference = upsellPackage ? upsellPackage.originalPrice - currentPackage.originalPrice : 0
 
-  useEffect(() => {
-    const initializePayment = async () => {
-      try {
-        console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
-        setClientSecret(null)
+  const initializePayment = async () => {
+    try {
+      console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
+      setClientSecret(null)
 
-        const { clientSecret } = await createPaymentIntent({
-          amount: currentPackage.price,
-          packageName: currentPackage.name,
-          articles: currentPackage.articles,
-          email: email || "pending@prlaunch.io",
-          fullName: fullName || "Pending",
-          companyName: companyName || undefined,
-          companyNumber: companyNumber || undefined,
-        })
+      const { clientSecret } = await createPaymentIntent({
+        amount: currentPackage.price,
+        packageName: currentPackage.name,
+        articles: currentPackage.articles,
+        email: email || "pending@prlaunch.io",
+        fullName: fullName || "Pending",
+        companyName: companyName || undefined,
+        companyNumber: companyNumber || undefined,
+      })
 
-        if (clientSecret) {
-          console.log("[v0] Payment intent created successfully with amount:", currentPackage.price)
-          setClientSecret(clientSecret)
-        }
-      } catch (error) {
-        console.error("[v0] Error initializing payment:", error)
+      if (clientSecret) {
+        console.log("[v0] Payment intent created successfully with amount:", currentPackage.price)
+        setClientSecret(clientSecret)
       }
+    } catch (error) {
+      console.error("[v0] Error initializing payment:", error)
     }
+  }
 
+  useEffect(() => {
     initializePayment()
   }, [selectedPackage, currentPackage.price, currentPackage.name, currentPackage.articles])
 
@@ -383,7 +388,7 @@ function PaymentContent() {
               </div>
             )}
 
-            <div className="lg:hidden relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
+            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
                 <ul className="space-y-2">
@@ -513,6 +518,7 @@ function PaymentContent() {
                     setEmailError={setEmailError}
                     setFullNameError={setFullNameError}
                     informationCardRef={informationCardRef}
+                    onRecreatePaymentIntent={initializePayment}
                   />
                 </Elements>
               )}

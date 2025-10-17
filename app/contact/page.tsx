@@ -1,6 +1,6 @@
 import { Footer } from "@/components/footer"
 import Link from "next/link"
-import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react"
+import { ArrowLeft, Mail, Phone, MapPin, Clock, Instagram, Facebook } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export const metadata = {
@@ -111,6 +111,38 @@ export default function ContactPage() {
                   PR Launch / prlaunch.io
                 </p>
               </div>
+
+              {/* Social Media Links */}
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-100">
+                <h3 className="font-semibold text-black mb-4">Follow Us</h3>
+                <div className="flex items-center gap-4">
+                  <a
+                    href="https://www.instagram.com/prlaunch.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-blue-500 text-slate-700 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/prlaunch/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-blue-500 text-slate-700 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
+                    aria-label="Facebook"
+                  >
+                    <Facebook className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="mailto:hello@prlaunch.io"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-blue-500 text-slate-700 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
+                    aria-label="Email"
+                  >
+                    <Mail className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Contact Form / Quick Links */}
@@ -125,7 +157,7 @@ export default function ContactPage() {
                   <Link href="/terms">
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent"
+                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent hover:bg-blue-50"
                     >
                       <div>
                         <div className="font-semibold text-black">Terms of Service</div>
@@ -137,7 +169,7 @@ export default function ContactPage() {
                   <Link href="/privacy">
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent"
+                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent hover:bg-blue-50"
                     >
                       <div>
                         <div className="font-semibold text-black">Privacy Policy</div>
@@ -149,7 +181,7 @@ export default function ContactPage() {
                   <Link href="/refunds">
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent"
+                      className="w-full justify-start text-left h-auto py-4 px-6 bg-transparent hover:bg-blue-50"
                     >
                       <div>
                         <div className="font-semibold text-black">Refund Policy</div>
