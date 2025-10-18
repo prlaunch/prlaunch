@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Check, Sparkles, TrendingUp, Users, Award, Clock, Shield, Zap, Target, Lightbulb, Rocket } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { Footer } from "@/components/footer"
 
 const questions = [
   {
@@ -315,14 +316,8 @@ export function PRQuizLanding() {
           </div>
         )}
 
-        {/* Simple Footer */}
-        <footer className="border-t border-slate-200 py-8">
-          <div className="max-w-3xl mx-auto px-4 text-center">
-            <Link href="/" className="text-blue-600 hover:underline text-sm">
-              ← Back to main site
-            </Link>
-          </div>
-        </footer>
+        {/* Full Footer component */}
+        <Footer />
       </div>
     )
   }
@@ -355,10 +350,8 @@ export function PRQuizLanding() {
           <p className="text-lg text-slate-600 mb-8">60-second assessment • Personalized insights • Completely free</p>
 
           {/* Trust Indicators */}
-          
 
           {/* Testimonial */}
-          
         </div>
       )}
 
@@ -403,6 +396,9 @@ export function PRQuizLanding() {
           </div>
         </div>
       </div>
+
+      {/* Footer component */}
+      <Footer />
     </div>
   )
 }

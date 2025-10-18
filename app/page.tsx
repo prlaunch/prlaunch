@@ -16,12 +16,14 @@ import { OutletSelectionSection } from "@/components/outlet-selection-section"
 import { PRQuizSection } from "@/components/pr-quiz-section"
 import { Footer } from "@/components/footer"
 import { LiveProofNotification } from "@/components/live-proof-notification"
+import { ArticlePreviewGenerator } from "@/components/article-preview-generator"
 
 export default function HomePage() {
   return (
     <main className="min-h-screen">
       <HeroSection />
       <ScrollingLogos />
+      <ArticlePreviewGenerator />
       <StoryScrollSection />
       <WhatYouGetSection />
       <PricingExplainerSection />

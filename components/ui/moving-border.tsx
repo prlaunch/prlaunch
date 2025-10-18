@@ -25,7 +25,7 @@ export function Button({
 }) {
   return (
     <Component
-      className={cn("relative h-16 w-40 overflow-hidden bg-transparent p-[1px] text-xl", containerClassName)}
+      className={cn("relative overflow-hidden bg-transparent p-[1px] text-xl", containerClassName)}
       style={{
         borderRadius: borderRadius,
       }}
@@ -40,10 +40,7 @@ export function Button({
       </div>
 
       <div
-        className={cn(
-          "relative flex h-full w-full items-center justify-center antialiased backdrop-blur-xl",
-          className,
-        )}
+        className={cn("relative flex min-h-full items-center justify-center", className)}
         style={{
           borderRadius: `calc(${borderRadius} * 0.96)`,
         }}
@@ -132,3 +129,5 @@ export const MovingBorder = ({
     </>
   )
 }
+
+export { Button as MovingBorderButton }

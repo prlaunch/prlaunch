@@ -17,8 +17,7 @@ export function FinalCTASection() {
             Join 500+ founders, coaches, and entrepreneurs who've built credibility with PR Launch.
           </p>
 
-          {/* CTA Button */}
-          <div className="mb-8">
+          <div className="mb-10 flex justify-center">
             <MovingBorderButton
               borderRadius="1.75rem"
               as="a"
