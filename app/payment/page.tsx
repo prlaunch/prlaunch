@@ -219,7 +219,7 @@ function PaymentContent() {
   const initializePayment = async () => {
     try {
       console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
-      // setClientSecret(null) - REMOVED
+      setClientSecret(null)
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: currentPackage.price,
@@ -319,6 +319,7 @@ function PaymentContent() {
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div
+              key={`order-summary-${selectedPackage}-${currentPackage.price}`}
               className={`bg-white rounded-2xl p-6 shadow-lg relative ${
                 upgradeApplied ? "border-2" : "border-2 border-blue-500"
               }`}
@@ -570,6 +571,7 @@ function PaymentContent() {
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
               {clientSecret && (
                 <Elements
+                  key={clientSecret} // Added key prop to force re-render when clientSecret changes
                   stripe={stripePromise}
                   options={{
                     clientSecret,
