@@ -5,6 +5,7 @@ import { Check, Sparkles, TrendingUp, Users, Award, Clock, Shield, Zap, Target, 
 import Link from "next/link"
 import Image from "next/image"
 import { Footer } from "@/components/footer"
+import { quizTestimonials } from "@/lib/reviews-data"
 
 const questions = [
   {
@@ -52,29 +53,7 @@ const questions = [
   },
 ]
 
-const testimonials = [
-  {
-    name: "Sarah Chen",
-    role: "Tech Founder",
-    image: "https://i.pravatar.cc/150?img=5",
-    quote: "Got featured in 3 outlets within a week. Game changer for credibility.",
-    outlets: ["Forbes", "TechCrunch"],
-  },
-  {
-    name: "Marcus Johnson",
-    role: "Real Estate Investor",
-    image: "https://i.pravatar.cc/150?img=12",
-    quote: "Best $47 I've spent on marketing. Clients mention seeing my article.",
-    outlets: ["Business Insider", "Inc."],
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "E-commerce Owner",
-    image: "https://i.pravatar.cc/150?img=9",
-    quote: "Thought my story wasn't big enough. They made it shine!",
-    outlets: ["Entrepreneur", "Fast Company"],
-  },
-]
+const testimonials = quizTestimonials
 
 export function PRQuizLanding() {
   const [currentQuestion, setCurrentQuestion] = useState(0)

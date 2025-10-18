@@ -95,7 +95,7 @@ export function CheckoutPage() {
       title: "Health Coach",
       initials: "JM",
       color: "bg-blue-500",
-      image: "/casual-business-coach-selfie.jpg",
+      image: "/casual-woman-selfie-smartphone-natural-lighting.jpg",
       rating: 5,
       date: "Jan 8, 2025",
       verified: true,
@@ -107,7 +107,7 @@ export function CheckoutPage() {
       title: "Tech Startup Founder",
       initials: "MR",
       color: "bg-purple-500",
-      image: "/tech-founder-office-photo.jpg",
+      image: "/casual-man-selfie-home-office-relaxed.jpg",
       rating: 5,
       date: "Dec 15, 2024",
       verified: true,
@@ -119,7 +119,7 @@ export function CheckoutPage() {
       title: "Fashion Blogger",
       initials: "SK",
       color: "bg-pink-500",
-      image: "/life-coach-outdoor-casual.jpg",
+      image: "/casual-woman-outdoor-selfie-natural-candid.jpg",
       rating: 5,
       date: "Jan 2, 2025",
       verified: true,
@@ -131,7 +131,7 @@ export function CheckoutPage() {
       title: "E-commerce Owner",
       initials: "DL",
       color: "bg-indigo-500",
-      image: "/saas-founder-home-office.jpg",
+      image: "/casual-man-warehouse-smartphone-photo-authentic.jpg",
       rating: 5,
       date: "Dec 28, 2024",
       verified: true,
@@ -143,7 +143,7 @@ export function CheckoutPage() {
       title: "Digital Marketing Consultant",
       initials: "AP",
       color: "bg-emerald-500",
-      image: "/marketing-consultant-cafe-photo.jpg",
+      image: "/casual-woman-cafe-selfie-laptop-candid.jpg",
       rating: 5,
       date: "Jan 5, 2025",
       verified: true,
@@ -155,7 +155,7 @@ export function CheckoutPage() {
       title: "Real Estate Agent",
       initials: "MW",
       color: "bg-orange-500",
-      image: "/ecommerce-owner-warehouse-casual.jpg",
+      image: "/casual-man-car-selfie-smartphone-natural.jpg",
       rating: 5,
       date: "Jan 10, 2025",
       verified: true,
@@ -167,7 +167,7 @@ export function CheckoutPage() {
       title: "Business Consultant",
       initials: "RP",
       color: "bg-blue-600",
-      image: "/ceo-conference-professional.jpg",
+      image: "/casual-woman-coworking-space-selfie-relaxed.jpg",
       rating: 5,
       date: "Dec 20, 2024",
       verified: true,
@@ -179,7 +179,7 @@ export function CheckoutPage() {
       title: "Financial Advisor",
       initials: "LH",
       color: "bg-teal-500",
-      image: "/business-consultant-smart-casual.jpg",
+      image: "/casual-woman-home-selfie-smartphone-authentic.jpg",
       rating: 5,
       date: "Dec 30, 2024",
       verified: true,
@@ -191,7 +191,7 @@ export function CheckoutPage() {
       title: "Lifestyle Influencer",
       initials: "NK",
       color: "bg-red-500",
-      image: "/fintech-founder-startup-casual.jpg",
+      image: "/casual-woman-mirror-selfie-smartphone-candid.jpg",
       rating: 5,
       date: "Jan 3, 2025",
       verified: true,
@@ -237,9 +237,7 @@ export function CheckoutPage() {
         <div className="text-center mb-12 md:mb-16">
           <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mb-6">
             <span className="text-sm">🔥</span>
-            <span className="text-xs font-medium text-slate-600">
-              73 people claimed 50% off in the last 24 hours
-            </span>
+            <span className="text-xs font-medium text-slate-600">73 people claimed 50% off in the last 24 hours</span>
           </div>
 
           <h1 className="md:text-6xl font-bold mb-4 text-black leading-tight text-3xl">

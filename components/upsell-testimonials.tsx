@@ -2,23 +2,12 @@
 
 import { useState } from "react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
-
-const testimonials = [
-  {
-    quote:
-      "I added the EverybodyWiki page and now I show up on Google's Knowledge Panel. Investors Google me before calls and I look 10x more established.",
-    author: "Sarah K.",
-    role: "SaaS Founder",
-  },
-  {
-    quote: "Best $197 I've spent. My LinkedIn profile now has the Wikipedia icon next to my name. Instant credibility.",
-    author: "Mike R.",
-    role: "Consultant",
-  },
-]
+import { upsellReviews } from "@/lib/reviews-data"
 
 export function UpsellTestimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
+
+  const testimonials = upsellReviews
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))

@@ -6,7 +6,6 @@ import { SocialProofGrid } from "@/components/social-proof-grid"
 import { HowItWorksSection } from "@/components/how-it-works-section"
 import { WhatYouGetSection } from "@/components/what-you-get-section"
 import { PricingExplainerSection } from "@/components/pricing-explainer-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
 import { GuaranteeSection } from "@/components/guarantee-section"
 import { FAQSection } from "@/components/faq-section"
 import { FinalCTASection } from "@/components/final-cta-section"
@@ -18,11 +17,14 @@ import { Footer } from "@/components/footer"
 import { LiveProofNotification } from "@/components/live-proof-notification"
 import { ArticlePreviewGenerator } from "@/components/article-preview-generator"
 import { BeforeAfterGoogleSection } from "@/components/before-after-google-section"
+import { Suspense } from "react"
 
 export default function HomePage() {
   return (
     <main className="min-h-screen">
-      <HeroSection />
+      <Suspense fallback={<div className="h-screen" />}>
+        <HeroSection />
+      </Suspense>
       <ScrollingLogos />
       <StoryScrollSection />
       <WhatYouGetSection />
@@ -35,7 +37,6 @@ export default function HomePage() {
       <PublicationsSection />
       <SocialProofGrid />
       <HowItWorksSection />
-      <TestimonialsSection />
       <GuaranteeSection />
       <FAQSection />
       <ArticlePreviewGenerator />

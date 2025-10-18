@@ -14,6 +14,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent } from "@/app/actions/stripe"
 import { PolicyModal } from "@/components/policy-modal"
+import { getReviewsSubset } from "@/lib/reviews-data"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -257,35 +258,7 @@ function PaymentContent() {
     }, 2000)
   }
 
-  const reviews = [
-    {
-      name: "Sarah Mitchell",
-      title: "Marketing Consultant",
-      initials: "SM",
-      color: "bg-blue-500",
-      image: "/marketing-consultant-cafe-photo.jpg",
-      rating: 5,
-      review: "Featured in Forbes within 5 days. My LinkedIn engagement has tripled!",
-    },
-    {
-      name: "Marcus Chen",
-      title: "Business Coach",
-      initials: "MC",
-      color: "bg-purple-500",
-      image: "/casual-business-coach-selfie.jpg",
-      rating: 5,
-      review: "Best investment for my personal brand. The credibility boost is unreal.",
-    },
-    {
-      name: "David Park",
-      title: "Tech Founder",
-      initials: "DP",
-      color: "bg-emerald-500",
-      image: "/tech-founder-office-photo.jpg",
-      rating: 5,
-      review: "Got me in Business Insider in 4 days for $47. The ROI is insane!",
-    },
-  ]
+  const reviews = getReviewsSubset(3)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -662,56 +635,7 @@ function PaymentContent() {
               <p className="text-center text-sm font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
             </div>
 
-            <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-              <h3 className="text-base font-bold text-slate-700 mb-4 text-center tracking-wide">WE PUBLISH IN</h3>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/sf-tribune.png"
-                    alt="The San Francisco Tribune"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/successxl.png"
-                    alt="Success XL"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/usawire.png"
-                    alt="USA Wire"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/la-tabloid.webp"
-                    alt="L.A. Tabloid"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/bosses-mag.png"
-                    alt="Bosses Mag"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/medium.png"
-                    alt="Medium"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-              </div>
-              <p className="text-center text-sm font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
-            </div>
-
-            <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-base font-bold text-slate-900 mb-4 text-center">What Happens After Purchase </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
