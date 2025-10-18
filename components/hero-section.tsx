@@ -66,7 +66,7 @@ const HEADLINE_VARIANTS = {
       </>
     ),
     subheadline:
-      "Real placements in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ more. No $5,000 agency fees. No 3-month waits. Just results in 7 days.",
+      "Real placements in USA Wire, Success XL, LA Tabloid, Medium, and 100+ more. No agency fees. No 3-month waits. Just results in 7 days.",
   },
   b: {
     headline: "The PR Tool Rich Founders Use—Now $47",
@@ -137,7 +137,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <h2 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-3xl">
               {currentVariant.headline}
             </h2>
 
