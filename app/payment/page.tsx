@@ -212,6 +212,10 @@ function PaymentContent() {
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
   const upsellOriginalDifference = upsellPackage ? upsellPackage.originalPrice - currentPackage.originalPrice : 0
 
+  useEffect(() => {
+    console.log("[v0] Selected package changed:", selectedPackage, "Price:", currentPackage.price)
+  }, [selectedPackage, currentPackage.price])
+
   const initializePayment = async () => {
     try {
       console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
@@ -241,9 +245,12 @@ function PaymentContent() {
   }, [selectedPackage, currentPackage.price, currentPackage.name, currentPackage.articles])
 
   const handleUpgrade = () => {
+    console.log("[v0] Upgrade clicked, current package:", selectedPackage, "upgrading to:", currentPackage.upsellTo)
     setShowCelebration(true)
     setTimeout(() => {
-      setSelectedPackage(currentPackage.upsellTo!)
+      const newPackage = currentPackage.upsellTo!
+      console.log("[v0] Setting new package:", newPackage)
+      setSelectedPackage(newPackage)
       setShowUpsell(false)
       setShowCelebration(false)
       setUpgradeApplied(true)
@@ -355,10 +362,10 @@ function PaymentContent() {
 
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
               <div
-                className="lg:hidden rounded-xl p-4 shadow-sm relative overflow-visible"
+                className="lg:hidden rounded-xl p-4 shadow-lg relative overflow-visible border-2"
                 style={{
-                  background: "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)",
-                  border: "1px solid #CBD5E1",
+                  background: "linear-gradient(135deg, #ECFEFF 0%, #EFF6FF 50%, #F3E8FF 100%)",
+                  borderColor: "#06B6D4",
                 }}
               >
                 <div className="mb-3">
@@ -371,20 +378,26 @@ function PaymentContent() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg p-3 mb-3 shadow-sm">
-                  <div className="flex items-center justify-around">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-slate-900">{upsellPackage.articles}</div>
-                      <div className="text-[10px] text-slate-600 mt-0.5">articles</div>
-                      <div className="text-xs font-semibold text-slate-700 mt-1">
+                <div className="bg-white rounded-lg p-3 mb-3 shadow-md border border-slate-200">
+                  <div className="flex items-center justify-around gap-3">
+                    {/* Left side - Better deal (more articles, lower per-article price) - GREEN */}
+                    <div className="text-center flex-1 bg-green-50 border-2 border-green-500 rounded-lg p-2.5">
+                      <div className="text-xs font-semibold text-green-700 mb-1">Better Deal ✓</div>
+                      <div className="text-2xl font-bold text-green-700">{upsellPackage.articles}</div>
+                      <div className="text-[10px] text-green-600 mt-0.5">articles</div>
+                      <div className="text-xs font-semibold text-green-700 mt-1 bg-green-100 rounded px-2 py-0.5">
                         ${upsellPackage.perArticle.toFixed(2)}/ea
                       </div>
                     </div>
+
                     <div className="text-slate-400 text-lg font-bold">vs</div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-slate-900">{currentPackage.articles}</div>
-                      <div className="text-[10px] text-slate-600 mt-0.5">articles</div>
-                      <div className="text-xs font-semibold text-slate-700 mt-1">
+
+                    {/* Right side - Worse deal (fewer articles, higher per-article price) - RED */}
+                    <div className="text-center flex-1 bg-red-50 border-2 border-red-400 rounded-lg p-2.5">
+                      <div className="text-xs font-semibold text-red-600 mb-1">Current</div>
+                      <div className="text-2xl font-bold text-red-600">{currentPackage.articles}</div>
+                      <div className="text-[10px] text-red-500 mt-0.5">articles</div>
+                      <div className="text-xs font-semibold text-red-600 mt-1 bg-red-100 rounded px-2 py-0.5">
                         ${currentPackage.perArticle.toFixed(2)}/ea
                       </div>
                     </div>
@@ -696,8 +709,6 @@ function PaymentContent() {
               <p className="text-center text-sm font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
             </div>
 
-            <div className="hidden lg:block bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm"></div>
-
             <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-base font-bold text-slate-900 mb-4 text-center">What Happens After Purchase </h3>
               <div className="space-y-3">
@@ -769,10 +780,10 @@ function PaymentContent() {
           <div className="space-y-6">
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
               <div
-                className="hidden lg:block rounded-xl p-5 shadow-sm relative overflow-visible"
+                className="hidden lg:block rounded-xl p-5 shadow-lg relative overflow-visible border-2"
                 style={{
-                  background: "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)",
-                  border: "1px solid #CBD5E1",
+                  background: "linear-gradient(135deg, #ECFEFF 0%, #EFF6FF 50%, #F3E8FF 100%)",
+                  borderColor: "#06B6D4",
                 }}
               >
                 <div className="mb-4">
@@ -785,20 +796,26 @@ function PaymentContent() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
-                  <div className="flex items-center justify-around">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-slate-900">{upsellPackage.articles}</div>
-                      <div className="text-xs text-slate-600 mt-1">articles</div>
-                      <div className="text-sm font-semibold text-slate-700 mt-1.5">
+                <div className="bg-white rounded-lg p-4 mb-4 shadow-md border border-slate-200">
+                  <div className="flex items-center justify-around gap-4">
+                    {/* Left side - Better deal (more articles, lower per-article price) - GREEN */}
+                    <div className="text-center flex-1 bg-green-50 border-2 border-green-500 rounded-lg p-3">
+                      <div className="text-xs font-semibold text-green-700 mb-1.5">Better Deal ✓</div>
+                      <div className="text-3xl font-bold text-green-700">{upsellPackage.articles}</div>
+                      <div className="text-xs text-green-600 mt-1">articles</div>
+                      <div className="text-sm font-semibold text-green-700 mt-1.5 bg-green-100 rounded px-2 py-1">
                         ${upsellPackage.perArticle.toFixed(2)}/article
                       </div>
                     </div>
+
                     <div className="text-slate-400 text-xl font-bold">vs</div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-slate-900">{currentPackage.articles}</div>
-                      <div className="text-xs text-slate-600 mt-1">articles</div>
-                      <div className="text-sm font-semibold text-slate-700 mt-1.5">
+
+                    {/* Right side - Worse deal (fewer articles, higher per-article price) - RED */}
+                    <div className="text-center flex-1 bg-red-50 border-2 border-red-400 rounded-lg p-3">
+                      <div className="text-xs font-semibold text-red-600 mb-1.5">Current</div>
+                      <div className="text-3xl font-bold text-red-600">{currentPackage.articles}</div>
+                      <div className="text-xs text-red-500 mt-1">articles</div>
+                      <div className="text-sm font-semibold text-red-600 mt-1.5 bg-red-100 rounded px-2 py-1">
                         ${currentPackage.perArticle.toFixed(2)}/article
                       </div>
                     </div>

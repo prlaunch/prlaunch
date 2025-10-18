@@ -116,7 +116,7 @@ export function SocialProofGrid() {
     <section id="reviews" className="bg-slate-50 relative py-14">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Real Results, Real People</h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">500+ Success Stories Written  </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">See what our clients are saying</p>
         </div>
 

@@ -5,9 +5,9 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
       <div className="container mx-auto px-4 py-12 md:px-6">
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-y-6 gap-x-8 grid-cols-2 md:grid-cols-5">
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 col-span-2 md:col-span-1">
             <Link
               href="/"
               className="inline-block text-lg font-bold tracking-tight hover:opacity-80 transition-opacity"
@@ -69,6 +69,53 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Our Outlets */}
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold text-foreground">Our Outlets</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/outlets/business-entrepreneurship"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Business & Entrepreneurship
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/outlets/finance-economics"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Finance & Economics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/outlets/lifestyle-culture"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Lifestyle & Culture
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/outlets/technology-digital-marketing"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Technology & Digital Marketing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/outlets/health-wellness"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Health & Wellness
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Support */}
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-foreground">Support</h4>
@@ -94,7 +141,25 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Free Tools */}
+          <div className="space-y-4 md:col-span-1">
+            <h4 className="text-sm font-semibold text-foreground">Free Tools</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/tools/article-generator"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Article Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/pr-quiz" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Eligibility Quiz
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="mt-12 border-t border-border pt-8 text-center">

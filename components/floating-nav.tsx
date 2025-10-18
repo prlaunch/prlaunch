@@ -222,7 +222,7 @@ export function FloatingNav() {
       {/* Mobile Navigation */}
       <nav
         className={`fixed left-1/2 -translate-x-1/2 z-50 xl:hidden transition-all duration-500 ease-out ${
-          isScrolled ? "top-4 w-[90%] max-w-sm" : "top-0 w-full max-w-none"
+          isScrolled ? "top-4 w-[90%] max-w-sm md:max-w-lg lg:max-w-xl" : "top-0 w-full max-w-none"
         }`}
       >
         <div

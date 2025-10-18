@@ -24,7 +24,6 @@ export default function HomePage() {
     <main className="min-h-screen">
       <HeroSection />
       <ScrollingLogos />
-      <ArticlePreviewGenerator />
       <StoryScrollSection />
       <WhatYouGetSection />
       <PricingExplainerSection />
@@ -39,6 +38,7 @@ export default function HomePage() {
       <TestimonialsSection />
       <GuaranteeSection />
       <FAQSection />
+      <ArticlePreviewGenerator />
       <FinalCTASection />
       <Footer />
       <LiveProofNotification />

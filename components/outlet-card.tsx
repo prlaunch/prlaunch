@@ -54,7 +54,7 @@ export function OutletCard({ name, url, description, isAvailable = true, imageUr
           href="/checkout"
           className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors text-center"
         >
-          Buy Feature - $47  
+          Buy for $47  
         </Link>
       </div>
     </div>

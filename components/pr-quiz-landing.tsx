@@ -189,31 +189,31 @@ export function PRQuizLanding() {
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 md:pt-32">
-        <div className="max-w-3xl mx-auto px-4 py-12 md:py-20">
+        <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
           {/* Success Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 mb-6 animate-bounce">
-              <Check className="w-10 h-10 text-white" strokeWidth={3} />
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 mb-4 animate-bounce">
+              <Check className="w-7 h-7 text-white" strokeWidth={3} />
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Great News - PR Is Perfect For You!</h1>
-            <div className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 rounded-2xl p-6 mb-8">
-              <p className="text-white/80 text-sm font-medium mb-2">Your PR Readiness Score</p>
-              <p className="text-6xl font-bold text-white">{prScore}%</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Great News - PR Is Perfect For You!</h1>
+            <div className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 rounded-2xl p-4 mb-6">
+              <p className="text-white/80 text-xs font-medium mb-1">Your PR Readiness Score</p>
+              <p className="text-4xl font-bold text-white">{prScore}%</p>
             </div>
           </div>
 
           {/* Personalized Insights */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-6">Why PR Is Perfect For You</h2>
-            <div className="space-y-4">
+          <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-6 shadow-sm">
+            <h2 className="text-base font-bold text-slate-900 mb-4">Why PR Is Perfect For You</h2>
+            <div className="space-y-3">
               {insights.map((insight, index) => {
                 const Icon = insight.icon
                 return (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-blue-600" />
+                  <div key={index} className="flex items-start gap-2.5">
+                    <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center">
+                      <Icon className="w-3.5 h-3.5 text-blue-600" />
                     </div>
-                    <p className="text-slate-700 leading-relaxed">{insight.text}</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">{insight.text}</p>
                   </div>
                 )
               })}
@@ -221,9 +221,9 @@ export function PRQuizLanding() {
           </div>
 
           {/* What You'll Get */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-8 mb-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6">Here's What Happens When You Get Published</h2>
-            <div className="space-y-3">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-5 mb-6">
+            <h2 className="text-base font-bold text-slate-900 mb-4">Here's What Happens When You Get Published</h2>
+            <div className="space-y-2.5">
               {[
                 "Professional writer crafts your story (normally $200+)",
                 "Published on reputable USA outlets",
@@ -231,37 +231,37 @@ export function PRQuizLanding() {
                 "Shareable across all your marketing",
                 "5-7 day turnaround",
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <p className="text-slate-700">{item}</p>
+                <div key={index} className="flex items-center gap-2.5">
+                  <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <p className="text-sm text-slate-700">{item}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Social Proof */}
-          <div className="mb-8">
-            <h3 className="text-lg font-bold text-slate-900 mb-4 text-center">Join Entrepreneurs Getting Featured</h3>
-            <div className="grid md:grid-cols-3 gap-4">
+          <div className="mb-6">
+            <h3 className="text-base font-bold text-slate-900 mb-3 text-center">Join Entrepreneurs Getting Featured</h3>
+            <div className="grid md:grid-cols-3 gap-3">
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-                  <div className="flex items-center gap-3 mb-3">
+                <div key={index} className="bg-white rounded-xl border border-slate-200 p-3 shadow-sm">
+                  <div className="flex items-center gap-2.5 mb-2.5">
                     <Image
                       src={testimonial.image || "/placeholder.svg"}
                       alt={testimonial.name}
-                      width={40}
-                      height={40}
+                      width={32}
+                      height={32}
                       className="rounded-full"
                     />
                     <div>
-                      <p className="font-semibold text-sm text-slate-900">{testimonial.name}</p>
+                      <p className="font-semibold text-xs text-slate-900">{testimonial.name}</p>
                       <p className="text-xs text-slate-600">{testimonial.role}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-slate-700 mb-2">"{testimonial.quote}"</p>
-                  <div className="flex gap-2 flex-wrap">
+                  <p className="text-xs text-slate-700 mb-2">"{testimonial.quote}"</p>
+                  <div className="flex gap-1.5 flex-wrap">
                     {testimonial.outlets.map((outlet, i) => (
-                      <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                      <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
                         {outlet}
                       </span>
                     ))}
@@ -272,10 +272,10 @@ export function PRQuizLanding() {
           </div>
 
           {/* Urgency */}
-          <div className="text-center mb-8">
-            <p className="text-sm text-slate-600 mb-6">
+          <div className="text-center mb-6">
+            <p className="text-xs text-slate-600 mb-4">
               <span className="inline-flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-orange-500" />
+                <Sparkles className="w-3.5 h-3.5 text-orange-500" />
                 <span>47 spots taken this week</span>
               </span>
             </p>
@@ -285,17 +285,17 @@ export function PRQuizLanding() {
           <div className="text-center">
             <Link
               href="/payment"
-              className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 text-white font-bold text-lg px-12 py-5 rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 text-white font-bold text-base px-8 py-4 rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               Get Published for $47 →
             </Link>
-            <p className="text-sm text-slate-600 mt-4">Professional writers • USA outlets • 5-7 day turnaround</p>
+            <p className="text-xs text-slate-600 mt-3">Professional writers • USA outlets • 5-7 day turnaround</p>
             <p className="text-xs text-slate-500 mt-2">💳 Secure checkout • Money-back guarantee</p>
           </div>
 
           {/* Secondary */}
-          <div className="text-center mt-8 pt-8 border-t border-slate-200">
-            <p className="text-sm text-slate-600">
+          <div className="text-center mt-6 pt-6 border-t border-slate-200">
+            <p className="text-xs text-slate-600">
               Still have questions?{" "}
               <Link href="/#faq" className="text-blue-600 hover:underline">
                 View FAQ
@@ -303,18 +303,6 @@ export function PRQuizLanding() {
             </p>
           </div>
         </div>
-
-        {/* Sticky CTA Mobile */}
-        {showStickyCTA && (
-          <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-lg md:hidden z-50 animate-slide-up">
-            <Link
-              href="/payment"
-              className="block w-full bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 text-white font-bold text-center py-4 rounded-xl"
-            >
-              Get Published for $47 →
-            </Link>
-          </div>
-        )}
 
         {/* Full Footer component */}
         <Footer />
@@ -356,16 +344,16 @@ export function PRQuizLanding() {
       )}
 
       {/* Quiz */}
-      <div className="max-w-2xl mx-auto px-4 md:py-12 py-0">
+      <div className="max-w-2xl mx-auto px-4 md:py-6 py-0 pb-12 md:pb-16">
         {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-sm font-medium text-slate-600">
+        <div className="mb-5">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-xs font-medium text-slate-600">
               Question {currentQuestion + 1} of {questions.length}
             </span>
-            <span className="text-sm font-medium text-slate-600">{Math.round(progress)}%</span>
+            <span className="text-xs font-medium text-slate-600">{Math.round(progress)}%</span>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-1.5">
             <div
               className="h-full bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
@@ -374,22 +362,22 @@ export function PRQuizLanding() {
         </div>
 
         {/* Question */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm animate-fade-in">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">{currentQ.question}</h2>
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 md:p-6 shadow-sm animate-fade-in">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-5 text-center">{currentQ.question}</h2>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {currentQ.options.map((option) => {
               const Icon = option.icon
               return (
                 <button
                   key={option.id}
                   onClick={() => handleAnswer(option.id)}
-                  className="w-full flex items-center gap-4 p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 text-left group"
+                  className="w-full flex items-center gap-3 p-3 rounded-xl border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 text-left group"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                    <Icon className="w-5 h-5 text-slate-600 group-hover:text-blue-600" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+                    <Icon className="w-4 h-4 text-slate-600 group-hover:text-blue-600" />
                   </div>
-                  <span className="text-slate-700 group-hover:text-slate-900 font-medium">{option.text}</span>
+                  <span className="text-sm text-slate-700 group-hover:text-slate-900 font-medium">{option.text}</span>
                 </button>
               )
             })}
