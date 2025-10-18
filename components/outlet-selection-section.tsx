@@ -22,7 +22,7 @@ const industries = [
     icon: "💻",
     href: "/outlets/technology-digital-marketing",
   },
-  { name: "Health & Wellness", count: 0, icon: "🏥", href: "/outlets/health-wellness" },
+  { name: "Health & Wellness", count: 0, icon: "🧘‍♂️", href: "/outlets/health-wellness" },
   { name: "Buy Article Credits", count: 0, icon: "🎯", href: "/checkout", isCheckout: true },
 ]
 
