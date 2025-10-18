@@ -1,13 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import {
   X,
   Check,
   Sparkles,
   Shield,
-  Clock,
   Award,
   Star,
   BadgeCheck,
@@ -23,22 +22,8 @@ import { Button } from "@/components/ui/button"
 export function CheckoutPage() {
   const [showPopup, setShowPopup] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState(1)
-  const [timeLeft, setTimeLeft] = useState(15 * 60)
   const [currentReviewPage, setCurrentReviewPage] = useState(0)
   const reviewsPerPage = 4
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
-  }
 
   const packages = [
     {
@@ -250,11 +235,10 @@ export function CheckoutPage() {
       <div className="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
         {/* Hero Section */}
         <div className="text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-purple-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
-            <Clock className="h-4 w-4 text-cyan-600" />
-            <span className="text-sm text-slate-700">Offer expires in</span>
-            <span className="font-mono text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-purple-600 bg-clip-text text-transparent">
-              {formatTime(timeLeft)}
+          <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mb-6">
+            <span className="text-sm">🔥</span>
+            <span className="text-xs font-medium text-slate-600">
+              73 people claimed 50% off in the last 24 hours
             </span>
           </div>
 
@@ -619,7 +603,7 @@ export function CheckoutPage() {
                 </a>
               </Button>
               <p className="text-center text-xs text-slate-500 mt-3">
-                  100% money-back guarantee on every order: Get published in 7 days from approval or full refund.
+                100% money-back guarantee on every order: Get published in 7 days from approval or full refund.
               </p>
             </div>
           </div>

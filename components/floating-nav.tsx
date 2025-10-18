@@ -1,7 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, Briefcase, TrendingUp, Sparkles, Laptop, Activity, ChevronDown } from "lucide-react"
+import {
+  Menu,
+  X,
+  Briefcase,
+  TrendingUp,
+  Sparkles,
+  Laptop,
+  Activity,
+  ChevronDown,
+  FileText,
+  ClipboardCheck,
+} from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
@@ -12,6 +23,7 @@ export function FloatingNav() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isOutletsOpen, setIsOutletsOpen] = useState(false)
+  const [isFreeToolsOpen, setIsFreeToolsOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,6 +73,11 @@ export function FloatingNav() {
     { name: "Health & Wellness", icon: Activity, href: "/outlets/health-wellness" },
   ]
 
+  const freeTools = [
+    { name: "Article Generator", icon: FileText, href: "/tools/article-generator" },
+    { name: "Eligibility Quiz", icon: ClipboardCheck, href: "/pr-quiz" },
+  ]
+
   const Logo = () => (
     <Link href="/" className="text-lg font-bold tracking-tight hover:opacity-80 transition-opacity text-black">
       <span className="text-blue-500">pr</span>
@@ -72,7 +89,7 @@ export function FloatingNav() {
     <>
       {/* Desktop Navigation */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 z-50 hidden lg:block transition-all duration-700 ease-in-out ${
+        className={`fixed left-1/2 -translate-x-1/2 z-50 hidden xl:block transition-all duration-700 ease-in-out ${
           isScrolled ? "top-6" : "top-0"
         }`}
       >
@@ -135,6 +152,40 @@ export function FloatingNav() {
               )}
             </div>
 
+            <div
+              className="relative"
+              onMouseEnter={() => setIsFreeToolsOpen(true)}
+              onMouseLeave={() => setIsFreeToolsOpen(false)}
+            >
+              <button className="px-4 py-2 rounded-full text-sm font-medium text-black transition-all duration-300 hover:scale-110 hover:text-blue-500 flex items-center gap-1">
+                Free Tools
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${isFreeToolsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isFreeToolsOpen && (
+                <div className="absolute top-full left-0 pt-2 w-56">
+                  <div className="glass-nav rounded-2xl p-2 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+                    {freeTools.map((tool) => {
+                      const Icon = tool.icon
+                      return (
+                        <Link
+                          key={tool.name}
+                          href={tool.href}
+                          onClick={() => setIsFreeToolsOpen(false)}
+                          className="w-full px-4 py-3 rounded-xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center gap-3"
+                        >
+                          <Icon className="w-4 h-4" />
+                          {tool.name}
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => scrollToSection("reviews")}
               className="px-4 py-2 rounded-full text-sm font-medium text-black transition-all duration-300 hover:scale-110 hover:text-blue-500"
@@ -170,7 +221,7 @@ export function FloatingNav() {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 z-50 lg:hidden transition-all duration-500 ease-out ${
+        className={`fixed left-1/2 -translate-x-1/2 z-50 xl:hidden transition-all duration-500 ease-out ${
           isScrolled ? "top-4 w-[90%] max-w-sm" : "top-0 w-full max-w-none"
         }`}
       >
@@ -246,6 +297,40 @@ export function FloatingNav() {
                       >
                         <Icon className="w-3.5 h-3.5" />
                         {category.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <button
+                onClick={() => setIsFreeToolsOpen(!isFreeToolsOpen)}
+                className="w-full px-4 py-3 rounded-2xl text-sm font-medium text-black transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 hover:scale-105 text-left flex items-center justify-between"
+              >
+                Free Tools
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${isFreeToolsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isFreeToolsOpen && (
+                <div className="ml-4 mt-2 space-y-1">
+                  {freeTools.map((tool) => {
+                    const Icon = tool.icon
+                    return (
+                      <Link
+                        key={tool.name}
+                        href={tool.href}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false)
+                          setIsFreeToolsOpen(false)
+                        }}
+                        className="w-full px-4 py-2 rounded-xl text-xs font-medium text-black/70 transition-all duration-300 hover:bg-blue-500/20 hover:text-blue-500 text-left flex items-center gap-2"
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        {tool.name}
                       </Link>
                     )
                   })}
