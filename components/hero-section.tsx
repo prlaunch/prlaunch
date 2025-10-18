@@ -66,12 +66,12 @@ const HEADLINE_VARIANTS = {
       </>
     ),
     subheadline:
-      "Real placements in USA Wire, Success XL, LA Tabloid, and more. No $5,000 agency fees. No 3-month waits. Just results in 7 days.",
+      "Real placements in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ more. No $5,000 agency fees. No 3-month waits. Just results in 7 days.",
   },
   b: {
     headline: "The PR Tool Rich Founders Use—Now $47",
     subheadline:
-      "Get featured in USA Wire, Success XL, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 7 days or your money back.",
+      "Get featured in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 7 days or your money back.",
   },
 }
 
