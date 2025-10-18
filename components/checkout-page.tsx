@@ -6,9 +6,7 @@ import {
   X,
   Check,
   Sparkles,
-  Zap,
   Shield,
-  TrendingUp,
   Clock,
   Award,
   Star,
@@ -16,6 +14,9 @@ import {
   Lock,
   ChevronLeft,
   ChevronRight,
+  Rocket,
+  DollarSign,
+  Search,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -72,19 +73,24 @@ export function CheckoutPage() {
 
   const benefits = [
     {
-      icon: Zap,
-      title: "Instant Publishing",
-      description: "Articles go live within 7 days",
-    },
-    {
       icon: Shield,
-      title: "100% Guaranteed",
-      description: "Full refund if not published within 7 days of approval",
+      title: "Live in 7 Days or Free",
+      description: "Full refund if not published within 7 days of draft approval",
     },
     {
-      icon: TrendingUp,
-      title: "SEO Authority",
-      description: "Boost your search rankings",
+      icon: Rocket,
+      title: "Writing Starts in 12 Hours",
+      description: "Professional writers begin your story same day",
+    },
+    {
+      icon: DollarSign,
+      title: "$47 vs $5,000 Agencies",
+      description: "Get the same outlets without the agency markup",
+    },
+    {
+      icon: Search,
+      title: "Push Down Negative Results",
+      description: "Positive PR articles dominate your Google results",
     },
     {
       icon: Award,
@@ -92,14 +98,9 @@ export function CheckoutPage() {
       description: "Featured on major outlets",
     },
     {
-      icon: Sparkles,
+      icon: Check,
       title: "No Pitching Required",
-      description: "Just upload and get featured",
-    },
-    {
-      icon: Clock,
-      title: "Fast Turnaround",
-      description: "See results in days, not months",
+      description: "Answer questions, we handle everything else",
     },
   ]
 
@@ -363,12 +364,12 @@ export function CheckoutPage() {
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon
             const gradients = [
+              "from-pink-500 via-rose-500 to-pink-600",
               "from-blue-500 via-cyan-500 to-blue-600",
-              "from-purple-500 via-pink-500 to-purple-600",
               "from-emerald-500 via-teal-500 to-emerald-600",
+              "from-purple-500 via-indigo-500 to-purple-600",
               "from-orange-500 via-amber-500 to-orange-600",
               "from-rose-500 via-pink-500 to-rose-600",
-              "from-indigo-500 via-blue-500 to-indigo-600",
             ]
             return (
               <div
@@ -380,8 +381,8 @@ export function CheckoutPage() {
                   backgroundOrigin: "border-box",
                   backgroundClip: "padding-box, border-box",
                   border: "2px solid transparent",
-                  ["--tw-gradient-from" as any]: `rgb(${index === 0 ? "37 99 235" : index === 1 ? "168 85 247" : index === 2 ? "16 185 129" : index === 3 ? "249 115 22" : index === 4 ? "244 63 94" : "99 102 241"})`,
-                  ["--tw-gradient-to" as any]: `rgb(${index === 0 ? "6 182 212" : index === 1 ? "236 72 153" : index === 2 ? "20 184 166" : index === 3 ? "251 191 36" : index === 4 ? "236 72 153" : "59 130 246"})`,
+                  ["--tw-gradient-from" as any]: `rgb(${index === 0 ? "236 72 153" : index === 1 ? "37 99 235" : index === 2 ? "16 185 129" : index === 3 ? "168 85 247" : index === 4 ? "249 115 22" : "244 63 94"})`,
+                  ["--tw-gradient-to" as any]: `rgb(${index === 0 ? "244 63 94" : index === 1 ? "6 182 212" : index === 2 ? "20 184 166" : index === 3 ? "99 102 241" : index === 4 ? "251 191 36" : "236 72 153"})`,
                   ["--tw-gradient-stops" as any]: "var(--tw-gradient-from), var(--tw-gradient-to)",
                 }}
               >
