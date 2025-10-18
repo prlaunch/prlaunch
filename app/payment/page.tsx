@@ -9,7 +9,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, TrendingUp } from "lucide-react"
+import { Lock, Star, Check, Sparkles } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent } from "@/app/actions/stripe"
@@ -98,22 +98,29 @@ function CheckoutForm({
     setErrorMessage(null)
 
     try {
-      console.log("[v0] Recreating payment intent with customer data before payment confirmation")
-      await onRecreatePaymentIntent()
+      console.log("[v0] Confirming payment with customer data:", { email, fullName })
 
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}`,
           receipt_email: email,
+          payment_method_data: {
+            billing_details: {
+              name: fullName,
+              email: email,
+            },
+          },
         },
       })
 
       if (error) {
+        console.error("[v0] Payment confirmation error:", error)
         setErrorMessage(error.message || "An error occurred")
         setIsProcessing(false)
       }
     } catch (err) {
+      console.error("[v0] Unexpected error during payment:", err)
       setErrorMessage("An unexpected error occurred")
       setIsProcessing(false)
     }
@@ -207,9 +214,9 @@ function PaymentContent() {
   const initializePayment = async () => {
     try {
       console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
-      setClientSecret(null)
+      // setClientSecret(null) - REMOVED
 
-      const { clientSecret } = await createPaymentIntent({
+      const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: currentPackage.price,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
@@ -219,9 +226,9 @@ function PaymentContent() {
         companyNumber: companyNumber || undefined,
       })
 
-      if (clientSecret) {
+      if (newClientSecret) {
         console.log("[v0] Payment intent created successfully with amount:", currentPackage.price)
-        setClientSecret(clientSecret)
+        setClientSecret(newClientSecret)
       }
     } catch (error) {
       console.error("[v0] Error initializing payment:", error)
@@ -348,28 +355,56 @@ function PaymentContent() {
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
               <div className="lg:hidden bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-lg relative overflow-visible">
                 <div className="pt-4">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shrink-0">
-                      <TrendingUp className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">Upgrade to {upsellPackage.name}?</h3>
-                      <p className="text-sm text-slate-600">
-                        Lower your price per article to ${upsellPackage.perArticle.toFixed(2)} and get more results
-                      </p>
-                    </div>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      Maximize Your Impact: Upgrade to {upsellPackage.name}
+                    </h3>
+                    <p className="font-semibold text-blue-600 mb-3 text-sm">
+                      Get {upsellPackage.articles}X More Google Results for{" "}
+                      {(upsellPackage.price / currentPackage.price).toFixed(1)}X the Price
+                    </p>
                   </div>
 
-                  <div className="bg-white rounded-xl p-4 mb-4 space-y-3">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                      <span className="text-slate-600">Current price per article:</span>
-                      <span className="text-lg font-semibold text-slate-900">
-                        ${currentPackage.perArticle.toFixed(2)}
+                  <div className="bg-white rounded-xl p-4 mb-4">
+                    <h4 className="text-sm font-bold text-slate-900 mb-3">
+                      Why {upsellPackage.name} Package Works Better:
+                    </h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>
+                          {upsellPackage.articles} articles = {upsellPackage.articles}X more search results for your
+                          name
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>{upsellPackage.articles} different outlets = broader credibility coverage</span>
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>
+                          Better ROI: ${upsellPackage.perArticle.toFixed(2)}/article vs $
+                          {currentPackage.perArticle.toFixed(2)}/article
+                        </span>
+                      </li>
+                      
+                    </ul>
+                  </div>
+
+                  <div className="bg-slate-50 rounded-xl p-4 mb-4 border border-slate-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-slate-600">Current:</span>
+                      <span className="text-sm font-semibold text-slate-900">
+                        {currentPackage.articles} {currentPackage.articles === 1 ? "article" : "articles"} for $
+                        {currentPackage.price}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                      <span className="text-slate-600">New price per article:</span>
-                      <span className="text-lg font-bold text-green-600">${upsellPackage.perArticle.toFixed(2)}</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-600">Upgrade:</span>
+                      <span className="font-bold text-blue-600 text-xs">
+                        {upsellPackage.articles} articles for ${upsellPackage.price} (just ${upsellDifference} more)
+                      </span>
                     </div>
                   </div>
 
@@ -378,12 +413,8 @@ function PaymentContent() {
                     className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-xl h-12 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
                   >
                     <Sparkles className="mr-2 h-5 w-5" />
-                    Yes, Upgrade My Order
+                    Yes, Upgrade to {upsellPackage.name} — ${upsellPackage.price}
                   </Button>
-                  <p className="text-center text-xs text-slate-500 mt-3">
-                    Get {upsellPackage.articles - currentPackage.articles} more articles • Save $
-                    {(currentPackage.perArticle - upsellPackage.perArticle).toFixed(2)}/article
-                  </p>
                 </div>
               </div>
             )}
@@ -531,91 +562,10 @@ function PaymentContent() {
             </div>
 
             <div className="hidden lg:block relative rounded-xl p-[2px] bg-gradient-to-r from-blue-50 to-purple-50 animate-gradient-shift shadow-lg shadow-blue-500/20">
-              <div className="bg-white rounded-xl p-4 shadow-sm">
-                <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
-                <ul className="space-y-2">
-                  {[
-                    "Consultation with our Pro PR Team",
-                    "Exclusive access to our private marketplace",
-                    "Fast track to Google Knowledge Panel",
-                    "Backlinks from high-authority sites",
-                    "Professional editing & unlimited revisions",
-                  ].map((bonus, index) => (
-                    <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
-                      <Check className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
-                      <span>{bonus}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              
             </div>
 
-            <div className="hidden lg:block">
-              <h3 className="text-base font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    1
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Fill out a quick 5 minute questionnaire
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Our writers send you articles for approval
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    3
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    4
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Your links and articles stay live forever
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
 
             <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-base font-bold text-slate-900 mb-4 text-center">What Happens After Purchase </h3>
@@ -689,28 +639,59 @@ function PaymentContent() {
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
               <div className="hidden lg:block bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-lg relative overflow-visible">
                 <div className="pt-4">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shrink-0">
-                      <TrendingUp className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">Upgrade to {upsellPackage.name}?</h3>
-                      <p className="text-sm text-slate-600">
-                        Lower your price per article to ${upsellPackage.perArticle.toFixed(2)} and get more results
-                      </p>
-                    </div>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      Maximize Your Impact: Upgrade to {upsellPackage.name}
+                    </h3>
+                    <p className="text-base font-semibold text-blue-600 mb-3">
+                      Get {upsellPackage.articles}X More Google Results for{" "}
+                      {(upsellPackage.price / currentPackage.price).toFixed(1)}X the Price
+                    </p>
                   </div>
 
-                  <div className="bg-white rounded-xl p-4 mb-4 space-y-3">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                      <span className="text-slate-600">Current price per article:</span>
-                      <span className="text-lg font-semibold text-slate-900">
-                        ${currentPackage.perArticle.toFixed(2)}
+                  <div className="bg-white rounded-xl p-4 mb-4">
+                    <h4 className="text-sm font-bold text-slate-900 mb-3">
+                      Why {upsellPackage.name} Package Works Better:
+                    </h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>
+                          {upsellPackage.articles} articles = {upsellPackage.articles}X more search results for your
+                          name
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>{upsellPackage.articles} different outlets = broader credibility coverage</span>
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>
+                          Better ROI: ${upsellPackage.perArticle.toFixed(2)}/article vs $
+                          {currentPackage.perArticle.toFixed(2)}/article
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-slate-700">
+                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                        <span>Recommended for: Founders pitching investors, consultants closing enterprise deals</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-slate-50 rounded-xl p-4 mb-4 border border-slate-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-slate-600">Current:</span>
+                      <span className="text-sm font-semibold text-slate-900">
+                        {currentPackage.articles} {currentPackage.articles === 1 ? "article" : "articles"} for $
+                        {currentPackage.price}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                      <span className="text-slate-600">New price per article:</span>
-                      <span className="text-lg font-bold text-green-600">${upsellPackage.perArticle.toFixed(2)}</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-600">Upgrade:</span>
+                      <span className="text-sm font-bold text-blue-600">
+                        {upsellPackage.articles} articles for ${upsellPackage.price} (just ${upsellDifference} more)
+                      </span>
                     </div>
                   </div>
 
@@ -719,12 +700,8 @@ function PaymentContent() {
                     className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-xl h-12 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
                   >
                     <Sparkles className="mr-2 h-5 w-5" />
-                    Yes, Upgrade My Order
+                    Yes, Upgrade to {upsellPackage.name} — ${upsellPackage.price}
                   </Button>
-                  <p className="text-center text-xs text-slate-500 mt-3">
-                    Get {upsellPackage.articles - currentPackage.articles} more articles • Save $
-                    {(currentPackage.perArticle - upsellPackage.perArticle).toFixed(2)}/article
-                  </p>
                 </div>
               </div>
             )}
@@ -834,72 +811,7 @@ function PaymentContent() {
               </div>
             </div>
 
-            <div className="lg:hidden bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    1
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Fill out a quick 5 minute questionnaire
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Our writers send you articles for approval
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    3
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    4
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Your links and articles stay live forever
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>

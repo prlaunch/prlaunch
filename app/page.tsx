@@ -17,6 +17,7 @@ import { PRQuizSection } from "@/components/pr-quiz-section"
 import { Footer } from "@/components/footer"
 import { LiveProofNotification } from "@/components/live-proof-notification"
 import { ArticlePreviewGenerator } from "@/components/article-preview-generator"
+import { BeforeAfterGoogleSection } from "@/components/before-after-google-section"
 
 export default function HomePage() {
   return (
@@ -31,6 +32,7 @@ export default function HomePage() {
       <OutletSelectionSection />
       <FeatureCardsSection />
       <RevenueCalculator />
+      <BeforeAfterGoogleSection />
       <PublicationsSection />
       <SocialProofGrid />
       <HowItWorksSection />
