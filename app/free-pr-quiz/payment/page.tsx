@@ -43,7 +43,7 @@ export default function PaymentPage() {
 
       <div className="max-w-2xl mx-auto space-y-8 pt-4">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold">Complete Your Order</h2>
+          <h2 className="text-3xl font-bold">Claim Your Article</h2>
           <p className="text-lg">Free Article + Pro Writing</p>
         </div>
 

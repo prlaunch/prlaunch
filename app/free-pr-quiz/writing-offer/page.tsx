@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Star, Check } from "lucide-react"
+import { ArrowLeft, Star, Check, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { mainReviews } from "@/lib/reviews-data"
@@ -13,6 +13,8 @@ export default function WritingOfferPage() {
   const [timeLeft, setTimeLeft] = useState(24 * 60 * 60)
   const [showCheckAnimation, setShowCheckAnimation] = useState(false)
   const [checkedItems, setCheckedItems] = useState<number[]>([])
+  const [isLoadingPro, setIsLoadingPro] = useState(false)
+  const [isLoadingDIY, setIsLoadingDIY] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
@@ -35,6 +37,7 @@ export default function WritingOfferPage() {
   }
 
   const handleSelectProfessionalWriting = () => {
+    setIsLoadingPro(true)
     setShowCheckAnimation(true)
     setCheckedItems([])
 
@@ -45,6 +48,11 @@ export default function WritingOfferPage() {
       setShowCheckAnimation(false)
       router.push("/free-pr-quiz/payment")
     }, 6000)
+  }
+
+  const handleSelectDIY = () => {
+    setIsLoadingDIY(true)
+    router.push("/free-pr-quiz/diy-qualification")
   }
 
   return (
@@ -63,7 +71,7 @@ export default function WritingOfferPage() {
         <div className="text-center space-y-4">
           <h1 className="text-base md:text-lg font-bold">🎁 EXCLUSIVE WINNER'S BONUS 🎁</h1>
           <p className="text-xl">Your FREE article placement is confirmed!</p>
-          <p className="text-lg text-muted-foreground">Unlock 50% OFF professional writing...</p>
+          <p className="text-lg text-muted-foreground">Choose how you want to create your article...</p>
         </div>
 
         <div className="text-center">
@@ -78,43 +86,114 @@ export default function WritingOfferPage() {
           <p className="mt-4 font-semibold">Meet Your PR Writing Team</p>
         </div>
 
-        <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500 rounded-xl p-8 space-y-6">
-          <div className="text-center space-y-2">
-            <h3 className="text-2xl font-bold">⭐ PROFESSIONAL WRITING</h3>
-            <p className="text-lg font-semibold text-yellow-600">(Winner's Exclusive 50% OFF)</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-3 text-sm">
-            {[
-              "Written by experienced journalists",
-              "Unlimited revisions until perfect",
-              "Human support & PR consultation",
-              "500-1000 words of professional copy",
-              'FREE "As Seen On" badge for your website',
-              "Article stays live forever",
-              "FREE backlinks to your website",
-              "FREE contact info & social links included",
-            ].map((benefit, i) => (
-              <div key={i} className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
-                <span>{benefit}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center space-y-2 py-4 border-t border-b">
-            <p className="text-sm text-muted-foreground line-through">Regular Price: $89.99</p>
-            <p className="text-4xl font-bold">$44.99</p>
-            <p className="text-lg font-semibold text-green-600">YOU SAVE $45.00 (50% OFF)</p>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-center gap-2 text-sm">
-              <span className="text-muted-foreground">This offer expires in</span>
-              <span>⏰</span>
-              <span className="font-mono font-bold text-red-600">{formatTime(timeLeft)}</span>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500 rounded-xl p-6 space-y-4">
+            <div className="text-center space-y-2">
+              <h3 className="text-xl font-bold">⭐ PROFESSIONAL WRITING</h3>
+              <p className="text-sm font-semibold text-yellow-600">(Winner's Exclusive 50% OFF)</p>
             </div>
-            <p className="text-center text-sm text-muted-foreground">🔥 Only for quiz winners</p>
+
+            <div className="space-y-2 text-sm">
+              {[
+                "Written by experienced journalists",
+                "Unlimited revisions until perfect",
+                "Human support & PR consultation",
+                "500-1000 words of professional copy",
+                'FREE "As Seen On" badge',
+                "Article stays live forever",
+                "FREE backlinks to your website",
+                "FREE contact info & social links",
+              ].map((benefit, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <span className="text-green-500 mt-0.5">✓</span>
+                  <span>{benefit}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center space-y-1 py-3 border-t border-b">
+              <p className="text-xs text-muted-foreground line-through">Regular Price: $89.99</p>
+              <p className="text-3xl font-bold">$44.99</p>
+              <p className="text-sm font-semibold text-green-600">YOU SAVE $45.00 (50% OFF)</p>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2 text-xs">
+                <span className="text-muted-foreground">Offer expires in</span>
+                <span>⏰</span>
+                <span className="font-mono font-bold text-red-600">{formatTime(timeLeft)}</span>
+              </div>
+              <p className="text-center text-xs text-muted-foreground">🔥 Only for quiz winners</p>
+            </div>
+
+            <Button
+              size="lg"
+              className="w-full text-base px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
+              onClick={handleSelectProfessionalWriting}
+              disabled={isLoadingPro}
+            >
+              {isLoadingPro ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Processing...
+                </>
+              ) : (
+                "Add Pro Writing →"
+              )}
+            </Button>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-2 border-blue-500 rounded-xl p-6 space-y-4">
+            <div className="text-center space-y-2">
+              <h3 className="text-xl font-bold">✍️ WRITE IT YOURSELF</h3>
+              <p className="text-sm font-semibold text-blue-600">(Free DIY Option)</p>
+            </div>
+
+            <div className="space-y-2 text-sm">
+              {[
+                "Professional article template",
+                "Step-by-step writing guidelines",
+                "Topic ideas & angle suggestions",
+                "SEO optimization tips",
+                "FREE article placement included",
+                "Article stays live forever",
+                "FREE backlinks to your website",
+                "14 days to complete your article",
+              ].map((benefit, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <span className="text-blue-500 mt-0.5">✓</span>
+                  <span>{benefit}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center space-y-1 py-3 border-t border-b">
+              <p className="text-xs text-muted-foreground">Best if you're a strong writer</p>
+              <p className="text-3xl font-bold">FREE</p>
+              <p className="text-sm font-semibold text-blue-600">Requires 8-13 hours of your time</p>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-center text-xs text-muted-foreground">⏱️ Template delivered within 24 hours</p>
+              <p className="text-center text-xs text-muted-foreground">📝 14-day writing deadline</p>
+            </div>
+
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full text-base px-6 py-3 h-auto rounded-full border-2 border-blue-500 hover:bg-blue-50 bg-transparent"
+              onClick={handleSelectDIY}
+              disabled={isLoadingDIY}
+            >
+              {isLoadingDIY ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Loading...
+                </>
+              ) : (
+                "I'll Write It Myself →"
+              )}
+            </Button>
           </div>
         </div>
 
@@ -214,18 +293,6 @@ export default function WritingOfferPage() {
           </div>
         </div>
       )}
-
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t p-4 z-50">
-        <div className="max-w-4xl mx-auto">
-          <Button
-            size="lg"
-            className="w-full text-base px-12 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
-            onClick={handleSelectProfessionalWriting}
-          >
-            Add Pro Writing →
-          </Button>
-        </div>
-      </div>
     </div>
   )
 }

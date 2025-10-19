@@ -23,6 +23,12 @@ export interface LeadData {
   website?: string
 }
 
+export interface DIYQualificationAnswers {
+  writingComfort?: string
+  timeAvailable?: string
+  writingExperience?: string
+}
+
 interface QuizContextType {
   answers: QuizAnswers
   setAnswers: (answers: QuizAnswers) => void
@@ -41,6 +47,8 @@ interface QuizContextType {
   setCountryCode: (code: string) => void
   customerId: string
   setCustomerId: (id: string) => void
+  diyQualification: DIYQualificationAnswers
+  setDIYQualification: (answers: DIYQualificationAnswers) => void
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined)
@@ -58,6 +66,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const [winnerNumber] = useState(Math.floor(Math.random() * 13) + 37)
   const [countryCode, setCountryCode] = useState("+1")
   const [customerId, setCustomerIdState] = useState("")
+  const [diyQualification, setDIYQualificationState] = useState<DIYQualificationAnswers>({})
 
   useEffect(() => {
     const savedAnswers = localStorage.getItem("quizAnswers")
@@ -66,6 +75,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const savedArticleQuestion = localStorage.getItem("quizArticleQuestion")
     const savedMystery = localStorage.getItem("quizMysteryReward")
     const savedCustomerId = localStorage.getItem("quizCustomerId")
+    const savedDIYQualification = localStorage.getItem("quizDIYQualification")
 
     if (savedAnswers) setAnswersState(JSON.parse(savedAnswers))
     if (savedLeadData) setLeadDataState(JSON.parse(savedLeadData))
@@ -73,6 +83,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     if (savedArticleQuestion) setArticleQuestionIndex(Number.parseInt(savedArticleQuestion))
     if (savedMystery) setMysteryRewardClaimed(JSON.parse(savedMystery))
     if (savedCustomerId) setCustomerIdState(savedCustomerId)
+    if (savedDIYQualification) setDIYQualificationState(JSON.parse(savedDIYQualification))
   }, [])
 
   const setAnswers = (newAnswers: QuizAnswers) => {
@@ -88,6 +99,11 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const setCustomerId = (id: string) => {
     setCustomerIdState(id)
     localStorage.setItem("quizCustomerId", id)
+  }
+
+  const setDIYQualification = (newAnswers: DIYQualificationAnswers) => {
+    setDIYQualificationState(newAnswers)
+    localStorage.setItem("quizDIYQualification", JSON.stringify(newAnswers))
   }
 
   useEffect(() => {
@@ -122,6 +138,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         setCountryCode,
         customerId,
         setCustomerId,
+        diyQualification,
+        setDIYQualification,
       }}
     >
       {children}
