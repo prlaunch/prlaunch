@@ -47,7 +47,7 @@ export function FloatingNav() {
     }
   }, [pathname])
 
-  if (pathname === "/checkout" || pathname === "/upsell") {
+  if (pathname === "/checkout" || pathname === "/upsell" || pathname === "/free-pr-quiz") {
     return null
   }
 

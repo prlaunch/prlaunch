@@ -242,6 +242,38 @@
   animation: gradient-shift 3s ease-in-out infinite;
 }
 
+/* Added confetti falling animation for winner screen */
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-fall {
+  animation: fall linear forwards;
+}
+
+/* Added gradient-x animation for animated borders on article cards */
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 3s ease-in-out infinite;
+}
+
 /* Added scrollbar-hide utility for horizontal scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none;
