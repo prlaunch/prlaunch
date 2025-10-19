@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Lock, Star } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -8,15 +8,28 @@ import { useQuiz } from "@/lib/quiz-context"
 import { QuizCheckout } from "@/components/quiz-checkout"
 import { StickyLogoBanner } from "@/components/quiz-logo"
 import { mainReviews } from "@/lib/reviews-data"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function PaymentPage() {
   const router = useRouter()
-  const { leadData, setCustomerId } = useQuiz()
+  const { leadData, setCustomerId, setLeadData } = useQuiz()
   const [isRedirecting, setIsRedirecting] = useState(false)
+  const [fullName, setFullName] = useState(leadData.name || "")
+  const [email, setEmail] = useState(leadData.email || "")
+  const [fullNameError, setFullNameError] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const informationCardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
   }, [])
+
+  useEffect(() => {
+    if (fullName || email) {
+      setLeadData({ ...leadData, name: fullName, email })
+    }
+  }, [fullName, email])
 
   const handlePaymentComplete = (customerId: string) => {
     console.log("[v0] Payment complete! Storing customer ID and redirecting to upsell:", customerId)
@@ -27,6 +40,22 @@ export default function PaymentPage() {
       console.log("[v0] Redirecting to upsell page...")
       router.push("/free-pr-quiz/upsell")
     }, 1000)
+  }
+
+  const handleValidationError = (field: string) => {
+    if (field === "fullName") {
+      setFullNameError("Full name is required")
+      informationCardRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      })
+    } else if (field === "email") {
+      setEmailError("Email is required")
+      informationCardRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      })
+    }
   }
 
   return (
@@ -121,12 +150,64 @@ export default function PaymentPage() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <QuizCheckout
-            productId="professional-writing"
-            leadData={leadData}
-            onPaymentComplete={handlePaymentComplete}
-          />
+        <div ref={informationCardRef} className="bg-card border rounded-xl p-6 space-y-6">
+          <h3 className="text-xl font-bold">Your Information</h3>
+
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email Address *
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (emailError) setEmailError("")
+                }}
+                placeholder="john@example.com"
+                className={`mt-1.5 h-11 rounded-xl ${
+                  emailError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
+                }`}
+                required
+              />
+              {emailError && <p className="text-xs text-red-600 mt-1.5">{emailError}</p>}
+              <p className="text-xs text-muted-foreground mt-1">From your quiz submission (editable)</p>
+            </div>
+
+            <div>
+              <Label htmlFor="fullname" className="text-sm font-medium">
+                Full Name *
+              </Label>
+              <Input
+                id="fullname"
+                type="text"
+                placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => {
+                  setFullName(e.target.value)
+                  if (fullNameError) setFullNameError("")
+                }}
+                className={`mt-1.5 h-11 rounded-xl ${
+                  fullNameError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
+                }`}
+                required
+              />
+              {fullNameError && <p className="text-xs text-red-600 mt-1.5">{fullNameError}</p>}
+              <p className="text-xs text-muted-foreground mt-1">From your quiz submission (editable)</p>
+            </div>
+          </div>
+
+          <div className="border-t pt-6">
+            <h3 className="text-xl font-bold mb-4">Payment</h3>
+            <QuizCheckout
+              productId="professional-writing"
+              leadData={{ ...leadData, fullName: fullName, email }}
+              onPaymentComplete={handlePaymentComplete}
+              onValidationError={handleValidationError}
+            />
+          </div>
         </div>
 
         <div className="text-center space-y-2 text-sm text-muted-foreground">

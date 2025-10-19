@@ -22,9 +22,10 @@ interface QuizCheckoutProps {
     publicationLogo?: string
   }
   onPaymentComplete?: (customerId: string) => void
+  onValidationError?: (field: string) => void
 }
 
-function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutProps) {
+function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationError }: QuizCheckoutProps) {
   const stripe = useStripe()
   const elements = useElements()
   const [isProcessing, setIsProcessing] = useState(false)
@@ -41,6 +42,14 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
 
     if (!stripe || !elements) {
       console.log("[v0] Cannot submit - stripe or elements not ready")
+      return
+    }
+
+    if (!leadData?.fullName || !leadData.fullName.trim()) {
+      console.log("[v0] Full name is required")
+      if (onValidationError) {
+        onValidationError("fullName")
+      }
       return
     }
 
@@ -154,7 +163,7 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
   )
 }
 
-export function QuizCheckout({ productId, leadData, onPaymentComplete }: QuizCheckoutProps) {
+export function QuizCheckout({ productId, leadData, onPaymentComplete, onValidationError }: QuizCheckoutProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -219,7 +228,12 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete }: QuizChe
         },
       }}
     >
-      <CheckoutForm productId={productId} leadData={leadData} onPaymentComplete={onPaymentComplete} />
+      <CheckoutForm
+        productId={productId}
+        leadData={leadData}
+        onPaymentComplete={onPaymentComplete}
+        onValidationError={onValidationError}
+      />
     </Elements>
   )
 }
