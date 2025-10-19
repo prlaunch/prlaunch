@@ -85,7 +85,7 @@ export default function DIYSuccessPage() {
             </p>
             <Button
               size="lg"
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="w-full h-auto py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center"
               onClick={handleUpgrade}
               disabled={isLoading}
             >

@@ -3,41 +3,52 @@
 import { stripe } from "@/lib/stripe"
 import { QUIZ_PRODUCTS } from "@/lib/quiz-products"
 
-export async function startQuizCheckoutSession(productId: string) {
+export async function createQuizPaymentIntent(productId: string, email: string, fullName: string) {
   const product = QUIZ_PRODUCTS.find((p) => p.id === productId)
   if (!product) {
     throw new Error(`Product with id "${productId}" not found`)
   }
 
-  const session = await stripe.checkout.sessions.create({
-    ui_mode: "embedded",
-    redirect_on_completion: "if_required",
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: product.name,
-            description: product.description,
-          },
-          unit_amount: product.priceInCents,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    payment_intent_data: {
-      setup_future_usage: "off_session",
-    },
-    custom_text: {
-      submit: {
-        message: "Complete your order securely",
-      },
-    },
-    return_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/free-pr-quiz/payment?session_id={CHECKOUT_SESSION_ID}`,
-  })
+  try {
+    console.log("[v0] Creating quiz payment intent with setup_future_usage for one-click upsell")
 
-  return session.client_secret
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: product.priceInCents,
+      currency: "usd",
+      payment_method_types: ["card", "link"],
+      setup_future_usage: "off_session", // Enable one-click upsell
+      metadata: {
+        productId: product.id,
+        productName: product.name,
+        email: email,
+        fullName: fullName,
+      },
+      receipt_email: email,
+      description: product.description,
+    })
+
+    console.log("[v0] Quiz payment intent created:", paymentIntent.id)
+
+    return { clientSecret: paymentIntent.client_secret }
+  } catch (error) {
+    console.error("[v0] Error creating quiz payment intent:", error)
+    throw new Error("Failed to create payment intent")
+  }
+}
+
+export async function getPaymentIntentCustomer(paymentIntentId: string) {
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
+
+    const customerId = typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
+
+    console.log("[v0] Retrieved customer ID from payment intent:", customerId)
+
+    return { customerId }
+  } catch (error) {
+    console.error("[v0] Error retrieving payment intent:", error)
+    throw new Error("Failed to retrieve payment intent")
+  }
 }
 
 export async function getCheckoutSession(sessionId: string) {
