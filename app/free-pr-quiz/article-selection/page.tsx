@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
-import { ArrowLeft } from "lucide-react"
+import { useEffect, useState } from "react"
+import { ArrowLeft, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
@@ -11,14 +11,18 @@ import { StickyLogoBanner } from "@/components/quiz-logo"
 export default function ArticleSelectionPage() {
   const router = useRouter()
   const { setLeadData, leadData } = useQuiz()
+  const [claimingId, setClaimingId] = useState<string | null>(null)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
   }, [])
 
-  const handleArticleSelection = (publication: { name: string; logo: string }) => {
+  const handleArticleSelection = (publication: { id: string; name: string; logo: string }) => {
+    setClaimingId(publication.id)
     setLeadData({ ...leadData, publication: publication.name, publicationLogo: publication.logo })
-    router.push("/free-pr-quiz/article-questions")
+    setTimeout(() => {
+      router.push("/free-pr-quiz/article-questions")
+    }, 600)
   }
 
   return (
@@ -44,12 +48,21 @@ export default function ArticleSelectionPage() {
             {ARTICLE_PUBLICATIONS.map((pub) => (
               <button
                 key={pub.id}
-                onClick={() => handleArticleSelection({ name: pub.name, logo: pub.logo })}
-                className="relative bg-card rounded-xl p-4 hover:shadow-lg transition-all group overflow-hidden"
+                onClick={() => handleArticleSelection(pub)}
+                disabled={claimingId !== null}
+                className="relative bg-card rounded-xl p-4 hover:shadow-lg transition-all group overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 opacity-100 animate-gradient-x"></div>
                 <div className="absolute inset-[2px] rounded-xl bg-card"></div>
                 <div className="relative flex flex-col items-center gap-2">
+                  {claimingId === pub.id && (
+                    <div className="absolute inset-0 bg-blue-500/10 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                      <div className="flex items-center gap-2 text-blue-600 font-medium">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Claiming...</span>
+                      </div>
+                    </div>
+                  )}
                   <div className="relative w-full h-10 flex items-center justify-center">
                     <Image
                       src={pub.logo || "/placeholder.svg"}

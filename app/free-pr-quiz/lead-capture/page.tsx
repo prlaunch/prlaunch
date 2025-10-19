@@ -6,15 +6,20 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
+import { PolicyModal } from "@/components/policy-modal"
 
 export default function LeadCapturePage() {
   const router = useRouter()
   const { leadData, setLeadData } = useQuiz()
   const [isLoading, setIsLoading] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [showPolicyModal, setShowPolicyModal] = useState(false)
+  const [policyType, setPolicyType] = useState<"terms" | "privacy">("terms")
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
@@ -22,8 +27,16 @@ export default function LeadCapturePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!termsAccepted) {
+      return
+    }
     setIsLoading(true)
     router.push("/free-pr-quiz/article-selection")
+  }
+
+  const openPolicyModal = (type: "terms" | "privacy") => {
+    setPolicyType(type)
+    setShowPolicyModal(true)
   }
 
   return (
@@ -62,6 +75,33 @@ export default function LeadCapturePage() {
               />
             </div>
 
+            <div className="flex items-start gap-3 pt-2">
+              <Checkbox
+                id="terms"
+                checked={termsAccepted}
+                onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+                className="mt-1"
+              />
+              <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                I agree to the{" "}
+                <button
+                  type="button"
+                  onClick={() => openPolicyModal("terms")}
+                  className="text-blue-600 hover:text-blue-700 underline"
+                >
+                  Terms of Service
+                </button>{" "}
+                and{" "}
+                <button
+                  type="button"
+                  onClick={() => openPolicyModal("privacy")}
+                  className="text-blue-600 hover:text-blue-700 underline"
+                >
+                  Privacy Policy
+                </button>
+              </label>
+            </div>
+
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <span className="text-green-500">✓</span>
@@ -77,7 +117,7 @@ export default function LeadCapturePage() {
               type="submit"
               size="lg"
               className="w-full px-8 md:px-16 py-4 md:py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center"
-              disabled={isLoading}
+              disabled={isLoading || !termsAccepted}
             >
               {isLoading ? (
                 <>
@@ -91,6 +131,8 @@ export default function LeadCapturePage() {
           </form>
         </div>
       </div>
+
+      <PolicyModal open={showPolicyModal} onOpenChange={setShowPolicyModal} type={policyType} />
     </div>
   )
 }
