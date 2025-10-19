@@ -1,12 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Lock } from "lucide-react"
+import { Lock, Star } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { QuizCheckout } from "@/components/quiz-checkout"
 import { StickyLogoBanner } from "@/components/quiz-logo"
+import { mainReviews } from "@/lib/reviews-data"
 
 export default function PaymentPage() {
   const router = useRouter()
@@ -42,6 +43,24 @@ export default function PaymentPage() {
       )}
 
       <div className="max-w-2xl mx-auto space-y-8 pt-4">
+        <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <div className="flex -space-x-2">
+              {mainReviews.slice(0, 4).map((review, i) => (
+                <div key={i} className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-background">
+                  <Image src={review.image || "/placeholder.svg"} alt={review.name} fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+              ))}
+            </div>
+          </div>
+          <span>Taken by 4,847 entrepreneurs</span>
+        </div>
+
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold">Claim Your Article</h2>
           <p className="text-lg">Free Article + Pro Writing</p>

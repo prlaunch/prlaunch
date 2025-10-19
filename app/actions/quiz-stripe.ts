@@ -11,7 +11,7 @@ export async function startQuizCheckoutSession(productId: string) {
 
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
-    redirect_on_completion: "never",
+    redirect_on_completion: "if_required",
     line_items: [
       {
         price_data: {
@@ -34,6 +34,7 @@ export async function startQuizCheckoutSession(productId: string) {
         message: "Complete your order securely",
       },
     },
+    return_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/free-pr-quiz/payment?session_id={CHECKOUT_SESSION_ID}`,
   })
 
   return session.client_secret
