@@ -12,9 +12,21 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
   try {
     console.log("[v0] Creating quiz payment intent with setup_future_usage for one-click upsell")
 
+    const customer = await stripe.customers.create({
+      email: email,
+      name: fullName,
+      metadata: {
+        source: "quiz",
+        productId: product.id,
+      },
+    })
+
+    console.log("[v0] Customer created:", customer.id)
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: product.priceInCents,
       currency: "usd",
+      customer: customer.id, // Add customer ID
       payment_method_types: ["card", "link"],
       setup_future_usage: "off_session", // Enable one-click upsell
       metadata: {
@@ -27,7 +39,7 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
       description: product.description,
     })
 
-    console.log("[v0] Quiz payment intent created:", paymentIntent.id)
+    console.log("[v0] Quiz payment intent created:", paymentIntent.id, "with customer:", customer.id)
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
