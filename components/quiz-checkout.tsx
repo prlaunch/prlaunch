@@ -6,10 +6,11 @@ import { useState, useEffect } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Button } from "@/components/ui/button"
-import { Lock, Loader2 } from "lucide-react"
+import { Lock, Loader2, AlertCircle } from "lucide-react"
 import { createQuizPaymentIntent } from "@/app/actions/quiz-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 
+console.log("[v0] Stripe publishable key available:", !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 interface QuizCheckoutProps {
@@ -31,10 +32,15 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
+  useEffect(() => {
+    console.log("[v0] CheckoutForm mounted - stripe:", !!stripe, "elements:", !!elements)
+  }, [stripe, elements])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!stripe || !elements) {
+      console.log("[v0] Cannot submit - stripe or elements not ready")
       return
     }
 
@@ -66,7 +72,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         console.log("[v0] Payment succeeded, customer:", paymentIntent.customer)
 
-        // Extract customer ID and call completion handler
         const customerId =
           typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
 
@@ -139,26 +144,45 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
 
 export function QuizCheckout({ productId, leadData, onPaymentComplete }: QuizCheckoutProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const initPayment = async () => {
       try {
-        console.log("[v0] Initializing quiz payment intent")
+        console.log("[v0] Initializing quiz payment intent for product:", productId)
+        console.log("[v0] Lead data:", { email: leadData?.email, fullName: leadData?.fullName })
+
         const { clientSecret: newClientSecret } = await createQuizPaymentIntent(
           productId,
           leadData?.email || "pending@prlaunch.io",
           leadData?.fullName || "Pending",
         )
-        console.log("[v0] Payment intent initialized successfully")
+
+        console.log("[v0] Payment intent initialized successfully, clientSecret length:", newClientSecret?.length)
         setClientSecret(newClientSecret)
       } catch (error) {
         console.error("[v0] Error initializing payment:", error)
+        setError("Failed to initialize payment. Please refresh the page and try again.")
       }
     }
     initPayment()
   }, [productId, leadData?.email, leadData?.fullName])
 
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+        <p className="text-red-600 font-medium mb-2">Payment Initialization Failed</p>
+        <p className="text-sm text-muted-foreground mb-4">{error}</p>
+        <Button onClick={() => window.location.reload()} variant="outline">
+          Refresh Page
+        </Button>
+      </div>
+    )
+  }
+
   if (!clientSecret) {
+    console.log("[v0] Waiting for clientSecret...")
     return (
       <div className="text-center py-8">
         <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
@@ -166,6 +190,8 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete }: QuizChe
       </div>
     )
   }
+
+  console.log("[v0] Rendering Elements with clientSecret")
 
   return (
     <Elements
