@@ -44,15 +44,17 @@ export default function UpsellPage() {
 
     try {
       console.log("[v0] Processing one-click upsell for customer:", customerId)
-      const result = await processUpsellPayment(customerId, 79.47)
+      const result = await processUpsellPayment(customerId, 1.0)
 
       if (result.success) {
         console.log("[v0] Upsell payment successful")
         router.push("/free-pr-quiz/thank-you?upsell=accepted")
+      } else {
+        console.error("[v0] Upsell payment failed:", result.error)
+        router.push("/free-pr-quiz/thank-you?upsell=declined")
       }
     } catch (error) {
       console.error("[v0] Upsell payment failed:", error)
-      // Still redirect to thank you page even if payment fails
       router.push("/free-pr-quiz/thank-you?upsell=declined")
     } finally {
       setIsProcessing(false)
@@ -96,8 +98,8 @@ export default function UpsellPage() {
 
           <div className="text-center space-y-2 py-4 border-t border-b">
             <p className="text-sm text-muted-foreground line-through">Regular Price: $179.98 ($89.99 each)</p>
-            <p className="text-4xl font-bold">$79.47</p>
-            <p className="text-lg font-semibold text-green-600">YOU SAVE: $100.51</p>
+            <p className="text-4xl font-bold">$1.00</p>
+            <p className="text-lg font-semibold text-green-600">YOU SAVE: $178.98</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-3 text-sm">
@@ -138,7 +140,7 @@ export default function UpsellPage() {
                   Processing...
                 </>
               ) : (
-                "YES! Add 2 Articles for $79.47 →"
+                "YES! Add 2 Articles for $1.00 →"
               )}
             </Button>
             <button

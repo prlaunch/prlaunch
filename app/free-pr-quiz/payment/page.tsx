@@ -19,14 +19,14 @@ export default function PaymentPage() {
   }, [])
 
   const handlePaymentComplete = (customerId: string) => {
-    console.log("[v0] Storing customer ID and redirecting to upsell:", customerId)
+    console.log("[v0] Payment complete! Storing customer ID and redirecting to upsell:", customerId)
     setIsRedirecting(true)
     setCustomerId(customerId)
 
-    // Small delay to ensure context is updated
     setTimeout(() => {
+      console.log("[v0] Redirecting to upsell page...")
       router.push("/free-pr-quiz/upsell")
-    }, 500)
+    }, 1000)
   }
 
   return (

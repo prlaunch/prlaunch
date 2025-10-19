@@ -53,7 +53,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/free-pr-quiz/upsell`,
           receipt_email: leadData?.email || undefined,
           payment_method_data: {
             billing_details: {
@@ -69,14 +68,27 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
         console.error("[v0] Payment confirmation error:", error)
         setErrorMessage(error.message || "An error occurred")
         setIsProcessing(false)
-      } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        console.log("[v0] Payment succeeded, customer:", paymentIntent.customer)
+      } else if (paymentIntent) {
+        console.log("[v0] Payment intent status:", paymentIntent.status)
 
-        const customerId =
-          typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
+        if (paymentIntent.status === "succeeded") {
+          console.log("[v0] Payment succeeded, customer:", paymentIntent.customer)
 
-        if (customerId && onPaymentComplete) {
-          onPaymentComplete(customerId)
+          const customerId =
+            typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
+
+          if (customerId && onPaymentComplete) {
+            console.log("[v0] Calling onPaymentComplete with customer ID:", customerId)
+            onPaymentComplete(customerId)
+          } else {
+            console.error("[v0] No customer ID found in payment intent")
+            setErrorMessage("Payment succeeded but customer ID not found")
+            setIsProcessing(false)
+          }
+        } else {
+          console.log("[v0] Payment status is not succeeded:", paymentIntent.status)
+          setErrorMessage("Payment was not completed successfully")
+          setIsProcessing(false)
         }
       }
     } catch (err) {
