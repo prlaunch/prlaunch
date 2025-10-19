@@ -298,10 +298,10 @@ export default function QuizQuestionsPage() {
       </div>
 
       {mysteryRewardClaimed && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 w-full bg-yellow-500/10 border-t border-yellow-500/20 py-3 px-4">
+        <div className="fixed bottom-0 left-0 right-0 z-40 w-full bg-amber-50 border-t border-amber-200 py-3 px-4">
           <div className="flex items-center justify-center gap-2 text-sm">
-            <Gift className="w-4 h-4 text-yellow-600" />
-            <span className="font-medium text-yellow-700">Mystery Gift Claimed</span>
+            <Gift className="w-4 h-4 text-amber-700" />
+            <span className="font-medium text-amber-900">Mystery Gift Claimed</span>
           </div>
         </div>
       )}

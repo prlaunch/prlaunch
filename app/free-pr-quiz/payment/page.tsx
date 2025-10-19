@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Lock } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -10,19 +10,36 @@ import { StickyLogoBanner } from "@/components/quiz-logo"
 
 export default function PaymentPage() {
   const router = useRouter()
-  const { leadData } = useQuiz()
+  const { leadData, setCustomerId } = useQuiz()
+  const [isRedirecting, setIsRedirecting] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
   }, [])
 
-  const handlePaymentComplete = () => {
-    router.push("/free-pr-quiz/upsell")
+  const handlePaymentComplete = (customerId: string) => {
+    console.log("[v0] Storing customer ID and redirecting to upsell:", customerId)
+    setIsRedirecting(true)
+    setCustomerId(customerId)
+
+    // Small delay to ensure context is updated
+    setTimeout(() => {
+      router.push("/free-pr-quiz/upsell")
+    }, 500)
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-4 px-4">
       <StickyLogoBanner />
+
+      {isRedirecting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-xl p-8 shadow-xl text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent mb-4"></div>
+            <p className="text-lg font-semibold">Processing your order...</p>
+          </div>
+        </div>
+      )}
 
       <div className="max-w-2xl mx-auto space-y-8 pt-4">
         <div className="text-center space-y-2">
@@ -99,15 +116,6 @@ export default function PaymentPage() {
             <p>Secure checkout powered by Stripe</p>
           </div>
           <p>✓ Your information is encrypted & safe</p>
-        </div>
-
-        <div className="text-center pt-4">
-          <button
-            onClick={() => router.push("/free-pr-quiz/upsell")}
-            className="text-sm text-muted-foreground hover:text-foreground underline"
-          >
-            Demo: Skip to upsell page
-          </button>
         </div>
       </div>
     </div>

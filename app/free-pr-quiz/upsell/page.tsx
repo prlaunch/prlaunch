@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
+import { processUpsellPayment } from "@/app/actions/quiz-stripe"
 
 export default function UpsellPage() {
   const router = useRouter()
-  const { leadData } = useQuiz()
+  const { leadData, customerId } = useQuiz()
   const [upsellTimeLeft, setUpsellTimeLeft] = useState(10 * 60)
+  const [isProcessing, setIsProcessing] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
@@ -31,12 +33,34 @@ export default function UpsellPage() {
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
   }
 
-  const handleUpsellAccept = () => {
-    router.push("/free-pr-quiz/thank-you")
+  const handleUpsellAccept = async () => {
+    if (!customerId) {
+      console.error("[v0] No customer ID found")
+      router.push("/free-pr-quiz/thank-you")
+      return
+    }
+
+    setIsProcessing(true)
+
+    try {
+      console.log("[v0] Processing one-click upsell for customer:", customerId)
+      const result = await processUpsellPayment(customerId, 79.47)
+
+      if (result.success) {
+        console.log("[v0] Upsell payment successful")
+        router.push("/free-pr-quiz/thank-you?upsell=accepted")
+      }
+    } catch (error) {
+      console.error("[v0] Upsell payment failed:", error)
+      // Still redirect to thank you page even if payment fails
+      router.push("/free-pr-quiz/thank-you?upsell=declined")
+    } finally {
+      setIsProcessing(false)
+    }
   }
 
   const handleUpsellDecline = () => {
-    router.push("/free-pr-quiz/thank-you")
+    router.push("/free-pr-quiz/thank-you?upsell=declined")
   }
 
   return (
@@ -55,8 +79,8 @@ export default function UpsellPage() {
               Since you just covered our customer acquisition cost, I can offer you something we normally never do...
             </p>
             <p>
-              We have <strong>2 "back inventory" article slots</strong> that we need to fill this month. They're already
-              paid for by our publication partners, so we're basically giving them away at cost.
+              We have <strong> a few &quot;back inventory&quot; article slots</strong> that we need to fill this month.
+              They're already paid for by our publication partners, so we're basically giving them away at cost.
             </p>
             <p className="font-semibold">
               This is NOT a sales pitch. This is me being real with you because you're already a customer.
@@ -104,14 +128,23 @@ export default function UpsellPage() {
           <div className="space-y-3">
             <Button
               size="lg"
-              className="w-full text-lg px-24 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
+              className="w-full text-lg px-24 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg disabled:opacity-50"
               onClick={handleUpsellAccept}
+              disabled={isProcessing}
             >
-              YES! Add 2 Articles for $79.47 →
+              {isProcessing ? (
+                <>
+                  <div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-r-transparent mr-2"></div>
+                  Processing...
+                </>
+              ) : (
+                "YES! Add 2 Articles for $79.47 →"
+              )}
             </Button>
             <button
               onClick={handleUpsellDecline}
-              className="w-full text-sm text-muted-foreground hover:text-foreground underline"
+              disabled={isProcessing}
+              className="w-full text-sm text-muted-foreground hover:text-foreground underline disabled:opacity-50"
             >
               No thanks, I'm good with 1 article
             </button>

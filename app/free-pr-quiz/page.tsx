@@ -1,7 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Star } from "lucide-react"
+import { Star, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -11,10 +12,16 @@ import { StickyLogoBanner } from "@/components/quiz-logo"
 
 export default function QuizLandingPage() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
   }, [])
+
+  const handleStartQuiz = () => {
+    setIsLoading(true)
+    router.push("/free-pr-quiz/quiz")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col">
@@ -52,9 +59,17 @@ export default function QuizLandingPage() {
           <Button
             size="lg"
             className="text-lg px-16 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
-            onClick={() => router.push("/free-pr-quiz/quiz")}
+            onClick={handleStartQuiz}
+            disabled={isLoading}
           >
-            Start Free Quiz →
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Loading...
+              </>
+            ) : (
+              "Start Free Quiz →"
+            )}
           </Button>
 
           <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">

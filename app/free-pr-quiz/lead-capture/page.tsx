@@ -2,10 +2,11 @@
 
 import type React from "react"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
@@ -13,6 +14,7 @@ import { StickyLogoBanner } from "@/components/quiz-logo"
 export default function LeadCapturePage() {
   const router = useRouter()
   const { leadData, setLeadData } = useQuiz()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
@@ -20,6 +22,7 @@ export default function LeadCapturePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     router.push("/free-pr-quiz/phone-capture")
   }
 
@@ -74,8 +77,16 @@ export default function LeadCapturePage() {
               type="submit"
               size="lg"
               className="w-full px-16 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              disabled={isLoading}
             >
-              Continue to Claim →
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Loading...
+                </>
+              ) : (
+                "Continue to Claim →"
+              )}
             </Button>
           </form>
         </div>

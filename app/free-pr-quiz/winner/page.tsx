@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Gift } from "lucide-react"
+import { Gift, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
@@ -13,6 +13,7 @@ export default function WinnerPage() {
   const router = useRouter()
   const { winnerNumber } = useQuiz()
   const [showConfetti, setShowConfetti] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
@@ -23,6 +24,11 @@ export default function WinnerPage() {
     const timer = setTimeout(() => setShowConfetti(false), 5000)
     return () => clearTimeout(timer)
   }, [])
+
+  const handleClaim = () => {
+    setIsLoading(true)
+    router.push("/free-pr-quiz/lead-capture")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col relative overflow-hidden">
@@ -60,19 +66,14 @@ export default function WinnerPage() {
             <div className="grid grid-cols-3 gap-2 max-w-lg mx-auto">
               <div className="relative aspect-video rounded-lg overflow-hidden border">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/010_thriveinsider-8sVaym2kpyM3Ui2oyVypLCWeGzqnmK.webp"
+                  src="/images/design-mode/010_thriveinsider.webp"
                   alt="Thrive Insider"
                   fill
                   className="object-cover"
                 />
               </div>
               <div className="relative aspect-video rounded-lg overflow-hidden border">
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/029_bossesmag-qf0gFr7WSI81nXCkVwW3YKWEWkRS4O.webp"
-                  alt="Bosses Mag"
-                  fill
-                  className="object-cover"
-                />
+                <Image src="/images/design-mode/029_bossesmag.webp" alt="Bosses Mag" fill className="object-cover" />
               </div>
               <div className="relative aspect-video rounded-lg overflow-hidden border">
                 <Image src="/images/outlets/057_hustleweekly.webp" alt="Hustle Weekly" fill className="object-cover" />
@@ -110,9 +111,17 @@ export default function WinnerPage() {
           <Button
             size="lg"
             className="text-lg md:text-xl px-12 md:px-20 py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg w-full max-w-md mx-auto"
-            onClick={() => router.push("/free-pr-quiz/lead-capture")}
+            onClick={handleClaim}
+            disabled={isLoading}
           >
-            Claim My Free Article →
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Loading...
+              </>
+            ) : (
+              "Claim My Free Article →"
+            )}
           </Button>
         </div>
       </div>

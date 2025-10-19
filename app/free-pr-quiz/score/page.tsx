@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
@@ -9,10 +10,16 @@ import { StickyLogoBanner } from "@/components/quiz-logo"
 export default function ScorePage() {
   const router = useRouter()
   const { score } = useQuiz()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" })
   }, [])
+
+  const handleContinue = () => {
+    setIsLoading(true)
+    router.push("/free-pr-quiz/winner")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col">
@@ -88,9 +95,17 @@ export default function ScorePage() {
             <Button
               size="lg"
               className="text-xl px-20 py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
-              onClick={() => router.push("/free-pr-quiz/winner")}
+              onClick={handleContinue}
+              disabled={isLoading}
             >
-              Unlock My Reward →
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Loading...
+                </>
+              ) : (
+                "Unlock My Reward →"
+              )}
             </Button>
           </div>
         </div>
