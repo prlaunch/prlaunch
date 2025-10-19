@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Lock, Star, Check, Sparkles } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { createPaymentIntent } from "@/app/actions/stripe"
+import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
 
@@ -30,6 +30,7 @@ function CheckoutForm({
   setFullNameError,
   informationCardRef,
   onRecreatePaymentIntent,
+  onPaymentComplete, // Added callback for payment completion
 }: {
   selectedPackage: string
   email: string
@@ -42,6 +43,7 @@ function CheckoutForm({
   setFullNameError: (error: string) => void
   informationCardRef: React.RefObject<HTMLDivElement>
   onRecreatePaymentIntent: () => Promise<void>
+  onPaymentComplete: (customerId: string, paymentMethodType: string) => void // Added callback
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -101,10 +103,10 @@ function CheckoutForm({
     try {
       console.log("[v0] Confirming payment with customer data:", { email, fullName })
 
-      const { error } = await stripe.confirmPayment({
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
+        redirect: "if_required",
         confirmParams: {
-          return_url: `${window.location.origin}/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}`,
           receipt_email: email,
           payment_method_data: {
             billing_details: {
@@ -118,6 +120,33 @@ function CheckoutForm({
       if (error) {
         console.error("[v0] Payment confirmation error:", error)
         setErrorMessage(error.message || "An error occurred")
+        setIsProcessing(false)
+        return
+      }
+
+      if (paymentIntent && paymentIntent.status === "succeeded") {
+        console.log("[v0] Payment succeeded, retrieving customer ID and payment method type")
+
+        try {
+          // Retrieve customer ID and payment method type from server
+          const [customerResult, paymentMethodResult] = await Promise.all([
+            getPaymentIntentCustomer(paymentIntent.id),
+            getPaymentMethodType(paymentIntent.id),
+          ])
+
+          console.log("[v0] Customer ID:", customerResult.customerId)
+          console.log("[v0] Payment method type:", paymentMethodResult.paymentMethodType)
+
+          // Call the completion callback with customer ID and payment method type
+          onPaymentComplete(customerResult.customerId, paymentMethodResult.paymentMethodType)
+        } catch (err) {
+          console.error("[v0] Error retrieving customer data:", err)
+          setErrorMessage("Payment succeeded but customer ID not found")
+          setIsProcessing(false)
+        }
+      } else {
+        console.error("[v0] Unexpected payment status:", paymentIntent?.status)
+        setErrorMessage("Payment processing failed")
         setIsProcessing(false)
       }
     } catch (err) {
@@ -184,6 +213,7 @@ function CheckoutForm({
 
 function PaymentContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const packageParam = searchParams.get("package") || "starter"
 
   const [selectedPackage, setSelectedPackage] = useState(packageParam)
@@ -256,6 +286,34 @@ function PaymentContent() {
       setShowCelebration(false)
       setUpgradeApplied(true)
     }, 2000)
+  }
+
+  const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
+    console.log("[v0] Payment complete, routing based on payment method type:", paymentMethodType)
+
+    const packages = {
+      starter: { name: "Starter", articles: 1, price: 47 },
+      growth: { name: "Growth", articles: 3, price: 127 },
+      authority: { name: "Authority", articles: 5, price: 197 },
+      agency: { name: "Agency", articles: 40, price: 997 },
+    }
+
+    const currentPackage = packages[selectedPackage as keyof typeof packages]
+
+    // Route based on payment method type
+    if (paymentMethodType === "card") {
+      // Card payment - show upsell with customer ID
+      console.log("[v0] Card payment - redirecting to upsell")
+      router.push(
+        `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
+      )
+    } else {
+      // Wallet payment (link, apple_pay, google_pay, etc.) - skip upsell
+      console.log("[v0] Wallet payment - skipping upsell, redirecting to thank you")
+      router.push(
+        `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
+      )
+    }
   }
 
   const reviews = getReviewsSubset(3)
@@ -575,6 +633,7 @@ function PaymentContent() {
                     setFullNameError={setFullNameError}
                     informationCardRef={informationCardRef}
                     onRecreatePaymentIntent={initializePayment}
+                    onPaymentComplete={handlePaymentComplete} // Pass the callback
                   />
                 </Elements>
               )}

@@ -5,11 +5,12 @@ import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Check, Clock, Sparkles, TrendingUp, Globe, Star } from "lucide-react"
-import { createUpsellPaymentIntent } from "@/app/actions/stripe"
+import { processMainUpsellPayment } from "@/app/actions/stripe"
 import { loadStripe } from "@stripe/stripe-js"
 import { ConfettiAnimation } from "@/components/confetti-animation"
 import { UpsellTestimonials } from "@/components/upsell-testimonials"
 import { WikiPageMockup } from "@/components/wiki-page-mockup"
+import { Loader2 } from "lucide-react"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -22,8 +23,9 @@ function UpsellContent() {
   const price = searchParams.get("price") || "47"
   const email = searchParams.get("email") || ""
   const fullName = searchParams.get("name") || ""
+  const customerId = searchParams.get("customerId") || "" // Get customer ID from URL
 
-  const [timeLeft, setTimeLeft] = useState(10 * 60) // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(10 * 60)
   const [isProcessing, setIsProcessing] = useState(false)
 
   useEffect(() => {
@@ -50,41 +52,35 @@ function UpsellContent() {
   }
 
   const handlePurchase = async () => {
+    if (!customerId) {
+      console.error("[v0] No customer ID provided")
+      router.push(
+        `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=declined`,
+      )
+      return
+    }
+
     setIsProcessing(true)
 
     try {
-      const stripe = await stripePromise
+      console.log("[v0] Processing one-click upsell for customer:", customerId)
 
-      if (!stripe) {
-        throw new Error("Stripe failed to load")
-      }
+      const result = await processMainUpsellPayment(customerId, 197)
 
-      const { clientSecret } = await createUpsellPaymentIntent({
-        amount: 197,
-        email,
-        fullName,
-        originalPackage: packageName,
-        originalArticles: Number.parseInt(articles),
-        originalPrice: Number.parseInt(price),
-      })
-
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: {
-            token: "tok_visa",
-          },
-        },
-      })
-
-      if (error) {
-        console.error("[v0] Payment error:", error)
+      if (result.success) {
+        console.log("[v0] Upsell payment successful")
+        router.push(
+          `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=accepted&upsellPrice=197`,
+        )
+      } else if (result.requiresAction) {
+        console.log("[v0] Upsell payment requires authentication")
+        setIsProcessing(false)
+        alert("This payment method requires additional authentication. Please try again or decline the offer.")
+      } else {
+        console.error("[v0] Upsell payment failed")
         setIsProcessing(false)
         router.push(
           `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=declined`,
-        )
-      } else {
-        router.push(
-          `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=accepted&upsellPrice=197`,
         )
       }
     } catch (error) {
@@ -233,7 +229,7 @@ function UpsellContent() {
           >
             {isProcessing ? (
               <>
-                <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-r-transparent mr-2"></div>
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
                 Processing...
               </>
             ) : (
