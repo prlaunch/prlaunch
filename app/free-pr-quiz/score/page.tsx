@@ -26,49 +26,49 @@ export default function ScorePage() {
       <StickyLogoBanner />
 
       <div className="flex-1 flex items-center justify-center p-4 pt-8">
-        <div className="max-w-2xl w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <h2 className="text-2xl font-bold text-center">Your PR Readiness Score</h2>
+        <div className="max-w-xl w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="flex flex-col items-center justify-center space-y-3">
+            <h2 className="text-xl font-bold text-center">Your PR Readiness Score</h2>
 
-            <div className="relative w-32 h-32">
-              <svg className="transform -rotate-90 w-32 h-32">
+            <div className="relative w-24 h-24">
+              <svg className="transform -rotate-90 w-24 h-24">
                 <circle
-                  cx="64"
-                  cy="64"
-                  r="56"
+                  cx="48"
+                  cy="48"
+                  r="42"
                   stroke="currentColor"
-                  strokeWidth="8"
+                  strokeWidth="6"
                   fill="none"
                   className="text-muted"
                 />
                 <circle
-                  cx="64"
-                  cy="64"
-                  r="56"
+                  cx="48"
+                  cy="48"
+                  r="42"
                   stroke="currentColor"
-                  strokeWidth="8"
+                  strokeWidth="6"
                   fill="none"
-                  strokeDasharray={`${2 * Math.PI * 56}`}
-                  strokeDashoffset={`${2 * Math.PI * 56 * (1 - score / 100)}`}
+                  strokeDasharray={`${2 * Math.PI * 42}`}
+                  strokeDashoffset={`${2 * Math.PI * 42 * (1 - score / 100)}`}
                   className="text-green-500 transition-all duration-1000"
                   strokeLinecap="round"
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-3xl font-bold">{score}%</span>
+                <span className="text-2xl font-bold">{score}%</span>
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
               <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <span className="text-sm font-semibold text-green-600">Highly Effective</span>
+              <span className="text-xs font-semibold text-green-600">Highly Effective</span>
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="bg-card border rounded-xl p-5 space-y-3">
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="bg-card border rounded-xl p-4 space-y-2">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-green-500/10 flex items-center justify-center">
                   <TrendingUp className="w-4 h-4 text-green-600" />
                 </div>
                 <h3 className="font-semibold text-sm">Why PR Will Work for You</h3>
@@ -91,9 +91,9 @@ export default function ScorePage() {
               </div>
             </div>
 
-            <div className="bg-card border rounded-xl p-5 space-y-3">
+            <div className="bg-card border rounded-xl p-4 space-y-2">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center">
                   <Target className="w-4 h-4 text-blue-600" />
                 </div>
                 <h3 className="font-semibold text-sm">Your PR Potential</h3>
@@ -118,7 +118,7 @@ export default function ScorePage() {
           <div className="text-center">
             <Button
               size="lg"
-              className="text-lg md:text-xl px-8 md:px-20 py-5 md:py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg whitespace-normal text-center w-full md:w-auto"
+              className="text-base md:text-lg px-8 md:px-16 py-4 md:py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg whitespace-normal text-center w-full md:w-auto"
               onClick={handleContinue}
               disabled={isLoading}
             >
