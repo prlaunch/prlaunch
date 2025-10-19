@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Button } from "@/components/ui/button"
 import { Lock, Loader2, AlertCircle } from "lucide-react"
-import { createQuizPaymentIntent } from "@/app/actions/quiz-stripe"
+import { createQuizPaymentIntent, getPaymentIntentCustomer } from "@/app/actions/quiz-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 
 console.log("[v0] Stripe publishable key available:", !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -81,17 +81,22 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
         console.log("[v0] Payment intent status:", paymentIntent.status)
 
         if (paymentIntent.status === "succeeded") {
-          console.log("[v0] Payment succeeded, customer:", paymentIntent.customer)
+          console.log("[v0] Payment succeeded, retrieving customer ID from server...")
 
-          const customerId =
-            typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
+          try {
+            const { customerId } = await getPaymentIntentCustomer(paymentIntent.id)
 
-          if (customerId && onPaymentComplete) {
-            console.log("[v0] Calling onPaymentComplete with customer ID:", customerId)
-            onPaymentComplete(customerId)
-          } else {
-            console.error("[v0] No customer ID found in payment intent")
-            setErrorMessage("Payment succeeded but customer ID not found")
+            if (customerId && onPaymentComplete) {
+              console.log("[v0] Calling onPaymentComplete with customer ID:", customerId)
+              onPaymentComplete(customerId)
+            } else {
+              console.error("[v0] No customer ID found in payment intent")
+              setErrorMessage("Payment succeeded but customer ID not found")
+              setIsProcessing(false)
+            }
+          } catch (err) {
+            console.error("[v0] Error retrieving customer ID:", err)
+            setErrorMessage("Payment succeeded but failed to retrieve customer information")
             setIsProcessing(false)
           }
         } else {

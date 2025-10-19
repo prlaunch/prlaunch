@@ -75,7 +75,6 @@ export default function TermsPage() {
               </p>
               <ul className="list-disc pl-6 space-y-2 text-slate-700">
                 <li>Articles are not published within 7 days after client approval</li>
-                <li>Refunds are NOT provided on discounted items or promotional gifts</li>
                 <li>All refund requests must be submitted to hello@prlaunch.io</li>
               </ul>
               <p className="text-slate-700 leading-relaxed mt-4">

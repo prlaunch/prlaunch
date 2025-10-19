@@ -53,7 +53,6 @@ export default function RefundsPage() {
               <div className="bg-red-50 border-l-4 border-red-500 p-6 my-6">
                 <p className="text-slate-700 font-semibold mb-2">NOT Eligible for Refund:</p>
                 <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                  <li>Discounted items or promotional packages</li>
                   <li>Free gifts or bonus services</li>
                   <li>Articles published within 7 days of approval</li>
                   <li>Orders where the article has been successfully published within the guaranteed timeframe</li>
