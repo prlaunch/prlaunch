@@ -299,15 +299,11 @@ export default function QuizQuestionsPage() {
 
       {mysteryRewardClaimed && (
         <div className="fixed bottom-0 left-0 right-0 z-40 w-full bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border-t-2 border-amber-200/50 shadow-lg backdrop-blur-sm">
-          <div className="max-w-2xl mx-auto py-4 px-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-md animate-pulse"></div>
-                <Gift className="w-5 h-5 text-amber-600 relative" />
-              </div>
+          <div className="max-w-2xl mx-auto py-3 px-4">
+            <div className="flex items-center justify-center">
               <div className="text-center">
-                <p className="font-semibold text-amber-900 text-sm">🎁 Mystery Gift Unlocked!</p>
-                <p className="text-xs text-amber-700">Complete the quiz to claim your special reward</p>
+                <p className="font-semibold text-amber-900 text-xs">🎁 Mystery Gift Unlocked!</p>
+                <p className="text-[11px] text-amber-700">Complete the quiz to claim your special reward</p>
               </div>
             </div>
           </div>

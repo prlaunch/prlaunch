@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Button } from "@/components/ui/button"
@@ -140,22 +140,23 @@ function CheckoutForm({ productId, leadData, onPaymentComplete }: QuizCheckoutPr
 export function QuizCheckout({ productId, leadData, onPaymentComplete }: QuizCheckoutProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
 
-  // Initialize payment intent when component mounts
-  useState(() => {
+  useEffect(() => {
     const initPayment = async () => {
       try {
+        console.log("[v0] Initializing quiz payment intent")
         const { clientSecret: newClientSecret } = await createQuizPaymentIntent(
           productId,
           leadData?.email || "pending@prlaunch.io",
           leadData?.fullName || "Pending",
         )
+        console.log("[v0] Payment intent initialized successfully")
         setClientSecret(newClientSecret)
       } catch (error) {
         console.error("[v0] Error initializing payment:", error)
       }
     }
     initPayment()
-  })
+  }, [productId, leadData?.email, leadData?.fullName])
 
   if (!clientSecret) {
     return (
