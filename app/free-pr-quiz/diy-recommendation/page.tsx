@@ -107,7 +107,7 @@ export default function DIYRecommendationPage() {
             <div className="space-y-3 pt-4 border-t">
               <Button
                 size="lg"
-                className="w-full text-base px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+                className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center leading-tight"
                 onClick={handleSwitchToPro}
                 disabled={isLoadingPro}
               >
@@ -186,7 +186,7 @@ export default function DIYRecommendationPage() {
             <div className="space-y-3 pt-4 border-t">
               <Button
                 size="lg"
-                className="w-full text-base px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+                className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center leading-tight"
                 onClick={handleSwitchToPro}
                 disabled={isLoadingPro}
               >
@@ -263,7 +263,7 @@ export default function DIYRecommendationPage() {
           <div className="space-y-3 pt-4">
             <Button
               size="lg"
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center leading-tight"
               onClick={handleSwitchToPro}
               disabled={isLoadingPro}
             >
@@ -343,7 +343,7 @@ export default function DIYRecommendationPage() {
           <div className="space-y-3 pt-4">
             <Button
               size="lg"
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center leading-tight"
               onClick={handleSwitchToPro}
               disabled={isLoadingPro}
             >

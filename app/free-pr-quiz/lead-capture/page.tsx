@@ -23,7 +23,7 @@ export default function LeadCapturePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    router.push("/free-pr-quiz/phone-capture")
+    router.push("/free-pr-quiz/article-selection")
   }
 
   return (
@@ -76,7 +76,7 @@ export default function LeadCapturePage() {
             <Button
               type="submit"
               size="lg"
-              className="w-full px-16 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="w-full px-8 md:px-16 py-4 md:py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center"
               disabled={isLoading}
             >
               {isLoading ? (

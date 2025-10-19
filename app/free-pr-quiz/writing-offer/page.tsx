@@ -128,7 +128,7 @@ export default function WritingOfferPage() {
 
             <Button
               size="lg"
-              className="w-full text-base px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
+              className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg whitespace-normal text-center leading-tight"
               onClick={handleSelectProfessionalWriting}
               disabled={isLoadingPro}
             >
@@ -181,7 +181,7 @@ export default function WritingOfferPage() {
             <Button
               size="lg"
               variant="outline"
-              className="w-full text-base px-6 py-3 h-auto rounded-full border-2 border-blue-500 hover:bg-blue-50 bg-transparent"
+              className="w-full text-sm md:text-base px-4 md:px-6 py-3 h-auto rounded-full border-2 border-blue-500 hover:bg-blue-50 bg-transparent whitespace-normal text-center leading-tight"
               onClick={handleSelectDIY}
               disabled={isLoadingDIY}
             >

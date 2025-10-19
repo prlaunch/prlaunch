@@ -138,7 +138,7 @@ export default function ArticleQuestionsPage() {
             <Button
               type="submit"
               size="lg"
-              className="w-full text-xl px-20 py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="w-full text-base md:text-xl px-8 md:px-20 py-5 md:py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white whitespace-normal text-center"
               disabled={isLoading}
             >
               {isLoading ? (

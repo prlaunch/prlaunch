@@ -58,7 +58,7 @@ export default function QuizLandingPage() {
 
           <Button
             size="lg"
-            className="text-lg px-16 py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
+            className="text-base md:text-lg px-8 md:px-16 py-4 md:py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg whitespace-normal text-center"
             onClick={handleStartQuiz}
             disabled={isLoading}
           >

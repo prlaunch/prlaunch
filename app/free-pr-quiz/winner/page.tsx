@@ -110,7 +110,7 @@ export default function WinnerPage() {
 
           <Button
             size="lg"
-            className="text-lg md:text-xl px-12 md:px-20 py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg w-full max-w-md mx-auto"
+            className="text-base md:text-lg px-8 md:px-12 py-5 md:py-6 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg w-full max-w-md mx-auto whitespace-normal text-center"
             onClick={handleClaim}
             disabled={isLoading}
           >
