@@ -21,7 +21,7 @@ interface QuizCheckoutProps {
     publication?: string
     publicationLogo?: string
   }
-  onPaymentComplete?: (customerId: string) => void
+  onPaymentComplete?: (customerId: string, paymentMethodType: string) => void
   onValidationError?: (field: string) => void
 }
 
@@ -81,14 +81,19 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
         console.log("[v0] Payment intent status:", paymentIntent.status)
 
         if (paymentIntent.status === "succeeded") {
-          console.log("[v0] Payment succeeded, retrieving customer ID from server...")
+          console.log("[v0] Payment succeeded, retrieving customer ID and payment method type from server...")
 
           try {
-            const { customerId } = await getPaymentIntentCustomer(paymentIntent.id)
+            const { customerId, paymentMethodType } = await getPaymentIntentCustomer(paymentIntent.id)
 
             if (customerId && onPaymentComplete) {
-              console.log("[v0] Calling onPaymentComplete with customer ID:", customerId)
-              onPaymentComplete(customerId)
+              console.log(
+                "[v0] Calling onPaymentComplete with customer ID:",
+                customerId,
+                "and payment method type:",
+                paymentMethodType,
+              )
+              onPaymentComplete(customerId, paymentMethodType)
             } else {
               console.error("[v0] No customer ID found in payment intent")
               setErrorMessage("Payment succeeded but customer ID not found")

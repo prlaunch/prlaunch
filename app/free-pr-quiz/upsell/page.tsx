@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
 import { processUpsellPayment } from "@/app/actions/quiz-stripe"
+import { Loader2 } from "lucide-react"
 
 export default function UpsellPage() {
   const router = useRouter()
@@ -136,7 +137,7 @@ export default function UpsellPage() {
             >
               {isProcessing ? (
                 <>
-                  <div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-r-transparent mr-2"></div>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
                   Processing...
                 </>
               ) : (

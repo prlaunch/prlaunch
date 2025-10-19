@@ -50,13 +50,25 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
 
 export async function getPaymentIntentCustomer(paymentIntentId: string) {
   try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+      expand: ["payment_method"], // Expand payment method to get its type
+    })
 
     const customerId = typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
 
-    console.log("[v0] Retrieved customer ID from payment intent:", customerId)
+    let paymentMethodType = "unknown"
+    if (paymentIntent.payment_method) {
+      if (typeof paymentIntent.payment_method === "string") {
+        const pm = await stripe.paymentMethods.retrieve(paymentIntent.payment_method)
+        paymentMethodType = pm.type
+      } else {
+        paymentMethodType = paymentIntent.payment_method.type
+      }
+    }
 
-    return { customerId }
+    console.log("[v0] Retrieved customer ID:", customerId, "payment method type:", paymentMethodType)
+
+    return { customerId, paymentMethodType }
   } catch (error) {
     console.error("[v0] Error retrieving payment intent:", error)
     throw new Error("Failed to retrieve payment intent")
@@ -83,25 +95,35 @@ export async function processUpsellPayment(customerId: string, amount: number) {
   try {
     console.log("[v0] Processing upsell payment for customer:", customerId)
 
-    // Retrieve customer's default payment method
-    const customer = await stripe.customers.retrieve(customerId)
+    const paymentMethods = await stripe.paymentMethods.list({
+      customer: customerId,
+      // Removed type filter to include all payment methods (card, link, etc.)
+      limit: 10, // Get more to ensure we find one
+    })
 
-    if (!customer || customer.deleted) {
-      throw new Error("Customer not found")
+    console.log("[v0] Found payment methods:", paymentMethods.data.length)
+
+    if (paymentMethods.data.length > 0) {
+      console.log("[v0] Payment method types found:", paymentMethods.data.map((pm) => pm.type).join(", "))
     }
 
-    const defaultPaymentMethod = customer.invoice_settings?.default_payment_method
-
-    if (!defaultPaymentMethod) {
-      throw new Error("No payment method found for customer")
+    if (paymentMethods.data.length === 0) {
+      console.error("[v0] No payment method found for customer")
+      return {
+        success: false,
+        error: "No saved payment method found. Please contact support.",
+      }
     }
+
+    const paymentMethod = paymentMethods.data[0]
+    console.log("[v0] Using payment method:", paymentMethod.id, "type:", paymentMethod.type)
 
     // Create and confirm payment intent with stored payment method
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Convert to cents
+      amount: Math.round(amount * 100), // Convert to cents and round
       currency: "usd",
       customer: customerId,
-      payment_method: typeof defaultPaymentMethod === "string" ? defaultPaymentMethod : defaultPaymentMethod.id,
+      payment_method: paymentMethod.id,
       off_session: true,
       confirm: true,
       description: "Quiz Upsell - 2 Additional Articles",
@@ -122,9 +144,22 @@ export async function processUpsellPayment(customerId: string, amount: number) {
 
     // Handle specific Stripe errors
     if (error.type === "StripeCardError") {
-      throw new Error("Your card was declined. Please contact your bank.")
+      return {
+        success: false,
+        error: "Your card was declined. Please contact your bank.",
+      }
     }
 
-    throw new Error("Failed to process upsell payment")
+    if (error.code === "authentication_required") {
+      return {
+        success: false,
+        error: "Additional authentication required. Please contact support to complete your purchase.",
+      }
+    }
+
+    return {
+      success: false,
+      error: error.message || "Failed to process upsell payment",
+    }
   }
 }
