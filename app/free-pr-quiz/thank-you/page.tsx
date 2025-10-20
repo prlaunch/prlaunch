@@ -27,7 +27,6 @@ export default function ThankYouPage() {
           <div className="bg-card border rounded-xl p-8 text-left space-y-4">
             <h3 className="font-bold text-lg">Here's what happens next:</h3>
             <div className="space-y-3">
-              
               <div className="flex items-start gap-3">
                 <span className="text-green-500 mt-1">✓</span>
                 <span>Our team will reach out within 24 hours</span>
@@ -49,7 +48,6 @@ export default function ThankYouPage() {
 
           <div className="bg-muted/50 rounded-xl p-6 space-y-2">
             <p className="font-semibold">📧 Confirmation sent to: {leadData.email}</p>
-            {leadData.phone && <p className="text-sm text-muted-foreground">📱 Updates sent to: {leadData.phone}</p>}
           </div>
 
           <div className="space-y-4">

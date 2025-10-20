@@ -43,7 +43,7 @@ export default function UpsellPage() {
     setIsProcessing(true)
 
     try {
-      const result = await processUpsellPayment(customerId, 1.0)
+      const result = await processUpsellPayment(customerId, 79.46)
 
       if (result.success) {
         router.push("/free-pr-quiz/thank-you?upsell=accepted")
@@ -94,8 +94,8 @@ export default function UpsellPage() {
 
           <div className="text-center space-y-2 py-4 border-t border-b">
             <p className="text-sm text-muted-foreground line-through">Regular Price: $179.98 ($89.99 each)</p>
-            <p className="text-4xl font-bold">$1.00</p>
-            <p className="text-lg font-semibold text-green-600">YOU SAVE: $178.98</p>
+            <p className="text-4xl font-bold">$79.46</p>
+            <p className="text-lg font-semibold text-green-600">YOU SAVE: $100.52</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-3 text-sm">
@@ -136,7 +136,7 @@ export default function UpsellPage() {
                   Processing...
                 </>
               ) : (
-                "YES! Add 2 Articles for $1.00 →"
+                "YES! Add 2 Articles for $79.46 →"
               )}
             </Button>
             <button
