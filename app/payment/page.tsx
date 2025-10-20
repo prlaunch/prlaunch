@@ -100,8 +100,6 @@ function CheckoutForm({
     setErrorMessage(null)
 
     try {
-      console.log("[v0] Confirming payment with customer data:", { email, fullName })
-
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         redirect: "if_required",
@@ -117,37 +115,28 @@ function CheckoutForm({
       })
 
       if (error) {
-        console.error("[v0] Payment confirmation error:", error)
         setErrorMessage(error.message || "An error occurred")
         setIsProcessing(false)
         return
       }
 
       if (paymentIntent && paymentIntent.status === "succeeded") {
-        console.log("[v0] Payment succeeded, retrieving customer ID and payment method type")
-
         try {
           const [customerResult, paymentMethodResult] = await Promise.all([
             getPaymentIntentCustomer(paymentIntent.id),
             getPaymentMethodType(paymentIntent.id),
           ])
 
-          console.log("[v0] Customer ID:", customerResult.customerId)
-          console.log("[v0] Payment method type:", paymentMethodResult.paymentMethodType)
-
           onPaymentComplete(customerResult.customerId, paymentMethodResult.paymentMethodType)
         } catch (err) {
-          console.error("[v0] Error retrieving customer data:", err)
           setErrorMessage("Payment succeeded but customer ID not found")
           setIsProcessing(false)
         }
       } else {
-        console.error("[v0] Unexpected payment status:", paymentIntent?.status)
         setErrorMessage("Payment processing failed")
         setIsProcessing(false)
       }
     } catch (err) {
-      console.error("[v0] Unexpected error during payment:", err)
       setErrorMessage("An unexpected error occurred")
       setIsProcessing(false)
     }
@@ -274,7 +263,7 @@ function PaymentContent() {
         setClientSecret(newClientSecret)
       }
     } catch (error) {
-      console.error("[v0] Error initializing payment:", error)
+      // Error handled silently
     }
   }
 
@@ -563,7 +552,7 @@ function PaymentContent() {
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
               {clientSecret && (
                 <Elements
-                  key={clientSecret} // Added key prop to force re-render when clientSecret changes
+                  key={clientSecret}
                   stripe={stripePromise}
                   options={{
                     clientSecret,
@@ -594,7 +583,7 @@ function PaymentContent() {
                     setFullNameError={setFullNameError}
                     informationCardRef={informationCardRef}
                     onRecreatePaymentIntent={initializePayment}
-                    onPaymentComplete={handlePaymentComplete} // Pass the callback
+                    onPaymentComplete={handlePaymentComplete}
                   />
                 </Elements>
               )}

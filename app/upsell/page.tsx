@@ -23,7 +23,7 @@ function UpsellContent() {
   const price = searchParams.get("price") || "47"
   const email = searchParams.get("email") || ""
   const fullName = searchParams.get("name") || ""
-  const customerId = searchParams.get("customerId") || "" // Get customer ID from URL
+  const customerId = searchParams.get("customerId") || ""
 
   const [timeLeft, setTimeLeft] = useState(10 * 60)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -53,7 +53,6 @@ function UpsellContent() {
 
   const handlePurchase = async () => {
     if (!customerId) {
-      console.error("[v0] No customer ID provided")
       router.push(
         `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=declined`,
       )
@@ -73,14 +72,12 @@ function UpsellContent() {
         setIsProcessing(false)
         alert("This payment method requires additional authentication. Please try again or decline the offer.")
       } else {
-        console.error("[v0] Upsell payment failed")
         setIsProcessing(false)
         router.push(
           `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=declined`,
         )
       }
     } catch (error) {
-      console.error("[v0] Upsell error:", error)
       setIsProcessing(false)
       router.push(
         `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=declined`,

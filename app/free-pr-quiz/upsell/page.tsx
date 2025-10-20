@@ -36,7 +36,6 @@ export default function UpsellPage() {
 
   const handleUpsellAccept = async () => {
     if (!customerId) {
-      console.error("[v0] No customer ID found")
       router.push("/free-pr-quiz/thank-you")
       return
     }
@@ -49,11 +48,9 @@ export default function UpsellPage() {
       if (result.success) {
         router.push("/free-pr-quiz/thank-you?upsell=accepted")
       } else {
-        console.error("[v0] Upsell payment failed:", result.error)
         router.push("/free-pr-quiz/thank-you?upsell=declined")
       }
     } catch (error) {
-      console.error("[v0] Upsell payment failed:", error)
       router.push("/free-pr-quiz/thank-you?upsell=declined")
     } finally {
       setIsProcessing(false)

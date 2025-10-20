@@ -19,7 +19,6 @@ export async function GET() {
     })
 
     if (!response.ok) {
-      console.error("[v0] Failed to fetch CSV. Status:", response.status, "Status Text:", response.statusText)
       throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`)
     }
 
@@ -67,7 +66,6 @@ export async function GET() {
 
     return Response.json(outlets)
   } catch (error) {
-    console.error("[v0] Error fetching outlets:", error)
     return Response.json(
       {
         error: "Failed to load outlets",

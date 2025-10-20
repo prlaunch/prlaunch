@@ -65,7 +65,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
       })
 
       if (error) {
-        console.error("[v0] Payment confirmation error:", error)
         setErrorMessage(error.message || "An error occurred")
         setIsProcessing(false)
       } else if (paymentIntent) {
@@ -76,12 +75,10 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
             if (customerId && onPaymentComplete) {
               onPaymentComplete(customerId, paymentMethodType)
             } else {
-              console.error("[v0] No customer ID found in payment intent")
               setErrorMessage("Payment succeeded but customer ID not found")
               setIsProcessing(false)
             }
           } catch (err) {
-            console.error("[v0] Error retrieving customer ID:", err)
             setErrorMessage("Payment succeeded but failed to retrieve customer information")
             setIsProcessing(false)
           }
@@ -91,7 +88,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
         }
       }
     } catch (err) {
-      console.error("[v0] Unexpected error during payment:", err)
       setErrorMessage("An unexpected error occurred")
       setIsProcessing(false)
     }
@@ -168,7 +164,6 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete, onValidat
 
         setClientSecret(newClientSecret)
       } catch (error) {
-        console.error("[v0] Error initializing payment:", error)
         setError("Failed to initialize payment. Please refresh the page and try again.")
       }
     }

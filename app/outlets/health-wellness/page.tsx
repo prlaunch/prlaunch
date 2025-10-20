@@ -29,7 +29,6 @@ export default function HealthWellnessPage() {
         setLoading(false)
       })
       .catch((err) => {
-        console.error("[v0] Error loading outlets:", err)
         setLoading(false)
       })
   }, [])

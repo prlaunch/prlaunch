@@ -37,7 +37,6 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
-    console.error("[v0] Error creating quiz payment intent:", error)
     throw new Error("Failed to create payment intent")
   }
 }
@@ -62,7 +61,6 @@ export async function getPaymentIntentCustomer(paymentIntentId: string) {
 
     return { customerId, paymentMethodType }
   } catch (error) {
-    console.error("[v0] Error retrieving payment intent:", error)
     throw new Error("Failed to retrieve payment intent")
   }
 }
@@ -78,7 +76,6 @@ export async function getCheckoutSession(sessionId: string) {
       paymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id,
     }
   } catch (error) {
-    console.error("[v0] Error retrieving checkout session:", error)
     throw new Error("Failed to retrieve checkout session")
   }
 }
@@ -91,7 +88,6 @@ export async function processUpsellPayment(customerId: string, amount: number) {
     })
 
     if (paymentMethods.data.length === 0) {
-      console.error("[v0] No payment method found for customer")
       return {
         success: false,
         error: "No saved payment method found. Please contact support.",
@@ -119,8 +115,6 @@ export async function processUpsellPayment(customerId: string, amount: number) {
       paymentIntentId: paymentIntent.id,
     }
   } catch (error: any) {
-    console.error("[v0] Error processing upsell payment:", error)
-
     if (error.type === "StripeCardError") {
       return {
         success: false,

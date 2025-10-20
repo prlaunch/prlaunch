@@ -41,7 +41,6 @@ export default function BusinessEntrepreneurshipPage() {
         setLoading(false)
       })
       .catch((err) => {
-        console.error("[v0] Error loading outlets:", err)
         setError(err.message || "Failed to load outlets. Please try again.")
         setLoading(false)
       })

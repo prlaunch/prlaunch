@@ -51,7 +51,6 @@ export function OutletSelectionSection() {
         setLoading(false)
       })
       .catch((err) => {
-        console.error("[v0] Error loading outlet counts:", err)
         setLoading(false)
       })
   }, [])

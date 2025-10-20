@@ -43,7 +43,6 @@ export async function createPaymentIntent(data: {
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
-    console.error("[v0] Error creating payment intent:", error)
     throw new Error("Failed to create payment intent")
   }
 }
@@ -60,7 +59,6 @@ export async function getPaymentIntentCustomer(paymentIntentId: string) {
 
     return { customerId }
   } catch (error) {
-    console.error("[v0] Error retrieving customer:", error)
     throw new Error("Failed to retrieve customer")
   }
 }
@@ -80,7 +78,6 @@ export async function getPaymentMethodType(paymentIntentId: string) {
 
     return { paymentMethodType: paymentMethod.type }
   } catch (error) {
-    console.error("[v0] Error retrieving payment method type:", error)
     throw new Error("Failed to retrieve payment method type")
   }
 }
@@ -122,8 +119,6 @@ export async function processMainUpsellPayment(customerId: string, amount: numbe
 
     return { success: true, paymentIntentId: paymentIntent.id }
   } catch (error: any) {
-    console.error("[v0] Error processing upsell payment:", error)
-
     if (error.type === "StripeCardError" && error.code === "authentication_required") {
       return {
         success: false,
@@ -164,7 +159,6 @@ export async function createUpsellPaymentIntent(data: {
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
-    console.error("[v0] Error creating upsell payment intent:", error)
     throw new Error("Failed to create upsell payment intent")
   }
 }
