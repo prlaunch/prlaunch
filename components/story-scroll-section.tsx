@@ -26,7 +26,7 @@ export function StoryScrollSection() {
   return (
     <section
       id="story-scroll-section"
-      className="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-background via-blue-50/30 to-background"
+      className="hidden pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-background via-blue-50/30 to-background"
     >
       <div className="container mx-auto px-4">
         {/* Intro */}

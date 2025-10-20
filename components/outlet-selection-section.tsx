@@ -151,34 +151,28 @@ export function OutletSelectionSection() {
 
         {/* Key Benefits */}
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          <div className="bg-white rounded-xl p-6 shadow-md border border-slate-200 hover:shadow-lg transition-shadow duration-300">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <Clock className="w-6 h-6 text-blue-600" />
+          <div className="p-4">
+            <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center mb-3">
+              <Clock className="w-4 h-4 text-blue-600" />
             </div>
-            <h4 className="text-lg font-bold text-slate-900 mb-2">5-Minute Selection</h4>
-            <p className="text-slate-600 leading-relaxed">
-              Choose your outlets right after ordering. Quick, simple, and guided every step.
-            </p>
+            <h4 className="text-base font-semibold text-slate-900 mb-1">5-Minute Selection</h4>
+            <p className="text-sm text-slate-500">Quick and simple outlet selection.</p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-md border border-slate-200 hover:shadow-lg transition-shadow duration-300">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-              <Sparkles className="w-6 h-6 text-purple-600" />
+          <div className="p-4">
+            <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center mb-3">
+              <Sparkles className="w-4 h-4 text-purple-600" />
             </div>
-            <h4 className="text-lg font-bold text-slate-900 mb-2">Clean Brands Only</h4>
-            <p className="text-slate-600 leading-relaxed">
-              Every outlet in our network maintains high editorial standards and brand reputation.
-            </p>
+            <h4 className="text-base font-semibold text-slate-900 mb-1">Clean Brands Only</h4>
+            <p className="text-sm text-slate-500">High editorial standards maintained.</p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-md border border-slate-200 hover:shadow-lg transition-shadow duration-300">
-            <div className="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-4">
-              <FileText className="w-6 h-6 text-cyan-600" />
+          <div className="p-4">
+            <div className="w-8 h-8 bg-cyan-50 rounded-lg flex items-center justify-center mb-3">
+              <FileText className="w-4 h-4 text-cyan-600" />
             </div>
-            <h4 className="text-lg font-bold text-slate-900 mb-2">Free Writing Included</h4>
-            <p className="text-slate-600 leading-relaxed">
-              Professional article writing is completely free and included with every order.
-            </p>
+            <h4 className="text-base font-semibold text-slate-900 mb-1">Free Writing Included</h4>
+            <p className="text-sm text-slate-500">Professional articles at no extra cost.</p>
           </div>
         </div>
       </div>

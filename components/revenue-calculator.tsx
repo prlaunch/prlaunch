@@ -61,11 +61,11 @@ export function RevenueCalculator() {
                   value={monthlyRevenue}
                   onChange={(e) => setMonthlyRevenue(Number(e.target.value))}
                   min="5000"
-                  max="500000"
+                  max="200000"
                   step="5000"
                   className="w-full h-3 rounded-lg appearance-none cursor-pointer slider-gradient"
                   style={{
-                    background: `linear-gradient(to right, #2563EB 0%, #06B6D4 ${(monthlyRevenue / 500000) * 100}%, #9333EA ${(monthlyRevenue / 500000) * 100}%, #e5e7eb ${(monthlyRevenue / 500000) * 100}%)`,
+                    background: `linear-gradient(to right, #2563EB 0%, #06B6D4 ${(monthlyRevenue / 200000) * 100}%, #9333EA ${(monthlyRevenue / 200000) * 100}%, #e5e7eb ${(monthlyRevenue / 200000) * 100}%)`,
                   }}
                 />
               </div>

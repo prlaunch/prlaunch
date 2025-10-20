@@ -122,9 +122,9 @@ export function WhatYouGetSection() {
     <section id="what-you-get" className="py-24 bg-gradient-to-b from-background to-muted/20">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">The Stories We Write </h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">This Could Be You   </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            Editorials, features, and success stories that position you as the expert.
+            We write editorials and success stories that position you as the expert.
           </p>
         </div>
 
