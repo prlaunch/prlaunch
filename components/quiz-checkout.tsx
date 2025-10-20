@@ -10,7 +10,6 @@ import { Lock, Loader2, AlertCircle } from "lucide-react"
 import { createQuizPaymentIntent, getPaymentIntentCustomer } from "@/app/actions/quiz-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 
-console.log("[v0] Stripe publishable key available:", !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 interface QuizCheckoutProps {
@@ -33,20 +32,14 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
-  useEffect(() => {
-    console.log("[v0] CheckoutForm mounted - stripe:", !!stripe, "elements:", !!elements)
-  }, [stripe, elements])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!stripe || !elements) {
-      console.log("[v0] Cannot submit - stripe or elements not ready")
       return
     }
 
     if (!leadData?.fullName || !leadData.fullName.trim()) {
-      console.log("[v0] Full name is required")
       if (onValidationError) {
         onValidationError("fullName")
       }
@@ -57,8 +50,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
     setErrorMessage(null)
 
     try {
-      console.log("[v0] Confirming quiz payment")
-
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -78,21 +69,11 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
         setErrorMessage(error.message || "An error occurred")
         setIsProcessing(false)
       } else if (paymentIntent) {
-        console.log("[v0] Payment intent status:", paymentIntent.status)
-
         if (paymentIntent.status === "succeeded") {
-          console.log("[v0] Payment succeeded, retrieving customer ID and payment method type from server...")
-
           try {
             const { customerId, paymentMethodType } = await getPaymentIntentCustomer(paymentIntent.id)
 
             if (customerId && onPaymentComplete) {
-              console.log(
-                "[v0] Calling onPaymentComplete with customer ID:",
-                customerId,
-                "and payment method type:",
-                paymentMethodType,
-              )
               onPaymentComplete(customerId, paymentMethodType)
             } else {
               console.error("[v0] No customer ID found in payment intent")
@@ -105,7 +86,6 @@ function CheckoutForm({ productId, leadData, onPaymentComplete, onValidationErro
             setIsProcessing(false)
           }
         } else {
-          console.log("[v0] Payment status is not succeeded:", paymentIntent.status)
           setErrorMessage("Payment was not completed successfully")
           setIsProcessing(false)
         }
@@ -180,16 +160,12 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete, onValidat
   useEffect(() => {
     const initPayment = async () => {
       try {
-        console.log("[v0] Initializing quiz payment intent for product:", productId)
-        console.log("[v0] Lead data:", { email: leadData?.email, fullName: leadData?.fullName })
-
         const { clientSecret: newClientSecret } = await createQuizPaymentIntent(
           productId,
           leadData?.email || "pending@prlaunch.io",
           leadData?.fullName || "Pending",
         )
 
-        console.log("[v0] Payment intent initialized successfully, clientSecret length:", newClientSecret?.length)
         setClientSecret(newClientSecret)
       } catch (error) {
         console.error("[v0] Error initializing payment:", error)
@@ -213,7 +189,6 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete, onValidat
   }
 
   if (!clientSecret) {
-    console.log("[v0] Waiting for clientSecret...")
     return (
       <div className="text-center py-8">
         <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
@@ -221,8 +196,6 @@ export function QuizCheckout({ productId, leadData, onPaymentComplete, onValidat
       </div>
     )
   }
-
-  console.log("[v0] Rendering Elements with clientSecret")
 
   return (
     <Elements

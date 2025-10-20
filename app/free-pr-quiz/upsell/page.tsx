@@ -44,11 +44,9 @@ export default function UpsellPage() {
     setIsProcessing(true)
 
     try {
-      console.log("[v0] Processing one-click upsell for customer:", customerId)
       const result = await processUpsellPayment(customerId, 1.0)
 
       if (result.success) {
-        console.log("[v0] Upsell payment successful")
         router.push("/free-pr-quiz/thank-you?upsell=accepted")
       } else {
         console.error("[v0] Upsell payment failed:", result.error)

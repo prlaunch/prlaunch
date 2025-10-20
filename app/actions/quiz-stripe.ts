@@ -10,8 +10,6 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
   }
 
   try {
-    console.log("[v0] Creating quiz payment intent with setup_future_usage for one-click upsell")
-
     const customer = await stripe.customers.create({
       email: email,
       name: fullName,
@@ -21,14 +19,12 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
       },
     })
 
-    console.log("[v0] Customer created:", customer.id)
-
     const paymentIntent = await stripe.paymentIntents.create({
       amount: product.priceInCents,
       currency: "usd",
-      customer: customer.id, // Add customer ID
+      customer: customer.id,
       payment_method_types: ["card", "link"],
-      setup_future_usage: "off_session", // Enable one-click upsell
+      setup_future_usage: "off_session",
       metadata: {
         productId: product.id,
         productName: product.name,
@@ -38,8 +34,6 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
       receipt_email: email,
       description: product.description,
     })
-
-    console.log("[v0] Quiz payment intent created:", paymentIntent.id, "with customer:", customer.id)
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
@@ -51,7 +45,7 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
 export async function getPaymentIntentCustomer(paymentIntentId: string) {
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
-      expand: ["payment_method"], // Expand payment method to get its type
+      expand: ["payment_method"],
     })
 
     const customerId = typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
@@ -65,8 +59,6 @@ export async function getPaymentIntentCustomer(paymentIntentId: string) {
         paymentMethodType = paymentIntent.payment_method.type
       }
     }
-
-    console.log("[v0] Retrieved customer ID:", customerId, "payment method type:", paymentMethodType)
 
     return { customerId, paymentMethodType }
   } catch (error) {
@@ -93,19 +85,10 @@ export async function getCheckoutSession(sessionId: string) {
 
 export async function processUpsellPayment(customerId: string, amount: number) {
   try {
-    console.log("[v0] Processing upsell payment for customer:", customerId)
-
     const paymentMethods = await stripe.paymentMethods.list({
       customer: customerId,
-      // Removed type filter to include all payment methods (card, link, etc.)
-      limit: 10, // Get more to ensure we find one
+      limit: 10,
     })
-
-    console.log("[v0] Found payment methods:", paymentMethods.data.length)
-
-    if (paymentMethods.data.length > 0) {
-      console.log("[v0] Payment method types found:", paymentMethods.data.map((pm) => pm.type).join(", "))
-    }
 
     if (paymentMethods.data.length === 0) {
       console.error("[v0] No payment method found for customer")
@@ -116,11 +99,9 @@ export async function processUpsellPayment(customerId: string, amount: number) {
     }
 
     const paymentMethod = paymentMethods.data[0]
-    console.log("[v0] Using payment method:", paymentMethod.id, "type:", paymentMethod.type)
 
-    // Create and confirm payment intent with stored payment method
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert to cents and round
+      amount: Math.round(amount * 100),
       currency: "usd",
       customer: customerId,
       payment_method: paymentMethod.id,
@@ -133,8 +114,6 @@ export async function processUpsellPayment(customerId: string, amount: number) {
       },
     })
 
-    console.log("[v0] Upsell payment successful:", paymentIntent.id)
-
     return {
       success: true,
       paymentIntentId: paymentIntent.id,
@@ -142,7 +121,6 @@ export async function processUpsellPayment(customerId: string, amount: number) {
   } catch (error: any) {
     console.error("[v0] Error processing upsell payment:", error)
 
-    // Handle specific Stripe errors
     if (error.type === "StripeCardError") {
       return {
         success: false,

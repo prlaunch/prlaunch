@@ -63,17 +63,13 @@ function UpsellContent() {
     setIsProcessing(true)
 
     try {
-      console.log("[v0] Processing one-click upsell for customer:", customerId)
-
       const result = await processMainUpsellPayment(customerId, 197)
 
       if (result.success) {
-        console.log("[v0] Upsell payment successful")
         router.push(
           `/thank-you?package=${packageName}&articles=${articles}&price=${price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=accepted&upsellPrice=197`,
         )
       } else if (result.requiresAction) {
-        console.log("[v0] Upsell payment requires authentication")
         setIsProcessing(false)
         alert("This payment method requires additional authentication. Please try again or decline the offer.")
       } else {

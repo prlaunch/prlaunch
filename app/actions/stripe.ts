@@ -12,9 +12,6 @@ export async function createPaymentIntent(data: {
   companyNumber?: string
 }) {
   try {
-    console.log("[v0] Creating customer for main payment")
-
-    // Create customer first
     const customer = await stripe.customers.create({
       email: data.email,
       name: data.fullName,
@@ -26,9 +23,6 @@ export async function createPaymentIntent(data: {
       },
     })
 
-    console.log("[v0] Customer created:", customer.id)
-
-    // Create payment intent with customer and setup_future_usage
     const paymentIntent = await stripe.paymentIntents.create({
       amount: data.amount * 100,
       currency: "usd",
@@ -47,8 +41,6 @@ export async function createPaymentIntent(data: {
       description: `${data.packageName} Package - ${data.articles} article${data.articles > 1 ? "s" : ""}`,
     })
 
-    console.log("[v0] Payment intent created with customer:", paymentIntent.id)
-
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {
     console.error("[v0] Error creating payment intent:", error)
@@ -58,8 +50,6 @@ export async function createPaymentIntent(data: {
 
 export async function getPaymentIntentCustomer(paymentIntentId: string) {
   try {
-    console.log("[v0] Retrieving payment intent customer:", paymentIntentId)
-
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
 
     const customerId = typeof paymentIntent.customer === "string" ? paymentIntent.customer : paymentIntent.customer?.id
@@ -68,7 +58,6 @@ export async function getPaymentIntentCustomer(paymentIntentId: string) {
       throw new Error("No customer found on payment intent")
     }
 
-    console.log("[v0] Customer ID retrieved:", customerId)
     return { customerId }
   } catch (error) {
     console.error("[v0] Error retrieving customer:", error)
@@ -78,8 +67,6 @@ export async function getPaymentIntentCustomer(paymentIntentId: string) {
 
 export async function getPaymentMethodType(paymentIntentId: string) {
   try {
-    console.log("[v0] Retrieving payment method type for:", paymentIntentId)
-
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
 
     const paymentMethodId =
@@ -91,7 +78,6 @@ export async function getPaymentMethodType(paymentIntentId: string) {
 
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId)
 
-    console.log("[v0] Payment method type:", paymentMethod.type)
     return { paymentMethodType: paymentMethod.type }
   } catch (error) {
     console.error("[v0] Error retrieving payment method type:", error)
@@ -101,24 +87,17 @@ export async function getPaymentMethodType(paymentIntentId: string) {
 
 export async function processMainUpsellPayment(customerId: string, amount: number) {
   try {
-    console.log("[v0] Processing main upsell payment for customer:", customerId)
-
-    // Retrieve customer's payment methods
     const paymentMethods = await stripe.paymentMethods.list({
       customer: customerId,
       limit: 1,
     })
-
-    console.log("[v0] Found payment methods:", paymentMethods.data.length)
 
     if (paymentMethods.data.length === 0) {
       throw new Error("No saved payment method found for customer")
     }
 
     const paymentMethod = paymentMethods.data[0]
-    console.log("[v0] Using payment method:", paymentMethod.id, "Type:", paymentMethod.type)
 
-    // Create and confirm payment intent with saved payment method
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
       currency: "usd",
@@ -133,10 +112,7 @@ export async function processMainUpsellPayment(customerId: string, amount: numbe
       description: "EverybodyWiki Page - One-time Upsell Offer",
     })
 
-    console.log("[v0] Upsell payment successful:", paymentIntent.id, "Status:", paymentIntent.status)
-
     if (paymentIntent.status === "requires_action") {
-      console.log("[v0] Payment requires additional authentication")
       return {
         success: false,
         requiresAction: true,
@@ -149,7 +125,6 @@ export async function processMainUpsellPayment(customerId: string, amount: numbe
     console.error("[v0] Error processing upsell payment:", error)
 
     if (error.type === "StripeCardError" && error.code === "authentication_required") {
-      console.log("[v0] Payment requires authentication")
       return {
         success: false,
         requiresAction: true,
@@ -170,8 +145,6 @@ export async function createUpsellPaymentIntent(data: {
   originalPrice: number
 }) {
   try {
-    console.log("[v0] Creating upsell payment intent for EverybodyWiki")
-
     const paymentIntent = await stripe.paymentIntents.create({
       amount: data.amount * 100,
       currency: "usd",
@@ -188,8 +161,6 @@ export async function createUpsellPaymentIntent(data: {
       receipt_email: data.email,
       description: "EverybodyWiki Page - One-time Upsell Offer",
     })
-
-    console.log("[v0] Upsell payment intent created:", paymentIntent.id)
 
     return { clientSecret: paymentIntent.client_secret }
   } catch (error) {

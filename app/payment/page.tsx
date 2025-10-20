@@ -254,13 +254,10 @@ function PaymentContent() {
   }
   const totalSavings = calculateTotalSavings()
 
-  useEffect(() => {
-    console.log("[v0] Selected package changed:", selectedPackage, "Price:", currentPackage.price)
-  }, [selectedPackage, currentPackage.price])
+  useEffect(() => {}, [selectedPackage, currentPackage.price])
 
   const initializePayment = async () => {
     try {
-      console.log("[v0] Creating payment intent for package:", currentPackage.name, "Price:", currentPackage.price)
       setClientSecret(null)
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
@@ -274,7 +271,6 @@ function PaymentContent() {
       })
 
       if (newClientSecret) {
-        console.log("[v0] Payment intent created successfully with amount:", currentPackage.price)
         setClientSecret(newClientSecret)
       }
     } catch (error) {
@@ -292,7 +288,6 @@ function PaymentContent() {
       setShowCelebration(true)
       setTimeout(() => {
         const newPackage = currentPackage.upsellTo!
-        console.log("[v0] Setting new package:", newPackage)
         setSelectedPackage(newPackage)
         setShowUpsell(false)
         setShowCelebration(false)
@@ -302,8 +297,6 @@ function PaymentContent() {
   }
 
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
-    console.log("[v0] Payment complete, routing based on payment method type:", paymentMethodType)
-
     const packages = {
       starter: { name: "Starter", articles: 1, price: 47 },
       growth: { name: "Growth", articles: 3, price: 127 },
@@ -314,12 +307,10 @@ function PaymentContent() {
     const currentPackage = packages[selectedPackage as keyof typeof packages]
 
     if (paymentMethodType === "card") {
-      console.log("[v0] Card payment - redirecting to upsell")
       router.push(
         `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
       )
     } else {
-      console.log("[v0] Wallet payment - skipping upsell, redirecting to thank you")
       router.push(
         `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
       )

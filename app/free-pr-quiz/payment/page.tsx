@@ -32,23 +32,16 @@ export default function PaymentPage() {
   }, [fullName, email])
 
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
-    console.log("[v0] Payment complete! Customer ID:", customerId, "Payment method type:", paymentMethodType)
     setIsRedirecting(true)
     setCustomerId(customerId)
 
     const isCardPayment = paymentMethodType === "card"
 
     if (isCardPayment) {
-      console.log("[v0] Card payment detected - redirecting to upsell page")
       setTimeout(() => {
         router.push("/free-pr-quiz/upsell")
       }, 1000)
     } else {
-      console.log(
-        "[v0] Wallet payment detected (",
-        paymentMethodType,
-        ") - skipping upsell, redirecting to thank you page",
-      )
       setTimeout(() => {
         router.push("/free-pr-quiz/thank-you?payment_method=" + paymentMethodType)
       }, 1000)
