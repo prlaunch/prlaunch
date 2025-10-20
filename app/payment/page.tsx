@@ -9,7 +9,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles } from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
@@ -30,7 +30,7 @@ function CheckoutForm({
   setFullNameError,
   informationCardRef,
   onRecreatePaymentIntent,
-  onPaymentComplete, // Added callback for payment completion
+  onPaymentComplete,
 }: {
   selectedPackage: string
   email: string
@@ -43,7 +43,7 @@ function CheckoutForm({
   setFullNameError: (error: string) => void
   informationCardRef: React.RefObject<HTMLDivElement>
   onRecreatePaymentIntent: () => Promise<void>
-  onPaymentComplete: (customerId: string, paymentMethodType: string) => void // Added callback
+  onPaymentComplete: (customerId: string, paymentMethodType: string) => void
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -89,7 +89,6 @@ function CheckoutForm({
     }
 
     if (hasError) {
-      // Smooth scroll to the Your Information card
       informationCardRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -128,7 +127,6 @@ function CheckoutForm({
         console.log("[v0] Payment succeeded, retrieving customer ID and payment method type")
 
         try {
-          // Retrieve customer ID and payment method type from server
           const [customerResult, paymentMethodResult] = await Promise.all([
             getPaymentIntentCustomer(paymentIntent.id),
             getPaymentMethodType(paymentIntent.id),
@@ -137,7 +135,6 @@ function CheckoutForm({
           console.log("[v0] Customer ID:", customerResult.customerId)
           console.log("[v0] Payment method type:", paymentMethodResult.paymentMethodType)
 
-          // Call the completion callback with customer ID and payment method type
           onPaymentComplete(customerResult.customerId, paymentMethodResult.paymentMethodType)
         } catch (err) {
           console.error("[v0] Error retrieving customer data:", err)
@@ -161,6 +158,13 @@ function CheckoutForm({
       <form onSubmit={handleSubmit}>
         <div className="space-y-4 mb-6">
           <PaymentElement />
+        </div>
+
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-start gap-2">
+          <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+          <p className="text-xs text-green-800 leading-relaxed">
+            No subscription or automatic renewals. One-time payment today. 100% money-back guarantee included.
+          </p>
         </div>
 
         {errorMessage && (
@@ -229,6 +233,7 @@ function PaymentContent() {
   const [companyNumber, setCompanyNumber] = useState("")
   const [emailError, setEmailError] = useState("")
   const [fullNameError, setFullNameError] = useState("")
+  const [upgradeChecked, setUpgradeChecked] = useState(false)
   const informationCardRef = useRef<HTMLDivElement>(null)
 
   const packages = {
@@ -241,7 +246,13 @@ function PaymentContent() {
   const currentPackage = packages[selectedPackage as keyof typeof packages]
   const upsellPackage = currentPackage.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
-  const upsellOriginalDifference = upsellPackage ? upsellPackage.originalPrice - currentPackage.originalPrice : 0
+
+  const calculateTotalSavings = () => {
+    if (!upsellPackage) return 0
+    const wouldPayAtCurrentRate = currentPackage.perArticle * upsellPackage.articles
+    return Math.round(wouldPayAtCurrentRate - upsellPackage.price)
+  }
+  const totalSavings = calculateTotalSavings()
 
   useEffect(() => {
     console.log("[v0] Selected package changed:", selectedPackage, "Price:", currentPackage.price)
@@ -275,17 +286,19 @@ function PaymentContent() {
     initializePayment()
   }, [selectedPackage, currentPackage.price, currentPackage.name, currentPackage.articles])
 
-  const handleUpgrade = () => {
-    console.log("[v0] Upgrade clicked, current package:", selectedPackage, "upgrading to:", currentPackage.upsellTo)
-    setShowCelebration(true)
-    setTimeout(() => {
-      const newPackage = currentPackage.upsellTo!
-      console.log("[v0] Setting new package:", newPackage)
-      setSelectedPackage(newPackage)
-      setShowUpsell(false)
-      setShowCelebration(false)
-      setUpgradeApplied(true)
-    }, 2000)
+  const handleUpgradeChange = (checked: boolean) => {
+    setUpgradeChecked(checked)
+    if (checked && currentPackage.upsellTo) {
+      setShowCelebration(true)
+      setTimeout(() => {
+        const newPackage = currentPackage.upsellTo!
+        console.log("[v0] Setting new package:", newPackage)
+        setSelectedPackage(newPackage)
+        setShowUpsell(false)
+        setShowCelebration(false)
+        setUpgradeApplied(true)
+      }, 2000)
+    }
   }
 
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
@@ -300,15 +313,12 @@ function PaymentContent() {
 
     const currentPackage = packages[selectedPackage as keyof typeof packages]
 
-    // Route based on payment method type
     if (paymentMethodType === "card") {
-      // Card payment - show upsell with customer ID
       console.log("[v0] Card payment - redirecting to upsell")
       router.push(
         `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
       )
     } else {
-      // Wallet payment (link, apple_pay, google_pay, etc.) - skip upsell
       console.log("[v0] Wallet payment - skipping upsell, redirecting to thank you")
       router.push(
         `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
@@ -317,6 +327,10 @@ function PaymentContent() {
   }
 
   const reviews = getReviewsSubset(3)
+
+  const handleUpgrade = () => {
+    // Function implementation goes here
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -335,7 +349,7 @@ function PaymentContent() {
       )}
 
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="text-2xl font-bold tracking-tight hover:opacity-80 transition-opacity text-black inline-block"
@@ -343,12 +357,53 @@ function PaymentContent() {
             <span className="text-blue-500">pr</span>
             <span>launch.io</span>
           </Link>
+          <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
+            <Lock className="h-4 w-4 text-green-600" />
+            <span className="text-xs font-semibold text-green-700">Secure Checkout</span>
+          </div>
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {reviews.map((review, index) => (
+                      <div
+                        key={index}
+                        className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-slate-100"
+                      >
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 mb-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-3 w-3 fill-[#00B67A] text-[#00B67A]" />
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-600">
+                      <span className="font-semibold text-slate-900">4.8/5</span> from 500+ reviews
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-slate-600">
+                  <Shield className="h-4 w-4 text-green-600" />
+                  <span className="font-medium">Money-Back Guarantee</span>
+                </div>
+              </div>
+            </div>
+
             <div
               key={`order-summary-${selectedPackage}-${currentPackage.price}`}
               className={`bg-white rounded-2xl p-6 shadow-lg relative ${
@@ -393,111 +448,28 @@ function PaymentContent() {
             </div>
 
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
-              <div
-                className="lg:hidden rounded-xl p-5 shadow-lg relative overflow-visible"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(white, white), linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                  backgroundOrigin: "border-box",
-                  backgroundClip: "padding-box, border-box",
-                  border: "2px solid transparent",
-                }}
-              >
-                <div className="mb-4">
-                  <h3 className="text-base font-bold text-slate-900 mb-2 text-center">
-                    Upgrade to {upsellPackage.name}
-                  </h3>
-                  <p className="text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-purple-600 bg-clip-text text-transparent text-center leading-snug">
-                    Get {upsellPackage.articles}X More Results for{" "}
-                    {(upsellPackage.price / currentPackage.price).toFixed(1)}X Price
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
-                  <div className="flex items-center justify-around gap-4">
-                    <div className="text-center flex-1 bg-white border-2 border-green-500 rounded-lg p-3 shadow-sm">
-                      <div className="text-xs font-bold text-green-700 mb-1.5">Better Deal ✓</div>
-                      <div className="text-3xl font-bold text-slate-900">{upsellPackage.articles}</div>
-                      <div className="text-xs text-slate-600 mt-1">articles</div>
-                      <div className="text-sm font-bold text-green-700 mt-2 bg-green-50 rounded-md px-2 py-1">
-                        ${upsellPackage.perArticle.toFixed(2)}/ea
-                      </div>
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <label className="flex items-start gap-4 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={upgradeChecked}
+                    onChange={(e) => handleUpgradeChange(e.target.checked)}
+                    className="mt-1 h-5 w-5 rounded border-blue-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-bold text-slate-900">Best Value Upgrade</span>
                     </div>
-
-                    <div className="text-slate-400 text-xl font-bold">vs</div>
-
-                    <div className="text-center flex-1 bg-white border-2 border-red-400 rounded-lg p-3 shadow-sm">
-                      <div className="text-xs font-bold text-red-600 mb-1.5">Current</div>
-                      <div className="text-3xl font-bold text-slate-900">{currentPackage.articles}</div>
-                      <div className="text-xs text-slate-600 mt-1">articles</div>
-                      <div className="text-sm font-bold text-red-600 mt-2 bg-red-50 rounded-md px-2 py-1">
-                        ${currentPackage.perArticle.toFixed(2)}/ea
-                      </div>
-                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      Upgrade to <span className="font-semibold text-blue-700">{upsellPackage.articles} articles</span>{" "}
+                      and pay only{" "}
+                      <span className="font-semibold text-green-600">
+                        ${upsellPackage.perArticle.toFixed(2)} per article
+                      </span>
+                    </p>
                   </div>
-                </div>
-
-                <div className="mb-4 text-sm">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-slate-600">Current:</span>
-                    <span className="font-semibold text-slate-900">
-                      {currentPackage.articles} {currentPackage.articles === 1 ? "article" : "articles"} for $
-                      {currentPackage.price}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Upgrade:</span>
-                    <span className="font-bold text-blue-600">
-                      {upsellPackage.articles} articles for ${upsellPackage.price}{" "}
-                      <span className="text-slate-600">(+${upsellDifference})</span>
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setShowBenefits(!showBenefits)}
-                  className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-semibold mb-3 transition-colors"
-                >
-                  <span className="text-xs">{showBenefits ? "▲" : "▼"}</span>
-                  <span>Why upgrade?</span>
-                </button>
-
-                {showBenefits && (
-                  <div className="mb-4 pt-3 border-t border-slate-200 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <ul className="space-y-2">
-                      <li className="flex items-start gap-2 text-sm text-slate-700">
-                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
-                        <span>
-                          {upsellPackage.articles} articles = {upsellPackage.articles}X more search results for your
-                          name
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-2 text-sm text-slate-700">
-                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
-                        <span>{upsellPackage.articles} different outlets = broader credibility coverage</span>
-                      </li>
-                      <li className="flex items-start gap-2 text-sm text-slate-700">
-                        <Check className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
-                        <span>
-                          Better ROI: ${upsellPackage.perArticle.toFixed(2)}/article vs $
-                          {currentPackage.perArticle.toFixed(2)}/article
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleUpgrade}
-                  className="w-full h-12 text-white text-base font-bold rounded-lg transition-all duration-300 hover:scale-[1.02] shadow-lg"
-                  style={{
-                    background: "linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                  }}
-                >
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Yes, Upgrade to {upsellPackage.name} — ${upsellPackage.price}
-                </Button>
+                </label>
               </div>
             )}
 
@@ -506,11 +478,9 @@ function PaymentContent() {
                 <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
                 <ul className="space-y-2">
                   {[
-                    "Consultation with our Pro PR Team",
-                    "Exclusive access to our private marketplace",
+                    "Professional editing & unlimited revisions",
                     "Fast track to Google Knowledge Panel",
                     "Backlinks from high-authority sites",
-                    "Professional editing & unlimited revisions",
                   ].map((bonus, index) => (
                     <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
                       <Check className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
@@ -644,236 +614,9 @@ function PaymentContent() {
                 </div>
               )}
             </div>
-
-            <div className="lg:hidden bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-              <h3 className="text-base font-bold text-slate-700 mb-4 text-center tracking-wide">WE PUBLISH IN</h3>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/sf-tribune.png"
-                    alt="The San Francisco Tribune"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/successxl.png"
-                    alt="Success XL"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/usawire.png"
-                    alt="USA Wire"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/la-tabloid.webp"
-                    alt="L.A. Tabloid"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/bosses-mag.png"
-                    alt="Bosses Mag"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/images/logos/medium.png"
-                    alt="Medium"
-                    className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                </div>
-              </div>
-              <p className="text-center text-sm font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
-            </div>
-
-            <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-slate-900 mb-4 text-center">What Happens After Purchase </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    1
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Fill out a quick 5 minute questionnaire
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Our writers send you articles for approval
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    3
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    4
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Your links and articles stay live forever
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="space-y-6">
-            {showUpsell && upsellPackage && selectedPackage !== "agency" && (
-              <div
-                className="hidden lg:block rounded-xl p-6 shadow-lg relative overflow-visible"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(white, white), linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                  backgroundOrigin: "border-box",
-                  backgroundClip: "padding-box, border-box",
-                  border: "2px solid transparent",
-                }}
-              >
-                <div className="mb-5">
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">Upgrade to {upsellPackage.name}</h3>
-                  <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-purple-600 bg-clip-text text-transparent text-center leading-snug">
-                    Get {upsellPackage.articles}X More Results for{" "}
-                    {(upsellPackage.price / currentPackage.price).toFixed(1)}X Price
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 rounded-lg p-5 mb-5 border border-slate-200">
-                  <div className="flex items-center justify-around gap-5">
-                    <div className="text-center flex-1 bg-white border-2 border-green-500 rounded-lg p-4 shadow-sm">
-                      <div className="text-sm font-bold text-green-700 mb-2">Better Deal ✓</div>
-                      <div className="text-4xl font-bold text-slate-900">{upsellPackage.articles}</div>
-                      <div className="text-sm text-slate-600 mt-1.5">articles</div>
-                      <div className="text-base font-bold text-green-700 mt-2.5 bg-green-50 rounded-md px-3 py-1.5">
-                        ${upsellPackage.perArticle.toFixed(2)}/article
-                      </div>
-                    </div>
-
-                    <div className="text-slate-400 text-2xl font-bold">vs</div>
-
-                    <div className="text-center flex-1 bg-white border-2 border-red-400 rounded-lg p-4 shadow-sm">
-                      <div className="text-sm font-bold text-red-600 mb-2">Current</div>
-                      <div className="text-4xl font-bold text-slate-900">{currentPackage.articles}</div>
-                      <div className="text-sm text-slate-600 mt-1.5">articles</div>
-                      <div className="text-base font-bold text-red-600 mt-2.5 bg-red-50 rounded-md px-3 py-1.5">
-                        ${currentPackage.perArticle.toFixed(2)}/article
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-5 text-base">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-600">Current:</span>
-                    <span className="font-semibold text-slate-900">
-                      {currentPackage.articles} {currentPackage.articles === 1 ? "article" : "articles"} for $
-                      {currentPackage.price}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Upgrade:</span>
-                    <span className="font-bold text-blue-600">
-                      {upsellPackage.articles} articles for ${upsellPackage.price}{" "}
-                      <span className="text-slate-600">(+${upsellDifference})</span>
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setShowBenefits(!showBenefits)}
-                  className="flex items-center gap-2 text-base text-blue-600 hover:text-blue-700 font-semibold mb-4 transition-colors"
-                >
-                  <span className="text-sm">{showBenefits ? "▲" : "▼"}</span>
-                  <span>Why upgrade?</span>
-                </button>
-
-                {showBenefits && (
-                  <div className="mb-5 pt-4 border-t border-slate-200 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <ul className="space-y-2.5">
-                      <li className="flex items-start gap-2.5 text-base text-slate-700">
-                        <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                        <span>
-                          {upsellPackage.articles} articles = {upsellPackage.articles}X more search results for your
-                          name
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-2.5 text-base text-slate-700">
-                        <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                        <span>{upsellPackage.articles} different outlets = broader credibility coverage</span>
-                      </li>
-                      <li className="flex items-start gap-2.5 text-base text-slate-700">
-                        <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                        <span>
-                          Better ROI: ${upsellPackage.perArticle.toFixed(2)}/article vs $
-                          {currentPackage.perArticle.toFixed(2)}/article
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-2.5 text-base text-slate-700">
-                        <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                        <span>Recommended for: Founders pitching investors, consultants closing enterprise deals</span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleUpgrade}
-                  className="w-full h-14 text-white text-lg font-bold rounded-lg transition-all duration-300 hover:scale-[1.02] shadow-lg"
-                  style={{
-                    background: "linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                  }}
-                >
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Yes, Upgrade to {upsellPackage.name} — ${upsellPackage.price}
-                </Button>
-              </div>
-            )}
-
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-slate-900 text-sm">What Our Customers Say</h3>
@@ -912,68 +655,54 @@ function PaymentContent() {
               </div>
             </div>
 
-            <div className="hidden lg:block bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">What Happens After Purchase </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    1
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <h3 className="font-bold text-slate-900 text-sm mb-4">What Happens After Purchase</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Mail className="h-4 w-4 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Fill out a quick 5 minute questionnaire
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Our writers send you articles for approval
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(usually just 48 hours)</p>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">1. Instant Confirmation</h4>
+                    <p className="text-xs text-slate-600">
+                      Receive your order confirmation and questionnaire via email
+                    </p>
                   </div>
                 </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    3
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <FileText className="h-4 w-4 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">Your story goes live within 7 days</span>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">2. Share Your Story</h4>
+                    <p className="text-xs text-slate-600">Complete a simple questionnaire about your business</p>
                   </div>
                 </div>
-
-                <div className="flex flex-col items-start gap-0.5 pl-1.5">
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                  <div className="w-0.5 h-0.5 rounded-full bg-blue-400"></div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white font-bold text-[10px] shrink-0">
-                    4
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Edit3 className="h-4 w-4 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-semibold text-slate-900">
-                      Your links and articles stay live forever
-                    </span>
-                    <p className="text-[10px] text-slate-600 mt-0.5">(unless you want to take them down)</p>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">3. Professional Writing</h4>
+                    <p className="text-xs text-slate-600">Our team crafts your article with expert editing</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Eye className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">4. Review & Approve</h4>
+                    <p className="text-xs text-slate-600">Review your article and request unlimited revisions</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                    <Newspaper className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">5. Publication & Links</h4>
+                    <p className="text-xs text-slate-600">Your article goes live with backlinks and social proof</p>
                   </div>
                 </div>
               </div>
