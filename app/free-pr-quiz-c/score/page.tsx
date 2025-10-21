@@ -38,14 +38,18 @@ export default function ScoreCPage() {
     return () => clearInterval(timer)
   }, [finalScore])
 
-  const handleClaim = () => {
-    setIsLoading(true)
-    router.push("/free-pr-quiz/winner")
-  }
-
   const radius = 45
   const circumference = 2 * Math.PI * radius // 282.743...
   const offset = circumference - (displayScore / 100) * circumference
+
+  const handleClaim = () => {
+    setIsLoading(true)
+    // Logic to handle claiming the free article
+    setTimeout(() => {
+      setIsLoading(false)
+      router.push("/thank-you")
+    }, 2000)
+  }
 
   return (
     <div className="min-h-screen bg-white pb-16">
@@ -67,7 +71,7 @@ export default function ScoreCPage() {
 
         {/* Score Display */}
         <div className="flex flex-col items-center mb-8 md:mb-12">
-          <div className="relative w-48 h-48 md:w-56 md:h-56">
+          <div className="relative w-80 h-80 md:w-96 md:h-96">
             <svg className="w-full h-full -rotate-90">
               {/* Background circle */}
               <circle cx="50%" cy="50%" r={radius} stroke="#e5e7eb" strokeWidth="8" fill="none" />
