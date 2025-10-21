@@ -45,8 +45,8 @@ export default function LeadCapturePage() {
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col">
       <StickyLogoBanner />
 
-      <div className="flex-1 flex items-center justify-center p-4 py-12">
-        <div className="max-w-md w-full space-y-6">
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-8">
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-bold">Claim Your FREE Article</h2>
             <p className="text-muted-foreground">Enter your details to claim your prize:</p>
