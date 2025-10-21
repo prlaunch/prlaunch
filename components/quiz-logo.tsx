@@ -16,3 +16,7 @@ export function StickyLogoBanner() {
     </div>
   )
 }
+
+export function QuizLogo() {
+  return <Logo />
+}
