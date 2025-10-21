@@ -100,11 +100,7 @@ export default function DIYSuccessPage() {
             </Button>
           </div>
 
-          <div className="space-y-3 pt-4 border-t">
-            <Button size="lg" variant="outline" className="w-full bg-transparent" onClick={() => router.push("/")}>
-              Continue with DIY
-            </Button>
-          </div>
+          
         </div>
       </div>
     </div>
