@@ -1,0 +1,146 @@
+"use client"
+
+import { MovingBorderButton } from "@/components/ui/moving-border"
+import { getOutletsWithImages } from "@/lib/outlets-by-category"
+import { getOutletImage } from "@/lib/outlet-images"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
+
+type Category = "business" | "finance" | "lifestyle" | "tech" | "health"
+type Goal = "trust" | "sales" | "seo" | "reviews"
+
+const goals = [
+  { id: "trust" as Goal, title: "Build Trust & Credibility" },
+  { id: "sales" as Goal, title: "Increase Sales & Revenue" },
+  { id: "seo" as Goal, title: "Boost Google Rankings" },
+  { id: "reviews" as Goal, title: "Overcome Bad Reviews" },
+]
+
+const categories = [
+  { id: "business" as Category, title: "Business & Entrepreneurship" },
+  { id: "finance" as Category, title: "Finance & Economics" },
+  { id: "lifestyle" as Category, title: "Lifestyle & Culture" },
+  { id: "tech" as Category, title: "Technology & Digital Marketing" },
+  { id: "health" as Category, title: "Health & Wellness" },
+]
+
+export default function Step3Page() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const goal = searchParams.get("goal") as Goal
+  const category = searchParams.get("category") as Category
+  const [visibleLogos, setVisibleLogos] = useState<number>(0)
+
+  useEffect(() => {
+    setVisibleLogos(0)
+    const interval = setInterval(() => {
+      setVisibleLogos((prev) => {
+        if (prev >= 6) {
+          clearInterval(interval)
+          return prev
+        }
+        return prev + 1
+      })
+    }, 300)
+    return () => clearInterval(interval)
+  }, [])
+
+  const getDisplayOutlets = () => {
+    if (!category) return []
+    return getOutletsWithImages(category).slice(0, 6)
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
+          style={{ width: "50%" }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <button
+          onClick={() => router.push(`/checkout/step-2?goal=${goal}`)}
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <p className="text-sm text-slate-500 mb-2">Step 3 of 6 • Your Perfect Outlets</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Based on {categories.find((c) => c.id === category)?.title.split(" & ")[0]} +{" "}
+              {goals.find((g) => g.id === goal)?.title.split(" & ")[0]}, you'll get featured in outlets like:
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {getDisplayOutlets().map((outlet, index) => {
+              const imageUrl = getOutletImage(outlet)
+              return (
+                <div
+                  key={index}
+                  className={`bg-slate-50 border border-slate-200 rounded-lg overflow-hidden flex flex-col min-h-[120px] transition-all duration-300 ${
+                    index < visibleLogos ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  }`}
+                >
+                  <p className="text-sm font-bold text-slate-900 text-center px-3 pt-3 pb-2">{outlet}</p>
+                  {imageUrl && (
+                    <div className="relative w-full flex-1 min-h-[64px]">
+                      <Image
+                        src={imageUrl || "/placeholder.svg"}
+                        alt={outlet}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 33vw, 20vw"
+                      />
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Educational Box */}
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-6 space-y-4">
+            <h3 className="text-xl font-bold text-slate-900 mb-4">💎 How It Works:</h3>
+            <div className="space-y-3 text-slate-700">
+              <p className="flex items-start gap-2">
+                <span className="font-semibold">1️⃣</span>
+                <span>You'll choose from 100+ premium outlets</span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="font-semibold">2️⃣</span>
+                <span>We write your custom article (included free)</span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="font-semibold">3️⃣</span>
+                <span>You review and approve before publishing</span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="font-semibold">4️⃣</span>
+                <span>Published in 7 days - guaranteed</span>
+              </p>
+            </div>
+          </div>
+
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            onClick={() => router.push(`/checkout/step-4?goal=${goal}&category=${category}`)}
+            containerClassName="h-14 w-full"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            duration={3000}
+          >
+            This Sounds Perfect! Continue →
+          </MovingBorderButton>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -40,7 +40,7 @@ export function Button({
       </div>
 
       <div
-        className={cn("relative flex min-h-full items-center justify-center", className)}
+        className={cn("relative flex h-full items-center justify-center", className)}
         style={{
           borderRadius: `calc(${borderRadius} * 0.96)`,
         }}

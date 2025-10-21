@@ -9,10 +9,8 @@ export function Logo() {
 
 export function StickyLogoBanner() {
   return (
-    <div className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b py-3 px-4">
-      <div className="flex justify-center">
-        <Logo />
-      </div>
+    <div className="sticky top-0 z-50 w-full h-14 bg-background/95 backdrop-blur-sm border-b flex items-center justify-center px-4">
+      <Logo />
     </div>
   )
 }

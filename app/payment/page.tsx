@@ -209,21 +209,8 @@ function PaymentContent() {
   const router = useRouter()
   const packageParam = searchParams.get("package") || "starter"
 
-  const [selectedPackage, setSelectedPackage] = useState(packageParam)
-  const [showUpsell, setShowUpsell] = useState(true)
-  const [showBenefits, setShowBenefits] = useState(false)
-  const [isCompany, setIsCompany] = useState(false)
-  const [showCelebration, setShowCelebration] = useState(false)
-  const [clientSecret, setClientSecret] = useState<string | null>(null)
-  const [upgradeApplied, setUpgradeApplied] = useState(false)
-  const [email, setEmail] = useState("")
-  const [fullName, setFullName] = useState("")
-  const [companyName, setCompanyName] = useState("")
-  const [companyNumber, setCompanyNumber] = useState("")
-  const [emailError, setEmailError] = useState("")
-  const [fullNameError, setFullNameError] = useState("")
-  const [upgradeChecked, setUpgradeChecked] = useState(false)
-  const informationCardRef = useRef<HTMLDivElement>(null)
+  const emailParam = searchParams.get("email") || ""
+  const nameParam = searchParams.get("name") || ""
 
   const packages = {
     starter: { name: "Starter", articles: 1, price: 47, originalPrice: 94, perArticle: 47, upsellTo: "growth" },
@@ -232,8 +219,27 @@ function PaymentContent() {
     agency: { name: "Agency", articles: 40, price: 997, originalPrice: 1994, perArticle: 24.93, upsellTo: null },
   }
 
-  const currentPackage = packages[selectedPackage as keyof typeof packages]
-  const upsellPackage = currentPackage.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
+  // Validate and normalize package parameter
+  const validPackage = packageParam.toLowerCase() in packages ? packageParam.toLowerCase() : "starter"
+  const [selectedPackage, setSelectedPackage] = useState(validPackage)
+
+  const [showUpsell, setShowUpsell] = useState(true)
+  const [showBenefits, setShowBenefits] = useState(false)
+  const [isCompany, setIsCompany] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const [upgradeApplied, setUpgradeApplied] = useState(false)
+  const [email, setEmail] = useState(emailParam)
+  const [fullName, setFullName] = useState(nameParam)
+  const [companyName, setCompanyName] = useState("")
+  const [companyNumber, setCompanyNumber] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [fullNameError, setFullNameError] = useState("")
+  const [upgradeChecked, setUpgradeChecked] = useState(false)
+  const informationCardRef = useRef<HTMLDivElement>(null)
+
+  const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
+  const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
 
   const calculateTotalSavings = () => {
@@ -286,14 +292,7 @@ function PaymentContent() {
   }
 
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
-    const packages = {
-      starter: { name: "Starter", articles: 1, price: 47 },
-      growth: { name: "Growth", articles: 3, price: 127 },
-      authority: { name: "Authority", articles: 5, price: 197 },
-      agency: { name: "Agency", articles: 40, price: 997 },
-    }
-
-    const currentPackage = packages[selectedPackage as keyof typeof packages]
+    const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
     if (paymentMethodType === "card") {
       router.push(
