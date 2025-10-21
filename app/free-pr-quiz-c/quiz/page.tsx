@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { QuizLogo } from "@/components/quiz-logo"
+import { ChevronLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const QUESTIONS = [
   {
@@ -106,6 +108,13 @@ export default function QuizCQuestionsPage() {
     }
   }
 
+  const handleBack = () => {
+    if (currentQuestion > 1) {
+      setCurrentQuestion(currentQuestion - 1)
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white pb-24">
       <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
@@ -113,6 +122,20 @@ export default function QuizCQuestionsPage() {
         <div className="flex justify-center mb-8 md:mb-12">
           <QuizLogo />
         </div>
+
+        {/* Back Button */}
+        {currentQuestion > 1 && (
+          <div className="flex justify-start mb-6 max-w-2xl mx-auto">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              Back
+            </Button>
+          </div>
+        )}
 
         {/* Progress Bar */}
         <div className="w-full max-w-2xl mx-auto mb-6 md:mb-8">
