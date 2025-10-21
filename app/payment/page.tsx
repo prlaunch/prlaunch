@@ -213,10 +213,42 @@ function PaymentContent() {
   const nameParam = searchParams.get("name") || ""
 
   const packages = {
-    starter: { name: "Starter", articles: 1, price: 47, originalPrice: 94, perArticle: 47, upsellTo: "growth" },
-    growth: { name: "Growth", articles: 3, price: 127, originalPrice: 254, perArticle: 42.33, upsellTo: "authority" },
-    authority: { name: "Authority", articles: 5, price: 197, originalPrice: 394, perArticle: 39.4, upsellTo: null },
-    agency: { name: "Agency", articles: 40, price: 997, originalPrice: 1994, perArticle: 24.93, upsellTo: null },
+    starter: {
+      name: "Starter",
+      articles: 1,
+      price: 47,
+      originalPrice: 94,
+      perArticle: 47,
+      upsellTo: "growth",
+      hasBonus: false,
+    },
+    growth: {
+      name: "Growth",
+      articles: 3,
+      price: 127,
+      originalPrice: 254,
+      perArticle: 42.33,
+      upsellTo: "authority",
+      hasBonus: true,
+    },
+    authority: {
+      name: "Authority",
+      articles: 5,
+      price: 197,
+      originalPrice: 394,
+      perArticle: 39.4,
+      upsellTo: null,
+      hasBonus: true,
+    },
+    agency: {
+      name: "Agency",
+      articles: 40,
+      price: 997,
+      originalPrice: 1994,
+      perArticle: 24.93,
+      upsellTo: null,
+      hasBonus: false,
+    },
   }
 
   // Validate and normalize package parameter
@@ -255,12 +287,16 @@ function PaymentContent() {
     try {
       setClientSecret(null)
 
+      const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      const validEmail = isValidEmail ? email : "pending@prlaunch.io"
+      const validFullName = fullName && fullName.trim() ? fullName : "Pending"
+
       const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: currentPackage.price,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
-        email: email || "pending@prlaunch.io",
-        fullName: fullName || "Pending",
+        email: validEmail,
+        fullName: validFullName,
         companyName: companyName || undefined,
         companyNumber: companyNumber || undefined,
       })
@@ -410,6 +446,7 @@ function PaymentContent() {
                   <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
                   <p className="text-slate-600">
                     {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
+                    {currentPackage.hasBonus && <span className="text-green-600 font-semibold"> +1 Free Bonus</span>}
                   </p>
                 </div>
                 <div className="text-right">
