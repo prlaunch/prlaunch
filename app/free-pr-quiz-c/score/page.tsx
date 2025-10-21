@@ -1,17 +1,51 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { QuizLogo } from "@/components/quiz-logo"
+import { Loader2 } from "lucide-react"
 
 export default function ScoreCPage() {
   const router = useRouter()
   const { score } = useQuiz()
+  const [isLoading, setIsLoading] = useState(false)
+  const [displayScore, setDisplayScore] = useState(0)
 
-  // Fallback score if not set
-  const displayScore = score || 85
+  const finalScore = score || 85
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" })
+
+    const duration = 2000 // 2 seconds
+    const steps = 60
+    const increment = finalScore / steps
+    const stepDuration = duration / steps
+
+    let currentStep = 0
+    const timer = setInterval(() => {
+      currentStep++
+      if (currentStep >= steps) {
+        setDisplayScore(finalScore)
+        clearInterval(timer)
+      } else {
+        setDisplayScore(Math.floor(increment * currentStep))
+      }
+    }, stepDuration)
+
+    return () => clearInterval(timer)
+  }, [finalScore])
+
+  const handleClaim = () => {
+    setIsLoading(true)
+    router.push("/free-pr-quiz/winner")
+  }
+
+  const radius = 45
+  const circumference = 2 * Math.PI * radius // 282.743...
+  const offset = circumference - (displayScore / 100) * circumference
 
   return (
     <div className="min-h-screen bg-white pb-16">
@@ -33,20 +67,22 @@ export default function ScoreCPage() {
 
         {/* Score Display */}
         <div className="flex flex-col items-center mb-8 md:mb-12">
-          <div className="relative w-32 h-32 md:w-40 md:h-40">
-            <svg className="w-full h-full" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="50%" cy="50%" r="45%" stroke="#e5e7eb" strokeWidth="8" fill="none" />
+          <div className="relative w-48 h-48 md:w-56 md:h-56">
+            <svg className="w-full h-full -rotate-90">
+              {/* Background circle */}
+              <circle cx="50%" cy="50%" r={radius} stroke="#e5e7eb" strokeWidth="8" fill="none" />
+              {/* Progress circle */}
               <circle
                 cx="50%"
                 cy="50%"
-                r="45%"
+                r={radius}
                 stroke="url(#gradient)"
                 strokeWidth="8"
                 fill="none"
-                strokeDasharray="283"
-                strokeDashoffset={283 - (displayScore / 100) * 283}
+                strokeDasharray={circumference}
+                strokeDashoffset={offset}
                 strokeLinecap="round"
-                style={{ transition: "stroke-dashoffset 1s ease-in-out" }}
+                style={{ transition: "stroke-dashoffset 0.3s ease-out" }}
               />
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -56,7 +92,6 @@ export default function ScoreCPage() {
                 </linearGradient>
               </defs>
             </svg>
-            {/* </CHANGE> */}
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-4xl md:text-5xl font-bold">{displayScore}%</span>
             </div>
@@ -86,7 +121,7 @@ export default function ScoreCPage() {
             <ul className="space-y-2 text-xs md:text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
-                <span>Article placement in Forbes, Entrepreneur, USA Wire, or similar</span>
+                <span>Article placement in USA Wire, LA Tabloid, SuccessXL, or similar</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
@@ -145,15 +180,23 @@ export default function ScoreCPage() {
           <Button
             size="lg"
             className="w-full max-w-md text-base md:text-lg px-8 md:px-16 py-4 md:py-5 h-auto rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg"
-            onClick={() => router.push("/free-pr-quiz/winner")}
+            onClick={handleClaim}
+            disabled={isLoading}
           >
-            Claim My Free Article →
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Loading...
+              </>
+            ) : (
+              "Claim My Free Article →"
+            )}
           </Button>
         </div>
 
         {/* Social Proof */}
         <p className="text-xs md:text-sm text-gray-500 text-center">
-          Businesses with your score got featured in Forbes, Entrepreneur, USA Wire
+          Businesses with your score got featured in USA Wire, LA Tabloid, SuccessXL
         </p>
       </div>
     </div>

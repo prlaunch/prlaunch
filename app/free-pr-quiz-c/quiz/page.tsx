@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { QuizLogo } from "@/components/quiz-logo"
@@ -10,7 +10,7 @@ const QUESTIONS = [
     id: 1,
     key: "goal" as const,
     question:
-      "Imagine seeing your name in Forbes, Entrepreneur, or a major publication. How would that change your business?",
+      "Imagine seeing your name in USA Wire, LA Tabloid, or a major publication. How would that change your business?",
     answers: [
       { emoji: "🚀", title: "GAME CHANGER", subtitle: "Instant credibility boost" },
       { emoji: "💰", title: "MORE CLIENTS", subtitle: "People would trust me more" },
@@ -88,6 +88,10 @@ export default function QuizCQuestionsPage() {
   const { answers, setAnswers } = useQuiz()
   const [currentQuestion, setCurrentQuestion] = useState(1)
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" })
+  }, [])
+
   const question = QUESTIONS[currentQuestion - 1]
   const progress = (currentQuestion / QUESTIONS.length) * 100
 
@@ -96,6 +100,7 @@ export default function QuizCQuestionsPage() {
 
     if (currentQuestion < QUESTIONS.length) {
       setCurrentQuestion(currentQuestion + 1)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     } else {
       router.push("/free-pr-quiz-c/calculating")
     }

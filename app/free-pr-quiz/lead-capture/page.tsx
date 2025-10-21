@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Card } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQuiz } from "@/lib/quiz-context"
 import { StickyLogoBanner } from "@/components/quiz-logo"
 import { PolicyModal } from "@/components/policy-modal"
+import Image from "next/image"
 
 export default function LeadCapturePage() {
   const router = useRouter()
@@ -129,6 +131,21 @@ export default function LeadCapturePage() {
               )}
             </Button>
           </form>
+
+          <Card className="bg-white border p-6">
+            <div className="flex items-start gap-4">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                <Image src="/testimonials/profile-2.jpg" alt="Sarah M." fill className="object-cover" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-gray-700 mb-3 leading-relaxed">
+                  "I was skeptical about the free offer, but it's 100% legit. My article is live and I've shared it with
+                  investors."
+                </p>
+                <p className="text-xs font-semibold text-gray-900">Sarah M., Marketing Consultant</p>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
 

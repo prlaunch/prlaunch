@@ -10,6 +10,8 @@ export default function CalculatingCPage() {
   const { setScore } = useQuiz()
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" })
+
     // Generate random score between 75-92%
     const randomScore = Math.floor(Math.random() * (92 - 75 + 1)) + 75
     setScore(randomScore)
