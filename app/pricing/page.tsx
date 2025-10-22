@@ -123,13 +123,12 @@ export default function PricingPage() {
                         <p className="mt-2 text-gray-300">{pkg.perArticle} per article</p>
                       </div>
 
-                      {/* CTA Button */}
                       <Button
                         asChild
                         size="lg"
                         className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                       >
-                        <a href={`/payment?package=${pkg.name.toLowerCase()}`}>Get Featured</a>
+                        <a href="/checkout">Get Featured</a>
                       </Button>
 
                       {/* Features List */}
@@ -179,13 +178,14 @@ export default function PricingPage() {
                       </p>
                     </div>
 
-                    {/* CTA Button */}
                     <Button
                       asChild
                       size="lg"
                       className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                     >
-                      <a href={`/payment?package=${pkg.name.toLowerCase()}`}>Get Featured</a>
+                      <a href={pkg.isAgency ? `/payment?package=${pkg.name.toLowerCase()}` : "/checkout"}>
+                        Get Featured
+                      </a>
                     </Button>
 
                     {/* Features List */}
@@ -227,13 +227,12 @@ export default function PricingPage() {
           <p className="text-lg md:text-xl text-gray-600 mb-8 text-balance max-w-2xl mx-auto">
             Get featured on major news sites in 7 days and start converting more customers today.
           </p>
-          {/* CTA Button */}
           <Button
             asChild
             size="lg"
             className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           >
-            <a href="/payment?package=starter">Get Featured</a>
+            <a href="/checkout">Get Featured</a>
           </Button>
         </div>
       </section>

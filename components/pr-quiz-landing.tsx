@@ -263,7 +263,7 @@ export function PRQuizLanding() {
           {/* Primary CTA */}
           <div className="text-center">
             <Link
-              href="/payment"
+              href="/checkout/start"
               className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 text-white font-bold text-base px-8 py-4 rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               Get Published for $47 →
