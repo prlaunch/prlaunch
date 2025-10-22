@@ -23,7 +23,7 @@ export default function CheckoutStartPage() {
       <div className="text-center max-w-2xl">
         <div className="mb-8 w-full max-w-xl mx-auto">
           <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-22%20at%2000.19.43%20%281%29-nTupYWBN5BX8YIeDKeEOwSXSTpVDBc.jpg"
+            src="/images/design-mode/Screenshot%202025-10-22%20at%2000.19.43%20%281%29.jpg"
             alt="Campaign Builder Banner"
             className="w-full h-32 object-contain rounded-lg"
           />
