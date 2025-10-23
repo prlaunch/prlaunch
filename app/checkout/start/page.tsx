@@ -99,7 +99,7 @@ export default function CheckoutStartPage() {
               ))}
             </div>
           </div>
-          <span className="font-medium text-slate-700">Taken by 4,847 entrepreneurs</span>
+          <span className="font-medium text-slate-700">Trusted by 4,847+ entrepreneurs</span>
         </div>
       </div>
     </div>

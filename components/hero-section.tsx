@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Check, Star } from "lucide-react"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import { useSearchParams } from "next/navigation"
+import { mainReviews } from "@/lib/reviews-data"
+import Image from "next/image"
 
 const HEADLINE_VARIANTS = {
   a: {
@@ -66,7 +68,7 @@ const HEADLINE_VARIANTS = {
       </>
     ),
     subheadline:
-      "Real placements in USA Wire, Success XL, LA Tabloid, Medium, and 100+ more. No agency fees. No 3-month waits. Just results in 7 days.",
+      "Elevate your brand and own your Google search. When they Google you, they'll know you're the real deal.",
   },
   b: {
     headline: "The PR Tool Rich Founders Use—Now $47",
@@ -97,7 +99,7 @@ export function HeroSection() {
               <div className="relative inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 p-[2px] shadow-lg shadow-blue-500/20 animate-gradient-shift">
                 <div className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5">
                   <span className="text-xs font-semibold text-black md:text-sm">
-                    #1 Highest Rated PR Agency for Businesses & Professionals
+                    #1 Highest Rated PR House for Businesses &amp; Professionals
                   </span>
                 </div>
               </div>
@@ -189,6 +191,30 @@ export function HeroSection() {
                   <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
                 </div>
                 <span className="text-xs font-medium text-foreground">Money-Back Promise</span>
+              </div>
+
+              {/* Trust badge below the secondary CTA button */}
+              <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {mainReviews.slice(0, 4).map((review, i) => (
+                      <div key={i} className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white">
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                    ))}
+                  </div>
+                </div>
+                <span className="font-medium text-slate-700">Trusted by 4,847+ entrepreneurs</span>
               </div>
             </div>
           </div>

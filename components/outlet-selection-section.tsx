@@ -3,6 +3,7 @@
 import { Clock, Sparkles, FileText } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
 interface Outlet {
   number: number
@@ -149,7 +150,7 @@ export function OutletSelectionSection() {
         </div>
 
         {/* Key Benefits */}
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
           <div className="p-4">
             <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center mb-3">
               <Clock className="w-4 h-4 text-blue-600" />
@@ -173,6 +174,20 @@ export function OutletSelectionSection() {
             <h4 className="text-base font-semibold text-slate-900 mb-1">Free Writing Included</h4>
             <p className="text-sm text-slate-500">Professional articles at no extra cost.</p>
           </div>
+        </div>
+
+        {/* Get Featured CTA button */}
+        <div className="flex justify-center">
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            as="a"
+            href="/checkout"
+            containerClassName="h-14 w-auto"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            duration={3000}
+          >
+            Get Featured — $47
+          </MovingBorderButton>
         </div>
       </div>
     </section>

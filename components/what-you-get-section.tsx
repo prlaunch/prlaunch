@@ -1,10 +1,12 @@
 "use client"
 
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 
 export function WhatYouGetSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true)
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const mockups = [
     {
@@ -85,17 +87,34 @@ export function WhatYouGetSection() {
 
   useEffect(() => {
     if (scrollContainerRef.current) {
-      const itemWidth = 280 + 32 // width + gap
+      const itemWidth = 240 + 32 // width + gap (reduced from 280)
       const middlePosition = mockups.length * itemWidth
       scrollContainerRef.current.scrollLeft = middlePosition
     }
   }, [])
 
+  useEffect(() => {
+    if (!isAutoScrolling) return
+
+    autoScrollIntervalRef.current = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const itemWidth = 240 + 32 // width + gap
+        scrollContainerRef.current.scrollBy({ left: itemWidth, behavior: "smooth" })
+      }
+    }, 3000)
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current)
+      }
+    }
+  }, [isAutoScrolling])
+
   const handleScroll = () => {
     if (!scrollContainerRef.current) return
 
     const container = scrollContainerRef.current
-    const itemWidth = 280 + 32 // width + gap
+    const itemWidth = 240 + 32 // Updated width
     const setWidth = mockups.length * itemWidth
     const scrollLeft = container.scrollLeft
 
@@ -108,24 +127,26 @@ export function WhatYouGetSection() {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -320, behavior: "smooth" })
+      scrollContainerRef.current.scrollBy({ left: -272, behavior: "smooth" }) // Updated scroll distance
     }
   }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 320, behavior: "smooth" })
+      scrollContainerRef.current.scrollBy({ left: 272, behavior: "smooth" }) // Updated scroll distance
     }
   }
 
+  const handleMouseEnter = () => setIsAutoScrolling(false)
+  const handleMouseLeave = () => setIsAutoScrolling(true)
+
   return (
-    <section id="what-you-get" className="py-24 bg-gradient-to-b from-background to-muted/20">
+    <section id="what-you-get" className="py-12 bg-gradient-to-b from-background to-muted/20">
       <div className="container px-4 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">This Could Be You   </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            We write editorials and success stories that position you as the expert.
-          </p>
+        <div className="text-center mb-12 max-w-6xl mx-auto">
+          <h2 className="md:text-5xl font-bold text-balance text-xl">
+            {"You've probably seen our articles. You just didn't know it was us."}
+          </h2>
         </div>
 
         {/* Scrollable iPhone mockups */}
@@ -150,12 +171,19 @@ export function WhatYouGetSection() {
             <ChevronRight className="w-6 h-6 text-slate-900" />
           </button>
 
-          <div ref={scrollContainerRef} onScroll={handleScroll} className="overflow-x-auto pb-8 scrollbar-hide">
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleMouseEnter}
+            onTouchEnd={handleMouseLeave}
+            className="overflow-x-auto pb-8 scrollbar-hide"
+          >
             <div className="flex gap-8 px-4 min-w-max">
               {infiniteMockups.map((mockup, index) => (
                 <div key={`${mockup.id}-${index}`} className="flex-shrink-0">
-                  {/* iPhone 15 Pro mockup */}
-                  <div className="relative w-[280px]">
+                  <div className="relative w-[240px]">
                     {/* Phone frame */}
                     <div className="relative bg-slate-900 rounded-[3rem] p-3 shadow-2xl">
                       {/* Dynamic Island */}
@@ -193,9 +221,7 @@ export function WhatYouGetSection() {
           </div>
         </div>
 
-        <div className="text-center mt-12 md:hidden">
-          <p className="text-sm text-muted-foreground">Scroll to see all publication placements →</p>
-        </div>
+        <div className="text-center mt-12 md:hidden"></div>
       </div>
 
       <style jsx>{`
