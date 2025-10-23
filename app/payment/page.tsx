@@ -391,8 +391,34 @@ function PaymentContent() {
     }
   }
 
+  const getUpgradeSavings = () => {
+    if (selectedPackage === "starter" && currentPackage.upsellTo === "growth") {
+      return 61
+    } else if (selectedPackage === "growth" && currentPackage.upsellTo === "authority") {
+      return 77
+    }
+    return 0
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      {showCelebration && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md mx-4 animate-in zoom-in-95 duration-300">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                <Sparkles className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">Upgrade Added!</h3>
+              <p className="text-slate-600">
+                You're now getting the {upsellPackage?.name} package with {upsellPackage?.articles} articles
+                {upsellPackage?.hasBonus && " + 1 bonus"}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div
         className={`fixed top-0 left-0 right-0 z-50 shadow-lg transition-colors duration-300 ${
           discountApplied
@@ -599,10 +625,7 @@ function PaymentContent() {
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">
                       Upgrade to <span className="font-semibold text-blue-700">{upsellPackage.articles} articles</span>{" "}
-                      and pay only{" "}
-                      <span className="font-semibold text-green-600">
-                        ${upsellPackage.perArticle.toFixed(2)} per article
-                      </span>
+                      and <span className="font-semibold text-green-600">save up to ${getUpgradeSavings()}</span>
                     </p>
                   </div>
                 </label>

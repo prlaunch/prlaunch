@@ -15,7 +15,7 @@ const goals = [
   },
   {
     id: "sales" as Goal,
-    icon: "🤑",
+    icon: "💰",
     title: "Increase Sales & Revenue",
     description: "Drive more customers and boost conversions",
     color: "cyan",

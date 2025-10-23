@@ -125,7 +125,7 @@ export default function Step5Page() {
         🎁 Free Bonus Article claimed for: {formatTime(timeLeft)}
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "72px" }}>
+      <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
         {/* Back Button */}
         <button
           onClick={() => router.push(`/checkout/step-4?goal=${goal}&category=${category}`)}
