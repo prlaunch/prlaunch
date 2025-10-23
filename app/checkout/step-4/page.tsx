@@ -2,14 +2,16 @@
 
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import confetti from "canvas-confetti"
+import { Loader2 } from "lucide-react"
 
 export default function Step4Page() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const goal = searchParams.get("goal")
   const category = searchParams.get("category")
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // Trigger confetti on mount
@@ -21,6 +23,7 @@ export default function Step4Page() {
   }, [])
 
   const handleClaimBonuses = () => {
+    setIsLoading(true)
     const timerStart = Date.now()
     localStorage.setItem("campaignTimerStart", timerStart.toString())
     router.push(`/checkout/step-5?goal=${goal}&category=${category}`)
@@ -54,11 +57,19 @@ export default function Step4Page() {
           <MovingBorderButton
             borderRadius="1.75rem"
             onClick={handleClaimBonuses}
+            disabled={isLoading}
             containerClassName="h-14 w-full"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
             duration={3000}
           >
-            Claim My Bonuses →
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "Claim My Bonuses →"
+            )}
           </MovingBorderButton>
         </div>
       </div>

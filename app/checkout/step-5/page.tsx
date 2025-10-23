@@ -1,5 +1,5 @@
 "use client"
-import { Check, ArrowLeft } from "lucide-react"
+import { Check, ArrowLeft, Loader2 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 
@@ -78,6 +78,7 @@ export default function Step5Page() {
   const category = searchParams.get("category")
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
   const [timeLeft, setTimeLeft] = useState(15 * 60) // 15 minutes in seconds
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const timerStart = localStorage.getItem("campaignTimerStart")
@@ -105,6 +106,7 @@ export default function Step5Page() {
 
   const handlePackageSelect = (pkg: Package) => {
     setSelectedPackage(pkg)
+    setIsLoading(true)
     setTimeout(() => {
       router.push(`/payment?package=${pkg}`)
     }, 500)
@@ -139,10 +141,7 @@ export default function Step5Page() {
           <div className="text-center mb-6">
             <p className="text-sm text-slate-500 mb-2">Step 5 of 6 • Choose Your Package</p>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
-            <p className="text-sm text-slate-600">
-              Your campaign will feature {categories.find((c) => c.id === category)?.title.split(" & ")[0]} outlets
-              focused on {goals.find((g) => g.id === goal)?.title.split(" & ")[0]}
-            </p>
+            <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>
 
           {/* Package Cards */}
@@ -151,9 +150,10 @@ export default function Step5Page() {
               <button
                 key={pkg.id}
                 onClick={() => handlePackageSelect(pkg.id)}
+                disabled={isLoading}
                 className={`w-full p-4 rounded-xl border-2 ${pkg.borderColor} ${
                   pkg.popular ? "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50" : "bg-white"
-                } hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left relative ${
+                } hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                 }`}
               >
@@ -172,12 +172,21 @@ export default function Step5Page() {
                       <span className="text-2xl font-bold text-slate-900">${pkg.price}</span>
                       <span className="text-sm text-slate-400 line-through">${pkg.originalPrice}</span>
                     </div>
+                    <div className="inline-block bg-blue-50 border border-blue-200 rounded-full px-2.5 py-0.5 mb-2">
+                      <span className="text-xs font-semibold text-blue-700">
+                        ${(pkg.price / pkg.articles).toFixed(2)} per article
+                      </span>
+                    </div>
                     <p className="text-xs text-slate-600 mb-2">{pkg.description}</p>
                     {pkg.savings > 0 && (
                       <p className="text-xs font-bold text-green-600">💰 Save ${pkg.savings} (50% OFF)</p>
                     )}
                   </div>
-                  {selectedPackage === pkg.id && <Check className="h-5 w-5 text-blue-600 flex-shrink-0" />}
+                  {isLoading && selectedPackage === pkg.id ? (
+                    <Loader2 className="h-5 w-5 text-blue-600 flex-shrink-0 animate-spin" />
+                  ) : selectedPackage === pkg.id ? (
+                    <Check className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                  ) : null}
                 </div>
                 <div className="space-y-1">
                   {pkg.features.map((feature, i) => (

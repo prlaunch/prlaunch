@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, ArrowLeft } from "lucide-react"
+import { Check, ArrowLeft, Loader2 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
@@ -54,9 +54,11 @@ export default function Step2Page() {
   const searchParams = useSearchParams()
   const goal = searchParams.get("goal")
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category)
+    setIsLoading(true)
     setTimeout(() => {
       router.push(`/checkout/step-3?goal=${goal}&category=${category}`)
     }, 500)
@@ -85,14 +87,14 @@ export default function Step2Page() {
           <div className="text-center mb-8">
             <p className="text-sm text-slate-500 mb-2">Step 2 of 6 • Building Your Campaign</p>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Which category fits you?</h2>
-            
           </div>
           <div className="space-y-3">
             {categories.map((category, index) => (
               <button
                 key={category.id}
                 onClick={() => handleCategorySelect(category.id)}
-                className={`w-full min-h-[70px] p-4 rounded-xl border-2 ${getBorderColor(index)} bg-white hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left flex items-center gap-4 ${
+                disabled={isLoading}
+                className={`w-full min-h-[70px] p-4 rounded-xl border-2 ${getBorderColor(index)} bg-white hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left flex items-center gap-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   selectedCategory === category.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                 }`}
               >
@@ -101,7 +103,11 @@ export default function Step2Page() {
                   <h3 className="font-bold text-slate-900 mb-1">{category.title}</h3>
                   <p className="text-sm text-slate-600">{category.description}</p>
                 </div>
-                {selectedCategory === category.id && <Check className="h-6 w-6 text-blue-600 flex-shrink-0" />}
+                {isLoading && selectedCategory === category.id ? (
+                  <Loader2 className="h-6 w-6 text-blue-600 flex-shrink-0 animate-spin" />
+                ) : selectedCategory === category.id ? (
+                  <Check className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                ) : null}
               </button>
             ))}
           </div>

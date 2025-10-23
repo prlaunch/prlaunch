@@ -137,7 +137,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-3xl">
+            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-4xl">
               {currentVariant.headline}
             </h2>
 

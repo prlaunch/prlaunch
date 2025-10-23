@@ -3,11 +3,13 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star } from "lucide-react"
+import { Star, Loader2 } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
+import { useState } from "react"
 
 export default function CheckoutStartPage() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   const logos = [
     { src: "/images/logos/sf-tribune.png", alt: "The San Francisco Tribune" },
@@ -17,6 +19,11 @@ export default function CheckoutStartPage() {
     { src: "/images/logos/bosses-mag.png", alt: "Bosses Mag" },
     { src: "/images/logos/medium.png", alt: "Medium" },
   ]
+
+  const handleStart = () => {
+    setIsLoading(true)
+    router.push("/checkout/step-1")
+  }
 
   return (
     <div className="min-h-screen bg-white flex items-start justify-center p-4 pt-4">
@@ -49,12 +56,20 @@ export default function CheckoutStartPage() {
 
         <MovingBorderButton
           borderRadius="1.75rem"
-          onClick={() => router.push("/checkout/step-1")}
+          onClick={handleStart}
+          disabled={isLoading}
           containerClassName="h-14 w-auto"
-          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
           duration={3000}
         >
-          Start Building My Campaign →
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Loading...
+            </span>
+          ) : (
+            "Start Building My Campaign →"
+          )}
         </MovingBorderButton>
 
         <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">

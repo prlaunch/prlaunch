@@ -1,5 +1,5 @@
 "use client"
-import { Check, ArrowLeft } from "lucide-react"
+import { Check, ArrowLeft, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -44,9 +44,11 @@ const getBorderColor = (index: number) => {
 export default function Step1Page() {
   const router = useRouter()
   const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleGoalSelect = (goal: Goal) => {
     setSelectedGoal(goal)
+    setIsLoading(true)
     setTimeout(() => {
       router.push(`/checkout/step-2?goal=${goal}`)
     }, 500)
@@ -81,7 +83,8 @@ export default function Step1Page() {
               <button
                 key={goal.id}
                 onClick={() => handleGoalSelect(goal.id)}
-                className={`w-full min-h-[70px] p-4 rounded-xl border-2 ${getBorderColor(index)} bg-white hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left flex items-center gap-4 ${
+                disabled={isLoading}
+                className={`w-full min-h-[70px] p-4 rounded-xl border-2 ${getBorderColor(index)} bg-white hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left flex items-center gap-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   selectedGoal === goal.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                 }`}
               >
@@ -90,7 +93,11 @@ export default function Step1Page() {
                   <h3 className="font-bold text-slate-900 mb-1">{goal.title}</h3>
                   <p className="text-sm text-slate-600">{goal.description}</p>
                 </div>
-                {selectedGoal === goal.id && <Check className="h-6 w-6 text-blue-600 flex-shrink-0" />}
+                {isLoading && selectedGoal === goal.id ? (
+                  <Loader2 className="h-6 w-6 text-blue-600 flex-shrink-0 animate-spin" />
+                ) : selectedGoal === goal.id ? (
+                  <Check className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                ) : null}
               </button>
             ))}
           </div>

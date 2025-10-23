@@ -4,7 +4,7 @@ import { MovingBorderButton } from "@/components/ui/moving-border"
 import { getOutletImage } from "@/lib/outlet-images"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowLeft, ShieldCheck, Sparkles, Search, FileText, CheckCircle, Rocket } from "lucide-react"
+import { ArrowLeft, ShieldCheck, Sparkles, Search, FileText, CheckCircle, Rocket, Loader2 } from "lucide-react"
 import Image from "next/image"
 
 type Category = "business" | "finance" | "lifestyle" | "tech" | "health"
@@ -39,6 +39,7 @@ export default function Step3Page() {
   const goal = searchParams.get("goal") as Goal
   const category = searchParams.get("category") as Category
   const [visibleLogos, setVisibleLogos] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setVisibleLogos(0)
@@ -57,6 +58,11 @@ export default function Step3Page() {
   const getDisplayOutlets = () => {
     if (!category) return []
     return categoryOutlets[category] || []
+  }
+
+  const handleContinue = () => {
+    setIsLoading(true)
+    router.push(`/checkout/step-4?goal=${goal}&category=${category}`)
   }
 
   return (
@@ -147,12 +153,20 @@ export default function Step3Page() {
 
           <MovingBorderButton
             borderRadius="1.75rem"
-            onClick={() => router.push(`/checkout/step-4?goal=${goal}&category=${category}`)}
+            onClick={handleContinue}
+            disabled={isLoading}
             containerClassName="h-14 w-full"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
             duration={3000}
           >
-            This Sounds Perfect! Continue →
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "This Sounds Perfect! Continue →"
+            )}
           </MovingBorderButton>
         </div>
       </div>
