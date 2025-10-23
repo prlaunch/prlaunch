@@ -1,5 +1,5 @@
 "use client"
-import { Check, ArrowLeft, Loader2 } from "lucide-react"
+import { Check, ArrowLeft, Loader2, Gift } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 
@@ -35,6 +35,7 @@ const packages = [
     ],
     popular: true,
     borderColor: "border-cyan-500",
+    rewardEligible: true,
   },
   {
     id: "authority" as Package,
@@ -53,6 +54,7 @@ const packages = [
       "7-day publishing guaranteed",
     ],
     borderColor: "border-pink-500",
+    rewardEligible: true,
   },
 ]
 
@@ -76,6 +78,7 @@ export default function Step5Page() {
   const searchParams = useSearchParams()
   const goal = searchParams.get("goal")
   const category = searchParams.get("category")
+  const hasReward = searchParams.get("reward") === "free_article"
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
   const [timeLeft, setTimeLeft] = useState(15 * 60) // 15 minutes in seconds
   const [isLoading, setIsLoading] = useState(false)
@@ -138,6 +141,20 @@ export default function Step5Page() {
         </button>
 
         <div className="space-y-6">
+          {hasReward && (
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 mb-6 animate-in slide-in-from-top duration-500">
+              <div className="flex items-start gap-3">
+                <Gift className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-bold text-green-900 mb-1">🎉 Your Free Article is Ready!</h3>
+                  <p className="text-sm text-green-800">
+                    Select a package of 3 or 5 articles below to claim your free bonus article (worth $94)
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="text-center mb-6">
             <p className="text-sm text-slate-500 mb-2">Step 5 of 6 • Choose Your Package</p>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
@@ -155,11 +172,17 @@ export default function Step5Page() {
                   pkg.popular ? "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50" : "bg-white"
                 } hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
-                }`}
+                } ${hasReward && pkg.rewardEligible ? "ring-2 ring-green-400" : ""}`}
               >
                 {pkg.popular && (
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
                     ⭐ MOST POPULAR
+                  </div>
+                )}
+                {hasReward && pkg.rewardEligible && (
+                  <div className="absolute -top-2 right-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-0.5 rounded-full text-xs font-bold flex items-center gap-1">
+                    <Gift className="h-3 w-3" />
+                    +1 FREE
                   </div>
                 )}
                 <div className="flex items-start justify-between mb-3">
@@ -167,6 +190,7 @@ export default function Step5Page() {
                     <h3 className="text-xl font-bold text-slate-900 mb-1">
                       {pkg.articles} Article{pkg.articles > 1 ? "s" : ""}
                       {pkg.bonus > 0 && ` + ${pkg.bonus} FREE`}
+                      {hasReward && pkg.rewardEligible && " + 1 REWARD"}
                     </h3>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-2xl font-bold text-slate-900">${pkg.price}</span>
@@ -180,6 +204,9 @@ export default function Step5Page() {
                     <p className="text-xs text-slate-600 mb-2">{pkg.description}</p>
                     {pkg.savings > 0 && (
                       <p className="text-xs font-bold text-green-600">💰 Save ${pkg.savings} (50% OFF)</p>
+                    )}
+                    {hasReward && pkg.rewardEligible && (
+                      <p className="text-xs font-bold text-green-600">🎁 + $94 FREE from your reward!</p>
                     )}
                   </div>
                   {isLoading && selectedPackage === pkg.id ? (

@@ -17,6 +17,7 @@ import { Footer } from "@/components/footer"
 import { LiveProofNotification } from "@/components/live-proof-notification"
 import { ArticlePreviewGenerator } from "@/components/article-preview-generator"
 import { BeforeAfterGoogleSection } from "@/components/before-after-google-section"
+import { RewardPopupTrigger } from "@/components/reward-popup-trigger"
 import { Suspense } from "react"
 
 export default function HomePage() {
@@ -43,6 +44,7 @@ export default function HomePage() {
       <FinalCTASection />
       <Footer />
       <LiveProofNotification />
+      <RewardPopupTrigger />
     </main>
   )
 }
