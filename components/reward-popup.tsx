@@ -10,10 +10,10 @@ interface RewardPopupProps {
 }
 
 const articleCards = [
-  { id: 1, gradient: "from-blue-500 via-blue-600 to-indigo-600", iconColor: "text-white" },
-  { id: 2, gradient: "from-purple-500 via-purple-600 to-pink-600", iconColor: "text-white" },
-  { id: 3, gradient: "from-emerald-500 via-teal-600 to-cyan-600", iconColor: "text-white" },
-  { id: 4, gradient: "from-orange-500 via-rose-600 to-pink-600", iconColor: "text-white" },
+  { id: 1, borderColor: "border-blue-500", iconColor: "text-blue-600" },
+  { id: 2, borderColor: "border-purple-500", iconColor: "text-purple-600" },
+  { id: 3, borderColor: "border-emerald-500", iconColor: "text-emerald-600" },
+  { id: 4, borderColor: "border-rose-500", iconColor: "text-rose-600" },
 ]
 
 export function RewardPopup({ onClose }: RewardPopupProps) {
@@ -133,15 +133,17 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
                   id={`card-${card.id}`}
                   onClick={() => handleCardSelect(card.id)}
                   disabled={selectedCard !== null}
-                  className={`group relative aspect-[4/5] bg-gradient-to-br ${card.gradient} rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none`}
+                  className={`group relative aspect-[4/5] bg-white border-2 ${card.borderColor} rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none`}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Newspaper className={`h-12 w-12 ${card.iconColor} drop-shadow-sm`} strokeWidth={1.5} />
+                    <Newspaper className={`h-12 w-12 ${card.iconColor}`} strokeWidth={1.5} />
                   </div>
 
                   {/* Card number badge */}
-                  <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center shadow-sm">
-                    <span className="text-xs font-semibold text-slate-700">{card.id}</span>
+                  <div
+                    className={`absolute top-2 left-2 bg-white border ${card.borderColor} rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}
+                  >
+                    <span className={`text-xs font-semibold ${card.iconColor}`}>{card.id}</span>
                   </div>
                 </button>
               ))}
