@@ -41,7 +41,6 @@ export const outletImages: Record<string, string> = {
   "SUCCESS XL":
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/012_successxl-d3vdqWGLihta3miEfglXollDeoOR7S.webp",
   "UK Uncut": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/013_ukuncut-3GzQiHDezgp2FD89g14MaJNuKophvO.webp",
-  "Sli Mag": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/014_slimag-GzwiG2lSFk2y0FYLvdp6OACKa7Nohz.webp",
   Awesome: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/015_awesome-x5PIZscvcjs6RU4fGQwxzcmJxtu3bW.webp",
   "Awe.some": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/015_awesome-x5PIZscvcjs6RU4fGQwxzcmJxtu3bW.webp",
   "AWE.SOME": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/015_awesome-x5PIZscvcjs6RU4fGQwxzcmJxtu3bW.webp",
