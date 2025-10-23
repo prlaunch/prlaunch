@@ -18,6 +18,7 @@ import { LiveProofNotification } from "@/components/live-proof-notification"
 import { ArticlePreviewGenerator } from "@/components/article-preview-generator"
 import { BeforeAfterGoogleSection } from "@/components/before-after-google-section"
 import { RewardPopupTrigger } from "@/components/reward-popup-trigger"
+import { FloatingRewardButton } from "@/components/floating-reward-button"
 import { Suspense } from "react"
 
 export default function HomePage() {
@@ -45,6 +46,7 @@ export default function HomePage() {
       <Footer />
       <LiveProofNotification />
       <RewardPopupTrigger />
+      <FloatingRewardButton />
     </main>
   )
 }

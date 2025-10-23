@@ -130,15 +130,7 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
           </div>
         ) : (
           <div className="p-6 sm:p-8 text-center">
-            <div className="relative mb-4 h-20 flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full animate-pulse" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-12 h-12 bg-white rounded-full animate-ping" />
-              </div>
-              <div className="relative z-10 text-4xl">✨</div>
-            </div>
+            <div className="mb-4 text-4xl">✨</div>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Congratulations!</h2>
             <p className="text-lg text-slate-700 mb-6">You've won:</p>

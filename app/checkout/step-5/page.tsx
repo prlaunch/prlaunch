@@ -174,7 +174,12 @@ export default function Step5Page() {
                   selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                 } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_8px_rgba(34,197,94,0.1)]" : ""}`}
               >
-                {pkg.popular && (
+                {hasReward && pkg.rewardEligible && (
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
+                    🎁 FREE ARTICLE
+                  </div>
+                )}
+                {pkg.popular && !hasReward && (
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
                     ⭐ MOST POPULAR
                   </div>
