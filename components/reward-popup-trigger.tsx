@@ -14,12 +14,25 @@ export function RewardPopupTrigger() {
       return
     }
 
-    // Show popup after 5 seconds on every visit
-    const timer = setTimeout(() => {
-      setShowPopup(true)
-    }, 5000)
+    let hasScrolled = false
+    let scrollTimer: NodeJS.Timeout | null = null
 
-    return () => clearTimeout(timer)
+    const handleScroll = () => {
+      if (!hasScrolled) {
+        hasScrolled = true
+        // Start 8-second timer after first scroll
+        scrollTimer = setTimeout(() => {
+          setShowPopup(true)
+        }, 8000)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      if (scrollTimer) clearTimeout(scrollTimer)
+    }
   }, [])
 
   if (!showPopup) return null

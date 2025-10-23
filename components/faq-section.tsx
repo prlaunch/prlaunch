@@ -15,7 +15,7 @@ export function FAQSection() {
     {
       question: "What if I'm not satisfied?",
       answer:
-        "We offer a 100% money-back guarantee if articles are not published within 7 days of your approval. Once you approve your article, we guarantee publication within 7 days or you get a full refund.",
+        "We offer a 100% money-back guarantee if articles are not published within 48 hours of your approval. Once you approve your article, we guarantee publication within 48 hours or you get a full refund.",
     },
     {
       question: "Do I need to be an expert or have a big company?",
@@ -24,7 +24,7 @@ export function FAQSection() {
     },
     {
       question: "How fast do you actually deliver?",
-      answer: "Most placements happen within 3-5 days. Guaranteed within 7 days or you pay nothing.",
+      answer: "Most placements happen within 24 hours. Guaranteed within 48 hours or you pay nothing.",
     },
     {
       question: "What happens after I order?",

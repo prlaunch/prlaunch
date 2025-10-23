@@ -12,7 +12,7 @@ const HEADLINE_VARIANTS = {
     headline: (
       <>
         <span className="relative inline-block pb-1">
-          Get PR and Boost
+          Get Featured and Boost
           <svg
             className="absolute left-0 bottom-0 w-full h-3 pointer-events-none"
             viewBox="0 0 400 16"
@@ -39,7 +39,7 @@ const HEADLINE_VARIANTS = {
         </span>
         <br />
         <span className="relative inline-block pb-1">
-          Your Sales in 7 Days
+          Your Brand in 48 Hours
           <svg
             className="absolute left-0 bottom-0 w-full h-3 pointer-events-none"
             viewBox="0 0 400 16"
@@ -73,7 +73,7 @@ const HEADLINE_VARIANTS = {
   b: {
     headline: "The PR Tool Rich Founders Use—Now $47",
     subheadline:
-      "Get featured in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 7 days or your money back.",
+      "Get featured in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 48 hours or your money back.",
   },
 }
 
@@ -139,7 +139,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-4xl">
+            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-3xl">
               {currentVariant.headline}
             </h2>
 
@@ -176,7 +176,7 @@ export function HeroSection() {
                   <div className="flex h-4 w-4 items-center justify-center rounded-full bg-success">
                     <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
                   </div>
-                  <span className="text-xs font-medium text-foreground">7-Day Guarantee</span>
+                  <span className="text-xs font-medium text-foreground">48-Hour Guarantee</span>
                 </div>
                 <div className="flex items-center gap-1.5 rounded-lg bg-success/10 px-2.5 py-1.5">
                   <div className="flex h-4 w-4 items-center justify-center rounded-full bg-success">

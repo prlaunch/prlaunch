@@ -41,7 +41,7 @@ export default function CheckoutStartPage() {
         </div>
 
         <h1 className="md:text-5xl font-bold text-black mb-6 leading-tight text-3xl">
-          Build Your Dream Google Presence in 7 Days
+          Build Your Dream Google Presence in 48 Hours
         </h1>
 
         <div className="flex flex-wrap items-center justify-center gap-6 mb-8">

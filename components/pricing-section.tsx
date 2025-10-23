@@ -29,10 +29,10 @@ export function PricingSection() {
   ]
 
   const features = [
-    "All placements guaranteed within 7 days",
+    "All placements guaranteed within 48 hours",
     "Real editorial or contributor articles",
     "Shareable links for social proof",
-    "100% money-back guarantee if not published within 7 days of approval",
+    "100% money-back guarantee if not published within 48 hours of approval",
   ]
 
   return (

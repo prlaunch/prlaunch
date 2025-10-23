@@ -241,19 +241,19 @@ function PaymentContent() {
     },
     growth: {
       name: "Growth",
-      articles: 3,
+      articles: 4,
       price: 127,
-      originalPrice: 254,
-      perArticle: 42.33,
+      originalPrice: 376,
+      perArticle: 31.75,
       upsellTo: "authority",
-      hasBonus: true,
+      hasBonus: false,
     },
     authority: {
       name: "Authority",
-      articles: 5,
+      articles: 7,
       price: 197,
-      originalPrice: 394,
-      perArticle: 39.4,
+      originalPrice: 658,
+      perArticle: 28.14,
       upsellTo: null,
       hasBonus: true,
     },
@@ -578,7 +578,9 @@ function PaymentContent() {
                   <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
                   <p className="text-slate-600">
                     {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
-                    {currentPackage.hasBonus && <span className="text-green-600 font-semibold"> +1 Free Bonus</span>}
+                    {currentPackage.hasBonus && (
+                      <span className="text-green-600 font-semibold"> (5 + 2 Free Bonus)</span>
+                    )}
                   </p>
                 </div>
                 <div className="text-right">
@@ -592,15 +594,14 @@ function PaymentContent() {
                     <div className="text-3xl font-bold text-slate-900">${currentPackage.price}</div>
                   )}
                   <div className="text-sm text-slate-600">
-                    ${(discountedPrice / (currentPackage.articles + (currentPackage.hasBonus ? 1 : 0))).toFixed(2)}
-                    /article
+                    ${(discountedPrice / currentPackage.articles).toFixed(2)}/article
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
                 <Check className="h-4 w-4" />
                 <span className="font-semibold">
-                  50% OFF Applied — Save ${currentPackage.originalPrice - currentPackage.price}
+                  Save ${currentPackage.originalPrice - currentPackage.price}
                   {discountApplied && ` + $${discountAmount} with LAUNCH10`}
                 </span>
               </div>
