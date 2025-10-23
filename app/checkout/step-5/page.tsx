@@ -172,17 +172,11 @@ export default function Step5Page() {
                   pkg.popular ? "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50" : "bg-white"
                 } hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
-                } ${hasReward && pkg.rewardEligible ? "ring-2 ring-green-400" : ""}`}
+                } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_8px_rgba(34,197,94,0.1)]" : ""}`}
               >
                 {pkg.popular && (
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
                     ⭐ MOST POPULAR
-                  </div>
-                )}
-                {hasReward && pkg.rewardEligible && (
-                  <div className="absolute -top-2 right-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-0.5 rounded-full text-xs font-bold flex items-center gap-1">
-                    <Gift className="h-3 w-3" />
-                    +1 FREE
                   </div>
                 )}
                 <div className="flex items-start justify-between mb-3">
@@ -190,7 +184,6 @@ export default function Step5Page() {
                     <h3 className="text-xl font-bold text-slate-900 mb-1">
                       {pkg.articles} Article{pkg.articles > 1 ? "s" : ""}
                       {pkg.bonus > 0 && ` + ${pkg.bonus} FREE`}
-                      {hasReward && pkg.rewardEligible && " + 1 REWARD"}
                     </h3>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-2xl font-bold text-slate-900">${pkg.price}</span>

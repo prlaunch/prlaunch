@@ -15,10 +15,15 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
   const router = useRouter()
   const [selectedCard, setSelectedCard] = useState<number | null>(null)
   const [showReward, setShowReward] = useState(false)
+  const [isClaiming, setIsClaiming] = useState(false)
 
   const handleCardSelect = (cardId: number) => {
     setSelectedCard(cardId)
-    setShowReward(true)
+
+    const cardElement = document.getElementById(`card-${cardId}`)
+    if (cardElement) {
+      cardElement.classList.add("animate-[ping_0.5s_ease-in-out]")
+    }
 
     // Trigger confetti animation
     confetti({
@@ -45,15 +50,23 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
         colors: ["#3b82f6", "#06b6d4", "#8b5cf6", "#ec4899"],
       })
     }, 200)
+
+    setTimeout(() => {
+      setShowReward(true)
+    }, 600)
   }
 
   const handleClaimReward = () => {
+    setIsClaiming(true)
+
     // Store in localStorage that user claimed the reward
     localStorage.setItem("rewardPopupClaimed", "true")
     localStorage.setItem("rewardPopupClaimedAt", Date.now().toString())
 
     // Redirect to step-5 with reward parameter
-    router.push("/checkout/step-5?reward=free_article")
+    setTimeout(() => {
+      router.push("/checkout/step-5?reward=free_article")
+    }, 500)
   }
 
   const handleClose = () => {
@@ -87,6 +100,7 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
               {articleCards.map((cardId) => (
                 <button
                   key={cardId}
+                  id={`card-${cardId}`}
                   onClick={() => handleCardSelect(cardId)}
                   disabled={selectedCard !== null}
                   className="group relative aspect-[3/4] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden"
@@ -94,10 +108,9 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
                   {/* Card pattern background */}
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
 
-                  {/* Center icon */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
-                      <Newspaper className="h-12 w-12 text-white" strokeWidth={1.5} />
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-8 group-hover:scale-110 transition-transform duration-300">
+                      <Newspaper className="h-20 w-20 text-white" strokeWidth={1.5} />
                     </div>
                   </div>
 
@@ -114,17 +127,19 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
                 </button>
               ))}
             </div>
-
-            {/* Trust indicators */}
-            <div className="text-center text-xs text-slate-500 space-y-1">
-              <p>✓ No credit card required</p>
-              <p>✓ Limited time offer for new visitors</p>
-            </div>
           </div>
         ) : (
           <div className="p-6 sm:p-8 text-center">
-            {/* Reward Reveal */}
-            <div className="text-6xl mb-4 animate-bounce">🎉</div>
+            <div className="relative mb-4 h-20 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full animate-pulse" />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-12 h-12 bg-white rounded-full animate-ping" />
+              </div>
+              <div className="relative z-10 text-4xl">✨</div>
+            </div>
+
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Congratulations!</h2>
             <p className="text-lg text-slate-700 mb-6">You've won:</p>
 
@@ -139,9 +154,36 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
 
             <button
               onClick={handleClaimReward}
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+              disabled={isClaiming}
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
-              Claim free article →
+              {isClaiming ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Claiming...
+                </>
+              ) : (
+                <>Claim free article →</>
+              )}
             </button>
 
             <p className="text-xs text-slate-500 mt-4">This offer is only available once per visitor</p>
