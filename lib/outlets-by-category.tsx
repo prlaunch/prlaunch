@@ -7,6 +7,7 @@ import { getOutletImage } from "./outlet-images"
 export const outletsByCategory = {
   business: [
     "USA Wire",
+    "LA Tabloid",
     "Success XL",
     "Bosses Mag",
     "Medium",
@@ -23,18 +24,16 @@ export const outletsByCategory = {
     "Street Register",
     "Article Rich",
   ],
-  lifestyle: [
-    "LA Tabloid",
-    "Rolling Hype",
-    "Medium",
-    "Celeb Homes",
-    "Hotel eGuide",
-    "Fashion And Beauty World",
-    "TravelsHQ",
-    "The NYC Times",
-  ],
+  lifestyle: ["Rolling Hype", "Medium", "Celeb Homes", "Fashion And Beauty World", "TravelsHQ", "The NYC Times"],
   tech: ["InfoTech Inc", "New York Tech", "Social Media Explorer", "Thrive Insider", "ROBOEarth", "Social-Matic"],
-  health: ["Health Fitness Wire", "Harcourt Health", "Brights Future", "Charity and Life"],
+  health: [
+    "Health Fitness Wire",
+    "Harcourt Health",
+    "Brights Future",
+    "Charity and Life",
+    "Childcare Partnerships",
+    "Faith Family America",
+  ],
 } as const
 
 export type Category = keyof typeof outletsByCategory

@@ -1,70 +1,11 @@
-export const dynamic = "force-dynamic"
+import { outletsData } from "@/lib/outlets-data"
 
-interface Outlet {
-  number: number
-  name: string
-  url: string
-  category: string
-  description: string
-}
+export const dynamic = "force-dynamic"
 
 export async function GET() {
   try {
-    const csvUrl =
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Media_Outlets_Complete-VGV5IVXvfasvX9ZGes0MkG7nSuUzBc.csv"
-    const response = await fetch(csvUrl, {
-      headers: {
-        Accept: "text/csv, text/plain, */*",
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`)
-    }
-
-    const csvText = await response.text()
-
-    // Parse CSV to JSON
-    const lines = csvText.split("\n")
-    const headers = lines[0].split(",").map((h) => h.trim().replace(/"/g, ""))
-
-    const outlets: Outlet[] = []
-
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim()
-      if (!line) continue
-
-      // Handle CSV parsing with quoted fields
-      const values: string[] = []
-      let currentValue = ""
-      let insideQuotes = false
-
-      for (let j = 0; j < line.length; j++) {
-        const char = line[j]
-
-        if (char === '"') {
-          insideQuotes = !insideQuotes
-        } else if (char === "," && !insideQuotes) {
-          values.push(currentValue.trim().replace(/^"|"$/g, ""))
-          currentValue = ""
-        } else {
-          currentValue += char
-        }
-      }
-      values.push(currentValue.trim().replace(/^"|"$/g, ""))
-
-      if (values.length >= 5) {
-        outlets.push({
-          number: Number.parseInt(values[0]) || 0,
-          name: values[1] || "",
-          url: values[2] || "",
-          category: values[3] || "",
-          description: values[4] || "",
-        })
-      }
-    }
-
-    return Response.json(outlets)
+    // Return the local outlets data
+    return Response.json(outletsData)
   } catch (error) {
     return Response.json(
       {

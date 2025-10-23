@@ -8,21 +8,21 @@ type Goal = "trust" | "sales" | "seo" | "reviews"
 const goals = [
   {
     id: "trust" as Goal,
-    icon: "🎯",
+    icon: "✅",
     title: "Build Trust & Credibility",
     description: "Get featured on trusted news sites and look established",
     color: "purple",
   },
   {
     id: "sales" as Goal,
-    icon: "📈",
+    icon: "🤑",
     title: "Increase Sales & Revenue",
     description: "Drive more customers and boost conversions",
     color: "cyan",
   },
   {
     id: "seo" as Goal,
-    icon: "🔍",
+    icon: "📈",
     title: "Boost Google Rankings",
     description: "Appear higher in search results and get found",
     color: "pink",

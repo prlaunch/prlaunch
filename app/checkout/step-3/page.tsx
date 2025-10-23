@@ -1,11 +1,10 @@
 "use client"
 
 import { MovingBorderButton } from "@/components/ui/moving-border"
-import { getOutletsWithImages } from "@/lib/outlets-by-category"
 import { getOutletImage } from "@/lib/outlet-images"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, ShieldCheck } from "lucide-react"
 import Image from "next/image"
 
 type Category = "business" | "finance" | "lifestyle" | "tech" | "health"
@@ -25,6 +24,14 @@ const categories = [
   { id: "tech" as Category, title: "Technology & Digital Marketing" },
   { id: "health" as Category, title: "Health & Wellness" },
 ]
+
+const categoryOutlets: Record<Category, string[]> = {
+  business: ["USA Wire", "SUCCESS XL", "TopHustler", "Thrive Insider", "Bosses Mag", "Hustle Weekly"],
+  finance: ["Time Business News", "Washington Guardian", "LA Tabloid", "USA Wire", "Medium", "NY Tech Media"],
+  lifestyle: ["USA Wire", "Rolling Hype", "Fashion and Beauty World", "Medium", "The News Hub", "US Features"],
+  tech: ["NY Tech Media", "Medium", "Info Tech Inc", "US Features", "Social Media Explorer", "LA Tabloid"],
+  health: ["Humane Network", "Health Fitness Wire", "Harcourt Health", "SourceFed", "Medium", "USA Wire"],
+}
 
 export default function Step3Page() {
   const router = useRouter()
@@ -49,7 +56,7 @@ export default function Step3Page() {
 
   const getDisplayOutlets = () => {
     if (!category) return []
-    return getOutletsWithImages(category).slice(0, 6)
+    return categoryOutlets[category] || []
   }
 
   return (
@@ -105,6 +112,11 @@ export default function Step3Page() {
                 </div>
               )
             })}
+          </div>
+
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-600 mb-6">
+            <ShieldCheck className="h-4 w-4 flex-shrink-0 text-green-600" />
+            <p>These are just examples. You'll choose your own outlets.</p>
           </div>
 
           {/* Educational Box */}
