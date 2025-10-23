@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { X, Newspaper } from "lucide-react"
 import confetti from "canvas-confetti"
 import { useRouter } from "next/navigation"
@@ -9,13 +9,42 @@ interface RewardPopupProps {
   onClose?: () => void
 }
 
-const articleCards = [1, 2, 3, 4]
+const articleCards = [
+  { id: 1, gradient: "from-blue-500 via-blue-600 to-indigo-600", iconColor: "text-white" },
+  { id: 2, gradient: "from-purple-500 via-purple-600 to-pink-600", iconColor: "text-white" },
+  { id: 3, gradient: "from-emerald-500 via-teal-600 to-cyan-600", iconColor: "text-white" },
+  { id: 4, gradient: "from-orange-500 via-rose-600 to-pink-600", iconColor: "text-white" },
+]
 
 export function RewardPopup({ onClose }: RewardPopupProps) {
   const router = useRouter()
   const [selectedCard, setSelectedCard] = useState<number | null>(null)
   const [showReward, setShowReward] = useState(false)
   const [isClaiming, setIsClaiming] = useState(false)
+
+  useEffect(() => {
+    const canvas = document.createElement("canvas")
+    canvas.id = "confetti-canvas"
+    canvas.style.position = "fixed"
+    canvas.style.top = "0"
+    canvas.style.left = "0"
+    canvas.style.width = "100%"
+    canvas.style.height = "100%"
+    canvas.style.pointerEvents = "none"
+    canvas.style.zIndex = "9999"
+    document.body.appendChild(canvas)
+
+    const myConfetti = confetti.create(canvas, {
+      resize: true,
+      useWorker: true,
+    })
+    ;(window as any).rewardConfetti = myConfetti
+
+    return () => {
+      canvas.remove()
+      delete (window as any).rewardConfetti
+    }
+  }, [])
 
   const handleCardSelect = (cardId: number) => {
     setSelectedCard(cardId)
@@ -25,8 +54,10 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
       cardElement.classList.add("scale-110", "opacity-50")
     }
 
+    const myConfetti = (window as any).rewardConfetti || confetti
+
     // Trigger confetti animation
-    confetti({
+    myConfetti({
       particleCount: 150,
       spread: 100,
       origin: { y: 0.5 },
@@ -35,14 +66,14 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
 
     // Additional confetti burst
     setTimeout(() => {
-      confetti({
+      myConfetti({
         particleCount: 100,
         angle: 60,
         spread: 55,
         origin: { x: 0 },
         colors: ["#3b82f6", "#06b6d4", "#8b5cf6", "#ec4899"],
       })
-      confetti({
+      myConfetti({
         particleCount: 100,
         angle: 120,
         spread: 55,
@@ -96,24 +127,21 @@ export function RewardPopup({ onClose }: RewardPopupProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              {articleCards.map((cardId) => (
+              {articleCards.map((card) => (
                 <button
-                  key={cardId}
-                  id={`card-${cardId}`}
-                  onClick={() => handleCardSelect(cardId)}
+                  key={card.id}
+                  id={`card-${card.id}`}
+                  onClick={() => handleCardSelect(card.id)}
                   disabled={selectedCard !== null}
-                  className="group relative aspect-[4/5] bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:shadow-none"
+                  className={`group relative aspect-[4/5] bg-gradient-to-br ${card.gradient} rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none`}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Newspaper
-                      className="h-12 w-12 text-slate-400 group-hover:text-blue-500 transition-colors duration-300"
-                      strokeWidth={1.5}
-                    />
+                    <Newspaper className={`h-12 w-12 ${card.iconColor} drop-shadow-sm`} strokeWidth={1.5} />
                   </div>
 
                   {/* Card number badge */}
-                  <div className="absolute top-2 left-2 bg-white border border-slate-200 rounded-full w-6 h-6 flex items-center justify-center">
-                    <span className="text-xs font-medium text-slate-600">{cardId}</span>
+                  <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center shadow-sm">
+                    <span className="text-xs font-semibold text-slate-700">{card.id}</span>
                   </div>
                 </button>
               ))}
