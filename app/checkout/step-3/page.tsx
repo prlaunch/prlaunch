@@ -4,7 +4,7 @@ import { MovingBorderButton } from "@/components/ui/moving-border"
 import { getOutletImage } from "@/lib/outlet-images"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowLeft, ShieldCheck } from "lucide-react"
+import { ArrowLeft, ShieldCheck, Sparkles, Search, FileText, CheckCircle, Rocket } from "lucide-react"
 import Image from "next/image"
 
 type Category = "business" | "finance" | "lifestyle" | "tech" | "health"
@@ -121,22 +121,25 @@ export default function Step3Page() {
 
           {/* Educational Box */}
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-6 space-y-4">
-            <h3 className="text-xl font-bold text-slate-900 mb-4">💎 How It Works:</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-purple-600" />
+              How It Works:
+            </h3>
             <div className="space-y-3 text-slate-700">
-              <p className="flex items-start gap-2">
-                <span className="font-semibold">1️⃣</span>
+              <p className="flex items-start gap-3">
+                <Search className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>You'll choose from 100+ premium outlets</span>
               </p>
-              <p className="flex items-start gap-2">
-                <span className="font-semibold">2️⃣</span>
+              <p className="flex items-start gap-3">
+                <FileText className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>We write your custom article (included free)</span>
               </p>
-              <p className="flex items-start gap-2">
-                <span className="font-semibold">3️⃣</span>
+              <p className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>You review and approve before publishing</span>
               </p>
-              <p className="flex items-start gap-2">
-                <span className="font-semibold">4️⃣</span>
+              <p className="flex items-start gap-3">
+                <Rocket className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>Published in 7 days - guaranteed</span>
               </p>
             </div>

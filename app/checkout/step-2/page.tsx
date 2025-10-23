@@ -85,7 +85,7 @@ export default function Step2Page() {
           <div className="text-center mb-8">
             <p className="text-sm text-slate-500 mb-2">Step 2 of 6 • Building Your Campaign</p>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Which category fits you?</h2>
-            <p className="text-sm text-slate-600">💡 This helps us recommend the perfect outlets for you</p>
+            
           </div>
           <div className="space-y-3">
             {categories.map((category, index) => (

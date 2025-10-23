@@ -122,7 +122,7 @@ export default function Step5Page() {
 
       {/* Countdown Timer */}
       <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🎁 Free Bonus Article offer ends in: {formatTime(timeLeft)}
+        🎁 Free Bonus Article claimed for: {formatTime(timeLeft)}
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "72px" }}>

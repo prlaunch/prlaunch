@@ -9,7 +9,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper } from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Tag, X, Copy } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
@@ -31,6 +31,7 @@ function CheckoutForm({
   informationCardRef,
   onRecreatePaymentIntent,
   onPaymentComplete,
+  discountedPrice,
 }: {
   selectedPackage: string
   email: string
@@ -44,6 +45,7 @@ function CheckoutForm({
   informationCardRef: React.RefObject<HTMLDivElement>
   onRecreatePaymentIntent: () => Promise<void>
   onPaymentComplete: (customerId: string, paymentMethodType: string) => void
+  discountedPrice: number
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -270,9 +272,17 @@ function PaymentContent() {
   const [upgradeChecked, setUpgradeChecked] = useState(false)
   const informationCardRef = useRef<HTMLDivElement>(null)
 
+  const [discountCode, setDiscountCode] = useState("")
+  const [discountApplied, setDiscountApplied] = useState(false)
+  const [discountError, setDiscountError] = useState("")
+  const [copySuccess, setCopySuccess] = useState(false)
+
   const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
   const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
+
+  const discountedPrice = discountApplied ? Math.round(currentPackage.price * 0.9) : currentPackage.price
+  const discountAmount = currentPackage.price - discountedPrice
 
   const calculateTotalSavings = () => {
     if (!upsellPackage) return 0
@@ -280,6 +290,22 @@ function PaymentContent() {
     return Math.round(wouldPayAtCurrentRate - upsellPackage.price)
   }
   const totalSavings = calculateTotalSavings()
+
+  const handleApplyDiscount = () => {
+    if (discountCode.toUpperCase() === "LAUNCH10") {
+      setDiscountApplied(true)
+      setDiscountError("")
+    } else {
+      setDiscountError("Invalid discount code")
+      setDiscountApplied(false)
+    }
+  }
+
+  const handleRemoveDiscount = () => {
+    setDiscountApplied(false)
+    setDiscountCode("")
+    setDiscountError("")
+  }
 
   useEffect(() => {}, [selectedPackage, currentPackage.price])
 
@@ -292,7 +318,7 @@ function PaymentContent() {
       const validFullName = fullName && fullName.trim() ? fullName : "Pending"
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
-        amount: currentPackage.price,
+        amount: discountedPrice,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
         email: validEmail,
@@ -311,7 +337,7 @@ function PaymentContent() {
 
   useEffect(() => {
     initializePayment()
-  }, [selectedPackage, currentPackage.price, currentPackage.name, currentPackage.articles])
+  }, [selectedPackage, discountedPrice, currentPackage.name, currentPackage.articles])
 
   const handleUpgradeChange = (checked: boolean) => {
     setUpgradeChecked(checked)
@@ -332,11 +358,11 @@ function PaymentContent() {
 
     if (paymentMethodType === "card") {
       router.push(
-        `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
+        `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
       )
     } else {
       router.push(
-        `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${currentPackage.price}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
+        `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
       )
     }
   }
@@ -347,23 +373,59 @@ function PaymentContent() {
     // Function implementation goes here
   }
 
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText("LAUNCH10")
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea")
+      textArea.value = "LAUNCH10"
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textArea)
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {showCelebration && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white rounded-3xl p-16 shadow-2xl text-center animate-in zoom-in-95 duration-500">
-            <div className="mb-8">
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/50 animate-pulse">
-                <Check className="h-12 w-12 text-white stroke-[3]" />
-              </div>
-            </div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Excellent Choice!</h2>
-            <p className="text-lg text-slate-600">Upgrading your package...</p>
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 shadow-lg transition-colors duration-300 ${
+          discountApplied
+            ? "bg-gradient-to-r from-green-600 to-emerald-600"
+            : "bg-gradient-to-r from-blue-600 to-purple-600"
+        }`}
+      >
+        <div className="container mx-auto py-2.5 px-4 flex items-center justify-center gap-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-white">
+            {discountApplied ? (
+              <>
+                <Check className="h-4 w-4" />
+                <span>10% discount applied!</span>
+              </>
+            ) : (
+              <>
+                <Tag className="h-4 w-4" />
+                <span>Save 10% with code:</span>
+              </>
+            )}
           </div>
+          <button
+            onClick={handleCopyCode}
+            className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-3 py-1 rounded-lg transition-colors font-mono font-bold text-sm"
+          >
+            <span>LAUNCH10</span>
+            <Copy className="h-3.5 w-3.5" />
+          </button>
+          {copySuccess && <span className="text-xs text-white/90 animate-in fade-in">Copied!</span>}
         </div>
-      )}
+      </div>
 
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+      <header className="bg-white border-b border-slate-200 sticky top-[42px] z-40 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
@@ -379,7 +441,7 @@ function PaymentContent() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+      <div className="container mx-auto px-4 pt-24 pb-8 md:pb-12 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
@@ -420,7 +482,7 @@ function PaymentContent() {
             </div>
 
             <div
-              key={`order-summary-${selectedPackage}-${currentPackage.price}`}
+              key={`order-summary-${selectedPackage}-${discountedPrice}`}
               className={`bg-white rounded-2xl p-6 shadow-lg relative ${
                 upgradeApplied ? "border-2" : "border-2 border-blue-500"
               }`}
@@ -451,16 +513,74 @@ function PaymentContent() {
                 </div>
                 <div className="text-right">
                   <div className="text-lg text-slate-400 line-through">${currentPackage.originalPrice}</div>
-                  <div className="text-3xl font-bold text-slate-900">${currentPackage.price}</div>
-                  <div className="text-sm text-slate-600">${currentPackage.perArticle.toFixed(2)}/article</div>
+                  {discountApplied ? (
+                    <>
+                      <div className="text-xl text-slate-400 line-through">${currentPackage.price}</div>
+                      <div className="text-3xl font-bold text-green-600">${discountedPrice}</div>
+                    </>
+                  ) : (
+                    <div className="text-3xl font-bold text-slate-900">${currentPackage.price}</div>
+                  )}
+                  <div className="text-sm text-slate-600">
+                    ${(discountedPrice / (currentPackage.articles + (currentPackage.hasBonus ? 1 : 0))).toFixed(2)}
+                    /article
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
                 <Check className="h-4 w-4" />
                 <span className="font-semibold">
                   50% OFF Applied — Save ${currentPackage.originalPrice - currentPackage.price}
+                  {discountApplied && ` + $${discountAmount} with LAUNCH10`}
                 </span>
               </div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <Tag className="h-4 w-4 text-slate-600" />
+                <h3 className="text-sm font-semibold text-slate-900">Have a discount code?</h3>
+              </div>
+
+              {!discountApplied ? (
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Enter code"
+                    value={discountCode}
+                    onChange={(e) => {
+                      setDiscountCode(e.target.value.toUpperCase())
+                      setDiscountError("")
+                    }}
+                    className="flex-1 h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
+                  />
+                  <Button
+                    onClick={handleApplyDiscount}
+                    disabled={!discountCode.trim()}
+                    className="h-10 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Apply
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-green-600" />
+                    <span className="text-sm font-semibold text-green-700">
+                      LAUNCH10 applied — Save ${discountAmount}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleRemoveDiscount}
+                    className="text-slate-500 hover:text-slate-700 transition-colors"
+                    aria-label="Remove discount"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {discountError && <p className="text-xs text-red-600 mt-2">{discountError}</p>}
             </div>
 
             {showUpsell && upsellPackage && selectedPackage !== "agency" && (
@@ -620,6 +740,7 @@ function PaymentContent() {
                     informationCardRef={informationCardRef}
                     onRecreatePaymentIntent={initializePayment}
                     onPaymentComplete={handlePaymentComplete}
+                    discountedPrice={discountedPrice}
                   />
                 </Elements>
               )}

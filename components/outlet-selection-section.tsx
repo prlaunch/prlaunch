@@ -15,7 +15,7 @@ interface Outlet {
 const industries = [
   { name: "Business & Entrepreneurship", count: 0, icon: "💼", href: "/outlets/business-entrepreneurship" },
   { name: "Finance & Economics", count: 0, icon: "📈", href: "/outlets/finance-economics" },
-  { name: "Lifestyle & Culture", count: 0, icon: "✨", href: "/outlets/lifestyle-culture" },
+  { name: "Lifestyle & Culture", count: 0, icon: "��", href: "/outlets/lifestyle-culture" },
   {
     name: "Technology & Digital Marketing",
     count: 0,
