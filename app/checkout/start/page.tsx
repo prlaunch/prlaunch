@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2 } from "lucide-react"
+import { Star, Loader2, ArrowRight } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState } from "react"
 
@@ -23,6 +23,10 @@ export default function CheckoutStartPage() {
   const handleStart = () => {
     setIsLoading(true)
     router.push("/checkout/step-1")
+  }
+
+  const handleSkipToPricing = () => {
+    router.push("/checkout/step-5")
   }
 
   return (
@@ -71,6 +75,14 @@ export default function CheckoutStartPage() {
             "Start Building My Campaign →"
           )}
         </MovingBorderButton>
+
+        <button
+          onClick={handleSkipToPricing}
+          className="mt-3 text-sm text-slate-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 mx-auto group"
+        >
+          Skip to pricing
+          <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+        </button>
 
         <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">
           <div className="flex items-center gap-2">
