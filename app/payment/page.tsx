@@ -9,7 +9,22 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Tag, X, Copy } from "lucide-react"
+import {
+  Lock,
+  Star,
+  Check,
+  Sparkles,
+  Shield,
+  Mail,
+  FileText,
+  Edit3,
+  Eye,
+  Newspaper,
+  Tag,
+  X,
+  Copy,
+  Clock,
+} from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
@@ -253,7 +268,6 @@ function PaymentContent() {
     },
   }
 
-  // Validate and normalize package parameter
   const validPackage = packageParam.toLowerCase() in packages ? packageParam.toLowerCase() : "starter"
   const [selectedPackage, setSelectedPackage] = useState(validPackage)
 
@@ -276,6 +290,8 @@ function PaymentContent() {
   const [discountApplied, setDiscountApplied] = useState(false)
   const [discountError, setDiscountError] = useState("")
   const [copySuccess, setCopySuccess] = useState(false)
+
+  const [timeLeft, setTimeLeft] = useState(600)
 
   const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
   const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
@@ -379,7 +395,6 @@ function PaymentContent() {
       setCopySuccess(true)
       setTimeout(() => setCopySuccess(false), 2000)
     } catch (err) {
-      // Fallback for older browsers
       const textArea = document.createElement("textarea")
       textArea.value = "LAUNCH10"
       document.body.appendChild(textArea)
@@ -398,6 +413,26 @@ function PaymentContent() {
       return 77
     }
     return 0
+  }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 0) {
+          clearInterval(timer)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
   return (
@@ -466,6 +501,15 @@ function PaymentContent() {
           </div>
         </div>
       </header>
+
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-center gap-2">
+          <Clock className="h-4 w-4 text-orange-600" />
+          <span className="text-sm font-semibold text-slate-900">
+            Limited spots: expires in <span className="text-orange-600 font-mono">{formatTime(timeLeft)}</span>
+          </span>
+        </div>
+      </div>
 
       <div className="container mx-auto px-4 pt-24 pb-8 md:pb-12 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-8">
