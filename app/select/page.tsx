@@ -10,10 +10,11 @@ import { getOutletImage } from "@/lib/outlet-images"
 import { mainReviews } from "@/lib/reviews-data"
 import { useRouter } from "next/navigation"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { useMobile } from "@/hooks/use-mobile"
 
 const CATEGORIES = ["All", "Business", "Tech", "Lifestyle", "Wellness/Health", "Finance"]
 
-// Map category names to outlet data categories
 const CATEGORY_MAP: Record<string, string> = {
   All: "",
   Business: "Business & Entrepreneurship",
@@ -23,15 +24,39 @@ const CATEGORY_MAP: Record<string, string> = {
   Finance: "Finance & Economics",
 }
 
+const CART_STORAGE_KEY = "prlaunch_cart"
+
 export default function SelectPage() {
   const router = useRouter()
+  const isMobile = useMobile()
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedOutlets, setSelectedOutlets] = useState<Outlet[]>([])
   const [filteredOutlets, setFilteredOutlets] = useState<Outlet[]>(outletsData)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const outletGridRef = useRef<HTMLDivElement>(null)
 
-  // Filter outlets when category changes
+  useEffect(() => {
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY)
+    if (savedCart) {
+      try {
+        const parsed = JSON.parse(savedCart)
+        if (Array.isArray(parsed)) {
+          setSelectedOutlets(parsed)
+        }
+      } catch (e) {
+        console.error("Failed to parse saved cart:", e)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (selectedOutlets.length > 0) {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(selectedOutlets))
+    } else {
+      localStorage.removeItem(CART_STORAGE_KEY)
+    }
+  }, [selectedOutlets])
+
   useEffect(() => {
     if (selectedCategory === "All") {
       setFilteredOutlets(outletsData)
@@ -43,13 +68,16 @@ export default function SelectPage() {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
-    // Scroll to the outlet grid section
-    setTimeout(() => {
-      const element = document.getElementById("outlet-selector")
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
-      }
-    }, 100)
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const element = document.getElementById("outlet-grid")
+        if (element) {
+          const yOffset = -80
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+          window.scrollTo({ top: y, behavior: "smooth" })
+        }
+      }, 50)
+    })
   }
 
   const scrollToOutlets = () => {
@@ -61,10 +89,8 @@ export default function SelectPage() {
 
   const handleAddToCart = (outlet: Outlet) => {
     if (selectedOutlets.find((o) => o.number === outlet.number)) {
-      // Remove from cart
       setSelectedOutlets(selectedOutlets.filter((o) => o.number !== outlet.number))
     } else {
-      // Add to cart
       setSelectedOutlets([...selectedOutlets, outlet])
     }
   }
@@ -75,7 +101,6 @@ export default function SelectPage() {
 
   const calculateTotal = () => {
     const count = selectedOutlets.length
-    // Every 4th outlet is free (buy 3 get 1 free)
     const paidOutlets = count - Math.floor(count / 4)
     return paidOutlets * 47
   }
@@ -87,10 +112,9 @@ export default function SelectPage() {
   const getProgressToNextFree = () => {
     const remainder = selectedOutlets.length % 4
     if (remainder === 0 && selectedOutlets.length > 0) {
-      // Bonus unlocked, waiting for user to add the free article
       return 0
     }
-    return 3 - remainder
+    return 4 - remainder // Changed from 3 - remainder to 4 - remainder
   }
 
   const getCurrentBonusTier = () => {
@@ -101,14 +125,18 @@ export default function SelectPage() {
     return (index + 1) % 4 === 0
   }
 
+  const getProgressPercentage = () => {
+    const remainder = selectedOutlets.length % 4
+    if (remainder === 0) return 0
+    return Math.min(100, Math.max(0, (remainder / 3) * 100))
+  }
+
   const handleCheckout = () => {
-    // Create detailed outlet data with free status
     const outletsWithStatus = selectedOutlets.map((outlet, index) => ({
       ...outlet,
       isFree: isFreeOutlet(index),
     }))
 
-    // Encode outlet data as JSON
     const outletsData = encodeURIComponent(JSON.stringify(outletsWithStatus))
     const total = calculateTotal()
     const freeCount = getFreeOutletsCount()
@@ -118,7 +146,6 @@ export default function SelectPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-background pt-12 md:pt-16 pb-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-4xl">
@@ -131,7 +158,6 @@ export default function SelectPage() {
                 <span className="text-foreground">launch.io</span>
               </Link>
 
-              {/* Rating banner */}
               <div className="mb-8 flex justify-center">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm">
                   <div className="flex items-center gap-0.5">
@@ -164,7 +190,6 @@ export default function SelectPage() {
                 Get published in premium USA outlets in 48 hours. Choose your outlets below.
               </p>
 
-              {/* CTA button */}
               <div className="mb-10">
                 <Button
                   size="lg"
@@ -175,7 +200,6 @@ export default function SelectPage() {
                 </Button>
               </div>
 
-              {/* Badges */}
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 rounded-lg bg-success/10 px-2.5 py-1.5">
@@ -198,7 +222,6 @@ export default function SelectPage() {
                   <span className="text-xs font-medium text-foreground">Money-Back Promise</span>
                 </div>
 
-                {/* Trust badge */}
                 <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-4">
                   <div className="flex items-center gap-2">
                     <div className="flex -space-x-2">
@@ -227,22 +250,21 @@ export default function SelectPage() {
         </div>
       </section>
 
-      {/* CATEGORY FILTER BAR */}
       <section
         id="outlet-selector"
         ref={outletGridRef}
-        className="bg-slate-50 py-6 sticky top-0 z-40 border-b border-slate-200"
+        className="bg-white/80 backdrop-blur-sm py-3 sticky top-0 z-40 border-b border-slate-200/60"
       >
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => handleCategoryChange(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
                   selectedCategory === category
-                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
-                    : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                    ? "bg-blue-500 text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 {category}
@@ -252,8 +274,7 @@ export default function SelectPage() {
         </div>
       </section>
 
-      {/* OUTLET GRID */}
-      <section className="py-12 md:py-16 pb-32">
+      <section id="outlet-grid" className="py-12 md:py-16 pb-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {filteredOutlets.map((outlet, index) => {
@@ -265,7 +286,6 @@ export default function SelectPage() {
                   key={outlet.number}
                   className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
                 >
-                  {/* Outlet Image */}
                   <Link href={outlet.url} target="_blank" rel="noopener noreferrer" className="block">
                     <div className="relative w-full aspect-[4/3] bg-slate-100">
                       {imageUrl ? (
@@ -278,14 +298,12 @@ export default function SelectPage() {
                     </div>
                   </Link>
 
-                  {/* Outlet Info */}
                   <div className="p-4 flex-1 flex flex-col">
                     <Link href={outlet.url} target="_blank" rel="noopener noreferrer" className="hover:opacity-80">
                       <h3 className="font-semibold text-slate-900 text-sm md:text-base mb-1">{outlet.name}</h3>
                     </Link>
                     <p className="text-xs text-slate-500 mb-3">{outlet.category}</p>
 
-                    {/* Add to Cart Button */}
                     <Button
                       onClick={() => handleAddToCart(outlet)}
                       className={`w-full mt-auto rounded-full text-sm font-medium transition-all duration-200 ${
@@ -311,7 +329,6 @@ export default function SelectPage() {
         </div>
       </section>
 
-      {/* WHAT'S INCLUDED */}
       <section className="py-12 md:py-16 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-3xl">
@@ -332,7 +349,6 @@ export default function SelectPage() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-12">What Our Clients Say</h2>
@@ -363,8 +379,7 @@ export default function SelectPage() {
         </div>
       </section>
 
-      {/* GUARANTEE */}
-      <section className="bg-gradient-to-br from-slate-900 to-blue-900 py-12 md:py-16 text-white">
+      <section className="bg-gradient-to-br from-slate-900 to-blue-900 py-12 md:py-16 text-white pb-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl">
@@ -380,55 +395,82 @@ export default function SelectPage() {
       {selectedOutlets.length > 0 && (
         <>
           <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-200 shadow-2xl z-50">
-            <div className="container mx-auto px-4 md:px-6 py-4">
-              <div className="flex flex-col gap-3 max-w-6xl mx-auto">
-                {/* Progress Bar - Now visible on all screen sizes */}
-                <div className="flex flex-col gap-1.5">
-                  {selectedOutlets.length % 4 === 0 && selectedOutlets.length > 0 ? (
-                    // Bonus unlocked - next article they add will be free
-                    <>
-                      <div className="h-2.5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-sm animate-pulse" />
-                      <p className="text-xs text-green-600 font-bold text-center">
-                        🎉 Bonus unlocked! Next article you add is FREE!
-                      </p>
-                    </>
-                  ) : selectedOutlets.length % 4 === 1 && selectedOutlets.length > 1 ? (
-                    // Just added the free article, now working toward next bonus
-                    <>
-                      <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden shadow-inner">
-                        <div
-                          className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
-                          style={{ width: "0%" }}
-                        />
+            <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex flex-col md:hidden gap-2">
+                  <div className="flex flex-col gap-1">
+                    {selectedOutlets.length % 4 === 0 && selectedOutlets.length > 0 ? (
+                      <>
+                        <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-sm animate-pulse" />
+                        <p className="text-xs text-green-600 font-bold text-center">
+                          🎉 Free article #{getCurrentBonusTier()} unlocked!
+                        </p>
+                      </>
+                    ) : selectedOutlets.length % 4 === 1 && selectedOutlets.length > 1 ? (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: "0%" }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          Add 3 more for free article #{getCurrentBonusTier() + 1}! 🎁
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: `${getProgressPercentage()}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          {getCurrentBonusTier() === 0
+                            ? `Add ${getProgressToNextFree()} more for your 1st free article! 🎉`
+                            : `Add ${getProgressToNextFree()} more for free article #${getCurrentBonusTier() + 1}! 🎁`}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <button
+                      onClick={() => setIsCartOpen(true)}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="relative">
+                        <div className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
+                          <ShoppingCart className="w-5 h-5" />
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center border-2 border-white">
+                          {selectedOutlets.length}
+                        </div>
                       </div>
-                      <span className="text-xs text-slate-700 font-medium text-center">
-                        Add 3 more for free article #{getCurrentBonusTier() + 1}! 🎁
-                      </span>
-                    </>
-                  ) : (
-                    // Working toward next bonus
-                    <>
-                      <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden shadow-inner">
-                        <div
-                          className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
-                          style={{ width: `${((selectedOutlets.length % 4) / 3) * 100}%` }}
-                        />
+                      <div className="text-left">
+                        <p className="text-lg font-bold text-slate-900">${calculateTotal()}</p>
+                        {getFreeOutletsCount() > 0 && (
+                          <p className="text-xs text-green-600 font-semibold">🎁 +{getFreeOutletsCount()} free!</p>
+                        )}
                       </div>
-                      <span className="text-xs text-slate-700 font-medium text-center">
-                        {getCurrentBonusTier() === 0
-                          ? `Add ${getProgressToNextFree()} more for your 1st free article! 🎉`
-                          : `Add ${getProgressToNextFree()} more for free article #${getCurrentBonusTier() + 1}! 🎁`}
-                      </span>
-                    </>
-                  )}
+                    </button>
+
+                    <Button
+                      onClick={handleCheckout}
+                      size="lg"
+                      className="h-11 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 text-base font-semibold shadow-lg transition-all duration-200 hover:scale-105"
+                    >
+                      Checkout
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
                 </div>
 
-                {/* Cart and Checkout Row */}
-                <div className="flex items-center justify-between gap-3">
-                  {/* Left: Cart button with count */}
+                <div className="hidden md:flex items-center justify-between gap-4">
                   <button
                     onClick={() => setIsCartOpen(true)}
-                    className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                    className="flex items-center gap-3 hover:opacity-80 transition-opacity flex-shrink-0"
                   >
                     <div className="relative">
                       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
@@ -446,11 +488,47 @@ export default function SelectPage() {
                     </div>
                   </button>
 
-                  {/* Right: Checkout button */}
+                  <div className="flex-1 flex flex-col gap-1 min-w-0 max-w-md">
+                    {selectedOutlets.length % 4 === 0 && selectedOutlets.length > 0 ? (
+                      <>
+                        <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-sm animate-pulse" />
+                        <p className="text-xs text-green-600 font-bold text-center">
+                          🎉 Free article #{getCurrentBonusTier()} unlocked!
+                        </p>
+                      </>
+                    ) : selectedOutlets.length % 4 === 1 && selectedOutlets.length > 1 ? (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: "0%" }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          Add 3 more for free article #{getCurrentBonusTier() + 1}! 🎁
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: `${getProgressPercentage()}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          {getCurrentBonusTier() === 0
+                            ? `Add ${getProgressToNextFree()} more for your 1st free article! 🎉`
+                            : `Add ${getProgressToNextFree()} more for free article #${getCurrentBonusTier() + 1}! 🎁`}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
                   <Button
                     onClick={handleCheckout}
                     size="lg"
-                    className="h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 md:px-8 text-base font-semibold shadow-lg transition-all duration-200 hover:scale-105"
+                    className="h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-base font-semibold shadow-lg transition-all duration-200 hover:scale-105 flex-shrink-0"
                   >
                     Checkout
                     <ArrowRight className="w-5 h-5 ml-2" />
@@ -460,104 +538,285 @@ export default function SelectPage() {
             </div>
           </div>
 
-          <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-            <SheetContent side="bottom" className="h-[80vh] overflow-y-auto">
-              <SheetHeader>
-                <SheetTitle className="text-2xl font-bold">Your Cart ({selectedOutlets.length})</SheetTitle>
-                <SheetDescription>Review your selected outlets. Every 4th article is FREE! 🎁</SheetDescription>
-              </SheetHeader>
+          {isMobile ? (
+            <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+              <SheetContent side="bottom" className="h-[80vh] overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle className="text-2xl font-bold">Your Cart ({selectedOutlets.length})</SheetTitle>
+                  <SheetDescription>Review your selected outlets. Every 4th article is FREE! 🎁</SheetDescription>
+                </SheetHeader>
 
-              <div className="mt-6 space-y-4">
-                {selectedOutlets.map((outlet, index) => {
-                  const imageUrl = getOutletImage(outlet.name)
-                  const isFree = isFreeOutlet(index)
-
-                  return (
-                    <div
-                      key={outlet.number}
-                      className={`flex items-center gap-4 rounded-lg p-4 border-2 transition-all ${
-                        isFree
-                          ? "bg-gradient-to-r from-green-50 to-emerald-50 border-green-300 shadow-md"
-                          : "bg-slate-50 border-slate-200"
-                      }`}
-                    >
-                      {/* Outlet Image */}
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-slate-100">
-                        {imageUrl ? (
-                          <Image src={imageUrl || "/placeholder.svg"} alt={outlet.name} fill className="object-cover" />
-                        ) : (
-                          <div className="flex items-center justify-center h-full">
-                            <span className="text-slate-400 text-xs">No image</span>
-                          </div>
-                        )}
-                        {isFree && (
-                          <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
-                            <Gift className="w-8 h-8 text-green-600" />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Outlet Info */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-slate-900 text-base">{outlet.name}</h3>
-                          {isFree && (
-                            <span className="px-2 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full">
-                              FREE
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-slate-500">{outlet.category}</p>
-                        <p
-                          className={`text-sm font-bold mt-1 ${isFree ? "text-green-600 line-through" : "text-blue-600"}`}
-                        >
-                          {isFree ? "$0 (was $47)" : "$47"}
+                <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+                  <div className="flex flex-col gap-1.5">
+                    {selectedOutlets.length % 4 === 0 && selectedOutlets.length > 0 ? (
+                      <>
+                        <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-sm animate-pulse" />
+                        <p className="text-xs text-green-600 font-bold text-center">
+                          🎉 Free article #{getCurrentBonusTier()} unlocked!
                         </p>
-                      </div>
-
-                      {/* Remove Button */}
-                      <button
-                        onClick={() => handleAddToCart(outlet)}
-                        className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 hover:bg-red-200 text-red-600 transition-colors"
-                        aria-label="Remove from cart"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Cart Summary */}
-              <div className="mt-6 p-4 bg-slate-100 rounded-lg border border-slate-200">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600">Subtotal ({selectedOutlets.length} articles)</span>
-                    <span className="font-semibold text-slate-900">${selectedOutlets.length * 47}</span>
-                  </div>
-                  {getFreeOutletsCount() > 0 && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-medium">🎁 Free articles ({getFreeOutletsCount()})</span>
-                      <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 47}</span>
-                    </div>
-                  )}
-                  <div className="pt-2 border-t border-slate-300 flex justify-between">
-                    <span className="text-lg font-bold text-slate-900">Total</span>
-                    <span className="text-lg font-bold text-blue-600">${calculateTotal()}</span>
+                      </>
+                    ) : selectedOutlets.length % 4 === 1 && selectedOutlets.length > 1 ? (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: "0%" }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          Add 3 more for free article #{getCurrentBonusTier() + 1}! 🎁
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: `${getProgressPercentage()}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          {getCurrentBonusTier() === 0
+                            ? `Add ${getProgressToNextFree()} more for your 1st free article! 🎉`
+                            : `Add ${getProgressToNextFree()} more for free article #${getCurrentBonusTier() + 1}! 🎁`}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
 
-                <Button
-                  onClick={handleCheckout}
-                  size="lg"
-                  className="w-full mt-4 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-base font-semibold shadow-lg"
-                >
-                  Proceed to Checkout
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+                <div className="mt-6 space-y-4">
+                  {selectedOutlets.map((outlet, index) => {
+                    const imageUrl = getOutletImage(outlet.name)
+                    const isFree = isFreeOutlet(index)
+
+                    return (
+                      <div
+                        key={outlet.number}
+                        className={`flex items-center gap-4 rounded-lg p-3 border transition-all ${
+                          isFree
+                            ? "bg-gradient-to-r from-green-50 to-emerald-50 border-green-300"
+                            : "bg-white border-slate-200"
+                        }`}
+                      >
+                        <div className="relative w-14 h-14 rounded-md overflow-hidden flex-shrink-0 bg-slate-100">
+                          {imageUrl ? (
+                            <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt={outlet.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full">
+                              <span className="text-slate-400 text-xs">No image</span>
+                            </div>
+                          )}
+                          {isFree && (
+                            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+                              <Gift className="w-5 h-5 text-green-600" />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-slate-900 text-sm truncate">{outlet.name}</h3>
+                            {isFree && (
+                              <span className="px-1.5 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full flex-shrink-0">
+                                FREE
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-500 truncate">{outlet.category}</p>
+                          <p
+                            className={`text-xs font-bold mt-0.5 ${isFree ? "text-green-600 line-through" : "text-blue-600"}`}
+                          >
+                            {isFree ? "$0 (was $47)" : "$47"}
+                          </p>
+                        </div>
+
+                        <button
+                          onClick={() => handleAddToCart(outlet)}
+                          className="flex items-center justify-center w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 text-red-600 transition-colors flex-shrink-0"
+                          aria-label="Remove from cart"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className="mt-6 p-4 bg-slate-100 rounded-lg border border-slate-200">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Subtotal ({selectedOutlets.length} articles)</span>
+                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 47}</span>
+                    </div>
+                    {getFreeOutletsCount() > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-green-600 font-medium">🎁 Free articles ({getFreeOutletsCount()})</span>
+                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 47}</span>
+                      </div>
+                    )}
+                    <div className="pt-2 border-t border-slate-300 flex justify-between">
+                      <span className="text-lg font-bold text-slate-900">Total</span>
+                      <span className="text-lg font-bold text-blue-600">${calculateTotal()}</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleCheckout}
+                    size="lg"
+                    className="w-full mt-4 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-base font-semibold shadow-lg"
+                  >
+                    Proceed to Checkout
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          ) : (
+            <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
+              <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold">Your Cart ({selectedOutlets.length})</DialogTitle>
+                  <DialogDescription>Review your selected outlets. Every 4th article is FREE! 🎁</DialogDescription>
+                </DialogHeader>
+
+                <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+                  <div className="flex flex-col gap-1.5">
+                    {selectedOutlets.length % 4 === 0 && selectedOutlets.length > 0 ? (
+                      <>
+                        <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-sm animate-pulse" />
+                        <p className="text-xs text-green-600 font-bold text-center">
+                          🎉 Free article #{getCurrentBonusTier()} unlocked!
+                        </p>
+                      </>
+                    ) : selectedOutlets.length % 4 === 1 && selectedOutlets.length > 1 ? (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: "0%" }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          Add 3 more for free article #{getCurrentBonusTier() + 1}! 🎁
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-500 shadow-sm"
+                            style={{ width: `${getProgressPercentage()}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-700 font-medium text-center">
+                          {getCurrentBonusTier() === 0
+                            ? `Add ${getProgressToNextFree()} more for your 1st free article! 🎉`
+                            : `Add ${getProgressToNextFree()} more for free article #${getCurrentBonusTier() + 1}! 🎁`}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-4">
+                  {selectedOutlets.map((outlet, index) => {
+                    const imageUrl = getOutletImage(outlet.name)
+                    const isFree = isFreeOutlet(index)
+
+                    return (
+                      <div
+                        key={outlet.number}
+                        className={`flex items-center gap-4 rounded-lg p-3 border transition-all ${
+                          isFree
+                            ? "bg-gradient-to-r from-green-50 to-emerald-50 border-green-300"
+                            : "bg-white border-slate-200"
+                        }`}
+                      >
+                        <div className="relative w-14 h-14 rounded-md overflow-hidden flex-shrink-0 bg-slate-100">
+                          {imageUrl ? (
+                            <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt={outlet.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full">
+                              <span className="text-slate-400 text-xs">No image</span>
+                            </div>
+                          )}
+                          {isFree && (
+                            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+                              <Gift className="w-5 h-5 text-green-600" />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-slate-900 text-sm truncate">{outlet.name}</h3>
+                            {isFree && (
+                              <span className="px-1.5 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full flex-shrink-0">
+                                FREE
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-500 truncate">{outlet.category}</p>
+                          <p
+                            className={`text-xs font-bold mt-0.5 ${isFree ? "text-green-600 line-through" : "text-blue-600"}`}
+                          >
+                            {isFree ? "$0 (was $47)" : "$47"}
+                          </p>
+                        </div>
+
+                        <button
+                          onClick={() => handleAddToCart(outlet)}
+                          className="flex items-center justify-center w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 text-red-600 transition-colors flex-shrink-0"
+                          aria-label="Remove from cart"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className="mt-6 p-4 bg-slate-100 rounded-lg border border-slate-200">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Subtotal ({selectedOutlets.length} articles)</span>
+                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 47}</span>
+                    </div>
+                    {getFreeOutletsCount() > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-green-600 font-medium">🎁 Free articles ({getFreeOutletsCount()})</span>
+                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 47}</span>
+                      </div>
+                    )}
+                    <div className="pt-2 border-t border-slate-300 flex justify-between">
+                      <span className="text-lg font-bold text-slate-900">Total</span>
+                      <span className="text-lg font-bold text-blue-600">${calculateTotal()}</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleCheckout}
+                    size="lg"
+                    className="w-full mt-4 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-base font-semibold shadow-lg"
+                  >
+                    Proceed to Checkout
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
         </>
       )}
     </main>
