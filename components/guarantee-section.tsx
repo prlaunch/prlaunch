@@ -14,8 +14,8 @@ export function GuaranteeSection() {
 
   const benefits = [
     "Published within 48 hours of approval",
-    "We'll pay you $100 extra if we fail",
     "Full refund if we don't deliver",
+    "No questions asked guarantee",
   ]
 
   return (
@@ -42,8 +42,8 @@ export function GuaranteeSection() {
           <div className="mb-5 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 p-6 shadow-2xl">
             <p className="text-pretty text-base font-semibold leading-relaxed md:text-lg">
               We're so confident in our process that if we don't deliver results within 48 hours of your draft approval,
-              you get a <span className="underline decoration-2 underline-offset-2">full refund</span> + we'll pay you{" "}
-              <span className="underline decoration-2 underline-offset-2">$100</span> for wasting your time.
+              you get a <span className="underline decoration-2 underline-offset-2">full refund</span>. No questions
+              asked.
             </p>
           </div>
 

@@ -89,7 +89,7 @@ export default function Step3Page() {
             <p className="text-sm text-slate-500 mb-2">Step 3 of 6 • Your Perfect Outlets</p>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
               Based on {categories.find((c) => c.id === category)?.title.split(" & ")[0]} +{" "}
-              {goals.find((g) => g.id === goal)?.title.split(" & ")[0]}, you'll get featured in outlets like:
+              {goals.find((g) => g.id === goal)?.title.split(" & ")[0]}, we recommend outlets like:
             </h2>
           </div>
 
