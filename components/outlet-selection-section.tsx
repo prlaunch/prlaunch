@@ -4,6 +4,7 @@ import { Clock, Sparkles, FileText } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
+import { usePathname } from "next/navigation"
 
 interface Outlet {
   number: number
@@ -39,6 +40,10 @@ const logos = [
 export function OutletSelectionSection() {
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
+  const pathname = usePathname()
+
+  const isFastPage = pathname?.startsWith("/fast")
+  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout"
 
   useEffect(() => {
     fetch("/api/outlets")
@@ -119,10 +124,13 @@ export function OutletSelectionSection() {
                   ? "Loading..."
                   : `${realCount} outlets`
 
+              // Use /fast/pricing for checkout button on /fast page
+              const linkHref = industry.isCheckout && isFastPage ? ctaLink : industry.href
+
               return (
                 <Link
                   key={industry.name}
-                  href={industry.href}
+                  href={linkHref}
                   className={`group p-4 rounded-xl border-2 transition-all duration-300 ${
                     industry.isCheckout
                       ? "bg-gradient-to-br from-blue-600 to-blue-700 border-blue-600 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
@@ -181,7 +189,7 @@ export function OutletSelectionSection() {
           <MovingBorderButton
             borderRadius="1.75rem"
             as="a"
-            href="/checkout"
+            href={ctaLink}
             containerClassName="h-14 w-auto"
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}

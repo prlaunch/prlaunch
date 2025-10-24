@@ -24,14 +24,23 @@ import {
   X,
   Copy,
   Clock,
+  Gift,
 } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
+import { getOutletImage } from "@/lib/outlet-images"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+
+interface OutletData {
+  number: number
+  name: string
+  category: string
+  isFree: boolean
+}
 
 function CheckoutForm({
   selectedPackage,
@@ -224,6 +233,27 @@ function CheckoutForm({
 function PaymentContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+
+  const outletsDataParam = searchParams.get("outletsData")
+  const totalParam = searchParams.get("total")
+  const freeCountParam = searchParams.get("freeCount")
+
+  const [customOutlets, setCustomOutlets] = useState<OutletData[]>([])
+  const [isCustomOrder, setIsCustomOrder] = useState(false)
+
+  // Parse outlet data on mount
+  useEffect(() => {
+    if (outletsDataParam) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(outletsDataParam))
+        setCustomOutlets(parsed)
+        setIsCustomOrder(true)
+      } catch (e) {
+        console.error("Failed to parse outlets data:", e)
+      }
+    }
+  }, [outletsDataParam])
+
   const packageParam = searchParams.get("package") || "starter"
 
   const emailParam = searchParams.get("email") || ""
@@ -297,8 +327,9 @@ function PaymentContent() {
   const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
 
-  const discountedPrice = discountApplied ? Math.round(currentPackage.price * 0.9) : currentPackage.price
-  const discountAmount = currentPackage.price - discountedPrice
+  const basePrice = isCustomOrder && totalParam ? Number.parseInt(totalParam) : currentPackage.price
+  const discountedPrice = discountApplied ? Math.round(basePrice * 0.9) : basePrice
+  const discountAmount = basePrice - discountedPrice
 
   const calculateTotalSavings = () => {
     if (!upsellPackage) return 0
@@ -551,61 +582,149 @@ function PaymentContent() {
               </div>
             </div>
 
-            <div
-              key={`order-summary-${selectedPackage}-${discountedPrice}`}
-              className={`bg-white rounded-2xl p-6 shadow-lg relative ${
-                upgradeApplied ? "border-2" : "border-2 border-blue-500"
-              }`}
-              style={
-                upgradeApplied
-                  ? {
-                      backgroundImage:
-                        "linear-gradient(white, white), linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #a855f7 100%)",
-                      backgroundOrigin: "border-box",
-                      backgroundClip: "padding-box, border-box",
-                      border: "2px solid transparent",
-                    }
-                  : {}
-              }
-            >
-              {upgradeApplied && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 text-white text-xs font-bold rounded-full shadow-lg">
-                  Upgrade Included
-                </div>
-              )}
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
-                  <p className="text-slate-600">
-                    {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
-                    {currentPackage.hasBonus && (
-                      <span className="text-green-600 font-semibold"> (5 + 2 Free Bonus)</span>
+            {isCustomOrder && customOutlets.length > 0 ? (
+              <div
+                key={`custom-order-${customOutlets.length}-${discountedPrice}`}
+                className="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-500"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-1">Custom Order</h2>
+                    <p className="text-slate-600">
+                      {customOutlets.length} {customOutlets.length === 1 ? "Article" : "Articles"} Selected
+                      {freeCountParam && Number.parseInt(freeCountParam) > 0 && (
+                        <span className="text-green-600 font-semibold">
+                          {" "}
+                          ({customOutlets.length - Number.parseInt(freeCountParam)} paid + {freeCountParam} free 🎁)
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg text-slate-400 line-through">${customOutlets.length * 47}</div>
+                    {discountApplied ? (
+                      <>
+                        <div className="text-xl text-slate-400 line-through">${basePrice}</div>
+                        <div className="text-3xl font-bold text-green-600">${discountedPrice}</div>
+                      </>
+                    ) : (
+                      <div className="text-3xl font-bold text-slate-900">${basePrice}</div>
                     )}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="text-lg text-slate-400 line-through">${currentPackage.originalPrice}</div>
-                  {discountApplied ? (
-                    <>
-                      <div className="text-xl text-slate-400 line-through">${currentPackage.price}</div>
-                      <div className="text-3xl font-bold text-green-600">${discountedPrice}</div>
-                    </>
-                  ) : (
-                    <div className="text-3xl font-bold text-slate-900">${currentPackage.price}</div>
-                  )}
-                  <div className="text-sm text-slate-600">
-                    ${(discountedPrice / currentPackage.articles).toFixed(2)}/article
                   </div>
                 </div>
+
+                {/* Selected Outlets List */}
+                <div className="mb-4 max-h-64 overflow-y-auto space-y-2 border border-slate-200 rounded-lg p-3">
+                  {customOutlets.map((outlet, index) => {
+                    const imageUrl = getOutletImage(outlet.name)
+                    return (
+                      <div
+                        key={index}
+                        className={`flex items-center gap-3 p-2 rounded-lg ${
+                          outlet.isFree ? "bg-green-50 border border-green-200" : "bg-slate-50"
+                        }`}
+                      >
+                        <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0 bg-slate-100">
+                          {imageUrl ? (
+                            <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt={outlet.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full">
+                              <span className="text-slate-400 text-xs">No image</span>
+                            </div>
+                          )}
+                          {outlet.isFree && (
+                            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+                              <Gift className="w-5 h-5 text-green-600" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm text-slate-900 truncate">{outlet.name}</p>
+                          <p className="text-xs text-slate-500">{outlet.category}</p>
+                        </div>
+                        {outlet.isFree && (
+                          <span className="px-2 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full flex-shrink-0">
+                            FREE
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {freeCountParam && Number.parseInt(freeCountParam) > 0 && (
+                  <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                    <Gift className="h-4 w-4" />
+                    <span className="font-semibold">
+                      You're getting {freeCountParam} free{" "}
+                      {Number.parseInt(freeCountParam) === 1 ? "article" : "articles"}! 🎉
+                    </span>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
-                <Check className="h-4 w-4" />
-                <span className="font-semibold">
-                  Save ${currentPackage.originalPrice - currentPackage.price}
-                  {discountApplied && ` + $${discountAmount} with LAUNCH10`}
-                </span>
+            ) : (
+              // Original package display
+              <div
+                key={`order-summary-${selectedPackage}-${discountedPrice}`}
+                className={`bg-white rounded-2xl p-6 shadow-lg relative ${
+                  upgradeApplied ? "border-2" : "border-2 border-blue-500"
+                }`}
+                style={
+                  upgradeApplied
+                    ? {
+                        backgroundImage:
+                          "linear-gradient(white, white), linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #a855f7 100%)",
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                        border: "2px solid transparent",
+                      }
+                    : {}
+                }
+              >
+                {upgradeApplied && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 text-white text-xs font-bold rounded-full shadow-lg">
+                    Upgrade Included
+                  </div>
+                )}
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
+                    <p className="text-slate-600">
+                      {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
+                      {currentPackage.hasBonus && (
+                        <span className="text-green-600 font-semibold"> (5 + 2 Free Bonus)</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg text-slate-400 line-through">${currentPackage.originalPrice}</div>
+                    {discountApplied ? (
+                      <>
+                        <div className="text-xl text-slate-400 line-through">${currentPackage.price}</div>
+                        <div className="text-3xl font-bold text-green-600">${discountedPrice}</div>
+                      </>
+                    ) : (
+                      <div className="text-3xl font-bold text-slate-900">${currentPackage.price}</div>
+                    )}
+                    <div className="text-sm text-slate-600">
+                      ${(discountedPrice / currentPackage.articles).toFixed(2)}/article
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                  <Check className="h-4 w-4" />
+                  <span className="font-semibold">
+                    Save ${currentPackage.originalPrice - currentPackage.price}
+                    {discountApplied && ` + $${discountAmount} with LAUNCH10`}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
               <div className="flex items-center gap-2 mb-3">
@@ -654,7 +773,7 @@ function PaymentContent() {
               {discountError && <p className="text-xs text-red-600 mt-2">{discountError}</p>}
             </div>
 
-            {showUpsell && upsellPackage && selectedPackage !== "agency" && (
+            {showUpsell && upsellPackage && selectedPackage !== "agency" && !isCustomOrder && (
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 p-5 shadow-sm hover:shadow-md transition-shadow">
                 <label className="flex items-start gap-4 cursor-pointer group">
                   <input

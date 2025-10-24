@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Check, Star } from "lucide-react"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, usePathname } from "next/navigation"
 import { mainReviews } from "@/lib/reviews-data"
 import Image from "next/image"
 
@@ -79,9 +79,14 @@ const HEADLINE_VARIANTS = {
 
 export function HeroSection() {
   const searchParams = useSearchParams()
+  const pathname = usePathname()
   const variant = searchParams?.get("headline") || "a"
 
   const currentVariant = HEADLINE_VARIANTS[variant as keyof typeof HEADLINE_VARIANTS] || HEADLINE_VARIANTS.a
+
+  const isFastPage = pathname?.startsWith("/fast")
+  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout"
+  const showSecondaryButton = !isFastPage
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -143,21 +148,23 @@ export function HeroSection() {
               <MovingBorderButton
                 borderRadius="1.75rem"
                 as="a"
-                href="/checkout"
+                href={ctaLink}
                 containerClassName="h-14 w-auto"
                 className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                 duration={3000}
               >
                 Get Featured — $47
               </MovingBorderButton>
-              <Button
-                size="default"
-                variant="ghost"
-                asChild
-                className="h-11 rounded-full bg-white hover:bg-slate-50 border-2 border-blue-600 hover:border-blue-700 text-slate-700 hover:text-blue-600 px-6 text-base font-medium transition-all duration-200 shadow-sm"
-              >
-                <a href="/pr-quiz">Free PR Check - See If You Qualify</a>
-              </Button>
+              {showSecondaryButton && (
+                <Button
+                  size="default"
+                  variant="ghost"
+                  asChild
+                  className="h-11 rounded-full bg-white hover:bg-slate-50 border-2 border-blue-600 hover:border-blue-700 text-slate-700 hover:text-blue-600 px-6 text-base font-medium transition-all duration-200 shadow-sm"
+                >
+                  <a href="/pr-quiz">Free PR Check - See If You Qualify</a>
+                </Button>
+              )}
             </div>
 
             <div className="flex flex-col items-center gap-2">

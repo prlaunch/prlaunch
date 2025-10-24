@@ -47,7 +47,12 @@ export function FloatingNav() {
     }
   }, [pathname])
 
-  if (pathname.startsWith("/checkout") || pathname === "/upsell" || pathname.startsWith("/free-pr-quiz")) {
+  if (
+    pathname.startsWith("/checkout") ||
+    pathname === "/upsell" ||
+    pathname.startsWith("/free-pr-quiz") ||
+    pathname === "/select"
+  ) {
     return null
   }
 
