@@ -12,6 +12,9 @@ import { useRouter } from "next/navigation"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { useMobile } from "@/hooks/use-mobile"
+import toast, { Toaster } from "react-hot-toast"
+import { ExitIntentPopup } from "@/components/exit-intent-popup"
+import { getOutletBadge } from "@/lib/outlet-badges"
 
 const CATEGORIES = ["All", "Business", "Tech", "Lifestyle", "Wellness/Health", "Finance"]
 
@@ -33,7 +36,22 @@ export default function SelectPage() {
   const [selectedOutlets, setSelectedOutlets] = useState<Outlet[]>([])
   const [filteredOutlets, setFilteredOutlets] = useState<Outlet[]>(outletsData)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [showExitIntent, setShowExitIntent] = useState(false)
+  const [spotsRemaining, setSpotsRemaining] = useState(12)
   const outletGridRef = useRef<HTMLDivElement>(null)
+  const isProcessingToast = useRef(false)
+  const currentToastId = useRef<string | null>(null)
+
+  useEffect(() => {
+    const savedSpots = sessionStorage.getItem("spotsRemaining")
+    if (savedSpots) {
+      setSpotsRemaining(Number.parseInt(savedSpots))
+    } else {
+      const randomSpots = Math.floor(Math.random() * 8) + 8 // 8-15
+      setSpotsRemaining(randomSpots)
+      sessionStorage.setItem("spotsRemaining", randomSpots.toString())
+    }
+  }, [])
 
   useEffect(() => {
     const savedCart = localStorage.getItem(CART_STORAGE_KEY)
@@ -88,10 +106,49 @@ export default function SelectPage() {
   }
 
   const handleAddToCart = (outlet: Outlet) => {
-    if (selectedOutlets.find((o) => o.number === outlet.number)) {
+    const isRemoving = selectedOutlets.find((o) => o.number === outlet.number)
+
+    if (isRemoving) {
       setSelectedOutlets(selectedOutlets.filter((o) => o.number !== outlet.number))
+      return
+    }
+
+    const newOutlets = [...selectedOutlets, outlet]
+    setSelectedOutlets(newOutlets)
+    const newCount = newOutlets.length
+
+    // Show progressive toast notifications using simple toast methods
+    if (newCount === 1) {
+      toast.success(`${outlet.name} added to cart! Add 3 more for FREE article`, {
+        duration: 3500,
+        icon: "✅",
+      })
+    } else if (newCount === 2) {
+      toast.success(`${outlet.name} added to cart! Add 2 more for FREE article`, {
+        duration: 3500,
+        icon: "✅",
+      })
+    } else if (newCount === 3) {
+      toast.success(`${outlet.name} added! 🎉 FREE ARTICLE UNLOCKED! Choose your free outlet now`, {
+        duration: 3500,
+        icon: "🎉",
+        style: {
+          borderLeft: "4px solid #f59e0b",
+        },
+      })
+    } else if (newCount % 4 === 0) {
+      toast.success(`FREE: ${outlet.name} added! 🎁 Bundle complete! Ready to checkout`, {
+        duration: 3500,
+        icon: "🎁",
+        style: {
+          borderLeft: "4px solid #a855f7",
+        },
+      })
     } else {
-      setSelectedOutlets([...selectedOutlets, outlet])
+      toast.success(`${outlet.name} added to cart!`, {
+        duration: 3500,
+        icon: "✅",
+      })
     }
   }
 
@@ -114,7 +171,7 @@ export default function SelectPage() {
     if (remainder === 0 && selectedOutlets.length > 0) {
       return 0
     }
-    return 4 - remainder // Changed from 3 - remainder to 4 - remainder
+    return 4 - remainder
   }
 
   const getCurrentBonusTier = () => {
@@ -146,6 +203,24 @@ export default function SelectPage() {
 
   return (
     <main className="min-h-screen bg-background">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            marginTop: "80px",
+          },
+        }}
+      />
+
+      <ExitIntentPopup
+        cartCount={selectedOutlets.length}
+        onContinue={() => {
+          setIsCartOpen(true)
+          setShowExitIntent(false)
+        }}
+        onClose={() => setShowExitIntent(false)}
+      />
+
       <section className="relative overflow-hidden bg-background pt-12 md:pt-16 pb-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-4xl">
@@ -186,9 +261,17 @@ export default function SelectPage() {
                 Select Your PR Article – Only $47
               </h1>
 
-              <p className="mb-8 text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
+              <p className="mb-4 text-pretty text-base md:text-lg lg:text-xl text-muted-foreground">
                 Get published in premium USA outlets in 48 hours. Choose your outlets below.
               </p>
+
+              <div className="mb-8 flex justify-center">
+                <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/30 px-4 py-2">
+                  <span className="text-sm font-semibold text-amber-600">
+                    ⚡ Limited Availability - {spotsRemaining} spots left
+                  </span>
+                </div>
+              </div>
 
               <div className="mb-10">
                 <Button
@@ -280,6 +363,7 @@ export default function SelectPage() {
             {filteredOutlets.map((outlet, index) => {
               const imageUrl = getOutletImage(outlet.name)
               const inCart = isInCart(outlet)
+              const badgeType = getOutletBadge(outlet.name)
 
               return (
                 <div
@@ -299,6 +383,20 @@ export default function SelectPage() {
                   </Link>
 
                   <div className="p-4 flex-1 flex flex-col">
+                    {badgeType && (
+                      <div className="mb-2">
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded-md text-[10px] md:text-[11px] font-bold border ${
+                            badgeType === "popular"
+                              ? "bg-white text-amber-600 border-amber-400"
+                              : "bg-white text-red-600 border-red-400"
+                          }`}
+                        >
+                          {badgeType === "popular" ? "MOST POPULAR" : "TRENDING"}
+                        </span>
+                      </div>
+                    )}
+
                     <Link href={outlet.url} target="_blank" rel="noopener noreferrer" className="hover:opacity-80">
                       <h3 className="font-semibold text-slate-900 text-sm md:text-base mb-1">{outlet.name}</h3>
                     </Link>
@@ -435,7 +533,7 @@ export default function SelectPage() {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <button
                       onClick={() => setIsCartOpen(true)}
                       className="flex items-center gap-2 hover:opacity-80 transition-opacity"

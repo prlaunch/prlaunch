@@ -46,7 +46,7 @@ export const outletsData: Outlet[] = [
   {
     number: 6,
     name: "Hustle Weekly",
-    url: "https://hustleweekly.com",
+    url: "https://hustleweekly.co/",
     category: "Business & Entrepreneurship",
     description: "Weekly insights on entrepreneurship, startups, and business growth",
   },
@@ -176,7 +176,7 @@ export const outletsData: Outlet[] = [
   {
     number: 31,
     name: "Celeb Homes",
-    url: "https://celebhomes.com",
+    url: "https://www.celebhomes.net/",
     category: "Lifestyle & Culture",
     description: "Celebrity real estate and luxury lifestyle coverage",
   },
@@ -211,21 +211,21 @@ export const outletsData: Outlet[] = [
   {
     number: 36,
     name: "UK Uncut",
-    url: "https://ukuncut.com",
+    url: "http://ukuncut.org.uk/",
     category: "Lifestyle & Culture",
     description: "British culture, lifestyle, and entertainment news",
   },
   {
     number: 38,
     name: "Awesome",
-    url: "https://awe.some",
+    url: "http://awe.sm/",
     category: "Lifestyle & Culture",
     description: "Inspiring stories and amazing lifestyle content",
   },
   {
     number: 39,
     name: "The News Hub",
-    url: "https://thenewshub.com",
+    url: "https://www.the-newshub.com/",
     category: "Lifestyle & Culture",
     description: "Lifestyle news and cultural trends coverage",
   },
@@ -260,7 +260,7 @@ export const outletsData: Outlet[] = [
   {
     number: 44,
     name: "Women's Conference",
-    url: "https://womensconference.com",
+    url: "https://www.womensconference.org/",
     category: "Lifestyle & Culture",
     description: "Women's empowerment, lifestyle, and professional development",
   },
@@ -276,7 +276,7 @@ export const outletsData: Outlet[] = [
   {
     number: 50,
     name: "NY Tech Media",
-    url: "https://nytechmedia.com",
+    url: "https://www.entreprenerd.net/",
     category: "Technology & Digital Marketing",
     description: "Technology news and digital innovation from New York",
   },
@@ -297,7 +297,7 @@ export const outletsData: Outlet[] = [
   {
     number: 53,
     name: "ROBOEarth",
-    url: "https://roboearth.com",
+    url: "https://www.roboearth.org/",
     category: "Technology & Digital Marketing",
     description: "Robotics, AI, and emerging technology coverage",
   },
@@ -311,14 +311,14 @@ export const outletsData: Outlet[] = [
   {
     number: 55,
     name: "AgreeNet",
-    url: "https://agreenet.com",
+    url: "https://www.agree.net/",
     category: "Technology & Digital Marketing",
     description: "Technology collaboration and digital networking platforms",
   },
   {
     number: 56,
     name: "AtoAllLinks",
-    url: "https://atoalllinks.com",
+    url: "https://www.atoallinks.com/",
     category: "Technology & Digital Marketing",
     description: "Digital marketing and SEO strategies",
   },
@@ -355,7 +355,7 @@ export const outletsData: Outlet[] = [
   {
     number: 64,
     name: "Childcare Partnerships",
-    url: "https://childcarepartnerships.com",
+    url: "https://www.childcarepartnerships.org/",
     category: "Health & Wellness",
     description: "Childcare resources and family health information",
   },
@@ -369,7 +369,7 @@ export const outletsData: Outlet[] = [
   {
     number: 66,
     name: "Humane Network",
-    url: "https://humanenetwork.com",
+    url: "https://www.humane.net/",
     category: "Health & Wellness",
     description: "Humanitarian health initiatives and wellness advocacy",
   },
