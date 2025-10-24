@@ -252,7 +252,7 @@ export default function Step6Page() {
                 <Lock className="h-4 w-4" />🔒 Secure 256-bit encryption
               </p>
               <p className="flex items-center gap-2">
-                <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />✓ 4.8/5 on Trustpilot (500+ reviews)
+                <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />✓ 4.8/5 from 231+ reviews
               </p>
               <p className="flex items-center gap-2">
                 <Shield className="h-4 w-4" />✓ 100% money-back guarantee

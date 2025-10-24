@@ -300,16 +300,7 @@ export function CheckoutPage() {
             <div className="h-3 w-px bg-slate-200" />
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-semibold text-slate-900">4.8/5</span>
-              <span className="text-xs text-slate-600">on</span>
-              <svg className="h-3 w-auto" viewBox="0 0 90 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-                  fill="#00B67A"
-                />
-                <text x="22" y="15" fill="currentColor" className="text-[10px] font-bold">
-                  Trustpilot
-                </text>
-              </svg>
+              <span className="text-xs text-slate-600">from 231+ reviews</span>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import confetti from "canvas-confetti"
 import { getOutletImage } from "./outlet-images"
+import { Lock, Shield } from "react-feather" // Import Lock and Shield icons
 
 export const outletsByCategory = {
   business: [
@@ -442,9 +443,13 @@ const CampaignBuilder = () => {
             </div>
             <div className="trust-indicators">
               {/* Trust Indicators */}
-              <p>🔒 Secure 256-bit encryption</p>
-              <p>✓ 4.8/5 on Trustpilot (500+ reviews)</p>
-              <p>✓ 100% money-back guarantee</p>
+              <p className="flex items-center gap-2">
+                <Lock className="h-4 w-4" />🔒 Secure 256-bit encryption
+              </p>
+              <p className="flex items-center gap-2">✓ 4.8/5 from 231+ reviews</p>
+              <p className="flex items-center gap-2">
+                <Shield className="h-4 w-4" />✓ 100% money-back guarantee
+              </p>
             </div>
             <div className="urgency-timer" style={{ backgroundColor: "#ef4444" }}>
               {/* Urgency Timer */}

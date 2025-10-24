@@ -76,13 +76,7 @@ export default function CheckoutStartPage() {
           )}
         </MovingBorderButton>
 
-        <button
-          onClick={handleSkipToPricing}
-          className="mt-3 text-sm text-slate-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 mx-auto group"
-        >
-          Skip to pricing
-          <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
-        </button>
+        
 
         <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">
           <div className="flex items-center gap-2">

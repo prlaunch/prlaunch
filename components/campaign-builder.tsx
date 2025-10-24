@@ -386,7 +386,7 @@ export function CampaignBuilder() {
                   <span>Published in 7 days - guaranteed</span>
                 </p>
               </div>
-              <div className="border-t border-blue-200 pt-4 space-y-2 text-sm text-slate-700">
+              <div className="border-t border-blue-200 pt-4 space-y-2 text-sm text-slate-600">
                 <p>✓ You pick the exact outlets after purchase</p>
                 <p>✓ Our team guides you through selection</p>
                 <p>✓ Every article is professionally written</p>
@@ -600,7 +600,7 @@ export function CampaignBuilder() {
                 <Lock className="h-4 w-4" />🔒 Secure 256-bit encryption
               </p>
               <p className="flex items-center gap-2">
-                <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />✓ 4.8/5 on Trustpilot (500+ reviews)
+                <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />✓ 4.8/5 from 231+ reviews
               </p>
               <p className="flex items-center gap-2">
                 <Shield className="h-4 w-4" />✓ 100% money-back guarantee
