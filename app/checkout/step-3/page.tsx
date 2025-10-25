@@ -61,7 +61,7 @@ export default function Step3Page() {
               </p>
               <p className="flex items-start gap-3">
                 <Rocket className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <span>Published in 7 days - guaranteed</span>
+                <span>Published in 48 hours - guaranteed</span>
               </p>
               <p className="flex items-start gap-3">
                 <ShieldCheck className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />

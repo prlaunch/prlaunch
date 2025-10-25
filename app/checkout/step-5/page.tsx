@@ -15,7 +15,7 @@ const packages = [
     originalPrice: 94,
     savings: 47,
     description: "Perfect for: Testing PR",
-    features: ["1 premium outlet of your choice", "Professional article writing", "48-hour publishing guaranteed"],
+    features: ["1 premium outlet of your choice", "Professional article writing"],
     borderColor: "border-purple-500",
   },
   {
@@ -27,7 +27,7 @@ const packages = [
     originalPrice: 376,
     savings: 249,
     description: "Perfect for: Building credibility",
-    features: ["4 premium outlets (3 + 1 bonus!)", "Professional article writing", "48-hour publishing guaranteed"],
+    features: ["4 premium outlets (3 + 1 bonus!)", "Professional article writing"],
     popular: true,
     borderColor: "border-cyan-500",
     rewardEligible: true,
@@ -41,12 +41,7 @@ const packages = [
     originalPrice: 658,
     savings: 461,
     description: "Perfect for: Maximum exposure",
-    features: [
-      "7 premium outlets (5 + 2 bonus!)",
-      "Professional article writing",
-      "Dedicated PR consultant",
-      "48-hour publishing guaranteed",
-    ],
+    features: ["7 premium outlets (5 + 2 bonus!)", "Professional article writing", "Dedicated PR consultant"],
     borderColor: "border-pink-500",
     rewardEligible: true,
   },
@@ -177,7 +172,6 @@ export default function Step5Page() {
                       🎁 Bonus
                     </div>
                   )}
-                  {/* </CHANGE> */}
 
                   {hasReward && pkg.rewardEligible && (
                     <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
@@ -205,7 +199,6 @@ export default function Step5Page() {
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 mb-2">{pkg.description}</p>
-                      {pkg.savings > 0 && <p className="text-xs font-bold text-green-600">💰 Save ${pkg.savings}</p>}
                       {hasReward && pkg.rewardEligible && (
                         <p className="text-xs font-bold text-green-600">🎁 + $94 FREE from your reward!</p>
                       )}
