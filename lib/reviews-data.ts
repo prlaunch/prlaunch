@@ -35,7 +35,7 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Jan 15, 2025",
     review:
-      "From the moment we kicked things off, PrLaunch.io was on it. Fast, efficient, and laser-focused every step of the process felt seamless. They didn't just meet expectations they crushed them. The waitlist growth was top-tier, the team was sharp, and the results spoke for themselves. If you're looking for a pre-launch partner that actually delivers, stop searching. PrLaunch.io is it.",
+      "From the moment we kicked things off, PrLaunch.io was on it. Fast, efficient, and laser-focused every step of the process felt seamless. They didn't just meet expectations, they crushed them. The article quality was top-tier, the team was sharp, and the results spoke for themselves. If you're looking for a PR partner that actually delivers, stop searching. PrLaunch.io is it.",
     verified: true,
   },
   {
@@ -58,7 +58,7 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Jan 10, 2025",
     review:
-      "Great Experience with PrLaunch. I had engaged the company on waitlist building services and couldn't be happier with the results.",
+      "Great Experience with PrLaunch. I engaged the company for PR article placement and couldn't be happier with the results.",
     verified: true,
   },
   {
@@ -70,7 +70,7 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Jan 8, 2025",
     review:
-      "Our experience with PrLaunch.io was smooth and effective. They quickly understood our goals, crafted a strong landing page, and secured quality waitlist signups that boosted our brand visibility and credibility. Communication was solid, and the results more traffic, leads, and engagement made the partnership well worth it. Highly recommended.",
+      "Our experience with PrLaunch.io was smooth and effective. They quickly understood our goals, crafted a compelling article, and secured quality publication placement that boosted our brand visibility and credibility. Communication was solid, and the results more traffic, leads, and engagement made the partnership well worth it. Highly recommended.",
     verified: true,
   },
   {
@@ -115,7 +115,7 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Jan 2, 2025",
     review:
-      "Our Seamless Journey with PrLaunch.io. Our experience with PrLaunch.io was seamless and highly professional. The process was easy, and their services were extremely valuable to our business and event. We had a great experience and look forward to working with them again in the future. The process is so easy. You answer a few questions, give them the key points, and they take it from there, positioning you in the best light and creating an amazing waitlist campaign about you very quickly.",
+      "Our Seamless Journey with PrLaunch.io. Our experience with PrLaunch.io was seamless and highly professional. The process was easy, and their services were extremely valuable to our business. We had a great experience and look forward to working with them again in the future. The process is so easy. You answer a few questions, give them the key points, and they take it from there, positioning you in the best light and creating an amazing PR article about you very quickly.",
     verified: true,
   },
   {
@@ -127,7 +127,7 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Dec 30, 2024",
     review:
-      "Our experience with PrLaunch.io was smooth and effective. They quickly understood our goals, crafted a strong landing page, and secured quality early signups that boosted our brand visibility and credibility. Communication was solid, and the results more traffic, leads, and engagement made the partnership well worth it. Highly recommended.",
+      "Our experience with PrLaunch.io was smooth and effective. They quickly understood our goals, crafted a compelling article, and secured quality publication placement that boosted our brand visibility and credibility. Communication was solid, and the results more traffic, leads, and engagement made the partnership well worth it. Highly recommended.",
     verified: true,
   },
   {
@@ -139,6 +139,30 @@ export const mainReviews: Review[] = [
     rating: 5,
     date: "Dec 28, 2024",
     review: "Prlaunch.io helped me post a article on USAWire within 7 days I highly recommend.",
+    verified: true,
+  },
+  {
+    name: "Daniel M.",
+    title: "Business Consultant",
+    initials: "DM",
+    color: "bg-violet-500",
+    image: "/testimonials/profile-11.jpg",
+    rating: 5,
+    date: "Dec 26, 2024",
+    review:
+      "PrLaunch.io exceeded expectations. Within 5 days of submitting my information, my article was live on a major publication and Google-indexed. The writing was professional, the placement was legitimate, and the impact on my business was immediate. Prospects now take me seriously from the first interaction. If you need instant credibility, this is the fastest path to get it. Worth every penny.",
+    verified: true,
+  },
+  {
+    name: "Alex T.",
+    title: "Sales Director",
+    initials: "AT",
+    color: "bg-amber-500",
+    image: "/testimonials/profile-12.jpg",
+    rating: 5,
+    date: "Dec 24, 2024",
+    review:
+      "Game changer. I was skeptical, but PrLaunch.io delivered exactly as promised. Article was well written, published on a legit outlet. Now prospects see media coverage when they search me. My closing rate improved immediately people come to calls already half-sold. Fast turnaround, solid results. If you're on the fence, just do it.",
     verified: true,
   },
 ]

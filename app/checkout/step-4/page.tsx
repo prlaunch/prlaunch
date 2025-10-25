@@ -47,11 +47,11 @@ export default function Step4Page() {
           <div className="space-y-4 text-left">
             <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-4">
               <p className="font-bold text-slate-900 mb-1">🎁 +1 BONUS Article (on 3+ article packages)</p>
-              <p className="text-sm text-slate-600">→ Get more coverage for free</p>
+              
             </div>
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4">
-              <p className="font-bold text-slate-900 mb-1">🎁 Priority Outlet Selection</p>
-              <p className="text-sm text-slate-600">→ Choose from premium outlets first</p>
+              <p className="font-bold text-slate-900 mb-1">🎁 Unlimited Writing Revisions  </p>
+              
             </div>
           </div>
           <MovingBorderButton

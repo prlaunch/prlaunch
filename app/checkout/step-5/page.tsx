@@ -74,7 +74,7 @@ export default function Step5Page() {
   const category = searchParams.get("category")
   const hasReward = searchParams.get("reward") === "free_article"
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
-  const [timeLeft, setTimeLeft] = useState(15 * 60) // 15 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(15 * 60)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -111,7 +111,6 @@ export default function Step5Page() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
@@ -119,13 +118,11 @@ export default function Step5Page() {
         />
       </div>
 
-      {/* Countdown Timer */}
       <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
         🎁 Free Bonus Article claimed for: {formatTime(timeLeft)}
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
-        {/* Back Button */}
         <button
           onClick={() => router.push(`/checkout/step-4?goal=${goal}&category=${category}`)}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
@@ -155,7 +152,6 @@ export default function Step5Page() {
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>
 
-          {/* Package Cards */}
           <div className="space-y-3">
             {packages.map((pkg) => {
               const totalArticles = pkg.articles + pkg.bonus
@@ -172,6 +168,17 @@ export default function Step5Page() {
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                   } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_8px_rgba(34,197,94,0.1)]" : ""}`}
                 >
+                  {pkg.bonus > 0 && (
+                    <div
+                      className={`absolute -top-3 ${
+                        pkg.id === "authority" ? "left-1/2 -translate-x-1/2" : "right-4"
+                      } bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1`}
+                    >
+                      🎁 Bonus
+                    </div>
+                  )}
+                  {/* </CHANGE> */}
+
                   {hasReward && pkg.rewardEligible && (
                     <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
                       🎁 FREE ARTICLE
