@@ -153,7 +153,6 @@ export default function Step6Page() {
 
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <p className="text-sm text-slate-500 mb-2">Step 5 of 5 • Your Campaign Summary</p>
             <h2 className="text-3xl font-bold text-slate-900">🚀 YOUR CUSTOM PR CAMPAIGN</h2>
           </div>
 
@@ -268,7 +267,7 @@ export default function Step6Page() {
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
               duration={3000}
             >
-              Launch My Campaign →
+              Yes, Get Me Featured →
             </MovingBorderButton>
           </div>
         </div>

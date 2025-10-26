@@ -4,7 +4,7 @@ import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import confetti from "canvas-confetti"
-import { Loader2 } from "lucide-react"
+import { Loader2, ArrowLeft } from "lucide-react"
 
 export default function Step4Page() {
   const router = useRouter()
@@ -35,8 +35,18 @@ export default function Step4Page() {
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
-          style={{ width: "75%" }}
+          style={{ width: "66.66%" }}
         />
+      </div>
+
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <button
+          onClick={() => router.push(`/checkout/step-1`)}
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors relative z-[101]"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
       </div>
 
       <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">

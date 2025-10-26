@@ -32,6 +32,11 @@ export default function CheckoutStartPage() {
   return (
     <div className="min-h-screen bg-white flex items-start justify-center p-4 pt-4">
       <div className="text-center max-w-2xl">
+        <div className="mb-6 inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1">
+          <span className="text-xs">🔥</span>
+          <span className="text-xs font-semibold text-slate-900">Only 12 spots left this week</span>
+        </div>
+
         <div className="mb-8 w-full max-w-xl mx-auto">
           <img
             src="/images/design-mode/Screenshot%202025-10-22%20at%2000.19.43%20%281%29.jpg"
@@ -41,7 +46,7 @@ export default function CheckoutStartPage() {
         </div>
 
         <h1 className="md:text-5xl font-bold text-black mb-6 leading-tight text-3xl">
-          Get Featured in 100+ Real Articles Online 
+          Get Featured in 100+ Real Articles Online
         </h1>
 
         <div className="flex flex-wrap items-center justify-center gap-6 mb-8">

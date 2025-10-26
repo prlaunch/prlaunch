@@ -50,7 +50,7 @@ export default function Step1Page() {
     setSelectedGoal(goal)
     setIsLoading(true)
     setTimeout(() => {
-      router.push(`/checkout/step-3?goal=${goal}`)
+      router.push(`/checkout/step-4?goal=${goal}`)
     }, 500)
   }
 
@@ -60,7 +60,7 @@ export default function Step1Page() {
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
-          style={{ width: "20%" }}
+          style={{ width: "33.33%" }}
         />
       </div>
 
@@ -75,9 +75,29 @@ export default function Step1Page() {
 
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <p className="text-sm text-slate-500 mb-2">Step 1 of 4 • Let's Get Started</p>
+            <p className="text-sm text-slate-500 mb-2">Step 1 of 3 • Let's Get Started</p>
             <h2 className="text-3xl font-bold text-slate-900">{"What's your main goal for this article?"}</h2>
           </div>
+
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-4 mb-6">
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500/20">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              </div>
+              <div className="text-center">
+                <div className="text-base font-bold text-slate-900">100% Money-Back Guarantee</div>
+                <div className="text-sm text-slate-600">48 hours or full refund</div>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-3">
             {goals.map((goal, index) => (
               <button

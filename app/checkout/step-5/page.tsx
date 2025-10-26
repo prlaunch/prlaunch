@@ -142,7 +142,7 @@ export default function Step5Page() {
           )}
 
           <div className="text-center mb-6">
-            <p className="text-sm text-slate-500 mb-2">Step 4 of 4 • Choose Your Package</p>
+            <p className="text-sm text-slate-500 mb-2">Step 3 of 3 • Choose Your Package</p>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>

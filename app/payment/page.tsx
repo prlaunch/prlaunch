@@ -953,7 +953,7 @@ function PaymentContent() {
               </div>
               <div className="space-y-4">
                 {reviews.map((review, index) => (
-                  <div key={index} className="border border-slate-200 rounded-xl p-4">
+                  <div key={index} className="border border-slate-200 rounded-xl p-4 pb-10 relative">
                     <div className="flex items-start gap-3 mb-3">
                       <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0">
                         <Image
@@ -974,6 +974,11 @@ function PaymentContent() {
                       ))}
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">{review.review}</p>
+
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                      <Check className="h-3 w-3 text-green-600" />
+                      <span className="text-[10px] font-semibold text-green-700">Verified customer</span>
+                    </div>
                   </div>
                 ))}
               </div>
