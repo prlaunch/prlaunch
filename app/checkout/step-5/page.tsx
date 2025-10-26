@@ -109,7 +109,7 @@ export default function Step5Page() {
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
-          style={{ width: "83.33%" }}
+          style={{ width: "100%" }}
         />
       </div>
 
@@ -119,7 +119,7 @@ export default function Step5Page() {
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
         <button
-          onClick={() => router.push(`/checkout/step-4?goal=${goal}&category=${category}`)}
+          onClick={() => router.push(`/checkout/step-4?goal=${goal}`)}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -142,7 +142,7 @@ export default function Step5Page() {
           )}
 
           <div className="text-center mb-6">
-            <p className="text-sm text-slate-500 mb-2">Step 5 of 6 • Choose Your Package</p>
+            <p className="text-sm text-slate-500 mb-2">Step 4 of 4 • Choose Your Package</p>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>

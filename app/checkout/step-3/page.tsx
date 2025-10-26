@@ -11,12 +11,11 @@ export default function Step3Page() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const goal = searchParams.get("goal") as Goal
-  const category = searchParams.get("category")
   const [isLoading, setIsLoading] = useState(false)
 
   const handleContinue = () => {
     setIsLoading(true)
-    router.push(`/checkout/step-4?goal=${goal}&category=${category}`)
+    router.push(`/checkout/step-4?goal=${goal}`)
   }
 
   return (
@@ -31,7 +30,7 @@ export default function Step3Page() {
 
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <button
-          onClick={() => router.push(`/checkout/step-2?goal=${goal}`)}
+          onClick={() => router.push(`/checkout/step-1`)}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />

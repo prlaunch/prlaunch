@@ -144,7 +144,7 @@ export default function Step6Page() {
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "72px" }}>
         {/* Back Button */}
         <button
-          onClick={() => router.push(`/checkout/step-5?goal=${goal}&category=${category}&package=${packageId}`)}
+          onClick={() => router.push(`/checkout/step-5?goal=${goal}&package=${packageId}`)}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -153,7 +153,7 @@ export default function Step6Page() {
 
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <p className="text-sm text-slate-500 mb-2">Final Step - Your Campaign Summary</p>
+            <p className="text-sm text-slate-500 mb-2">Step 5 of 5 • Your Campaign Summary</p>
             <h2 className="text-3xl font-bold text-slate-900">🚀 YOUR CUSTOM PR CAMPAIGN</h2>
           </div>
 

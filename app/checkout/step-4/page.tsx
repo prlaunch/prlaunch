@@ -26,7 +26,7 @@ export default function Step4Page() {
     setIsLoading(true)
     const timerStart = Date.now()
     localStorage.setItem("campaignTimerStart", timerStart.toString())
-    router.push(`/checkout/step-5?goal=${goal}&category=${category}`)
+    router.push(`/checkout/step-5?goal=${goal}`)
   }
 
   return (
@@ -35,7 +35,7 @@ export default function Step4Page() {
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
-          style={{ width: "66.67%" }}
+          style={{ width: "75%" }}
         />
       </div>
 
@@ -47,11 +47,9 @@ export default function Step4Page() {
           <div className="space-y-4 text-left">
             <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-4">
               <p className="font-bold text-slate-900 mb-1">🎁 +1 BONUS Article (on 3+ article packages)</p>
-              
             </div>
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4">
-              <p className="font-bold text-slate-900 mb-1">🎁 Unlimited Writing Revisions  </p>
-              
+              <p className="font-bold text-slate-900 mb-1">🎁 Unlimited Writing Revisions</p>
             </div>
           </div>
           <MovingBorderButton

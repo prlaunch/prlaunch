@@ -9,29 +9,29 @@ const goals = [
   {
     id: "trust" as Goal,
     icon: "✅",
-    title: "Build Trust & Credibility",
-    description: "Get featured on trusted news sites and look established",
+    title: "Build Trust Online",
+    description: "Appear on reputable news sites",
     color: "purple",
   },
   {
     id: "sales" as Goal,
     icon: "💰",
-    title: "Increase Sales & Revenue",
-    description: "Drive more customers and boost conversions",
+    title: "Make More Sales",
+    description: "Close more customers and sales",
     color: "cyan",
   },
   {
     id: "seo" as Goal,
     icon: "📈",
     title: "Boost Google Rankings",
-    description: "Appear higher in search results and get found",
+    description: "Show up higher in search",
     color: "pink",
   },
   {
     id: "reviews" as Goal,
     icon: "⭐",
-    title: "Overcome Bad Reviews",
-    description: "Build positive online reputation and bury negativity",
+    title: "Hide Bad Reviews",
+    description: "Build positive online reputation",
     color: "purple",
   },
 ]
@@ -50,7 +50,7 @@ export default function Step1Page() {
     setSelectedGoal(goal)
     setIsLoading(true)
     setTimeout(() => {
-      router.push(`/checkout/step-2?goal=${goal}`)
+      router.push(`/checkout/step-3?goal=${goal}`)
     }, 500)
   }
 
@@ -60,7 +60,7 @@ export default function Step1Page() {
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
-          style={{ width: "16.67%" }}
+          style={{ width: "20%" }}
         />
       </div>
 
@@ -75,8 +75,8 @@ export default function Step1Page() {
 
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <p className="text-sm text-slate-500 mb-2">Step 1 of 6 • Let's Get Started</p>
-            <h2 className="text-3xl font-bold text-slate-900">What's your #1 goal with PR?</h2>
+            <p className="text-sm text-slate-500 mb-2">Step 1 of 4 • Let's Get Started</p>
+            <h2 className="text-3xl font-bold text-slate-900">{"What's your main goal for this article?"}</h2>
           </div>
           <div className="space-y-3">
             {goals.map((goal, index) => (

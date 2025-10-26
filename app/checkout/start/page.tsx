@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, ArrowRight } from "lucide-react"
+import { Star, Loader2 } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState } from "react"
 
@@ -41,7 +41,7 @@ export default function CheckoutStartPage() {
         </div>
 
         <h1 className="md:text-5xl font-bold text-black mb-6 leading-tight text-3xl">
-          Get Featured for $47 in 100+ U.S. Media Outlets 
+          Get Featured in 100+ Real Articles Online 
         </h1>
 
         <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
@@ -56,7 +56,7 @@ export default function CheckoutStartPage() {
           ))}
         </div>
 
-        <p className="text-xl text-black mb-8">Let's build your custom PR campaign!</p>
+        <p className="text-xl text-black mb-8">Let&#39;s get you featured in real media! </p>
 
         <MovingBorderButton
           borderRadius="1.75rem"
@@ -72,11 +72,9 @@ export default function CheckoutStartPage() {
               Loading...
             </span>
           ) : (
-            "Start Building My Campaign →"
+            "Get My Article for $47"
           )}
         </MovingBorderButton>
-
-        
 
         <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">
           <div className="flex items-center gap-2">
