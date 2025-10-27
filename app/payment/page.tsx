@@ -28,7 +28,7 @@ import {
 } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "@/app/actions/stripe"
+import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
 import { getOutletImage } from "@/lib/outlet-images"
@@ -126,6 +126,8 @@ function CheckoutForm({
     setErrorMessage(null)
 
     try {
+      console.log("[v0] Confirming payment...")
+
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         redirect: "if_required",
@@ -141,12 +143,15 @@ function CheckoutForm({
       })
 
       if (error) {
-        setErrorMessage(error.message || "An error occurred")
+        console.error("[v0] Payment confirmation error:", error)
+        const errorMsg = error.message || "An error occurred during payment"
+        setErrorMessage(errorMsg)
         setIsProcessing(false)
         return
       }
 
       if (paymentIntent && paymentIntent.status === "succeeded") {
+        console.log("[v0] Payment succeeded:", paymentIntent.id)
         try {
           const [customerResult, paymentMethodResult] = await Promise.all([
             getPaymentIntentCustomer(paymentIntent.id),
@@ -154,16 +159,19 @@ function CheckoutForm({
           ])
 
           onPaymentComplete(customerResult.customerId, paymentMethodResult.paymentMethodType)
-        } catch (err) {
+        } catch (err: any) {
+          console.error("[v0] Error retrieving customer info:", err)
           setErrorMessage("Payment succeeded but customer ID not found")
           setIsProcessing(false)
         }
       } else {
-        setErrorMessage("Payment processing failed")
+        console.error("[v0] Unexpected payment status:", paymentIntent?.status)
+        setErrorMessage(`Payment processing failed. Status: ${paymentIntent?.status || "unknown"}`)
         setIsProcessing(false)
       }
-    } catch (err) {
-      setErrorMessage("An unexpected error occurred")
+    } catch (err: any) {
+      console.error("[v0] Unexpected error during payment:", err)
+      setErrorMessage(`An unexpected error occurred: ${err.message || "Please try again"}`)
       setIsProcessing(false)
     }
   }
@@ -354,8 +362,6 @@ function PaymentContent() {
     setDiscountError("")
   }
 
-  useEffect(() => {}, [selectedPackage, currentPackage.price])
-
   const initializePayment = async () => {
     try {
       setClientSecret(null)
@@ -363,6 +369,13 @@ function PaymentContent() {
       const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       const validEmail = isValidEmail ? email : "pending@prlaunch.io"
       const validFullName = fullName && fullName.trim() ? fullName : "Pending"
+
+      console.log("[v0] Creating payment intent with:", {
+        amount: discountedPrice,
+        packageName: currentPackage.name,
+        articles: currentPackage.articles,
+        email: validEmail,
+      })
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: discountedPrice,
@@ -376,9 +389,14 @@ function PaymentContent() {
 
       if (newClientSecret) {
         setClientSecret(newClientSecret)
+        console.log("[v0] Payment intent created successfully")
       }
-    } catch (error) {
-      // Error handled silently
+    } catch (error: any) {
+      console.error("[v0] Payment initialization error:", error)
+      const setErrorMessage = (message: string) => {
+        // Declare setErrorMessage here
+      }
+      setErrorMessage(error.message || "Failed to initialize payment. Please refresh and try again.")
     }
   }
 
@@ -796,7 +814,7 @@ function PaymentContent() {
               </div>
             )}
 
-            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift shadow-lg shadow-blue-500/20">
+            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-500 animate-gradient-shift shadow-lg shadow-blue-500/20">
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <h3 className="text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
                 <ul className="space-y-2">
