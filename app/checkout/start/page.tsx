@@ -37,12 +37,33 @@ export default function CheckoutStartPage() {
           <span className="text-xs font-semibold text-slate-900">Only 12 spots left this week</span>
         </div>
 
-        <div className="mb-8 w-full max-w-xl mx-auto">
-          <img
-            src="/images/design-mode/Screenshot%202025-10-22%20at%2000.19.43%20%281%29.jpg"
-            alt="Campaign Builder Banner"
-            className="w-full h-32 object-contain rounded-lg"
-          />
+        <div className="mb-12 w-full max-w-3xl mx-auto relative h-48 sm:h-64 lg:h-80">
+          {/* Card 1 - Top Left */}
+          <div className="absolute left-2 sm:left-4 lg:left-8 top-0 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.15.07%20%281%29-aMcqOS0fPEuijE3FJq5Y8HVW3n5SCu.jpg"
+              alt="SuccessXL Article"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Card 2 - Top Right (minimal corner overlap with card 1) */}
+          <div className="absolute right-2 sm:right-4 lg:right-8 top-1 sm:top-2 lg:top-4 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white z-10">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.17.55%20%281%29-RQ9jnQiXtxRR5T1PAIPJ5zR1RU7R41.jpg"
+              alt="USA Wire Article"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Card 3 - Bottom Center (minimal corner overlap with cards 1 and 2) */}
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white z-20">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.18.55%20%281%29-IxWWb9yQ6xp3JWaynFahA7hYf3j1rM.jpg"
+              alt="Top Hustler Article"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
         <h1 className="md:text-5xl font-bold text-black mb-6 leading-tight text-3xl">
