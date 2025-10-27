@@ -37,11 +37,11 @@ export default function CheckoutStartPage() {
           <span className="text-xs font-semibold text-slate-900">Only 12 spots left this week</span>
         </div>
 
-        <div className="mb-12 w-full max-w-3xl mx-auto relative h-48 sm:h-64 lg:h-80">
+        <div className="w-full max-w-3xl mx-auto relative h-48 sm:h-64 lg:h-80 mb-6">
           {/* Card 1 - Top Left */}
           <div className="absolute left-2 sm:left-4 lg:left-8 top-0 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.15.07%20%281%29-aMcqOS0fPEuijE3FJq5Y8HVW3n5SCu.jpg"
+              src="/images/design-mode/Screenshot%202025-10-27%20at%2015.15.07%20%281%29.jpg"
               alt="SuccessXL Article"
               className="w-full h-full object-cover"
             />
@@ -50,7 +50,7 @@ export default function CheckoutStartPage() {
           {/* Card 2 - Top Right (minimal corner overlap with card 1) */}
           <div className="absolute right-2 sm:right-4 lg:right-8 top-1 sm:top-2 lg:top-4 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white z-10">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.17.55%20%281%29-RQ9jnQiXtxRR5T1PAIPJ5zR1RU7R41.jpg"
+              src="/images/design-mode/Screenshot%202025-10-27%20at%2015.17.55%20%281%29.jpg"
               alt="USA Wire Article"
               className="w-full h-full object-cover"
             />
@@ -59,18 +59,18 @@ export default function CheckoutStartPage() {
           {/* Card 3 - Bottom Center (minimal corner overlap with cards 1 and 2) */}
           <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white z-20">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-27%20at%2015.18.55%20%281%29-IxWWb9yQ6xp3JWaynFahA7hYf3j1rM.jpg"
+              src="/images/design-mode/Screenshot%202025-10-27%20at%2015.18.55%20%281%29.jpg"
               alt="Top Hustler Article"
               className="w-full h-full object-cover"
             />
           </div>
         </div>
 
-        <h1 className="md:text-5xl font-bold text-black mb-6 leading-tight text-3xl">
-          Get Featured in 100+ Real Articles Online
+        <h1 className="md:text-5xl font-bold text-black leading-tight mb-6 text-3xl">
+          Get Famous on Google in 48 Hours and Close More Deals
         </h1>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-6 mb-4">
           {logos.map((logo, i) => (
             <div key={i} className="h-6 w-20 flex items-center justify-center">
               <img
@@ -82,7 +82,7 @@ export default function CheckoutStartPage() {
           ))}
         </div>
 
-        <p className="text-xl text-black mb-8">Let&#39;s get you featured in real media! </p>
+        <p className="text-black text-xl mb-4">Get featured on 100+ Google-ranking articles. </p>
 
         <MovingBorderButton
           borderRadius="1.75rem"
