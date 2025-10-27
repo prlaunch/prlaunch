@@ -147,7 +147,7 @@ export default function Step5Page() {
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-6">
             {packages.map((pkg) => {
               const totalArticles = pkg.articles + pkg.bonus
               const pricePerArticle = pkg.price / totalArticles
@@ -157,66 +157,96 @@ export default function Step5Page() {
                   key={pkg.id}
                   onClick={() => handlePackageSelect(pkg.id)}
                   disabled={isLoading}
-                  className={`w-full p-4 rounded-xl border-2 ${pkg.borderColor} ${
+                  className={`w-full rounded-2xl border-2 ${pkg.borderColor} ${
                     pkg.popular ? "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50" : "bg-white"
-                  } hover:scale-[1.02] hover:shadow-lg transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                  } hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
-                  } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_8px_rgba(34,197,94,0.1)]" : ""}`}
+                  } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_6px_rgba(34,197,94,0.1)] shadow-lg" : "shadow-lg"} overflow-visible`}
                 >
                   {pkg.bonus > 0 && (
                     <div
-                      className={`absolute -top-3 ${
-                        pkg.id === "authority" ? "left-1/2 -translate-x-1/2" : "right-4"
-                      } bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1`}
+                      className={`absolute -top-4 ${
+                        pkg.id === "authority" ? "left-1/2 -translate-x-1/2" : "right-3"
+                      } bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20`}
                     >
-                      🎁 Bonus
+                      🎁 +{pkg.bonus} FREE
                     </div>
                   )}
 
                   {hasReward && pkg.rewardEligible && (
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl z-20">
                       🎁 FREE ARTICLE
                     </div>
                   )}
                   {pkg.popular && !hasReward && (
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-0.5 rounded-full text-xs font-bold">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl z-20">
                       ⭐ MOST POPULAR
                     </div>
                   )}
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">
-                        {pkg.articles} Article{pkg.articles > 1 ? "s" : ""}
-                        {pkg.bonus > 0 && ` + ${pkg.bonus} FREE`}
-                      </h3>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-2xl font-bold text-slate-900">${pkg.price}</span>
-                        <span className="text-sm text-slate-400 line-through">${pkg.originalPrice}</span>
+
+                  <div className="p-3.5">
+                    <div className="flex items-start justify-between gap-3 mb-2.5">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-bold text-slate-900 leading-tight mb-1">
+                          {pkg.articles} Article{pkg.articles > 1 ? "s" : ""}
+                          {pkg.bonus > 0 && <span className="text-green-600"> +{pkg.bonus}</span>}
+                        </h3>
+                        <p className="text-[11px] text-slate-600 leading-tight">{pkg.description}</p>
                       </div>
-                      <div className="inline-block bg-blue-50 border border-blue-200 rounded-full px-2.5 py-0.5 mb-2">
-                        <span className="text-xs font-semibold text-blue-700">
-                          ${pricePerArticle.toFixed(2)} per article
+
+                      <div className="flex flex-col items-end flex-shrink-0">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-2xl font-bold text-slate-900 leading-none">${pkg.price}</span>
+                          {isLoading && selectedPackage === pkg.id ? (
+                            <Loader2 className="h-4 w-4 text-blue-600 animate-spin ml-1" />
+                          ) : selectedPackage === pkg.id ? (
+                            <Check className="h-4 w-4 text-blue-600 ml-1" />
+                          ) : null}
+                        </div>
+                        <span className="text-[10px] text-slate-400 line-through leading-none mt-0.5">
+                          ${pkg.originalPrice}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600 mb-2">{pkg.description}</p>
-                      {hasReward && pkg.rewardEligible && (
-                        <p className="text-xs font-bold text-green-600">🎁 + $94 FREE from your reward!</p>
-                      )}
                     </div>
-                    {isLoading && selectedPackage === pkg.id ? (
-                      <Loader2 className="h-5 w-5 text-blue-600 flex-shrink-0 animate-spin" />
-                    ) : selectedPackage === pkg.id ? (
-                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0" />
-                    ) : null}
+
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg px-2 py-1">
+                        <span className="text-[11px] font-bold text-blue-700">
+                          ${pricePerArticle.toFixed(2)}/article
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-2 py-1">
+                        <span className="text-[11px] font-bold text-green-700">Save ${pkg.savings}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 mb-2">
+                      {pkg.features.map((feature, i) => (
+                        <p key={i} className="text-[11px] text-slate-700 flex items-start gap-1.5 leading-tight">
+                          <span className="text-green-600 text-xs flex-shrink-0">✓</span>
+                          <span>{feature}</span>
+                        </p>
+                      ))}
+                    </div>
+
+                    {hasReward && pkg.rewardEligible && (
+                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg px-2 py-1.5 mt-2">
+                        <p className="text-[11px] font-bold text-green-700 text-center">
+                          🎁 Includes your $94 FREE bonus article!
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  <div className="space-y-1">
-                    {pkg.features.map((feature, i) => (
-                      <p key={i} className="text-xs text-slate-700 flex items-start gap-1.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                        <span>{feature}</span>
-                      </p>
-                    ))}
-                  </div>
+
+                  <div
+                    className={`h-1 w-full rounded-b-2xl bg-gradient-to-r ${
+                      pkg.id === "starter"
+                        ? "from-purple-400 to-purple-600"
+                        : pkg.id === "growth"
+                          ? "from-cyan-400 to-blue-600"
+                          : "from-pink-400 to-pink-600"
+                    }`}
+                  />
                 </button>
               )
             })}
