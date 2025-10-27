@@ -128,7 +128,7 @@ export default function PricingPage() {
                         size="lg"
                         className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                       >
-                        <a href="/checkout">Get Featured</a>
+                        <a href="/checkout/step-5">Get Featured</a>
                       </Button>
 
                       {/* Features List */}
@@ -183,7 +183,7 @@ export default function PricingPage() {
                       size="lg"
                       className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                     >
-                      <a href={pkg.isAgency ? `/payment?package=${pkg.name.toLowerCase()}` : "/checkout"}>
+                      <a href={pkg.isAgency ? `/payment?package=${pkg.name.toLowerCase()}` : "/checkout/step-5"}>
                         Get Featured
                       </a>
                     </Button>
@@ -232,7 +232,7 @@ export default function PricingPage() {
             size="lg"
             className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           >
-            <a href="/checkout">Get Featured</a>
+            <a href="/checkout/step-5">Get Featured</a>
           </Button>
         </div>
       </section>

@@ -118,13 +118,7 @@ export default function Step5Page() {
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
-        <button
-          onClick={() => router.push(`/checkout/step-4?goal=${goal}`)}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span className="text-sm font-medium">Back</span>
-        </button>
+        
 
         <div className="space-y-6">
           {hasReward && (
@@ -142,7 +136,7 @@ export default function Step5Page() {
           )}
 
           <div className="text-center mb-6">
-            <p className="text-sm text-slate-500 mb-2">Step 3 of 3 • Choose Your Package</p>
+            
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>

@@ -43,7 +43,7 @@ export function OutletSelectionSection() {
   const pathname = usePathname()
 
   const isFastPage = pathname?.startsWith("/fast")
-  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout"
+  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout/step-5"
 
   useEffect(() => {
     fetch("/api/outlets")

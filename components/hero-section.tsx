@@ -85,7 +85,7 @@ export function HeroSection() {
   const currentVariant = HEADLINE_VARIANTS[variant as keyof typeof HEADLINE_VARIANTS] || HEADLINE_VARIANTS.a
 
   const isFastPage = pathname?.startsWith("/fast")
-  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout"
+  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout/step-5"
   const showSecondaryButton = !isFastPage
 
   const scrollToSection = (id: string) => {

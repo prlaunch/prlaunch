@@ -70,7 +70,7 @@ export function PricingSection() {
                     asChild
                     className="w-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                   >
-                    <a href="/checkout">Choose {pkg.name}</a>
+                    <a href="/checkout/step-5">Choose {pkg.name}</a>
                   </Button>
                 </CardFooter>
               </Card>

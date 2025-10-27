@@ -95,7 +95,7 @@ export function RevenueCalculator() {
             asChild
             className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           >
-            <a href="/checkout">Get Featured — $47</a>
+            <a href="/checkout/step-5">Get Featured — $47</a>
           </Button>
         </div>
       </div>

@@ -214,7 +214,7 @@ export function FloatingNav() {
           <MovingBorderButton
             borderRadius="1.75rem"
             as={Link}
-            href="/checkout"
+            href="/checkout/step-5"
             containerClassName="h-10 w-auto"
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 text-sm font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
@@ -241,7 +241,7 @@ export function FloatingNav() {
             <MovingBorderButton
               borderRadius="1.75rem"
               as={Link}
-              href="/checkout"
+              href="/checkout/step-5"
               containerClassName="h-8 w-auto"
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-1.5 text-xs font-semibold shadow-lg shadow-blue-500/30"
               duration={3000}

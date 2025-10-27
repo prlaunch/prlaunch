@@ -202,7 +202,7 @@ export function PRQuizSection() {
               </p>
 
               <div className="text-center">
-                <Link href="/checkout">
+                <Link href="/checkout/step-5">
                   <Button
                     size="sm"
                     className="bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 hover:opacity-90 text-white font-semibold px-5 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"

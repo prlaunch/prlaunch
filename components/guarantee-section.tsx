@@ -65,7 +65,7 @@ export function GuaranteeSection() {
           </div>
 
           {/* CTA */}
-          <Link href="/checkout">
+          <Link href="/checkout/step-5">
             <Button
               size="lg"
               className="h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"

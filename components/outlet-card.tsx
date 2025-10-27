@@ -51,7 +51,7 @@ export function OutletCard({ name, url, description, isAvailable = true, imageUr
         </a>
 
         <Link
-          href="/checkout"
+          href="/checkout/step-5"
           className="mt-3 w-full bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:border-blue-700 hover:text-blue-700 text-sm font-medium py-2.5 px-4 rounded-2xl shadow-md hover:shadow-lg transition-all text-center"
         >
           Publish

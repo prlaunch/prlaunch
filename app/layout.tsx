@@ -27,7 +27,7 @@ export default function RootLayout({
         <Script
           async
           defer
-          src="https://tools.luckyorange.com/core/lo.js?site-id=c3f8e351"
+          src="https://tools.luckyorange.com/core/lo.js?site-id=f909d981"
           strategy="afterInteractive"
         />
         <Script id="meta-pixel" strategy="afterInteractive">

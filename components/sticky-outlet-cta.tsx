@@ -29,7 +29,7 @@ export function StickyOutletCTA() {
             Not sure what to pick? <span className="font-medium">Buy Article Credits and our team will help.</span>
           </p>
           <Link
-            href="/checkout"
+            href="/checkout/step-5"
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors whitespace-nowrap flex-shrink-0"
           >
             Buy Credits
