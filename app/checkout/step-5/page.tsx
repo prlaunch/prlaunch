@@ -1,7 +1,10 @@
 "use client"
-import { Check, ArrowLeft, Loader2, Gift } from "lucide-react"
+import { Check, Loader2, Gift, Star, ArrowUp } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { mainReviews } from "@/lib/reviews-data"
+import { ScrollingLogos } from "@/components/scrolling-logos"
+import { GuaranteeSection } from "@/components/guarantee-section"
 
 type Package = "starter" | "growth" | "authority"
 
@@ -71,6 +74,9 @@ export default function Step5Page() {
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
   const [timeLeft, setTimeLeft] = useState(15 * 60)
   const [isLoading, setIsLoading] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const reviewsRef = useRef<HTMLDivElement>(null)
+  const packagesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const timerStart = localStorage.getItem("campaignTimerStart")
@@ -90,6 +96,19 @@ export default function Step5Page() {
     }
   }, [timeLeft])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (reviewsRef.current) {
+        const reviewsTop = reviewsRef.current.getBoundingClientRect().top
+        setShowScrollTop(reviewsTop < window.innerHeight)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll() // Check initial position
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
@@ -103,6 +122,12 @@ export default function Step5Page() {
       router.push(`/payment?package=${pkg}`)
     }, 500)
   }
+
+  const scrollToPackages = () => {
+    packagesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
+  const displayReviews = mainReviews.slice(0, 10)
 
   return (
     <div className="min-h-screen bg-white">
@@ -118,8 +143,6 @@ export default function Step5Page() {
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
-        
-
         <div className="space-y-6">
           {hasReward && (
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 mb-6 animate-in slide-in-from-top duration-500">
@@ -136,12 +159,11 @@ export default function Step5Page() {
           )}
 
           <div className="text-center mb-6">
-            
             <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
             <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
           </div>
 
-          <div className="space-y-6">
+          <div ref={packagesRef} className="space-y-6">
             {packages.map((pkg) => {
               const totalArticles = pkg.articles + pkg.bonus
               const pricePerArticle = pkg.price / totalArticles
@@ -245,8 +267,65 @@ export default function Step5Page() {
               )
             })}
           </div>
+
+          <div ref={reviewsRef} className="mt-12 pt-8 border-t border-slate-200">
+            <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">What Our Customers Say</h3>
+            <div className="space-y-4">
+              {displayReviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <img
+                      src={review.image || "/placeholder.svg"}
+                      alt={review.name}
+                      className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <h4 className="font-semibold text-slate-900 text-sm">{review.name}</h4>
+                        <div className="flex items-center gap-0.5">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-slate-600">{review.title}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-700 leading-relaxed mb-3">{review.review}</p>
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span>{review.date}</span>
+                    {review.verified && (
+                      <span className="flex items-center gap-1 text-green-600 font-medium">
+                        <Check className="w-3 h-3" />
+                        Verified
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className="mt-12">
+        <ScrollingLogos />
+      </div>
+
+      <GuaranteeSection />
+
+      {showScrollTop && (
+        <button
+          onClick={scrollToPackages}
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4"
+          aria-label="Scroll to packages"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   )
 }
