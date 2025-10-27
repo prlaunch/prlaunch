@@ -421,9 +421,15 @@ function PaymentContent() {
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
     const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
-    router.push(
-      `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
-    )
+    if (paymentMethodType === "card") {
+      router.push(
+        `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
+      )
+    } else {
+      router.push(
+        `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
+      )
+    }
   }
 
   const reviews = getReviewsSubset(3)
