@@ -120,7 +120,7 @@ export default function CheckoutBPage() {
             <div className="space-y-3 sm:space-y-4 text-left">
               <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-3 sm:p-4">
                 <p className="font-bold text-slate-900 text-sm sm:text-base mb-1">
-                  🎁 +1 BONUS Article (on 3+ article packages)
+                  🎁 +1 BONUS Article (on 2+ article packages)
                 </p>
               </div>
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-3 sm:p-4">
@@ -351,7 +351,7 @@ export default function CheckoutBPage() {
                 <img
                   src="/images/before-after/google-with-results.jpg"
                   alt="After: Article ranking on Google"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>

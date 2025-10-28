@@ -1,8 +1,5 @@
 "use client"
-
-import { Button } from "@/components/ui/button"
 import { Shield, Check } from "lucide-react"
-import Link from "next/link"
 
 export function GuaranteeSection() {
   const scrollToSection = (id: string) => {
@@ -51,7 +48,7 @@ export function GuaranteeSection() {
             Zero risk. Zero hassle. All the upside, none of the downside.
           </p>
 
-          <div className="mb-6 rounded-2xl bg-slate-800/50 p-6 backdrop-blur-sm">
+          <div className="rounded-2xl bg-slate-800/50 p-6 backdrop-blur-sm">
             <div className="grid gap-3 md:grid-cols-2 md:gap-4">
               {benefits.map((benefit, index) => (
                 <div key={index} className="flex items-start gap-2 text-left">
@@ -63,18 +60,6 @@ export function GuaranteeSection() {
               ))}
             </div>
           </div>
-
-          {/* CTA */}
-          <Link href="/checkout/step-5">
-            <Button
-              size="lg"
-              className="h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              Get Featured — $47
-            </Button>
-          </Link>
-
-          <p className="mt-3 text-sm text-blue-300">Join 500+ founders who've been featured in major publications</p>
         </div>
       </div>
     </section>
