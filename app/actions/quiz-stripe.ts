@@ -10,14 +10,39 @@ export async function createQuizPaymentIntent(productId: string, email: string, 
   }
 
   try {
-    const customer = await stripe.customers.create({
+    let customer
+    const existingCustomers = await stripe.customers.list({
       email: email,
-      name: fullName,
-      metadata: {
-        source: "quiz",
-        productId: product.id,
-      },
+      limit: 1,
     })
+
+    if (existingCustomers.data.length > 0) {
+      // Update existing customer with latest information
+      customer = existingCustomers.data[0]
+      await stripe.customers.update(customer.id, {
+        name: fullName,
+        metadata: {
+          source: "quiz",
+          productId: product.id,
+          productName: product.name,
+          email: email,
+          fullName: fullName,
+        },
+      })
+    } else {
+      // Create new customer with complete metadata
+      customer = await stripe.customers.create({
+        email: email,
+        name: fullName,
+        metadata: {
+          source: "quiz",
+          productId: product.id,
+          productName: product.name,
+          email: email,
+          fullName: fullName,
+        },
+      })
+    }
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: product.priceInCents,

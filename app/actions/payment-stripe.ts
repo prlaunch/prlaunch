@@ -36,12 +36,27 @@ export async function createPaymentIntent({
     if (existingCustomers.data.length > 0) {
       customer = existingCustomers.data[0]
       console.log("[v0] Using existing customer:", customer.id)
+
+      customer = await stripe.customers.update(customer.id, {
+        name: fullName,
+        metadata: {
+          email: email,
+          fullName: fullName,
+          package: packageName,
+          articles: articles.toString(),
+          ...(companyName && { companyName }),
+          ...(companyNumber && { companyNumber }),
+        },
+      })
+      console.log("[v0] Updated existing customer metadata")
     } else {
       // Create new customer only if one doesn't exist
       customer = await stripe.customers.create({
         email: email,
         name: fullName,
         metadata: {
+          email: email,
+          fullName: fullName,
           package: packageName,
           articles: articles.toString(),
           ...(companyName && { companyName }),
@@ -60,10 +75,10 @@ export async function createPaymentIntent({
         enabled: true,
       },
       metadata: {
-        package: packageName,
-        articles: articles.toString(),
         email: email,
         fullName: fullName,
+        package: packageName,
+        articles: articles.toString(),
         ...(companyName && { companyName }),
         ...(companyNumber && { companyNumber }),
       },
