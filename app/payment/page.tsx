@@ -180,7 +180,20 @@ function CheckoutForm({
     <>
       <form onSubmit={handleSubmit}>
         <div className="space-y-4 mb-6">
-          <PaymentElement />
+          <PaymentElement
+            options={{
+              layout: {
+                type: "accordion",
+                defaultCollapsed: false,
+                radios: false,
+                spacedAccordionItems: true,
+              },
+              wallets: {
+                applePay: "auto",
+                googlePay: "auto",
+              },
+            }}
+          />
         </div>
 
         <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-start gap-2">
@@ -207,7 +220,7 @@ function CheckoutForm({
           ) : (
             <>
               <Lock className="mr-2 h-5 w-5" />
-              Complete Secure Payment
+              Secure My Articles Now
             </>
           )}
         </Button>
@@ -263,11 +276,13 @@ function PaymentContent() {
   }, [outletsDataParam])
 
   const packageParam = searchParams.get("package") || "starter"
+  const versionParam = searchParams.get("version")
+  const isBVersion = versionParam === "b"
 
   const emailParam = searchParams.get("email") || ""
   const nameParam = searchParams.get("name") || ""
 
-  const packages = {
+  const packagesA = {
     starter: {
       name: "Starter",
       articles: 1,
@@ -276,6 +291,7 @@ function PaymentContent() {
       perArticle: 47,
       upsellTo: "growth",
       hasBonus: false,
+      bonusText: "",
     },
     growth: {
       name: "Growth",
@@ -284,7 +300,8 @@ function PaymentContent() {
       originalPrice: 376,
       perArticle: 31.75,
       upsellTo: "authority",
-      hasBonus: false,
+      hasBonus: true,
+      bonusText: "3 + 1 Free Bonus",
     },
     authority: {
       name: "Authority",
@@ -294,6 +311,7 @@ function PaymentContent() {
       perArticle: 28.14,
       upsellTo: null,
       hasBonus: true,
+      bonusText: "5 + 2 Free Bonus",
     },
     agency: {
       name: "Agency",
@@ -303,8 +321,54 @@ function PaymentContent() {
       perArticle: 24.93,
       upsellTo: null,
       hasBonus: false,
+      bonusText: "",
     },
   }
+
+  const packagesB = {
+    starter: {
+      name: "Starter",
+      articles: 1,
+      price: 97,
+      originalPrice: 194,
+      perArticle: 97,
+      upsellTo: "growth",
+      hasBonus: false,
+      bonusText: "",
+    },
+    growth: {
+      name: "Growth",
+      articles: 3,
+      price: 197,
+      originalPrice: 582,
+      perArticle: 65.67,
+      upsellTo: "authority",
+      hasBonus: true,
+      bonusText: "2 + 1 Free Bonus",
+    },
+    authority: {
+      name: "Authority",
+      articles: 5,
+      price: 297,
+      originalPrice: 970,
+      perArticle: 59.4,
+      upsellTo: null,
+      hasBonus: true,
+      bonusText: "3 + 2 Free Bonus",
+    },
+    agency: {
+      name: "Agency",
+      articles: 40,
+      price: 997,
+      originalPrice: 1994,
+      perArticle: 24.93,
+      upsellTo: null,
+      hasBonus: false,
+      bonusText: "",
+    },
+  }
+
+  const packages = isBVersion ? packagesB : packagesA
 
   const validPackage = packageParam.toLowerCase() in packages ? packageParam.toLowerCase() : "starter"
   const [selectedPackage, setSelectedPackage] = useState(validPackage)
@@ -421,15 +485,9 @@ function PaymentContent() {
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
     const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
-    if (paymentMethodType === "card") {
-      router.push(
-        `/upsell?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
-      )
-    } else {
-      router.push(
-        `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&upsell=skipped`,
-      )
-    }
+    router.push(
+      `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
+    )
   }
 
   const reviews = getReviewsSubset(3)
@@ -714,8 +772,8 @@ function PaymentContent() {
                     <h2 className="text-2xl font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
                     <p className="text-slate-600">
                       {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
-                      {currentPackage.hasBonus && (
-                        <span className="text-green-600 font-semibold"> (5 + 2 Free Bonus)</span>
+                      {currentPackage.hasBonus && currentPackage.bonusText && (
+                        <span className="text-green-600 font-semibold"> ({currentPackage.bonusText})</span>
                       )}
                     </p>
                   </div>
@@ -930,6 +988,7 @@ function PaymentContent() {
                       radios: false,
                       spacedAccordionItems: true,
                     },
+                    paymentMethodOrder: ["apple_pay", "google_pay", "card"],
                   }}
                 >
                   <CheckoutForm

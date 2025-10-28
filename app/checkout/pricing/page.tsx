@@ -14,9 +14,9 @@ const packages = [
     name: "Starter",
     articles: 1,
     bonus: 0,
-    price: 47,
-    originalPrice: 94,
-    savings: 47,
+    price: 97,
+    originalPrice: 194,
+    savings: 97,
     description: "Perfect for: Testing PR",
     features: ["1 premium outlet of your choice", "Professional article writing"],
     borderColor: "border-purple-500",
@@ -24,13 +24,13 @@ const packages = [
   {
     id: "growth" as Package,
     name: "Growth",
-    articles: 3,
+    articles: 2,
     bonus: 1,
-    price: 127,
-    originalPrice: 376,
-    savings: 249,
+    price: 197,
+    originalPrice: 582,
+    savings: 385,
     description: "Perfect for: Building credibility",
-    features: ["4 premium outlets (3 + 1 bonus!)", "Professional article writing"],
+    features: ["3 premium outlets (2 + 1 bonus!)", "Professional article writing"],
     popular: true,
     borderColor: "border-cyan-500",
     rewardEligible: true,
@@ -38,13 +38,13 @@ const packages = [
   {
     id: "authority" as Package,
     name: "Authority",
-    articles: 5,
+    articles: 3,
     bonus: 2,
-    price: 197,
-    originalPrice: 658,
-    savings: 461,
+    price: 297,
+    originalPrice: 970,
+    savings: 673,
     description: "Perfect for: Maximum exposure",
-    features: ["7 premium outlets (5 + 2 bonus!)", "Professional article writing", "Dedicated PR consultant"],
+    features: ["5 premium outlets (3 + 2 bonus!)", "Professional article writing", "Dedicated PR consultant"],
     borderColor: "border-pink-500",
     rewardEligible: true,
   },
@@ -65,7 +65,7 @@ const goals = [
   { id: "reviews", title: "Overcome Bad Reviews" },
 ]
 
-export default function Step5Page() {
+export default function CheckoutPricingPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const goal = searchParams.get("goal")
@@ -105,7 +105,7 @@ export default function Step5Page() {
     }
 
     window.addEventListener("scroll", handleScroll)
-    handleScroll() // Check initial position
+    handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -119,7 +119,7 @@ export default function Step5Page() {
     setSelectedPackage(pkg)
     setIsLoading(true)
     setTimeout(() => {
-      router.push(`/payment?package=${pkg}`)
+      router.push(`/payment?package=${pkg}&version=b`)
     }, 500)
   }
 
@@ -151,7 +151,7 @@ export default function Step5Page() {
                 <div>
                   <h3 className="font-bold text-green-900 mb-1">🎉 Your Free Article is Ready!</h3>
                   <p className="text-sm text-green-800">
-                    Select a package of 4 or 7 articles below to claim your free bonus article (worth $94)
+                    Select a package of 3 or 5 articles below to claim your free bonus article
                   </p>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function Step5Page() {
                     {hasReward && pkg.rewardEligible && (
                       <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg px-2 py-1.5 mt-2">
                         <p className="text-[11px] font-bold text-green-700 text-center">
-                          🎁 Includes your $94 FREE bonus article!
+                          🎁 Includes your FREE bonus article!
                         </p>
                       </div>
                     )}
