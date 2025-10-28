@@ -9,64 +9,7 @@ import Image from "next/image"
 
 const HEADLINE_VARIANTS = {
   a: {
-    headline: (
-      <>
-        <span className="relative inline-block pb-1">
-          Get Featured and Boost
-          <svg
-            className="absolute left-0 bottom-0 w-full h-3 pointer-events-none"
-            viewBox="0 0 400 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="squiggleGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3B82F6" />
-                <stop offset="50%" stopColor="#06B6D4" />
-                <stop offset="100%" stopColor="#A855F7" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 5 8 Q 20 6, 40 9 Q 55 10, 70 7 Q 90 5, 110 9 Q 130 11, 150 7 Q 170 4, 190 8 Q 210 10, 230 7 Q 250 5, 270 8 Q 290 10, 310 7 Q 330 5, 350 9 Q 370 11, 390 8 Q 380 5, 395 8"
-              stroke="url(#squiggleGradient1)"
-              strokeWidth="1.5"
-              fill="none"
-              strokeLinecap="round"
-              className="animate-draw-squiggle"
-            />
-          </svg>
-        </span>
-        <br />
-        <span className="relative inline-block pb-1">
-          Your Brand in 48 Hours
-          <svg
-            className="absolute left-0 bottom-0 w-full h-3 pointer-events-none"
-            viewBox="0 0 400 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="squiggleGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3B82F6" />
-                <stop offset="50%" stopColor="#06B6D4" />
-                <stop offset="100%" stopColor="#A855F7" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 5 7 Q 25 10, 45 6 Q 60 4, 80 8 Q 100 11, 120 7 Q 140 4, 160 8 Q 180 10, 200 7 Q 220 5, 240 9 Q 260 11, 280 7 Q 300 4, 320 8 Q 340 10, 360 7 Q 380 5, 395 8"
-              stroke="url(#squiggleGradient2)"
-              strokeWidth="1.5"
-              fill="none"
-              strokeLinecap="round"
-              className="animate-draw-squiggle"
-              style={{ animationDelay: "0.3s" }}
-            />
-          </svg>
-        </span>
-      </>
-    ),
+    headline: "Get Famous on Google in 48 Hours and Close More Deals",
     subheadline:
       "Elevate your brand and own your Google search. When they Google you, they'll know you're the real deal.",
   },

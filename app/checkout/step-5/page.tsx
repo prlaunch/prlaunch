@@ -97,6 +97,15 @@ export default function Step5Page() {
   }, [timeLeft])
 
   useEffect(() => {
+    if (timeLeft === 0) {
+      // Reset timer to 15 minutes
+      const newStartTime = Date.now()
+      localStorage.setItem("campaignTimerStart", newStartTime.toString())
+      setTimeLeft(15 * 60)
+    }
+  }, [timeLeft])
+
+  useEffect(() => {
     const handleScroll = () => {
       if (reviewsRef.current) {
         const reviewsTop = reviewsRef.current.getBoundingClientRect().top
