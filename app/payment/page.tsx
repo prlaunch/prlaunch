@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState, useEffect, Suspense, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -595,13 +594,10 @@ function PaymentContent() {
 
       <header className="bg-white border-b border-slate-200 sticky top-[42px] z-40 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight hover:opacity-80 transition-opacity text-black inline-block"
-          >
+          <div className="text-2xl font-bold tracking-tight text-black inline-block">
             <span className="text-blue-500">pr</span>
             <span>launch.io</span>
-          </Link>
+          </div>
           <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
             <Lock className="h-4 w-4 text-green-600" />
             <span className="text-xs font-semibold text-green-700">Secure Checkout</span>
