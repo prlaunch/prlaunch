@@ -49,6 +49,19 @@ function ThankYouContent() {
             <span className="font-semibold text-slate-900">{email}</span>
           </p>
 
+          <div className="mb-8">
+            <Link href="https://tally.so/r/nrzxWo" target="_blank" rel="noopener noreferrer" className="inline-block">
+              <Button
+                size="lg"
+                className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8"
+              >
+                <FileText className="mr-2 h-5 w-5" />
+                Fill Out Questionnaire
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+
           {/* Order Summary */}
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 mb-8 text-left">
             <h2 className="text-xl font-bold text-slate-900 mb-4 text-center">Order Summary</h2>
@@ -132,18 +145,6 @@ function ThankYouContent() {
               </div>
             </div>
           </div>
-
-          {/* CTA Button */}
-          <Link href="https://tally.so/r/nrzxWo" target="_blank" rel="noopener noreferrer" className="inline-block">
-            <Button
-              size="lg"
-              className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8"
-            >
-              <FileText className="mr-2 h-5 w-5" />
-              Fill Out Questionnaire
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
 
           <p className="text-sm text-slate-500 mt-6">
             Need help? Contact us at{" "}
