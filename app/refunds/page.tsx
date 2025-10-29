@@ -75,10 +75,10 @@ export default function RefundsPage() {
               <h2 className="text-2xl font-semibold text-black mb-4">5. Revision Policy</h2>
               <p className="text-slate-700 leading-relaxed mb-4">Before requesting a refund, please note:</p>
               <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                <li>Every order includes ONE free revision</li>
+                <li>Every order includes UNLIMITED free revisions</li>
                 <li>You have the right to review and approve articles before publication</li>
-                <li>We encourage clients to use their free revision to ensure satisfaction</li>
-                <li>Additional revisions beyond the first free revision may incur additional fees</li>
+                <li>We encourage clients to request as many revisions as needed to ensure complete satisfaction</li>
+                <li>Our team will work with you until the article meets your expectations</li>
               </ul>
             </section>
 

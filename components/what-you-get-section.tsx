@@ -141,8 +141,8 @@ export function WhatYouGetSection() {
   const handleMouseLeave = () => setIsAutoScrolling(true)
 
   return (
-    <section id="what-you-get" className="py-12 bg-gradient-to-b from-background to-muted/20">
-      <div className="container px-4 mx-auto">
+    <section id="what-you-get" className="bg-gradient-to-b from-background to-muted/20 py-0">
+      <div className="container px-4 mx-auto my-0 py-8">
         <div className="text-center mb-12 max-w-6xl mx-auto">
           <h2 className="md:text-5xl font-bold text-balance text-xl">
             {"You've probably seen our articles. You just didn't know it was us."}

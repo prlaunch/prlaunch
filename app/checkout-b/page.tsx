@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import confetti from "canvas-confetti"
+import { Logo } from "@/components/quiz-logo"
 
 export default function CheckoutBPage() {
   const router = useRouter()
@@ -167,6 +168,10 @@ export default function CheckoutBPage() {
       {/* HERO SECTION */}
       <div className="flex items-start justify-center p-4 pt-8 pb-16">
         <div className="text-center max-w-2xl">
+          <div className="mb-8 flex justify-center">
+            <Logo />
+          </div>
+
           <div className="mb-6 inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1">
             <span className="text-xs">🔥</span>
             <span className="text-xs font-semibold text-slate-900">Only 12 spots left this week</span>

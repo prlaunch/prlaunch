@@ -5,6 +5,11 @@ import { useState, useEffect, useRef } from "react"
 import { mainReviews } from "@/lib/reviews-data"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { GuaranteeSection } from "@/components/guarantee-section"
+import { ExitIntentModal, useExitIntent } from "@/components/exit-intent-modal"
+import { Button } from "@/components/ui/button"
+import { WhatsIncludedSection } from "@/components/whats-included-section"
+import { WhatYouGetSection } from "@/components/what-you-get-section"
+import { PricingFAQSection } from "@/components/pricing-faq-section"
 
 type Package = "starter" | "growth" | "authority"
 
@@ -74,9 +79,20 @@ export default function Step5Page() {
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
   const [timeLeft, setTimeLeft] = useState(15 * 60)
   const [isLoading, setIsLoading] = useState(false)
-  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [showScrollArrow, setShowScrollArrow] = useState(false)
+  const [showExitModal, setShowExitModal] = useState(false)
+  const [hasClickedPackage, setHasClickedPackage] = useState(false)
   const reviewsRef = useRef<HTMLDivElement>(null)
   const packagesRef = useRef<HTMLDivElement>(null)
+  const whatsIncludedRef = useRef<HTMLDivElement>(null)
+
+  useExitIntent(() => {
+    const hasShownModal = sessionStorage.getItem("exitModalShown")
+    if (!hasShownModal && !hasClickedPackage) {
+      setShowExitModal(true)
+      sessionStorage.setItem("exitModalShown", "true")
+    }
+  }, !hasClickedPackage)
 
   useEffect(() => {
     const timerStart = localStorage.getItem("campaignTimerStart")
@@ -98,7 +114,6 @@ export default function Step5Page() {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      // Reset timer to 15 minutes
       const newStartTime = Date.now()
       localStorage.setItem("campaignTimerStart", newStartTime.toString())
       setTimeLeft(15 * 60)
@@ -107,14 +122,14 @@ export default function Step5Page() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (reviewsRef.current) {
-        const reviewsTop = reviewsRef.current.getBoundingClientRect().top
-        setShowScrollTop(reviewsTop < window.innerHeight)
+      if (whatsIncludedRef.current) {
+        const whatsIncludedBottom = whatsIncludedRef.current.getBoundingClientRect().bottom
+        setShowScrollArrow(whatsIncludedBottom < 0)
       }
     }
 
     window.addEventListener("scroll", handleScroll)
-    handleScroll() // Check initial position
+    handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -125,6 +140,7 @@ export default function Step5Page() {
   }
 
   const handlePackageSelect = (pkg: Package) => {
+    setHasClickedPackage(true)
     setSelectedPackage(pkg)
     setIsLoading(true)
     setTimeout(() => {
@@ -140,6 +156,16 @@ export default function Step5Page() {
 
   return (
     <div className="min-h-screen bg-white">
+      {showExitModal && (
+        <ExitIntentModal
+          onClose={() => setShowExitModal(false)}
+          onClaim={() => {
+            setShowExitModal(false)
+            packagesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }}
+        />
+      )}
+
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
         <div
           className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
@@ -148,7 +174,7 @@ export default function Step5Page() {
       </div>
 
       <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🎁 Free Bonus Article claimed for: {formatTime(timeLeft)}
+        🎁 Bonus expires in {formatTime(timeLeft)} · 8 spots left
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
@@ -188,6 +214,38 @@ export default function Step5Page() {
                 <span className="text-xs font-semibold text-foreground">4.8/5</span>
                 <span className="text-xs text-muted-foreground">from 231+ reviews</span>
               </div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow mb-6">
+            <div className="flex items-start gap-3 mb-3">
+              <img
+                src="/images/design-mode/73x73.png"
+                alt="Marcus T."
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <h4 className="font-semibold text-slate-900 text-sm">Marcus T.</h4>
+                  <div className="flex items-center gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-slate-600">Startup Founder</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-700 leading-relaxed mb-3">
+              "They didn't just meet expectations, they crushed them. Article quality was top-tier and results spoke for
+              themselves."
+            </p>
+            <div className="flex items-center justify-between text-xs text-slate-500">
+              <span>2 weeks ago</span>
+              <span className="flex items-center gap-1 text-green-600 font-medium">
+                <Check className="w-3 h-3" />
+                Verified
+              </span>
             </div>
           </div>
 
@@ -283,13 +341,18 @@ export default function Step5Page() {
                       ))}
                     </div>
 
-                    {hasReward && pkg.rewardEligible && (
-                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg px-2 py-1.5 mt-2">
-                        <p className="text-[11px] font-bold text-green-700 text-center">
-                          🎁 Includes your $94 FREE bonus article!
-                        </p>
-                      </div>
-                    )}
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handlePackageSelect(pkg.id)
+                      }}
+                      disabled={isLoading}
+                      className="w-full mt-3 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-sm"
+                    >
+                      {pkg.id === "starter" && "Get 1 Article →"}
+                      {pkg.id === "growth" && "Get 4 Articles →"}
+                      {pkg.id === "authority" && "Get 7 Articles →"}
+                    </Button>
                   </div>
 
                   <div
@@ -306,7 +369,12 @@ export default function Step5Page() {
             })}
           </div>
 
-          <div ref={reviewsRef} className="mt-12 pt-8 border-t border-slate-200">
+          <div ref={whatsIncludedRef} className="mt-12 space-y-8">
+            <WhatsIncludedSection />
+            <WhatYouGetSection />
+          </div>
+
+          <div ref={reviewsRef} className="pt-8 border-t border-slate-200 mt-12">
             <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">What Our Customers Say</h3>
             <div className="space-y-4">
               {displayReviews.map((review, index) => (
@@ -346,6 +414,10 @@ export default function Step5Page() {
               ))}
             </div>
           </div>
+
+          <div className="mt-12">
+            <PricingFAQSection />
+          </div>
         </div>
       </div>
 
@@ -355,7 +427,7 @@ export default function Step5Page() {
 
       <GuaranteeSection />
 
-      {showScrollTop && (
+      {showScrollArrow && (
         <button
           onClick={scrollToPackages}
           className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4"

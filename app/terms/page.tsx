@@ -53,8 +53,7 @@ export default function TermsPage() {
               </p>
               <ul className="list-disc pl-6 space-y-2 text-slate-700">
                 <li>Users have the right to approve all articles before publication</li>
-                <li>One free revision is included with every order</li>
-                <li>Additional revisions may be subject to additional fees</li>
+                <li>Unlimited free revisions are included with every order</li>
                 <li>Once approved, orders are considered final</li>
               </ul>
             </section>
@@ -70,15 +69,36 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-black mb-4">5. Refund Policy</h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                We offer a 100% money-back guarantee if articles are not published within 7 days of client's approval.
+                We offer a 100% money-back guarantee if articles are not published within 48 hours of client's approval.
                 Refunds are only provided under the following circumstances:
               </p>
-              <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                <li>Articles are not published within 7 days after client approval</li>
-                <li>All refund requests must be submitted to hello@prlaunch.io</li>
-              </ul>
-              <p className="text-slate-700 leading-relaxed mt-4">
-                For complete refund terms, please see our{" "}
+
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-6">
+                <p className="text-slate-700 font-semibold mb-2">Eligible for Refund:</p>
+                <ul className="list-disc pl-6 space-y-2 text-slate-700">
+                  <li>Articles are not published within 48 hours after client approval</li>
+                  <li>We are unable to fulfill the service as described</li>
+                </ul>
+              </div>
+
+              <div className="bg-red-50 border-l-4 border-red-500 p-6 my-6">
+                <p className="text-slate-700 font-semibold mb-2">NOT Eligible for Refund:</p>
+                <ul className="list-disc pl-6 space-y-2 text-slate-700">
+                  <li>Free gifts or bonus services</li>
+                  <li>Articles published within 48 hours of approval</li>
+                  <li>Orders where the article has been successfully published within the guaranteed timeframe</li>
+                  <li>Change of mind after article approval and publication</li>
+                </ul>
+              </div>
+
+              <p className="text-slate-700 leading-relaxed mb-4">
+                <strong>Revision Policy:</strong> Every order includes unlimited free revisions. We encourage clients to
+                request as many revisions as needed to ensure complete satisfaction before approving the article for
+                publication.
+              </p>
+
+              <p className="text-slate-700 leading-relaxed">
+                All refund requests must be submitted to hello@prlaunch.io. For complete refund terms, please see our{" "}
                 <Link href="/refunds" className="text-blue-600 hover:underline">
                   Refund Policy
                 </Link>
