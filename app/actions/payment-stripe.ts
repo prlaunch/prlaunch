@@ -27,11 +27,27 @@ export async function createPaymentIntent({
     console.log("[v0] Creating payment intent for:", { amount, packageName, articles, email })
 
     const isPlaceholderEmail = email === "pending@prlaunch.io" || !email || email.trim() === ""
-    let customerId: string | undefined = undefined
+    let customer
 
-    if (!isPlaceholderEmail) {
-      // Check if customer already exists
-      let customer
+    if (isPlaceholderEmail) {
+      // Create a temporary customer with placeholder email
+      // This will be updated with real email when user submits
+      customer = await stripe.customers.create({
+        email: email,
+        name: fullName,
+        metadata: {
+          email: email,
+          fullName: fullName,
+          package: packageName,
+          articles: articles.toString(),
+          temporary: "true", // Mark as temporary
+          ...(companyName && { companyName }),
+          ...(companyNumber && { companyNumber }),
+        },
+      })
+      console.log("[v0] Created temporary customer:", customer.id)
+    } else {
+      // Check if customer already exists with this real email
       const existingCustomers = await stripe.customers.list({
         email: email,
         limit: 1,
@@ -54,7 +70,7 @@ export async function createPaymentIntent({
         })
         console.log("[v0] Updated existing customer metadata")
       } else {
-        // Create new customer only if one doesn't exist
+        // Create new customer
         customer = await stripe.customers.create({
           email: email,
           name: fullName,
@@ -69,19 +85,16 @@ export async function createPaymentIntent({
         })
         console.log("[v0] Created new customer:", customer.id)
       }
-
-      customerId = customer.id
-    } else {
-      console.log("[v0] Skipping customer creation - using placeholder email")
     }
 
-    // Create payment intent (with or without customer)
+    // Create payment intent with customer (always has a customer now)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
       currency: "usd",
-      ...(customerId && { customer: customerId }),
+      customer: customer.id,
       automatic_payment_methods: {
         enabled: true,
+        allow_redirects: "always",
       },
       payment_method_options: {
         card: {
@@ -97,9 +110,11 @@ export async function createPaymentIntent({
         ...(companyNumber && { companyNumber }),
       },
       description: `${packageName} Package - ${articles} article${articles > 1 ? "s" : ""}`,
+      receipt_email: !isPlaceholderEmail ? email : undefined,
     })
 
     console.log("[v0] Payment intent created:", paymentIntent.id)
+    console.log("[v0] Available payment method types:", paymentIntent.payment_method_types)
 
     return {
       clientSecret: paymentIntent.client_secret,
@@ -166,48 +181,13 @@ export async function updateCustomerMetadata({
 
     // Get the payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
-    let customerId = paymentIntent.customer as string | undefined
+    const customerId = paymentIntent.customer as string
 
     if (!customerId) {
-      console.log("[v0] No customer found, creating new customer with real email")
-
-      // Check if customer already exists with this email
-      const existingCustomers = await stripe.customers.list({
-        email: email,
-        limit: 1,
-      })
-
-      let customer
-      if (existingCustomers.data.length > 0) {
-        customer = existingCustomers.data[0]
-        console.log("[v0] Found existing customer:", customer.id)
-      } else {
-        // Create new customer
-        customer = await stripe.customers.create({
-          email: email,
-          name: fullName,
-          metadata: {
-            email: email,
-            fullName: fullName,
-            package: packageName,
-            articles: articles.toString(),
-            ...(companyName && { companyName }),
-            ...(companyNumber && { companyNumber }),
-          },
-        })
-        console.log("[v0] Created new customer:", customer.id)
-      }
-
-      customerId = customer.id
-
-      // Associate customer with payment intent
-      await stripe.paymentIntents.update(paymentIntentId, {
-        customer: customerId,
-      })
-      console.log("[v0] Associated customer with payment intent")
+      throw new Error("No customer found for payment intent")
     }
 
-    // Update customer with actual information
+    // This converts the temporary customer to a real customer
     await stripe.customers.update(customerId, {
       email: email,
       name: fullName,
@@ -231,6 +211,7 @@ export async function updateCustomerMetadata({
         ...(companyName && { companyName }),
         ...(companyNumber && { companyNumber }),
       },
+      receipt_email: email,
     })
 
     console.log("[v0] Successfully updated customer and payment intent metadata")
