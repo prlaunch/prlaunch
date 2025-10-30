@@ -85,22 +85,6 @@ function CheckoutForm({
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
-  useEffect(() => {
-    if (elements) {
-      const paymentElement = elements.getElement("payment")
-      if (paymentElement) {
-        paymentElement.on("ready", () => {
-          console.log("[v0] PaymentElement is ready")
-        })
-        paymentElement.on("change", (event) => {
-          if (event.error) {
-            console.error("[v0] PaymentElement error:", event.error)
-          }
-        })
-      }
-    }
-  }, [elements])
-
   const packages = {
     starter: { name: "Starter", articles: 1, price: 47 },
     growth: { name: "Growth", articles: 3, price: 127 },
@@ -152,6 +136,7 @@ function CheckoutForm({
 
       const paymentIntentId = clientSecret.split("_secret_")[0]
 
+      // Update customer metadata with actual information
       await updateCustomerMetadata({
         paymentIntentId,
         email,
@@ -178,7 +163,6 @@ function CheckoutForm({
         redirect: "if_required",
         confirmParams: {
           receipt_email: email,
-          return_url: `${window.location.origin}/thank-you`,
         },
       })
 
@@ -232,13 +216,6 @@ function CheckoutForm({
                 applePay: "auto",
                 googlePay: "auto",
               },
-            }}
-            onReady={() => {
-              console.log("[v0] PaymentElement mounted and ready")
-            }}
-            onLoadError={(error) => {
-              console.error("[v0] PaymentElement load error:", error)
-              setErrorMessage("Payment methods failed to load. Please refresh the page.")
             }}
           />
         </div>

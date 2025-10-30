@@ -26,61 +26,53 @@ export async function createPaymentIntent({
   try {
     console.log("[v0] Creating payment intent for:", { amount, packageName, articles, email })
 
-    const isPlaceholderEmail = email === "pending@prlaunch.io" || !email || email.trim() === ""
-    let customerId: string | undefined = undefined
+    // Check if customer already exists
+    let customer
+    const existingCustomers = await stripe.customers.list({
+      email: email,
+      limit: 1,
+    })
 
-    if (!isPlaceholderEmail) {
-      // Only create/lookup customer if we have real email
-      const existingCustomers = await stripe.customers.list({
-        email: email,
-        limit: 1,
-      })
+    if (existingCustomers.data.length > 0) {
+      customer = existingCustomers.data[0]
+      console.log("[v0] Using existing customer:", customer.id)
 
-      let customer
-      if (existingCustomers.data.length > 0) {
-        customer = existingCustomers.data[0]
-        console.log("[v0] Using existing customer:", customer.id)
-
-        customer = await stripe.customers.update(customer.id, {
-          name: fullName,
-          metadata: {
-            email: email,
-            fullName: fullName,
-            package: packageName,
-            articles: articles.toString(),
-            ...(companyName && { companyName }),
-            ...(companyNumber && { companyNumber }),
-          },
-        })
-        console.log("[v0] Updated existing customer metadata")
-      } else {
-        customer = await stripe.customers.create({
+      customer = await stripe.customers.update(customer.id, {
+        name: fullName,
+        metadata: {
           email: email,
-          name: fullName,
-          metadata: {
-            email: email,
-            fullName: fullName,
-            package: packageName,
-            articles: articles.toString(),
-            ...(companyName && { companyName }),
-            ...(companyNumber && { companyNumber }),
-          },
-        })
-        console.log("[v0] Created new customer:", customer.id)
-      }
-
-      customerId = customer.id
+          fullName: fullName,
+          package: packageName,
+          articles: articles.toString(),
+          ...(companyName && { companyName }),
+          ...(companyNumber && { companyNumber }),
+        },
+      })
+      console.log("[v0] Updated existing customer metadata")
     } else {
-      console.log("[v0] Creating payment intent without customer (placeholder email)")
+      // Create new customer only if one doesn't exist
+      customer = await stripe.customers.create({
+        email: email,
+        name: fullName,
+        metadata: {
+          email: email,
+          fullName: fullName,
+          package: packageName,
+          articles: articles.toString(),
+          ...(companyName && { companyName }),
+          ...(companyNumber && { companyNumber }),
+        },
+      })
+      console.log("[v0] Created new customer:", customer.id)
     }
 
+    // Create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
       currency: "usd",
-      ...(customerId && { customer: customerId }),
+      customer: customer.id,
       automatic_payment_methods: {
         enabled: true,
-        allow_redirects: "always",
       },
       payment_method_options: {
         card: {
@@ -96,11 +88,9 @@ export async function createPaymentIntent({
         ...(companyNumber && { companyNumber }),
       },
       description: `${packageName} Package - ${articles} article${articles > 1 ? "s" : ""}`,
-      ...(!isPlaceholderEmail && { receipt_email: email }),
     })
 
     console.log("[v0] Payment intent created:", paymentIntent.id)
-    console.log("[v0] Available payment method types:", paymentIntent.payment_method_types)
 
     return {
       clientSecret: paymentIntent.client_secret,
@@ -165,60 +155,29 @@ export async function updateCustomerMetadata({
   try {
     console.log("[v0] Updating customer metadata for payment intent:", paymentIntentId)
 
+    // Get the payment intent to find the customer
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
-    let customerId = paymentIntent.customer as string | undefined
+    const customerId = paymentIntent.customer as string
 
     if (!customerId) {
-      console.log("[v0] No customer found, creating new customer with real email")
-
-      const existingCustomers = await stripe.customers.list({
-        email: email,
-        limit: 1,
-      })
-
-      let customer
-      if (existingCustomers.data.length > 0) {
-        customer = existingCustomers.data[0]
-        console.log("[v0] Found existing customer:", customer.id)
-      } else {
-        customer = await stripe.customers.create({
-          email: email,
-          name: fullName,
-          metadata: {
-            email: email,
-            fullName: fullName,
-            package: packageName,
-            articles: articles.toString(),
-            ...(companyName && { companyName }),
-            ...(companyNumber && { companyNumber }),
-          },
-        })
-        console.log("[v0] Created new customer:", customer.id)
-      }
-
-      customerId = customer.id
-
-      // Attach customer to payment intent
-      await stripe.paymentIntents.update(paymentIntentId, {
-        customer: customerId,
-      })
-    } else {
-      // Update existing customer
-      await stripe.customers.update(customerId, {
-        email: email,
-        name: fullName,
-        metadata: {
-          email: email,
-          fullName: fullName,
-          package: packageName,
-          articles: articles.toString(),
-          ...(companyName && { companyName }),
-          ...(companyNumber && { companyNumber }),
-        },
-      })
+      throw new Error("No customer found for this payment intent")
     }
 
-    // Update payment intent metadata
+    // Update customer with actual information
+    await stripe.customers.update(customerId, {
+      email: email,
+      name: fullName,
+      metadata: {
+        email: email,
+        fullName: fullName,
+        package: packageName,
+        articles: articles.toString(),
+        ...(companyName && { companyName }),
+        ...(companyNumber && { companyNumber }),
+      },
+    })
+
+    // Also update the payment intent metadata
     await stripe.paymentIntents.update(paymentIntentId, {
       metadata: {
         email: email,
@@ -228,7 +187,6 @@ export async function updateCustomerMetadata({
         ...(companyName && { companyName }),
         ...(companyNumber && { companyNumber }),
       },
-      receipt_email: email,
     })
 
     console.log("[v0] Successfully updated customer and payment intent metadata")
