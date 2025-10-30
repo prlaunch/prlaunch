@@ -755,6 +755,7 @@ function PaymentContent() {
                           className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
                         />
                         <Button
+                          type="button"
                           onClick={handleApplyDiscount}
                           disabled={!discountCode.trim()}
                           className="h-9 px-4 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -771,6 +772,7 @@ function PaymentContent() {
                           </span>
                         </div>
                         <button
+                          type="button"
                           onClick={handleRemoveDiscount}
                           className="text-slate-500 hover:text-slate-700 transition-colors"
                           aria-label="Remove discount"
@@ -887,9 +889,10 @@ function PaymentContent() {
                           className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
                         />
                         <Button
+                          type="button"
                           onClick={handleApplyDiscount}
                           disabled={!discountCode.trim()}
-                          className="h-9 px-4 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="h-9 px-4 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                         >
                           Apply
                         </Button>
@@ -903,6 +906,7 @@ function PaymentContent() {
                           </span>
                         </div>
                         <button
+                          type="button"
                           onClick={handleRemoveDiscount}
                           className="text-slate-500 hover:text-slate-700 transition-colors"
                           aria-label="Remove discount"

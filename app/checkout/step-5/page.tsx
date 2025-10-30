@@ -23,8 +23,9 @@ const packages = [
     originalPrice: 94,
     savings: 47,
     description: "Perfect for: Testing PR",
-    features: ["1 premium outlet of your choice", "Professional article writing"],
-    borderColor: "border-purple-500",
+    features: ["You pick your outlets from 100+ sites"],
+    borderColor: "border-slate-300",
+    soldCount: 8,
   },
   {
     id: "growth" as Package,
@@ -35,10 +36,11 @@ const packages = [
     originalPrice: 376,
     savings: 249,
     description: "Perfect for: Building credibility",
-    features: ["4 premium outlets (3 + 1 bonus!)", "Professional article writing"],
+    features: ["You pick your outlets from 100+ sites"],
     popular: true,
-    borderColor: "border-cyan-500",
+    borderColor: "border-blue-400",
     rewardEligible: true,
+    soldCount: 17,
   },
   {
     id: "authority" as Package,
@@ -49,9 +51,10 @@ const packages = [
     originalPrice: 658,
     savings: 461,
     description: "Perfect for: Maximum exposure",
-    features: ["7 premium outlets (5 + 2 bonus!)", "Professional article writing", "Dedicated PR consultant"],
-    borderColor: "border-pink-500",
+    features: ["You pick your outlets from 100+ sites"],
+    borderColor: "border-yellow-400",
     rewardEligible: true,
+    soldCount: 31,
   },
 ]
 
@@ -250,8 +253,7 @@ export default function Step5Page() {
           </div>
 
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">How many articles do you want?</h2>
-            <p className="text-sm text-slate-600">Select more and pay less per each article.</p>
+            <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
           </div>
 
           <div ref={packagesRef} className="space-y-6">
@@ -264,18 +266,12 @@ export default function Step5Page() {
                   key={pkg.id}
                   onClick={() => handlePackageSelect(pkg.id)}
                   disabled={isLoading}
-                  className={`w-full rounded-2xl border-2 ${pkg.borderColor} ${
-                    pkg.popular ? "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50" : "bg-white"
-                  } hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                  className={`w-full rounded-2xl border-2 ${pkg.borderColor} bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                   } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_6px_rgba(34,197,94,0.1)] shadow-lg" : "shadow-lg"} overflow-visible`}
                 >
                   {pkg.bonus > 0 && (
-                    <div
-                      className={`absolute -top-4 ${
-                        pkg.id === "authority" ? "left-1/2 -translate-x-1/2" : "right-3"
-                      } bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20`}
-                    >
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20">
                       🎁 +{pkg.bonus} FREE
                     </div>
                   )}
@@ -283,11 +279,6 @@ export default function Step5Page() {
                   {hasReward && pkg.rewardEligible && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl z-20">
                       🎁 FREE ARTICLE
-                    </div>
-                  )}
-                  {pkg.popular && !hasReward && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl z-20">
-                      ⭐ MOST POPULAR
                     </div>
                   )}
 
@@ -303,42 +294,53 @@ export default function Step5Page() {
                             </span>
                           )}
                         </h3>
-                        <p className="text-[11px] text-slate-600 leading-tight">{pkg.description}</p>
                       </div>
-
                       <div className="flex flex-col items-end flex-shrink-0">
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-2xl font-bold text-slate-900 leading-none">${pkg.price}</span>
+                          <span className="text-5xl font-black text-slate-800 leading-none tracking-tight drop-shadow-sm">
+                            ${pkg.price}
+                          </span>
                           {isLoading && selectedPackage === pkg.id ? (
-                            <Loader2 className="h-4 w-4 text-blue-600 animate-spin ml-1" />
+                            <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
                           ) : selectedPackage === pkg.id ? (
-                            <Check className="h-4 w-4 text-blue-600 ml-1" />
+                            <Check className="h-5 w-5 text-blue-600" />
                           ) : null}
                         </div>
-                        <span className="text-[10px] text-slate-400 line-through leading-none mt-0.5">
+                        <span className="text-sm text-slate-400 line-through leading-none font-semibold mt-1">
                           ${pkg.originalPrice}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg px-2 py-1">
-                        <span className="text-[11px] font-bold text-blue-700">
+                    <div className="mb-3 space-y-2">
+                      <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
+                        <span className="text-sm">🔥</span>
+                        <span>{pkg.soldCount} sold in the last 24 hours</span>
+                      </div>
+
+                      <div
+                        className={`flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 ${
+                          pkg.id === "growth"
+                            ? "border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+                            : pkg.id === "authority"
+                              ? "border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.5)]"
+                              : "border-slate-300 shadow-sm"
+                        }`}
+                      >
+                        <span className="text-base font-bold text-slate-700 tracking-tight">
                           ${pricePerArticle.toFixed(2)}/article
                         </span>
+                        <span className="text-sm font-semibold text-slate-600 tracking-tight">Claim now</span>
                       </div>
-                      <div className="inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-2 py-1">
-                        <span className="text-[11px] font-bold text-green-700">Save ${pkg.savings}</span>
-                      </div>
-                    </div>
 
-                    <div className="space-y-1 mb-2">
-                      {pkg.features.map((feature, i) => (
-                        <p key={i} className="text-[11px] text-slate-700 flex items-start gap-1.5 leading-tight">
-                          <span className="text-green-600 text-xs flex-shrink-0">✓</span>
-                          <span>{feature}</span>
-                        </p>
-                      ))}
+                      <div className="space-y-1.5">
+                        {pkg.features.map((feature, i) => (
+                          <p key={i} className="text-[11px] text-slate-700 flex items-start gap-1.5 leading-tight">
+                            <span className="text-green-600 text-xs flex-shrink-0">✓</span>
+                            <span>{feature}</span>
+                          </p>
+                        ))}
+                      </div>
                     </div>
 
                     <Button
@@ -347,23 +349,13 @@ export default function Step5Page() {
                         handlePackageSelect(pkg.id)
                       }}
                       disabled={isLoading}
-                      className="w-full mt-3 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-sm"
+                      className="w-full h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-sm"
                     >
                       {pkg.id === "starter" && "Get 1 Article →"}
                       {pkg.id === "growth" && "Get 4 Articles →"}
                       {pkg.id === "authority" && "Get 7 Articles →"}
                     </Button>
                   </div>
-
-                  <div
-                    className={`h-1 w-full rounded-b-2xl bg-gradient-to-r ${
-                      pkg.id === "starter"
-                        ? "from-purple-400 to-purple-600"
-                        : pkg.id === "growth"
-                          ? "from-cyan-400 to-blue-600"
-                          : "from-pink-400 to-pink-600"
-                    }`}
-                  />
                 </button>
               )
             })}

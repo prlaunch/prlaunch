@@ -7,7 +7,6 @@ import { Star, Loader2, CheckCircle2, Clock, FileText, Zap, Shield } from "lucid
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
 import confetti from "canvas-confetti"
 
 export default function CheckoutStartPage() {
@@ -160,12 +159,23 @@ export default function CheckoutStartPage() {
       >
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <span className="text-sm font-semibold text-slate-900">Get Famous on Google in 48 Hours</span>
-          <Button
+          <MovingBorderButton
+            borderRadius="1.75rem"
             onClick={scrollToPricing}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg"
+            disabled={isLoading}
+            containerClassName="h-12 w-auto"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 text-sm font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            duration={3000}
           >
-            See Packages & Pricing
-          </Button>
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "See Packages & Pricing"
+            )}
+          </MovingBorderButton>
         </div>
       </div>
 
@@ -266,9 +276,26 @@ export default function CheckoutStartPage() {
             <br />
             But when prospects Google you... nothing.
           </h2>
-          <p className="text-xl text-slate-600 leading-relaxed">
+          <p className="text-xl text-slate-600 leading-relaxed mb-8">
             You lose deals to competitors who <span className="font-bold text-slate-900">LOOK bigger</span>.
           </p>
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            onClick={scrollToPricing}
+            disabled={isLoading}
+            containerClassName="h-14 w-auto"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            duration={3000}
+          >
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "See Packages & Pricing"
+            )}
+          </MovingBorderButton>
         </div>
       </section>
 
@@ -310,12 +337,23 @@ export default function CheckoutStartPage() {
           </div>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -394,12 +432,23 @@ export default function CheckoutStartPage() {
           </div>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -411,11 +460,28 @@ export default function CheckoutStartPage() {
             <span className="text-sm font-semibold text-slate-900">Professional Quality</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Written by Real Journalists</h2>
-          <p className="text-xl text-slate-600 leading-relaxed">
+          <p className="text-xl text-slate-600 leading-relaxed mb-8">
             Articles written by journalists with 5+ years experience.
             <br />
             <span className="font-bold text-slate-900">Not AI. Not templates.</span>
           </p>
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            onClick={scrollToPricing}
+            disabled={isLoading}
+            containerClassName="h-14 w-auto"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            duration={3000}
+          >
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "See Packages & Pricing"
+            )}
+          </MovingBorderButton>
         </div>
       </section>
 
@@ -450,12 +516,23 @@ export default function CheckoutStartPage() {
           </div>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -486,12 +563,23 @@ export default function CheckoutStartPage() {
           </div>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -522,12 +610,23 @@ export default function CheckoutStartPage() {
           </div>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -550,12 +649,23 @@ export default function CheckoutStartPage() {
           </Accordion>
 
           <div className="text-center">
-            <Button
+            <MovingBorderButton
+              borderRadius="1.75rem"
               onClick={scrollToPricing}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
             >
-              See Packages & Pricing
-            </Button>
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -587,12 +697,23 @@ export default function CheckoutStartPage() {
             </div>
           </div>
 
-          <Button
+          <MovingBorderButton
+            borderRadius="1.75rem"
             onClick={scrollToPricing}
-            className="bg-white hover:bg-slate-100 text-slate-900 px-8 py-6 rounded-full text-lg font-semibold shadow-lg"
+            disabled={isLoading}
+            containerClassName="h-14 w-auto"
+            className="bg-white hover:bg-slate-100 text-slate-900 px-8 text-lg font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            duration={3000}
           >
-            See Packages & Pricing
-          </Button>
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "See Packages & Pricing"
+            )}
+          </MovingBorderButton>
 
           <p className="mt-6 text-sm text-blue-200">Join 500+ founders who've been featured in major publications</p>
         </div>
