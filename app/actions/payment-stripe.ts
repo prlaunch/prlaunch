@@ -30,22 +30,46 @@ export async function createPaymentIntent({
     let customer
 
     if (isPlaceholderEmail) {
-      // Create a temporary customer with placeholder email
-      // This will be updated with real email when user submits
-      customer = await stripe.customers.create({
-        email: email,
-        name: fullName,
-        metadata: {
-          email: email,
-          fullName: fullName,
-          package: packageName,
-          articles: articles.toString(),
-          temporary: "true", // Mark as temporary
-          ...(companyName && { companyName }),
-          ...(companyNumber && { companyNumber }),
-        },
+      // Look for existing temporary customer with placeholder email
+      const existingTempCustomers = await stripe.customers.list({
+        email: "pending@prlaunch.io",
+        limit: 1,
       })
-      console.log("[v0] Created temporary customer:", customer.id)
+
+      if (existingTempCustomers.data.length > 0) {
+        customer = existingTempCustomers.data[0]
+        console.log("[v0] Reusing existing temporary customer:", customer.id)
+
+        // Update the temporary customer with latest info
+        customer = await stripe.customers.update(customer.id, {
+          name: fullName,
+          metadata: {
+            email: email,
+            fullName: fullName,
+            package: packageName,
+            articles: articles.toString(),
+            temporary: "true",
+            ...(companyName && { companyName }),
+            ...(companyNumber && { companyNumber }),
+          },
+        })
+      } else {
+        // Create a temporary customer with placeholder email
+        customer = await stripe.customers.create({
+          email: email,
+          name: fullName,
+          metadata: {
+            email: email,
+            fullName: fullName,
+            package: packageName,
+            articles: articles.toString(),
+            temporary: "true",
+            ...(companyName && { companyName }),
+            ...(companyNumber && { companyNumber }),
+          },
+        })
+        console.log("[v0] Created temporary customer:", customer.id)
+      }
     } else {
       // Check if customer already exists with this real email
       const existingCustomers = await stripe.customers.list({

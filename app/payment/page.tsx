@@ -152,7 +152,6 @@ function CheckoutForm({
 
       const paymentIntentId = clientSecret.split("_secret_")[0]
 
-      // Update customer metadata with actual information
       await updateCustomerMetadata({
         paymentIntentId,
         email,
@@ -179,6 +178,7 @@ function CheckoutForm({
         redirect: "if_required",
         confirmParams: {
           receipt_email: email,
+          return_url: `${window.location.origin}/thank-you`,
         },
       })
 
