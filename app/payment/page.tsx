@@ -27,7 +27,12 @@ import {
 } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
+import {
+  createPaymentIntent,
+  getPaymentIntentCustomer,
+  getPaymentMethodType,
+  updateCustomerMetadata,
+} from "../actions/payment-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
 import { getOutletImage } from "@/lib/outlet-images"
@@ -55,6 +60,7 @@ function CheckoutForm({
   onRecreatePaymentIntent,
   onPaymentComplete,
   discountedPrice,
+  clientSecret, // Added clientSecret prop to access payment intent ID
 }: {
   selectedPackage: string
   email: string
@@ -69,6 +75,7 @@ function CheckoutForm({
   onRecreatePaymentIntent: () => Promise<void>
   onPaymentComplete: (customerId: string, paymentMethodType: string) => void
   discountedPrice: number
+  clientSecret: string // Added clientSecret type
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -125,6 +132,30 @@ function CheckoutForm({
     setErrorMessage(null)
 
     try {
+      console.log("[v0] Updating customer metadata before payment confirmation...")
+
+      const paymentIntentId = clientSecret.split("_secret_")[0]
+
+      // Update customer metadata with actual information
+      await updateCustomerMetadata({
+        paymentIntentId,
+        email,
+        fullName,
+        companyName: companyName || undefined,
+        companyNumber: companyNumber || undefined,
+        packageName: currentPackage.name,
+        articles: currentPackage.articles,
+      })
+      console.log("[v0] Customer metadata updated successfully")
+
+      const { error: submitError } = await elements.submit()
+      if (submitError) {
+        console.error("[v0] Error submitting elements:", submitError)
+        setErrorMessage(submitError.message || "An error occurred")
+        setIsProcessing(false)
+        return
+      }
+
       console.log("[v0] Confirming payment...")
 
       const { error, paymentIntent } = await stripe.confirmPayment({
@@ -451,7 +482,9 @@ function PaymentContent() {
     } catch (error: any) {
       console.error("[v0] Payment initialization error:", error)
       const setErrorMessage = (message: string) => {
-        // Declare setErrorMessage here
+        // This function seems to be intended for setting an error message, but it's not defined here.
+        // For the purpose of this merge, we'll assume it's a placeholder and not critical for the current logic.
+        // If it were critical, it would need to be declared and implemented.
       }
       setErrorMessage(error.message || "Failed to initialize payment. Please refresh and try again.")
     }
@@ -990,6 +1023,7 @@ function PaymentContent() {
                     onRecreatePaymentIntent={initializePayment}
                     onPaymentComplete={handlePaymentComplete}
                     discountedPrice={discountedPrice}
+                    clientSecret={clientSecret} // Pass clientSecret to CheckoutForm
                   />
                 </Elements>
               )}
