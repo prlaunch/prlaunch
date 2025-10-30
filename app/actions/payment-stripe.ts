@@ -26,51 +26,60 @@ export async function createPaymentIntent({
   try {
     console.log("[v0] Creating payment intent for:", { amount, packageName, articles, email })
 
-    // Check if customer already exists
-    let customer
-    const existingCustomers = await stripe.customers.list({
-      email: email,
-      limit: 1,
-    })
+    const isPlaceholderEmail = email === "pending@prlaunch.io" || !email || email.trim() === ""
+    let customerId: string | undefined = undefined
 
-    if (existingCustomers.data.length > 0) {
-      customer = existingCustomers.data[0]
-      console.log("[v0] Using existing customer:", customer.id)
-
-      customer = await stripe.customers.update(customer.id, {
-        name: fullName,
-        metadata: {
-          email: email,
-          fullName: fullName,
-          package: packageName,
-          articles: articles.toString(),
-          ...(companyName && { companyName }),
-          ...(companyNumber && { companyNumber }),
-        },
-      })
-      console.log("[v0] Updated existing customer metadata")
-    } else {
-      // Create new customer only if one doesn't exist
-      customer = await stripe.customers.create({
+    if (!isPlaceholderEmail) {
+      // Check if customer already exists
+      let customer
+      const existingCustomers = await stripe.customers.list({
         email: email,
-        name: fullName,
-        metadata: {
-          email: email,
-          fullName: fullName,
-          package: packageName,
-          articles: articles.toString(),
-          ...(companyName && { companyName }),
-          ...(companyNumber && { companyNumber }),
-        },
+        limit: 1,
       })
-      console.log("[v0] Created new customer:", customer.id)
+
+      if (existingCustomers.data.length > 0) {
+        customer = existingCustomers.data[0]
+        console.log("[v0] Using existing customer:", customer.id)
+
+        customer = await stripe.customers.update(customer.id, {
+          name: fullName,
+          metadata: {
+            email: email,
+            fullName: fullName,
+            package: packageName,
+            articles: articles.toString(),
+            ...(companyName && { companyName }),
+            ...(companyNumber && { companyNumber }),
+          },
+        })
+        console.log("[v0] Updated existing customer metadata")
+      } else {
+        // Create new customer only if one doesn't exist
+        customer = await stripe.customers.create({
+          email: email,
+          name: fullName,
+          metadata: {
+            email: email,
+            fullName: fullName,
+            package: packageName,
+            articles: articles.toString(),
+            ...(companyName && { companyName }),
+            ...(companyNumber && { companyNumber }),
+          },
+        })
+        console.log("[v0] Created new customer:", customer.id)
+      }
+
+      customerId = customer.id
+    } else {
+      console.log("[v0] Skipping customer creation - using placeholder email")
     }
 
-    // Create payment intent
+    // Create payment intent (with or without customer)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
       currency: "usd",
-      customer: customer.id,
+      ...(customerId && { customer: customerId }),
       automatic_payment_methods: {
         enabled: true,
       },
@@ -155,12 +164,47 @@ export async function updateCustomerMetadata({
   try {
     console.log("[v0] Updating customer metadata for payment intent:", paymentIntentId)
 
-    // Get the payment intent to find the customer
+    // Get the payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
-    const customerId = paymentIntent.customer as string
+    let customerId = paymentIntent.customer as string | undefined
 
     if (!customerId) {
-      throw new Error("No customer found for this payment intent")
+      console.log("[v0] No customer found, creating new customer with real email")
+
+      // Check if customer already exists with this email
+      const existingCustomers = await stripe.customers.list({
+        email: email,
+        limit: 1,
+      })
+
+      let customer
+      if (existingCustomers.data.length > 0) {
+        customer = existingCustomers.data[0]
+        console.log("[v0] Found existing customer:", customer.id)
+      } else {
+        // Create new customer
+        customer = await stripe.customers.create({
+          email: email,
+          name: fullName,
+          metadata: {
+            email: email,
+            fullName: fullName,
+            package: packageName,
+            articles: articles.toString(),
+            ...(companyName && { companyName }),
+            ...(companyNumber && { companyNumber }),
+          },
+        })
+        console.log("[v0] Created new customer:", customer.id)
+      }
+
+      customerId = customer.id
+
+      // Associate customer with payment intent
+      await stripe.paymentIntents.update(paymentIntentId, {
+        customer: customerId,
+      })
+      console.log("[v0] Associated customer with payment intent")
     }
 
     // Update customer with actual information
