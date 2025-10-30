@@ -743,7 +743,7 @@ function PaymentContent() {
                   </summary>
                   <div className="mt-2 p-2 bg-slate-50 rounded-lg">
                     {!discountApplied ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 items-stretch">
                         <Input
                           type="text"
                           placeholder="Enter code"
@@ -754,14 +754,14 @@ function PaymentContent() {
                           }}
                           className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
                         />
-                        <Button
+                        <button
                           type="button"
                           onClick={handleApplyDiscount}
                           disabled={!discountCode.trim()}
-                          className="h-9 px-4 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="h-9 px-4 min-w-[70px] text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 whitespace-nowrap"
                         >
                           Apply
-                        </Button>
+                        </button>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-2 py-1.5">
@@ -877,7 +877,7 @@ function PaymentContent() {
                   </summary>
                   <div className="mt-2 p-2 bg-slate-50 rounded-lg">
                     {!discountApplied ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 items-stretch">
                         <Input
                           type="text"
                           placeholder="Enter code"
@@ -888,14 +888,14 @@ function PaymentContent() {
                           }}
                           className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
                         />
-                        <Button
+                        <button
                           type="button"
                           onClick={handleApplyDiscount}
                           disabled={!discountCode.trim()}
-                          className="h-9 px-4 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                          className="h-9 px-4 min-w-[70px] text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 whitespace-nowrap"
                         >
                           Apply
-                        </Button>
+                        </button>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-2 py-1.5">
