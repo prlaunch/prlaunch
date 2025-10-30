@@ -122,7 +122,7 @@ function CheckoutForm({
     if (hasError) {
       informationCardRef.current?.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "start",
       })
       return
     }
