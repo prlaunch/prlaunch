@@ -60,7 +60,7 @@ function CheckoutForm({
   onRecreatePaymentIntent,
   onPaymentComplete,
   discountedPrice,
-  clientSecret, // Added clientSecret prop to access payment intent ID
+  clientSecret,
 }: {
   selectedPackage: string
   email: string
@@ -75,7 +75,7 @@ function CheckoutForm({
   onRecreatePaymentIntent: () => Promise<void>
   onPaymentComplete: (customerId: string, paymentMethodType: string) => void
   discountedPrice: number
-  clientSecret: string // Added clientSecret type
+  clientSecret: string
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -237,7 +237,11 @@ function CheckoutForm({
               console.log("[v0] PaymentElement mounted and ready")
             }}
             onLoadError={(error) => {
-              console.error("[v0] PaymentElement load error:", error)
+              console.error("[v0] PaymentElement load error:", {
+                message: error.message,
+                code: (error as any).code,
+                type: (error as any).type,
+              })
               setErrorMessage("Payment methods failed to load. Please refresh the page.")
             }}
           />
@@ -442,6 +446,9 @@ function PaymentContent() {
 
   const [timeLeft, setTimeLeft] = useState(600)
 
+  // NEW: Track if form is ready for payment
+  const [isFormValid, setIsFormValid] = useState(!!emailParam && !!nameParam)
+
   const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
   const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
@@ -473,56 +480,72 @@ function PaymentContent() {
     setDiscountError("")
   }
 
+  // FIX: Only initialize payment when form is valid with real customer data
   const initializePayment = async () => {
     try {
+      // Only create payment intent if we have valid email and name
       const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      const isValidName = fullName && fullName.trim().length > 0
+      const isValidName = fullName && fullName.trim()
 
-      // Don't create payment intent with placeholder data
       if (!isValidEmail || !isValidName) {
-        console.log("[v0] Skipping payment intent creation - waiting for valid email and name")
+        console.log("[v0] Skipping payment intent creation - missing email or name")
         setClientSecret(null)
         return
       }
 
       setClientSecret(null)
 
-      console.log("[v0] Creating payment intent with:", {
+      console.log("[v0] Creating payment intent with valid customer data:", {
         amount: discountedPrice,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
-        email: email,
-        fullName: fullName,
+        email,
+        fullName,
       })
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: discountedPrice,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
-        email: email,
-        fullName: fullName,
+        email,
+        fullName,
         companyName: companyName || undefined,
         companyNumber: companyNumber || undefined,
       })
 
       if (newClientSecret) {
         setClientSecret(newClientSecret)
-        console.log("[v0] Payment intent created successfully")
+        console.log("[v0] Payment intent created successfully with valid customer data")
       }
     } catch (error: any) {
       console.error("[v0] Payment initialization error:", error)
-      const setErrorMessage = (message: string) => {
-        // This function seems to be intended for setting an error message, but it's not defined here.
-        // For the purpose of this merge, we'll assume it's a placeholder and not critical for the current logic.
-        // If it were critical, it would need to be declared and implemented.
-      }
-      setErrorMessage(error.message || "Failed to initialize payment. Please refresh and try again.")
+      console.error("[v0] Error details:", error.message)
     }
   }
 
+  // FIX: Trigger payment initialization only when email and name become valid
   useEffect(() => {
-    initializePayment()
-  }, [selectedPackage, discountedPrice, currentPackage.name, currentPackage.articles, email, fullName])
+    const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    const isValidName = fullName && fullName.trim()
+    const wasFormValid = isFormValid
+    const isNowValid = isValidEmail && isValidName
+
+    if (isNowValid && !wasFormValid) {
+      // Form just became valid - initialize payment
+      console.log("[v0] Form became valid, initializing payment")
+      setIsFormValid(true)
+      initializePayment()
+    } else if (!isNowValid && wasFormValid) {
+      // Form became invalid - clear payment intent
+      console.log("[v0] Form became invalid, clearing payment intent")
+      setIsFormValid(false)
+      setClientSecret(null)
+    } else if (isNowValid && wasFormValid && selectedPackage) {
+      // Form still valid but package or discount changed
+      console.log("[v0] Form valid, reinitializing payment due to package/discount change")
+      initializePayment()
+    }
+  }, [email, fullName, selectedPackage, discountedPrice])
 
   const handleUpgradeChange = (checked: boolean) => {
     setUpgradeChecked(checked)
@@ -1022,22 +1045,9 @@ function PaymentContent() {
               <div className="border-t border-slate-200 my-6"></div>
 
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
-              {!clientSecret && email && fullName && (
-                <div className="text-center py-8">
-                  <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
-                  <p className="mt-4 text-slate-600">Loading payment form...</p>
-                </div>
-              )}
-              {!clientSecret && (!email || !fullName) && (
-                <div className="text-center py-8 bg-blue-50 border border-blue-200 rounded-xl">
-                  <Mail className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                  <p className="text-sm text-slate-700 font-medium">Please enter your email and name above</p>
-                  <p className="text-xs text-slate-600 mt-1">
-                    Payment options will appear once your information is complete
-                  </p>
-                </div>
-              )}
-              {clientSecret && (
+              
+              {/* FIX: Only show payment form when form is valid */}
+              {clientSecret ? (
                 <Elements
                   key={clientSecret}
                   stripe={stripePromise}
@@ -1068,9 +1078,22 @@ function PaymentContent() {
                     onRecreatePaymentIntent={initializePayment}
                     onPaymentComplete={handlePaymentComplete}
                     discountedPrice={discountedPrice}
-                    clientSecret={clientSecret} // Pass clientSecret to CheckoutForm
+                    clientSecret={clientSecret}
                   />
                 </Elements>
+              ) : (
+                <div className="text-center py-8">
+                  {isFormValid ? (
+                    <>
+                      <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
+                      <p className="mt-4 text-slate-600">Loading payment form...</p>
+                    </>
+                  ) : (
+                    <p className="text-slate-500 text-sm">
+                      Please fill in your email and name above to continue
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </div>
