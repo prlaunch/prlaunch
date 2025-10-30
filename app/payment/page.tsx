@@ -5,7 +5,6 @@ import type React from "react"
 import { useState, useEffect, Suspense, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -78,6 +77,10 @@ function CheckoutForm({
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
+  useEffect(() => {
+    console.log("[v0] CheckoutForm rendered, stripe:", !!stripe, "elements:", !!elements)
+  }, [stripe, elements])
+
   const packages = {
     starter: { name: "Starter", articles: 1, price: 47 },
     growth: { name: "Growth", articles: 3, price: 127 },
@@ -90,7 +93,10 @@ function CheckoutForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    console.log("[v0] Form submitted")
+
     if (!stripe || !elements) {
+      console.log("[v0] Stripe or elements not ready")
       return
     }
 
@@ -200,23 +206,24 @@ function CheckoutForm({
           <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{errorMessage}</div>
         )}
 
-        <Button
+        <button
           type="submit"
           disabled={!stripe || isProcessing}
-          className="w-full h-14 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-14 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isProcessing ? (
             <>
-              <div className="inline-block h-5 w-5 animate-spin rounded-full border-3 border-solid border-white border-r-transparent mr-2"></div>
-              Processing...
+              <div className="inline-block h-5 w-5 animate-spin rounded-full border-3 border-solid border-white border-r-transparent"></div>
+              <span>Processing...</span>
             </>
           ) : (
             <>
-              <Lock className="mr-2 h-5 w-5" />
-              Secure My Articles Now
+              <Lock className="h-5 w-5" />
+              <span>Secure My Articles Now</span>
             </>
           )}
-        </Button>
+        </button>
+
         <p className="text-center text-xs text-slate-500 mt-4 leading-relaxed">
           By completing your purchase, you agree to our{" "}
           <button
@@ -446,15 +453,12 @@ function PaymentContent() {
 
       if (newClientSecret) {
         setClientSecret(newClientSecret)
-        console.log("[v0] Payment intent created successfully")
+        console.log("[v0] Payment intent created successfully, clientSecret set")
+      } else {
+        console.error("[v0] No clientSecret returned from createPaymentIntent")
       }
     } catch (error: any) {
       console.error("[v0] Payment initialization error:", error)
-      const setErrorMessage = (message: string) => {
-        // This function is defined but not used. It should probably be removed or used to set an error state.
-        // For now, we'll assume it's a placeholder.
-      }
-      setErrorMessage(error.message || "Failed to initialize payment. Please refresh and try again.")
     }
   }
 
@@ -1004,7 +1008,7 @@ function PaymentContent() {
                 <div className="border-t border-slate-200 my-6"></div>
 
                 <h3 className="lg:text-xl text-lg font-bold text-slate-900 mb-4">Payment</h3>
-                {clientSecret && (
+                {clientSecret ? (
                   <Elements
                     key={clientSecret}
                     stripe={stripePromise}
@@ -1037,8 +1041,7 @@ function PaymentContent() {
                       discountedPrice={discountedPrice}
                     />
                   </Elements>
-                )}
-                {!clientSecret && (
+                ) : (
                   <div className="text-center py-8">
                     <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
                     <p className="mt-4 text-slate-600">Loading payment form...</p>
