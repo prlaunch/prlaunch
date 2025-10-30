@@ -132,12 +132,6 @@ function CheckoutForm({
         redirect: "if_required",
         confirmParams: {
           receipt_email: email,
-          payment_method_data: {
-            billing_details: {
-              name: fullName,
-              email: email,
-            },
-          },
         },
       })
 
@@ -978,13 +972,8 @@ function PaymentContent() {
                         borderRadius: "12px",
                       },
                     },
-                    layout: {
-                      type: "accordion",
-                      defaultCollapsed: false,
-                      radios: false,
-                      spacedAccordionItems: true,
-                    },
-                    paymentMethodOrder: ["apple_pay", "google_pay", "card"],
+                    loader: "auto",
+                    paymentMethodOrder: ["apple_pay", "google_pay", "link", "card"],
                   }}
                 >
                   <CheckoutForm
