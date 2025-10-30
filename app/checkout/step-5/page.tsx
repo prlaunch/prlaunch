@@ -177,7 +177,7 @@ export default function Step5Page() {
         🎁 Bonus expires in {formatTime(timeLeft)} · 8 spots left
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-2xl" style={{ marginTop: "48px" }}>
+      <div className="container mx-auto px-4 max-w-2xl py-2.5" style={{ marginTop: "48px" }}>
         <div className="space-y-6">
           {hasReward && (
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 mb-6 animate-in slide-in-from-top duration-500">
