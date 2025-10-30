@@ -229,8 +229,8 @@ function CheckoutForm({
                 spacedAccordionItems: true,
               },
               wallets: {
-                applePay: "auto",
-                googlePay: "auto",
+                applePay: "always",
+                googlePay: "always",
               },
             }}
             onReady={() => {
@@ -475,25 +475,32 @@ function PaymentContent() {
 
   const initializePayment = async () => {
     try {
-      setClientSecret(null)
-
       const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      const validEmail = isValidEmail ? email : "pending@prlaunch.io"
-      const validFullName = fullName && fullName.trim() ? fullName : "Pending"
+      const isValidName = fullName && fullName.trim().length > 0
+
+      // Don't create payment intent with placeholder data
+      if (!isValidEmail || !isValidName) {
+        console.log("[v0] Skipping payment intent creation - waiting for valid email and name")
+        setClientSecret(null)
+        return
+      }
+
+      setClientSecret(null)
 
       console.log("[v0] Creating payment intent with:", {
         amount: discountedPrice,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
-        email: validEmail,
+        email: email,
+        fullName: fullName,
       })
 
       const { clientSecret: newClientSecret } = await createPaymentIntent({
         amount: discountedPrice,
         packageName: currentPackage.name,
         articles: currentPackage.articles,
-        email: validEmail,
-        fullName: validFullName,
+        email: email,
+        fullName: fullName,
         companyName: companyName || undefined,
         companyNumber: companyNumber || undefined,
       })
@@ -515,7 +522,7 @@ function PaymentContent() {
 
   useEffect(() => {
     initializePayment()
-  }, [selectedPackage, discountedPrice, currentPackage.name, currentPackage.articles])
+  }, [selectedPackage, discountedPrice, currentPackage.name, currentPackage.articles, email, fullName])
 
   const handleUpgradeChange = (checked: boolean) => {
     setUpgradeChecked(checked)
@@ -1015,6 +1022,21 @@ function PaymentContent() {
               <div className="border-t border-slate-200 my-6"></div>
 
               <h3 className="text-xl font-bold text-slate-900 mb-4">Payment</h3>
+              {!clientSecret && email && fullName && (
+                <div className="text-center py-8">
+                  <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
+                  <p className="mt-4 text-slate-600">Loading payment form...</p>
+                </div>
+              )}
+              {!clientSecret && (!email || !fullName) && (
+                <div className="text-center py-8 bg-blue-50 border border-blue-200 rounded-xl">
+                  <Mail className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                  <p className="text-sm text-slate-700 font-medium">Please enter your email and name above</p>
+                  <p className="text-xs text-slate-600 mt-1">
+                    Payment options will appear once your information is complete
+                  </p>
+                </div>
+              )}
               {clientSecret && (
                 <Elements
                   key={clientSecret}
@@ -1049,12 +1071,6 @@ function PaymentContent() {
                     clientSecret={clientSecret} // Pass clientSecret to CheckoutForm
                   />
                 </Elements>
-              )}
-              {!clientSecret && (
-                <div className="text-center py-8">
-                  <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
-                  <p className="mt-4 text-slate-600">Loading payment form...</p>
-                </div>
               )}
             </div>
           </div>
