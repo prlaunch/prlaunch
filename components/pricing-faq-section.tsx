@@ -5,62 +5,44 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export function PricingFAQSection() {
   const faqs = [
     {
-      question: "Which publications will I be featured in?",
+      question: "Will this help me close more deals?",
       answer:
-        "You'll be published on premium Google-ranking outlets including USA Wire, Success XL, LA Tabloid, Bosses Mag, Medium, and 100+ more. You can choose your preferred outlets from our list when you order.",
+        "Absolutely. Here's how you'll use these articles:\n- Instagram highlights & posts (instant authority)\n- Website homepage (\"As Featured In\" section)\n- Email signature (every email builds credibility)\n- LinkedIn profile (featured section)\n- Portfolio presentations (show prospects before meetings)\n- Pitch decks & proposals (social proof on every slide)\n- Social media content (share your features regularly)\n\nEven if prospects don't Google you, YOU control where they see your credibility. Every touchpoint becomes proof you're the real deal.",
     },
     {
-      question: "How fast will this actually happen?",
+      question: 'Will people think I "paid for this"?',
       answer:
-        "24-48 hour article writing. Published within 48 hours of your approval. If we miss the 48-hour deadline, you get a full refund - no questions asked.",
+        'Here\'s what people actually think when they see media coverage:\n\n"The media wrote about them → They must be successful"\n"They\'re featured in publications → They must be legitimate"\n"They\'re published → They must be the real deal"\n\nNobody questions HOW you got featured. They just see authority. The same way nobody asks if someone "paid" to be in Forbes or Inc. Magazine. Media coverage = instant validation in people\'s minds. That\'s the power of third-party credibility.',
     },
     {
-      question: "What if I don't like the article you write?",
+      question: "Where will I be published?",
       answer:
-        "We offer unlimited revisions until you're 100% happy. Our writers are experienced and 90% of articles are approved on first draft. We'll work with you until it's perfect.",
+        'Clean, credible outlets like USA Wire, Success XL, Medium, and 100+ more professional publications. They\'re indexed on Google, look completely legitimate, and give you the "As Featured In" credibility that makes people take you seriously.',
     },
     {
-      question: "Will this help me get more clients/customers?",
+      question: "What happens when someone Googles me right now vs. after this?",
       answer:
-        "73% of our customers report getting 2-4 qualified leads within 30 days of publication. You'll rank on Google for your name, which builds instant credibility with prospects. When people Google you before a meeting, they'll see you've been featured in major publications.",
+        'RIGHT NOW: Either nothing comes up, or just your LinkedIn and basic stuff. No proof. No credibility. No reason to believe you\'re the expert you say you are.\n\nAFTER: Published articles about your expertise. Your story. Your achievements. Instant credibility. They think "This person is established" before you even talk.',
     },
     {
-      question: "Can I choose which publication I want?",
-      answer: "Yes! When you order, you'll see our full list of publications. You pick your preferred outlets.",
-    },
-    {
-      question: "What happens after I order?",
+      question: "How long does this actually take?",
       answer:
-        "1. You'll receive a quick questionnaire (5-7 questions)\n2. We write your articles\n3. You approve them (or request changes)\n4. We publish within 48 hours\n5. You receive the live links\n\nThe entire process takes 48 hours from approval to publication.",
+        "2-4 business days total. We write your articles within 24-48 hours, you review and approve them (unlimited revisions), then we publish. Most people waste MONTHS trying to get featured. You'll be published by next week.",
     },
     {
-      question: "Is this a one-time payment or subscription?",
+      question: "Can you write about anything I want?",
       answer:
-        "One-time payment. No hidden fees, no recurring charges. You own the articles forever and can use them however you want.",
+        "Absolutely. This is YOUR story. Want to be known as the top consultant in your industry? Done. Want to highlight a specific achievement? Done. We create the exact narrative you want the world to see and remember. You control how you're positioned.",
     },
     {
-      question: "What if my business/industry is unique?",
+      question: 'What if I\'m not a "big name" yet? Will this still work?',
       answer:
-        "We've published 4,847+ articles across every industry - from tech startups to real estate to coaching to e-commerce. Our writers are experienced in crafting articles for any business type. We make you look like an authority regardless of your industry.",
+        "Even better. This is how you BECOME a big name. Every expert you see with \"As Featured In\" badges started exactly where you are. They just took action. You're 48 hours away from having the same credibility they have. That's it.",
     },
     {
-      question: "Do I get to keep the article if I'm not happy?",
-      answer: "Yes! Even if you request a refund, you keep the article. Zero risk for you.",
-    },
-    {
-      question: "How is this different from hiring a PR agency?",
+      question: "What if I don't like what you write?",
       answer:
-        "Traditional PR agencies:\n• Cost $5,000-10,000/month\n• Take 2-4 weeks minimum\n• No guarantee of publication\n• Require 6-12 month contracts\n\nPR Launch:\n• One-time fee of $47-197\n• Guaranteed publication in 48 hours\n• No contracts, no recurring fees\n• 100% money-back guarantee",
-    },
-    {
-      question: "Will this work for local businesses?",
-      answer:
-        "Local businesses especially benefit because when prospects Google you before visiting, they see you've been featured in publications. This builds trust immediately. We have customers ranging from restaurants to law firms to dental offices.",
-    },
-    {
-      question: "Can I see examples of articles you've published?",
-      answer:
-        "Yes! Check out the examples on our homepage showing real articles published for customers just like you. Every article is professionally written and looks authentic on major publications.",
+        "Unlimited revisions until you love it. Plus 100% money-back guarantee if you're not satisfied. We've published thousands of professionals with a 98% first-draft approval rate. But if you want changes, we'll rewrite it as many times as needed.",
     },
   ]
 
