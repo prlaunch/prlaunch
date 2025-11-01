@@ -3,7 +3,6 @@
 import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Check, FileText, ArrowRight } from "lucide-react"
 
 function ThankYouContent() {
@@ -50,16 +49,16 @@ function ThankYouContent() {
           </p>
 
           <div className="mb-8">
-            <Link href="https://tally.so/r/nrzxWo" target="_blank" rel="noopener noreferrer" className="inline-block">
-              <Button
-                size="lg"
-                className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8"
-              >
-                <FileText className="mr-2 h-5 w-5" />
-                Fill Out Questionnaire
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <a
+              href="https://tally.so/r/nrzxWo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8 no-underline"
+            >
+              <FileText className="mr-2 h-5 w-5" />
+              Fill Out Questionnaire
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
           </div>
 
           {/* Order Summary */}
