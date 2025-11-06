@@ -7,23 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Lock,
-  Star,
-  Check,
-  Sparkles,
-  Shield,
-  Mail,
-  FileText,
-  Edit3,
-  Eye,
-  Newspaper,
-  Tag,
-  X,
-  Copy,
-  Clock,
-  Gift,
-} from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
@@ -559,39 +543,7 @@ function PaymentContent() {
         </div>
       )}
 
-      <div
-        className={`fixed top-0 left-0 right-0 z-50 shadow-lg transition-colors duration-300 ${
-          discountApplied
-            ? "bg-gradient-to-r from-green-600 to-emerald-600"
-            : "bg-gradient-to-r from-blue-600 to-purple-600"
-        }`}
-      >
-        <div className="container mx-auto py-2.5 px-4 flex items-center justify-center gap-3">
-          <div className="flex items-center gap-2 text-sm font-semibold text-white">
-            {discountApplied ? (
-              <>
-                <Check className="h-4 w-4" />
-                <span>10% discount applied!</span>
-              </>
-            ) : (
-              <>
-                <Tag className="h-4 w-4" />
-                <span>Save 10% with code:</span>
-              </>
-            )}
-          </div>
-          <button
-            onClick={handleCopyCode}
-            className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-3 py-1 rounded-lg transition-colors font-mono font-bold text-sm"
-          >
-            <span>LAUNCH10</span>
-            <Copy className="h-3.5 w-3.5" />
-          </button>
-          {copySuccess && <span className="text-xs text-white/90 animate-in fade-in">Copied!</span>}
-        </div>
-      </div>
-
-      <header className="bg-white border-b border-slate-200 sticky top-[42px] z-40 shadow-sm">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-2xl font-bold tracking-tight text-black inline-block">
             <span className="text-blue-500">pr</span>
@@ -604,7 +556,7 @@ function PaymentContent() {
         </div>
       </header>
 
-      <div className="lg:hidden bg-white border-b border-slate-200 sticky top-[42px] z-30">
+      <div className="lg:hidden bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
@@ -672,14 +624,8 @@ function PaymentContent() {
                   </div>
                   <div className="text-right">
                     <div className="lg:text-lg text-sm text-slate-400 line-through">${customOutlets.length * 47}</div>
-                    {discountApplied ? (
-                      <>
-                        <div className="lg:text-xl text-base text-slate-400 line-through">${basePrice}</div>
-                        <div className="lg:text-3xl text-2xl font-bold text-green-600">${discountedPrice}</div>
-                      </>
-                    ) : (
-                      <div className="lg:text-3xl text-2xl font-bold text-slate-900">${basePrice}</div>
-                    )}
+                    {/* removed discounted price display */}
+                    <div className="lg:text-3xl text-2xl font-bold text-slate-900">${basePrice}</div>
                   </div>
                 </div>
 
@@ -736,58 +682,6 @@ function PaymentContent() {
                     </span>
                   </div>
                 )}
-
-                <details className="group">
-                  <summary className="flex items-center justify-between cursor-pointer list-none p-2 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <Tag className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-slate-600" />
-                      <span className="text-xs lg:text-sm font-semibold text-slate-900">Discount code</span>
-                    </div>
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <div className="mt-2 p-2 bg-slate-50 rounded-lg">
-                    {!discountApplied ? (
-                      <div className="flex gap-2 items-stretch">
-                        <Input
-                          type="text"
-                          placeholder="Enter code"
-                          value={discountCode}
-                          onChange={(e) => {
-                            setDiscountCode(e.target.value.toUpperCase())
-                            setDiscountError("")
-                          }}
-                          className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
-                        />
-                        <button
-                          type="button"
-                          onClick={handleApplyDiscount}
-                          disabled={!discountCode.trim()}
-                          className="h-9 px-4 min-w-[70px] text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 whitespace-nowrap"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-2 py-1.5">
-                        <div className="flex items-center gap-1.5">
-                          <Check className="h-3.5 w-3.5 text-green-600" />
-                          <span className="text-xs font-semibold text-green-700">
-                            LAUNCH10 — Save ${discountAmount}
-                          </span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleRemoveDiscount}
-                          className="text-slate-500 hover:text-slate-700 transition-colors"
-                          aria-label="Remove discount"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    )}
-                    {discountError && <p className="text-[10px] text-red-600 mt-1.5">{discountError}</p>}
-                  </div>
-                </details>
               </div>
             ) : (
               <div
@@ -826,102 +720,17 @@ function PaymentContent() {
                     <div className="lg:text-lg text-sm text-slate-400 line-through">
                       ${currentPackage.originalPrice}
                     </div>
-                    {discountApplied ? (
-                      <>
-                        <div className="lg:text-xl text-base text-slate-400 line-through">${currentPackage.price}</div>
-                        <div className="lg:text-3xl text-2xl font-bold text-green-600">${discountedPrice}</div>
-                      </>
-                    ) : (
-                      <div className="lg:text-3xl text-2xl font-bold text-slate-900">${currentPackage.price}</div>
-                    )}
+                    {/* removed discounted price display */}
+                    <div className="lg:text-3xl text-2xl font-bold text-slate-900">${currentPackage.price}</div>
                     <div className="text-xs lg:text-sm text-slate-600">
-                      ${(discountedPrice / currentPackage.articles).toFixed(2)}/article
+                      ${(currentPackage.price / currentPackage.articles).toFixed(2)}/article
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs lg:text-sm text-green-600 bg-green-50 rounded-lg px-2 lg:px-3 py-1.5 lg:py-2 mb-3">
                   <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
-                  <span className="font-semibold">
-                    Save ${currentPackage.originalPrice - currentPackage.price}
-                    {discountApplied && ` + $${discountAmount} with LAUNCH10`}
-                  </span>
+                  <span className="font-semibold">Save ${currentPackage.originalPrice - currentPackage.price}</span>
                 </div>
-
-                {showUpsell && upsellPackage && selectedPackage !== "agency" && (
-                  <div className="mb-3 p-2.5 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
-                    <label className="flex items-start gap-2.5 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        checked={upgradeChecked}
-                        onChange={(e) => handleUpgradeChange(e.target.checked)}
-                        className="mt-0.5 h-4 w-4 rounded border-blue-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer flex-shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 mb-0.5">
-                          <Sparkles className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
-                          <span className="text-xs font-bold text-slate-900">Best Value Upgrade</span>
-                        </div>
-                        <p className="text-[11px] lg:text-xs text-slate-700 leading-snug">
-                          Upgrade to{" "}
-                          <span className="font-semibold text-blue-700">{upsellPackage.articles} articles</span> and{" "}
-                          <span className="font-semibold text-green-600">save ${getUpgradeSavings()}</span>
-                        </p>
-                      </div>
-                    </label>
-                  </div>
-                )}
-
-                <details className="group">
-                  <summary className="flex items-center justify-between cursor-pointer list-none p-2 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <Tag className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-slate-600" />
-                      <span className="text-xs lg:text-sm font-semibold text-slate-900">Discount code</span>
-                    </div>
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <div className="mt-2 p-2 bg-slate-50 rounded-lg">
-                    {!discountApplied ? (
-                      <div className="flex gap-2 items-stretch">
-                        <Input
-                          type="text"
-                          placeholder="Enter code"
-                          value={discountCode}
-                          onChange={(e) => {
-                            setDiscountCode(e.target.value.toUpperCase())
-                            setDiscountError("")
-                          }}
-                          className="flex-1 h-9 text-sm rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase"
-                        />
-                        <button
-                          type="button"
-                          onClick={handleApplyDiscount}
-                          disabled={!discountCode.trim()}
-                          className="h-9 px-4 min-w-[70px] text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 whitespace-nowrap"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-2 py-1.5">
-                        <div className="flex items-center gap-1.5">
-                          <Check className="h-3.5 w-3.5 text-green-600" />
-                          <span className="text-xs font-semibold text-green-700">
-                            LAUNCH10 — Save ${discountAmount}
-                          </span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleRemoveDiscount}
-                          className="text-slate-500 hover:text-slate-700 transition-colors"
-                          aria-label="Remove discount"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    )}
-                    {discountError && <p className="text-[10px] text-red-600 mt-1.5">{discountError}</p>}
-                  </div>
-                </details>
               </div>
             )}
 
