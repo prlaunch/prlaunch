@@ -162,19 +162,20 @@ function CheckoutForm({
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="space-y-4 mb-6">
+        <div className="space-y-6 mb-6">
           <PaymentElement
             options={{
               layout: {
-                type: "accordion",
+                type: "tabs",
                 defaultCollapsed: false,
                 radios: false,
-                spacedAccordionItems: true,
+                spacedAccordionItems: false,
               },
               wallets: {
                 applePay: "auto",
                 googlePay: "auto",
               },
+              paymentMethodOrder: ["apple_pay", "google_pay", "card"],
             }}
           />
         </div>
@@ -543,7 +544,7 @@ function PaymentContent() {
         </div>
       )}
 
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-2xl font-bold tracking-tight text-black inline-block">
             <span className="text-blue-500">pr</span>
@@ -556,7 +557,7 @@ function PaymentContent() {
         </div>
       </header>
 
-      <div className="lg:hidden bg-white border-b border-slate-200 sticky top-0 z-30">
+      <div className="lg:hidden bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
@@ -592,7 +593,7 @@ function PaymentContent() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-lg">
         <div className="container mx-auto px-4 py-3 flex items-center justify-center gap-2">
           <Clock className="h-4 w-4 text-orange-600" />
           <span className="text-sm font-semibold text-slate-900">
