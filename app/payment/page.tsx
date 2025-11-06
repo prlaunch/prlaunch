@@ -60,6 +60,7 @@ function CheckoutForm({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
+  const [selectedPaymentType, setSelectedPaymentType] = useState<string | null>(null)
 
   useEffect(() => {
     console.log("[v0] CheckoutForm rendered, stripe:", !!stripe, "elements:", !!elements)
@@ -86,29 +87,33 @@ function CheckoutForm({
 
     let hasError = false
 
-    if (!email || !email.trim()) {
-      setEmailError("Email is required")
-      hasError = true
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError("Please enter a valid email address")
-      hasError = true
-    } else {
-      setEmailError("")
-    }
+    const isExpressCheckout = selectedPaymentType === "apple_pay" || selectedPaymentType === "google_pay"
 
-    if (!fullName || !fullName.trim()) {
-      setFullNameError("Full name is required")
-      hasError = true
-    } else {
-      setFullNameError("")
-    }
+    if (!isExpressCheckout) {
+      if (!email || !email.trim()) {
+        setEmailError("Email is required")
+        hasError = true
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setEmailError("Please enter a valid email address")
+        hasError = true
+      } else {
+        setEmailError("")
+      }
 
-    if (hasError) {
-      informationCardRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-      return
+      if (!fullName || !fullName.trim()) {
+        setFullNameError("Full name is required")
+        hasError = true
+      } else {
+        setFullNameError("")
+      }
+
+      if (hasError) {
+        informationCardRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+        return
+      }
     }
 
     setIsProcessing(true)
@@ -164,6 +169,12 @@ function CheckoutForm({
       <form onSubmit={handleSubmit}>
         <div className="space-y-6 mb-6">
           <PaymentElement
+            onChange={(e) => {
+              if (e.value.type) {
+                setSelectedPaymentType(e.value.type)
+                console.log("[v0] Payment method changed to:", e.value.type)
+              }
+            }}
             options={{
               layout: {
                 type: "tabs",
@@ -247,7 +258,6 @@ function PaymentContent() {
   const [customOutlets, setCustomOutlets] = useState<OutletData[]>([])
   const [isCustomOrder, setIsCustomOrder] = useState(false)
 
-  // Parse outlet data on mount
   useEffect(() => {
     if (outletsDataParam) {
       try {
@@ -744,7 +754,7 @@ function PaymentContent() {
                 <div className="space-y-4 mb-8">
                   <div>
                     <Label htmlFor="email" className="text-slate-700 font-medium text-sm">
-                      Email Address *
+                      Email Address <span className="text-slate-500">(required for card payments)</span>
                     </Label>
                     <Input
                       id="email"
@@ -758,13 +768,12 @@ function PaymentContent() {
                       className={`mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 ${
                         emailError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
                       }`}
-                      required
                     />
                     {emailError && <p className="text-xs text-red-600 mt-1.5">{emailError}</p>}
                   </div>
                   <div>
                     <Label htmlFor="fullname" className="text-slate-700 font-medium text-sm">
-                      Full Name *
+                      Full Name <span className="text-slate-500">(required for card payments)</span>
                     </Label>
                     <Input
                       id="fullname"
@@ -778,7 +787,6 @@ function PaymentContent() {
                       className={`mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 ${
                         fullNameError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
                       }`}
-                      required
                     />
                     {fullNameError && <p className="text-xs text-red-600 mt-1.5">{fullNameError}</p>}
                   </div>
