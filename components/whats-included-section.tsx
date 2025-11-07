@@ -39,13 +39,18 @@ export function WhatsIncludedSection() {
         <span className="text-base md:text-lg text-slate-600 font-bold line-through">${regularPrice}/article</span>
       </div>
 
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-3 md:p-4 mb-3">
+      <a
+        href="/payment?package=authority"
+        className="block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg p-3 md:p-4 mb-3 transition-all cursor-pointer group"
+      >
         <div className="flex items-center justify-between mb-1">
           <span className="text-sm md:text-base text-white font-bold">YOUR PRICE:</span>
-          <span className="text-2xl md:text-3xl text-white font-black">${yourPrice}/article</span>
+          <span className="text-2xl md:text-3xl text-white font-black group-hover:scale-105 transition-transform">
+            ${yourPrice}/article
+          </span>
         </div>
         <p className="text-[10px] md:text-xs text-blue-100 text-right">(with 7-article package)</p>
-      </div>
+      </a>
 
       <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
         <p className="text-base md:text-lg font-bold text-green-700 mb-0.5">💰 SAVE ${savings} PER ARTICLE</p>

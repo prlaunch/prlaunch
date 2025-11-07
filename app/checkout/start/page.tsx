@@ -7,13 +7,11 @@ import { Star, Loader2, CheckCircle2, Clock, FileText, Zap, Shield } from "lucid
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import confetti from "canvas-confetti"
 
 export default function CheckoutStartPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
-  const [showCelebration, setShowCelebration] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,16 +20,6 @@ export default function CheckoutStartPage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  useEffect(() => {
-    if (showCelebration) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      })
-    }
-  }, [showCelebration])
 
   const logos = [
     { src: "/images/logos/sf-tribune.png", alt: "The San Francisco Tribune" },
@@ -44,11 +32,12 @@ export default function CheckoutStartPage() {
 
   const handleStart = () => {
     setIsLoading(true)
-    router.push("/checkout/step-1")
+    router.push("/checkout/how-it-works")
   }
 
   const scrollToPricing = () => {
-    setShowCelebration(true)
+    setIsLoading(true)
+    router.push("/checkout/how-it-works")
   }
 
   const handleClaimBonuses = () => {
@@ -115,43 +104,6 @@ export default function CheckoutStartPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {showCelebration && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full text-center space-y-4 sm:space-y-6">
-            <div className="text-5xl sm:text-6xl mb-2 sm:mb-4">🎉</div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">CONGRATULATIONS!</h2>
-            <p className="text-lg sm:text-xl text-slate-700 mb-4 sm:mb-6">You've unlocked exclusive bonuses:</p>
-            <div className="space-y-3 sm:space-y-4 text-left">
-              <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-3 sm:p-4">
-                <p className="font-bold text-slate-900 text-sm sm:text-base mb-1">
-                  🎁 +1 BONUS Article (on 3+ article packages)
-                </p>
-              </div>
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-3 sm:p-4">
-                <p className="font-bold text-slate-900 text-sm sm:text-base mb-1">🎁 Unlimited Writing Revisions</p>
-              </div>
-            </div>
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={handleClaimBonuses}
-              disabled={isLoading}
-              containerClassName="h-12 sm:h-14 w-full"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 sm:px-8 text-base sm:text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "Claim My Bonuses →"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      )}
-
       <div
         className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-lg transition-transform duration-300 ${
           showStickyCTA ? "translate-y-0" : "-translate-y-full"
@@ -173,7 +125,7 @@ export default function CheckoutStartPage() {
                 Loading...
               </span>
             ) : (
-              "See Packages & Pricing"
+              "See How It Works"
             )}
           </MovingBorderButton>
         </div>
@@ -245,7 +197,7 @@ export default function CheckoutStartPage() {
                 Loading...
               </span>
             ) : (
-              "See Packages & Pricing"
+              "See How It Works"
             )}
           </MovingBorderButton>
 
@@ -293,7 +245,7 @@ export default function CheckoutStartPage() {
                 Loading...
               </span>
             ) : (
-              "See Packages & Pricing"
+              "See How It Works"
             )}
           </MovingBorderButton>
         </div>
@@ -351,7 +303,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -446,7 +398,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -455,9 +407,8 @@ export default function CheckoutStartPage() {
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2">
+          <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 border border-blue-200">
             <FileText className="w-5 h-5 text-blue-600" />
-            <span className="text-sm font-semibold text-slate-900">Professional Quality</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Written by Real Journalists</h2>
           <p className="text-xl text-slate-600 leading-relaxed mb-8">
@@ -479,7 +430,7 @@ export default function CheckoutStartPage() {
                 Loading...
               </span>
             ) : (
-              "See Packages & Pricing"
+              "See How It Works"
             )}
           </MovingBorderButton>
         </div>
@@ -530,7 +481,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -538,8 +489,8 @@ export default function CheckoutStartPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">Where You Get Featured</h2>
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">Where You Get Featured</h2>
 
           <div className="space-y-8 mb-12">
             <div>
@@ -577,7 +528,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -624,7 +575,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -632,10 +583,8 @@ export default function CheckoutStartPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
-            Frequently Asked Questions
-          </h2>
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">Frequently Asked Questions</h2>
 
           <Accordion type="single" collapsible className="w-full mb-12">
             {faqs.map((faq, index) => (
@@ -663,7 +612,7 @@ export default function CheckoutStartPage() {
                   Loading...
                 </span>
               ) : (
-                "See Packages & Pricing"
+                "See How It Works"
               )}
             </MovingBorderButton>
           </div>
@@ -711,7 +660,7 @@ export default function CheckoutStartPage() {
                 Loading...
               </span>
             ) : (
-              "See Packages & Pricing"
+              "See How It Works"
             )}
           </MovingBorderButton>
 

@@ -1,9 +1,14 @@
+import Link from "next/link"
+
 export function Logo() {
   return (
-    <div className="text-2xl font-bold tracking-tight text-black cursor-default">
+    <Link
+      href="/checkout/start"
+      className="text-2xl font-bold tracking-tight text-black cursor-pointer hover:opacity-80 transition-opacity"
+    >
       <span className="text-blue-500">pr</span>
       <span>launch.io</span>
-    </div>
+    </Link>
   )
 }
 

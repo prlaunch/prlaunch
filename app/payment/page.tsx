@@ -5,6 +5,7 @@ import type React from "react"
 import { useState, useEffect, Suspense, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
@@ -556,10 +557,13 @@ function PaymentContent() {
 
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="text-2xl font-bold tracking-tight text-black inline-block">
+          <Link
+            href="/checkout/start"
+            className="text-2xl font-bold tracking-tight text-black inline-block hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <span className="text-blue-500">pr</span>
             <span>launch.io</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
             <Lock className="h-4 w-4 text-green-600" />
             <span className="text-xs font-semibold text-green-700">Secure Checkout</span>
