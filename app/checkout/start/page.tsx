@@ -436,57 +436,7 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">How Fast & Simple</h2>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">⏱️ 3 minutes</h3>
-              <p className="text-slate-600">Fill form</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
-                <FileText className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">📝 24-48 hours</h3>
-              <p className="text-slate-600">Journalists write & pitch</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                <Zap className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">🔗 Instantly</h3>
-              <p className="text-slate-600">Live links</p>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={scrollToPricing}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      </section>
+      
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-3xl text-center">
@@ -535,52 +485,7 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">Your Process</h2>
-
-          <div className="space-y-6 mb-12">
-            {[
-              { step: 1, title: "Choose package", icon: "📦" },
-              { step: 2, title: "Fill 3-field form", icon: "📝" },
-              { step: 3, title: "Journalists write", icon: "✍️" },
-              { step: 4, title: "You approve angle", icon: "✅" },
-              { step: 5, title: "Live in 48 hours", icon: "🚀" },
-            ].map((item) => (
-              <div key={item.step} className="flex items-center gap-4 bg-slate-50 rounded-xl p-6">
-                <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">
-                  {item.step}
-                </div>
-                <div className="flex-1">
-                  <p className="text-xl font-semibold text-slate-900">
-                    {item.icon} {item.title}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={scrollToPricing}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      </section>
+      
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-3xl text-center">

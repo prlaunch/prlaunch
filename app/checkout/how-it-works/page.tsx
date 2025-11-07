@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { CheckCircle2, Loader2, Zap, Shield, TrendingUp, Users, Award } from "lucide-react"
+import { CheckCircle2, Loader2, Shield, TrendingUp, Users, Award } from "lucide-react"
 import { useState } from "react"
 import Image from "next/image"
 import { WhatYouGetSection } from "@/components/what-you-get-section"
+import { ScrollingLogos } from "@/components/scrolling-logos"
+import { PricingExplainerSection } from "@/components/pricing-explainer-section"
 
 export default function HowItWorksPage() {
   const router = useRouter()
@@ -43,149 +45,29 @@ export default function HowItWorksPage() {
     },
   ]
 
-  const steps = [
-    {
-      number: 1,
-      title: "Choose Your Package",
-      duration: "Takes 30 seconds",
-      description: "Select how many articles you want (1, 4, or 7). The more you choose, the less you pay per article.",
-    },
-    {
-      number: 2,
-      title: "Tell Us Your Story",
-      duration: "Takes 5 minutes",
-      description: "Fill out a simple questionnaire about your business. No writing required—just answer 5 questions.",
-    },
-    {
-      number: 3,
-      title: "Professional Journalists Write Your Article",
-      duration: "Takes 24 hours",
-      description:
-        "Real journalists (5+ years experience) craft your story. Not AI, not templates—custom written for you.",
-      badge: "Quality guaranteed by experienced professionals",
-    },
-    {
-      number: 4,
-      title: "Review & Approve",
-      duration: "You're in control",
-      description:
-        "We send you the draft. Request unlimited revisions until it's perfect. You approve the final version.",
-      note: "No article goes live without your approval.",
-    },
-    {
-      number: 5,
-      title: "Published & Live",
-      duration: "Within 24 hours after approval",
-      description:
-        "Article goes live on your chosen outlets. You get the links immediately. Starts ranking on Google within 48 hours.",
-      features: [
-        { icon: Zap, label: "Instant links" },
-        { icon: TrendingUp, label: "Fast Google ranking" },
-      ],
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-16">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-4 py-2">
-            <span className="text-sm font-semibold text-blue-900">How It Actually Works</span>
+            <span className="text-sm font-semibold text-blue-900">The Unfair Advantage</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-            From Order to Published in 48 Hours
+            {"From Invisible to Google Famous"}
           </h1>
           <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            No black boxes. No mysteries. Here's exactly what happens when you order.
+            {"The exact 5-step system that puts you on Google \nwhile your competitors are still waiting for \'organic\' results."}
           </p>
         </div>
       </div>
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-left">
-            Your Journey: 5 Simple Steps
-          </h2>
+      {/* Pricing Explainer Section */}
+      <PricingExplainerSection ctaText="See Packages & Pricing →" />
 
-          <div className="space-y-6">
-            {steps.map((step, index) => {
-              return (
-                <div key={index} className="flex gap-4 md:gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl">
-                      {step.number}
-                    </div>
-                  </div>
-
-                  <div className="flex-1 pb-6 border-b border-slate-200">
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{step.title}</h3>
-                    <p className="text-slate-500 mb-3 text-sm md:text-base">{step.duration}</p>
-                    <p className="text-slate-700 leading-relaxed mb-3">{step.description}</p>
-
-                    {step.badge && (
-                      <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2 w-fit">
-                        <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
-                        <span className="text-sm font-medium text-green-900">{step.badge}</span>
-                      </div>
-                    )}
-
-                    {step.note && (
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 w-fit">
-                        <p className="text-sm font-medium text-blue-900">{step.note}</p>
-                      </div>
-                    )}
-
-                    {step.features && (
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {step.features.map((feature, i) => {
-                          const FeatureIcon = feature.icon
-                          return (
-                            <div
-                              key={i}
-                              className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                            >
-                              <FeatureIcon className={`w-4 h-4 ${i === 0 ? "text-yellow-500" : "text-green-600"}`} />
-                              <span className="font-medium text-slate-900">{feature.label}</span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={handleContinue}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See Packages & Pricing →"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-slate-50">
+      <section className="bg-slate-50 py-px">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Real Articles. Real Results.</h2>
-            <p className="text-xl text-slate-600">Here are actual articles we've published on major outlets</p>
-          </div>
+          <div className="text-center mb-8"></div>
           <WhatYouGetSection />
         </div>
       </section>
@@ -197,29 +79,7 @@ export default function HowItWorksPage() {
             Why This Works (The Science Behind It)
           </h2>
 
-          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-blue-200 mb-8">
-            <h3 className="text-xl font-bold text-slate-900 mb-4">When someone Googles your name, Google shows:</h3>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">
-                  1
-                </div>
-                <p className="text-slate-700 text-lg">High-authority websites first</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">
-                  2
-                </div>
-                <p className="text-slate-700 text-lg">Recent content first</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">
-                  3
-                </div>
-                <p className="text-slate-700 text-lg">Professional articles over social media</p>
-              </div>
-            </div>
-          </div>
+          
 
           <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white mb-8">
             <h3 className="text-2xl font-bold mb-4">Our articles appear on 100+ high-authority U.S. outlets</h3>
@@ -239,8 +99,11 @@ export default function HowItWorksPage() {
             </div>
           </div>
 
-          <div className="bg-slate-100 rounded-lg p-6 text-center">
-            <p className="text-xl font-bold text-slate-900">This isn't magic. It's how Google's algorithm works.</p>
+          <div className="mb-8">
+            <p className="text-center text-slate-600 mb-6 text-lg font-medium">
+              Get featured on trusted outlets including:
+            </p>
+            <ScrollingLogos />
           </div>
 
           <div className="text-center mt-12">
@@ -266,7 +129,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Will This Work For Me Section */}
-      <section className="py-16 bg-white">
+      <section className="bg-white py-1.5">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">
             "But Will This Work For Someone Like Me?"
@@ -279,34 +142,36 @@ export default function HowItWorksPage() {
             {testimonials.map((testimonial, i) => (
               <div
                 key={i}
-                className="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow"
+                className="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow flex flex-col"
               >
-                <div className="mb-3">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3">
-                    {i === 0 && <Users className="w-6 h-6 text-blue-600" />}
-                    {i === 1 && <Award className="w-6 h-6 text-blue-600" />}
-                    {i === 2 && <TrendingUp className="w-6 h-6 text-blue-600" />}
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-lg mb-1">{testimonial.role}</h3>
-                </div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden bg-slate-200">
-                    <Image
-                      src={testimonial.image || "/placeholder.svg"}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="flex items-start justify-between mb-4">
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">{testimonial.name}</p>
+                    <h3 className="font-bold text-slate-900 text-xl mb-1">{testimonial.role}</h3>
+                    <div className="flex items-center gap-2">
+                      <div className="relative w-8 h-8 rounded-full overflow-hidden bg-slate-200">
+                        <Image
+                          src={testimonial.image || "/placeholder.svg"}
+                          alt={testimonial.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <p className="font-semibold text-slate-700 text-sm">{testimonial.name}</p>
+                    </div>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    {i === 0 && <Users className="w-5 h-5 text-blue-600" />}
+                    {i === 1 && <Award className="w-5 h-5 text-blue-600" />}
+                    {i === 2 && <TrendingUp className="w-5 h-5 text-blue-600" />}
                   </div>
                 </div>
-                <p className="text-slate-700 mb-4 leading-relaxed text-sm">"{testimonial.quote}"</p>
+
+                <p className="text-slate-700 leading-relaxed text-base flex-1 mb-4">"{testimonial.quote}"</p>
+
                 {testimonial.verified && (
-                  <div className="flex items-center gap-1 text-sm text-green-600">
+                  <div className="flex items-center gap-1.5 text-sm text-green-600 pt-3 border-t border-slate-100">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Verified customer</span>
+                    <span className="font-medium">Verified customer</span>
                   </div>
                 )}
               </div>
