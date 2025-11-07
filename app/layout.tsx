@@ -7,7 +7,6 @@ import "./globals.css"
 import { Suspense } from "react"
 import { ConditionalNav } from "@/components/conditional-nav"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import { ScrollPositionManager } from "@/components/scroll-position-manager"
 
 export const metadata: Metadata = {
   title: "PR Launch - Get Featured in Major Publications in 7 Days",
@@ -56,7 +55,6 @@ export default function RootLayout({
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <ScrollToTop />
-        <ScrollPositionManager />
         <ConditionalNav />
         <Suspense fallback={null}>{children}</Suspense>
       </body>

@@ -3,10 +3,9 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, CheckCircle2, Clock, FileText, Shield, Search, X, DollarSign, Timer } from "lucide-react"
+import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export default function CheckoutStartPage() {
   const router = useRouter()
@@ -257,8 +256,6 @@ export default function CheckoutStartPage() {
             They all have proof of credibility. Why not you?
           </h2>
 
-          
-
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
               <img
@@ -311,8 +308,6 @@ export default function CheckoutStartPage() {
           </div>
         </div>
       </section>
-
-      
 
       <section className="bg-slate-50 py-6">
         <div className="container mx-auto px-4 max-w-5xl">
@@ -422,70 +417,78 @@ export default function CheckoutStartPage() {
 
       <section className="py-16 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="space-y-8 mb-12">
-            {/* Checklist Item 1 */}
+          <div className="space-y-6 mb-12">
+            {/* Benefit 1 */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-start gap-3 flex-1">
-                <span className="text-3xl">📉</span>
-                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
-                  Losing deals to less credible competitors
-                </p>
+              <div className="flex-1">
+                <div className="flex items-start gap-2">
+                  <span className="text-2xl">📰</span>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">Published in 4-7 major outlets</p>
+                    <p className="text-lg text-slate-600">48 hours, not 6 months</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Checklist Item 2 */}
+            {/* Benefit 2 */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-start gap-3 flex-1">
-                <span className="text-3xl">👻</span>
-                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
-                  Invisible when prospects Google your name
-                </p>
+              <div className="flex-1">
+                <div className="flex items-start gap-2">
+                  <span className="text-2xl">💰</span>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">$47 per article, not $1,000</p>
+                    <p className="text-lg text-slate-600">Same outlets PR agencies use</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Checklist Item 3 */}
+            {/* Benefit 3 */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-start gap-3 flex-1">
-                <span className="text-3xl">⏳</span>
-                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
-                  No time to wait 2-5 years for organic authority
-                </p>
+              <div className="flex-1">
+                <div className="flex items-start gap-2">
+                  <span className="text-2xl">🎯</span>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">Own Google's pages</p>
+                    <p className="text-lg text-slate-600">When prospects search your name</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Checklist Item 4 */}
+            {/* Benefit 4 */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-start gap-3 flex-1">
-                <span className="text-3xl">💰</span>
-                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
-                  Can't justify $30,000 for traditional PR
-                </p>
+              <div className="flex-1">
+                <div className="flex items-start gap-2">
+                  <span className="text-2xl">⚔️</span>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">Beat competitors who waited</p>
+                    <p className="text-lg text-slate-600">While they plan, you're published</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center">
-            If you checked all 4, there&#39;s a solution. 
-          </p>
+          <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center">Ready to see how it works?</p>
         </div>
       </section>
 
       <section className="bg-white py-11">
         <div className="container mx-auto px-4 max-w-2xl">
-          
-
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             {/* Primary CTA */}
             <div className="flex flex-col items-center">
@@ -530,10 +533,6 @@ export default function CheckoutStartPage() {
           </div>
         </div>
       </section>
-
-      
-
-      
     </div>
   )
 }
