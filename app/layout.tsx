@@ -54,7 +54,9 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <ScrollToTop />
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
         <ConditionalNav />
         <Suspense fallback={null}>{children}</Suspense>
       </body>
