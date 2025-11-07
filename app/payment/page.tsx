@@ -559,6 +559,7 @@ function PaymentContent() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/checkout/start"
+            scroll={true}
             className="text-2xl font-bold tracking-tight text-black inline-block hover:opacity-80 transition-opacity cursor-pointer"
           >
             <span className="text-blue-500">pr</span>

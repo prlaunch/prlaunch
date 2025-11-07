@@ -4,6 +4,7 @@ export function Logo() {
   return (
     <Link
       href="/checkout/start"
+      scroll={true}
       className="text-2xl font-bold tracking-tight text-black cursor-pointer hover:opacity-80 transition-opacity"
     >
       <span className="text-blue-500">pr</span>
