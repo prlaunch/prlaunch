@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, CheckCircle2, Clock, FileText, Zap, Shield } from "lucide-react"
+import { Star, Loader2, CheckCircle2, Clock, FileText, Shield, Search, X, DollarSign, Timer } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -251,106 +251,13 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-12">
-            <p className="text-2xl md:text-3xl font-bold text-slate-900 mb-8">
-              "73% of customers report 2-4 qualified leads within 30 days"
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {verifiedTestimonials.map((testimonial, i) => (
-              <div
-                key={i}
-                className="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                    <Image
-                      src={testimonial.image || "/placeholder.svg"}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-900">{testimonial.name}</p>
-                    <p className="text-sm text-slate-600">{testimonial.role}</p>
-                  </div>
-                </div>
-                <p className="text-slate-700 mb-4 leading-relaxed">"{testimonial.quote}"</p>
-                <div className="flex items-center gap-1 text-sm text-green-600">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{testimonial.verified}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={scrollToPricing}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      </section>
-
       <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
-            Before & After: The Transformation
+            They all have proof of credibility. Why not you?
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-white rounded-2xl p-6 border-2 border-red-200">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                  <span className="text-red-600 font-bold">✗</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">Before</h3>
-              </div>
-              <p className="text-slate-600 mb-4">Google your name → nothing</p>
-              <div className="relative w-full h-48 rounded-lg overflow-hidden bg-slate-100">
-                <img
-                  src="/images/before-after/google-no-results.jpg"
-                  alt="Before: No Google results"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 border-2 border-green-200">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">After</h3>
-              </div>
-              <p className="text-slate-600 mb-4">Your article ranks for your niche</p>
-              <div className="relative w-full h-48 rounded-lg overflow-hidden bg-slate-100">
-                <img
-                  src="/images/before-after/google-with-results.jpg"
-                  alt="After: Article ranking on Google"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
-          </div>
+          
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -405,173 +312,228 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 border border-blue-200">
-            <FileText className="w-5 h-5 text-blue-600" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Written by Real Journalists</h2>
-          <p className="text-xl text-slate-600 leading-relaxed mb-8">
-            Articles written by journalists with 5+ years experience.
-            <br />
-            <span className="font-bold text-slate-900">Not AI. Not templates.</span>
-          </p>
-          <MovingBorderButton
-            borderRadius="1.75rem"
-            onClick={scrollToPricing}
-            disabled={isLoading}
-            containerClassName="h-14 w-auto"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-            duration={3000}
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See How It Works"
-            )}
-          </MovingBorderButton>
-        </div>
-      </section>
-
       
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">Where You Get Featured</h2>
+      <section className="bg-slate-50 py-6">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="md:text-3xl font-bold text-slate-900 mb-12 text-center text-3xl">
+            Your Current Options (Both Terrible)
+          </h2>
 
-          <div className="space-y-8 mb-12">
-            <div>
-              <h3 className="text-lg font-semibold text-slate-700 mb-4 text-center">Real USA Media Outlets </h3>
-              <div className="flex flex-wrap items-center justify-center gap-8">
-                {logos.map((logo, i) => (
-                  <div key={i} className="h-8 w-24 flex items-center justify-center">
-                    <img
-                      src={logo.src || "/placeholder.svg"}
-                      alt={logo.alt}
-                      className="h-full w-full object-contain grayscale opacity-70"
-                    />
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            {/* Traditional PR Agency */}
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 border-2 border-red-200">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Traditional PR Agency</h3>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-6 h-6 text-red-600" />
                   </div>
-                ))}
+                  <div>
+                    <p className="text-4xl font-bold text-red-600">$30,000</p>
+                    <p className="text-sm text-slate-600">Upfront retainer</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-red-600" />
+                  </div>
+                  <div>
+                    <p className="text-4xl font-bold text-red-600">6 months</p>
+                    <p className="text-sm text-slate-600">Minimum commitment</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">❓</span>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">Maybe 1-2 outlets</p>
+                    <p className="text-sm text-slate-600">If you're lucky</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🎲</span>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">No guarantee</p>
+                    <p className="text-sm text-slate-600">Pay regardless of results</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold text-slate-700 mb-4 text-center"> and 100+ more...</h3>
+            {/* Building It Yourself */}
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 border-2 border-yellow-200">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Building It Yourself</h3>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                    <Timer className="w-6 h-6 text-yellow-600" />
+                  </div>
+                  <div>
+                    <p className="text-4xl font-bold text-yellow-600">2-5 years</p>
+                    <p className="text-sm text-slate-600">To build real authority</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">📊</span>
+                  </div>
+                  <div>
+                    <p className="text-4xl font-bold text-yellow-600">5%</p>
+                    <p className="text-sm text-slate-600">Success rate for organic growth</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">💸</span>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">Every lost deal</p>
+                    <p className="text-sm text-slate-600">Opportunity cost adds up</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🐌</span>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">While competitors win</p>
+                    <p className="text-sm text-slate-600">They close your prospects</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="text-center">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={scrollToPricing}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
-            </MovingBorderButton>
+          <p className="md:text-2xl font-bold text-slate-900 text-center text-3xl">There&#39;s a third option 👇 </p>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="space-y-8 mb-12">
+            {/* Checklist Item 1 */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <CheckCircle2 className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex items-start gap-3 flex-1">
+                <span className="text-3xl">📉</span>
+                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
+                  Losing deals to less credible competitors
+                </p>
+              </div>
+            </div>
+
+            {/* Checklist Item 2 */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <CheckCircle2 className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex items-start gap-3 flex-1">
+                <span className="text-3xl">👻</span>
+                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
+                  Invisible when prospects Google your name
+                </p>
+              </div>
+            </div>
+
+            {/* Checklist Item 3 */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <CheckCircle2 className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex items-start gap-3 flex-1">
+                <span className="text-3xl">⏳</span>
+                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
+                  No time to wait 2-5 years for organic authority
+                </p>
+              </div>
+            </div>
+
+            {/* Checklist Item 4 */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <CheckCircle2 className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex items-start gap-3 flex-1">
+                <span className="text-3xl">💰</span>
+                <p className="text-xl md:text-2xl font-semibold text-slate-900 pt-1">
+                  Can't justify $30,000 for traditional PR
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center">
+            If you checked all 4, there&#39;s a solution. 
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-white py-11">
+        <div className="container mx-auto px-4 max-w-2xl">
+          
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            {/* Primary CTA */}
+            <div className="flex flex-col items-center">
+              <MovingBorderButton
+                borderRadius="1.75rem"
+                onClick={scrollToPricing}
+                disabled={isLoading}
+                containerClassName="h-16 w-auto"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-10 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                duration={3000}
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Loading...
+                  </span>
+                ) : (
+                  "See How It Works →"
+                )}
+              </MovingBorderButton>
+              <span className="text-sm text-slate-500 mt-2">2-minute explainer</span>
+            </div>
+
+            {/* Secondary CTA */}
+            <div className="flex flex-col items-center">
+              <button
+                onClick={handleClaimBonuses}
+                disabled={isLoading}
+                className="h-16 px-10 rounded-full border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:border-slate-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Loading...
+                  </span>
+                ) : (
+                  "Skip to Pricing →"
+                )}
+              </button>
+              <span className="text-sm text-slate-500 mt-2">Already convinced?</span>
+            </div>
           </div>
         </div>
       </section>
 
       
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">Frequently Asked Questions</h2>
-
-          <Accordion type="single" collapsible className="w-full mb-12">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-base font-semibold md:text-lg">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-pretty leading-relaxed text-slate-600">{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-
-          <div className="text-center">
-            <MovingBorderButton
-              borderRadius="1.75rem"
-              onClick={scrollToPricing}
-              disabled={isLoading}
-              containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              duration={3000}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
-            </MovingBorderButton>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gradient-to-br from-slate-900 to-blue-900 text-white">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-700/50">
-            <Shield className="w-8 h-8 text-white" />
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">100% Money-Back Guarantee</h2>
-
-          <div className="bg-blue-600 rounded-2xl p-8 mb-8">
-            <p className="text-xl font-semibold leading-relaxed">"If not published in 48 hours, full refund."</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <div className="flex items-center gap-2 bg-slate-800/50 rounded-lg p-4">
-              <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
-              <span className="text-sm">Published within 48 hours</span>
-            </div>
-            <div className="flex items-center gap-2 bg-slate-800/50 rounded-lg p-4">
-              <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
-              <span className="text-sm">Full refund if we don't deliver</span>
-            </div>
-            <div className="flex items-center gap-2 bg-slate-800/50 rounded-lg p-4">
-              <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
-              <span className="text-sm">No questions asked</span>
-            </div>
-          </div>
-
-          <MovingBorderButton
-            borderRadius="1.75rem"
-            onClick={scrollToPricing}
-            disabled={isLoading}
-            containerClassName="h-14 w-auto"
-            className="bg-white hover:bg-slate-100 text-slate-900 px-8 text-lg font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-            duration={3000}
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See How It Works"
-            )}
-          </MovingBorderButton>
-
-          <p className="mt-6 text-sm text-blue-200">Join 500+ founders who've been featured in major publications</p>
-        </div>
-      </section>
+      
     </div>
   )
 }
