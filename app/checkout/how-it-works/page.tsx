@@ -2,8 +2,21 @@
 
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { CheckCircle2, Loader2, TrendingUp, Users, Award, Newspaper, BadgeCheck, Crown, Globe, Key } from "lucide-react"
-import { useState } from "react"
+import {
+  CheckCircle2,
+  Loader2,
+  TrendingUp,
+  Users,
+  Award,
+  Newspaper,
+  BadgeCheck,
+  Crown,
+  Globe,
+  Key,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { PricingExplainerSection } from "@/components/pricing-explainer-section"
@@ -12,10 +25,84 @@ import { GuaranteeSection } from "@/components/guarantee-section"
 export default function HowItWorksPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handleContinue = () => {
     setIsLoading(true)
     router.push("/checkout/step-5")
+  }
+
+  const articles = [
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.01-wTHFPjZIg1WkKOGI4wkB1p44kE75tS.jpeg",
+      outlet: "USA Wire",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-FlIZUm81yUn6F58xxGAORvMWPMJXrz.jpg",
+      outlet: "New York Tech",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9032%20%281%29%281%29-OyadhHGUz7w9UwzeCUxUEHbNsIi1gh.jpg",
+      outlet: "Bosses Mag",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.49-qgSl2doDDEQV6jGrQC4zU29cMZQ0W2.jpeg",
+      outlet: "Rolling Hype",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-UZZ2N3wUSNMZ36PXqimYdSONJtFiPB.jpg",
+      outlet: "SF Tribune",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.59-hruHenKSPmJGFI0MU27Z6bdofAo811.jpeg",
+      outlet: "Bosses Mag",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.58-ApbgOZddkr31vGsgnwGOye2wIZSnpb.jpeg",
+      outlet: "LA Tabloid",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9031%20%281%29%281%29-B3E7oIGHmSTkDTfiqhDrsxZ4U8Ifk9.jpg",
+      outlet: "Success XL",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.18-Od1CX39qIbrprwPwSRGyYpf90uGCMl.jpeg",
+      outlet: "Success XL",
+    },
+    {
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.19-lfedMm5vxCYOQlNDFBZm1EXLCrBMCI.jpeg",
+      outlet: "SF Tribune",
+    },
+  ]
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const scrollWidth = container.scrollWidth / articles.length
+      container.scrollTo({
+        left: scrollWidth * currentSlide,
+        behavior: "smooth",
+      })
+    }
+  }, [currentSlide, articles.length])
+
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length)
+  }
+
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % articles.length)
   }
 
   const testimonials = [
@@ -198,6 +285,113 @@ export default function HowItWorksPage() {
       </section>
 
       {/* iPhone Mockup Carousel Section */}
+      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-16 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">See Real Articles From Real Clients</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Published on major outlets, ranking on Google, building credibility that lasts.
+            </p>
+          </div>
+
+          {/* Mobile: Single iPhone with Horizontal Scroll */}
+          <div className="md:hidden relative">
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {articles.map((article, index) => (
+                <div key={index} className="flex-shrink-0 w-[280px] snap-center">
+                  <div className="relative mx-auto" style={{ width: "280px", height: "570px" }}>
+                    {/* iPhone 17 Frame */}
+                    <div className="absolute inset-0 bg-slate-900 rounded-[3.5rem] p-3">
+                      {/* Dynamic Island */}
+                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-32 h-9 bg-black rounded-full z-10" />
+
+                      {/* Screen */}
+                      <div className="relative w-full h-full bg-white rounded-[2.8rem] overflow-hidden">
+                        <Image
+                          src={article.image || "/placeholder.svg"}
+                          alt={`Article on ${article.outlet}`}
+                          fill
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Scroll Indicators */}
+            <div className="flex justify-center gap-2 mt-6">
+              {articles.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentSlide ? "bg-blue-600 w-8" : "bg-slate-300"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: 3 iPhones with Closer Arrows */}
+          <div className="hidden md:block relative max-w-6xl mx-auto">
+            <div className="flex items-center justify-center gap-4">
+              {/* Left Arrow - Moved closer */}
+              <button
+                onClick={handlePrevSlide}
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-lg hover:shadow-xl transition-all flex items-center justify-center hover:scale-110 border border-slate-200"
+                aria-label="Previous slide"
+              >
+                <ChevronLeft className="w-6 h-6 text-slate-700" />
+              </button>
+
+              {/* 3 iPhones */}
+              <div className="flex gap-6 items-center justify-center">
+                {[0, 1, 2].map((offset) => {
+                  const index = (currentSlide + offset) % articles.length
+                  const article = articles[index]
+                  return (
+                    <div key={offset} className="flex-shrink-0">
+                      <div className="relative" style={{ width: "240px", height: "490px" }}>
+                        {/* iPhone 17 Frame */}
+                        <div className="absolute inset-0 bg-slate-900 rounded-[3rem] p-2.5">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-5 left-1/2 transform -translate-x-1/2 w-28 h-7 bg-black rounded-full z-10" />
+
+                          {/* Screen */}
+                          <div className="relative w-full h-full bg-white rounded-[2.4rem] overflow-hidden">
+                            <Image
+                              src={article.image || "/placeholder.svg"}
+                              alt={`Article on ${article.outlet}`}
+                              fill
+                              className="object-cover object-top"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Right Arrow - Moved closer */}
+              <button
+                onClick={handleNextSlide}
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-lg hover:shadow-xl transition-all flex items-center justify-center hover:scale-110 border border-slate-200"
+                aria-label="Next slide"
+              >
+                <ChevronRight className="w-6 h-6 text-slate-700" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Pricing Explainer Section */}
       <PricingExplainerSection ctaText="See Packages & Pricing →" />
