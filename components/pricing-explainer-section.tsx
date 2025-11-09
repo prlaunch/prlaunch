@@ -49,14 +49,14 @@ export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: Pr
   ]
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="pt-12 bg-gradient-to-b from-muted/20 to-background pb-12">
+    <section id="how-it-works" ref={sectionRef} className="pt-12 bg-gradient-to-b from-muted/20 to-background pb-11">
       <div className="container px-4 mx-auto">
         <div
           className={`text-center mb-16 max-w-3xl mx-auto transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="md:text-5xl font-bold mb-6 text-balance text-4xl">...but hold on, $47???</h2>
+          <h2 className="md:text-5xl font-bold mb-6 text-balance text-3xl">...but hold on, $47???</h2>
           <div className="flex items-center justify-center gap-2 flex-wrap text-xl text-muted-foreground text-balance">
             <span>Yes.</span>
             <span className="font-bold tracking-tight text-black">
@@ -64,7 +64,7 @@ export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: Pr
             </span>
             <span className="">
               {
-                "PR Launch is designed for small entrepreneurs and companies that are just building out their first social proof."
+                "You\'re too smart to pay thousands for what should cost \$47."
               }
             </span>
           </div>

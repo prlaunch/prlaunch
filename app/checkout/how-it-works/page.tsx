@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { CheckCircle2, Loader2, Shield, TrendingUp, Users, Award } from "lucide-react"
+import { CheckCircle2, Loader2, TrendingUp, Users, Award, Newspaper, BadgeCheck, Crown, Globe, Key } from "lucide-react"
 import { useState } from "react"
 import Image from "next/image"
-import { WhatYouGetSection } from "@/components/what-you-get-section"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { PricingExplainerSection } from "@/components/pricing-explainer-section"
+import { GuaranteeSection } from "@/components/guarantee-section"
 
 export default function HowItWorksPage() {
   const router = useRouter()
@@ -45,53 +45,158 @@ export default function HowItWorksPage() {
     },
   ]
 
+  const accessSteps = [
+    {
+      timeline: "WEEK 1",
+      icon: Newspaper,
+      headline: "Website & Email Credibility",
+      copy: 'Add "As Seen In" badges to your website and email signature',
+      gradient: "from-blue-50 to-blue-100",
+    },
+    {
+      timeline: "MONTH 1",
+      icon: BadgeCheck,
+      headline: "Verified on All Platforms",
+      copy: "Apply for Instagram, LinkedIn, and X verification with proof of press",
+      gradient: "from-purple-50 to-purple-100",
+    },
+    {
+      timeline: "MONTH 2",
+      icon: Crown,
+      headline: "Submit to Forbes & Inc.",
+      copy: "Use our articles as credentials to apply for contributor status",
+      gradient: "from-amber-50 to-amber-100",
+    },
+    {
+      timeline: "MONTH 3",
+      icon: Globe,
+      headline: "Google Knowledge Panel",
+      copy: "Fast-track your application with multiple published articles",
+      gradient: "from-green-50 to-green-100",
+    },
+    {
+      timeline: "ONGOING",
+      icon: Key,
+      headline: "VIP Treatment Everywhere",
+      copy: "Hotels upgrade you. Clients stop negotiating. Doors open automatically.",
+      gradient: "from-rose-50 to-rose-100",
+    },
+  ]
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-16">
+      <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-11">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-4 py-2">
-            <span className="text-sm font-semibold text-blue-900">The Unfair Advantage</span>
+            <span className="text-sm font-semibold text-blue-900">Your Unfair Advantage</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-            {"From Invisible to Google Famous"}
+          <h1 className="md:text-5xl font-bold text-slate-900 mb-6 leading-tight text-3xl">
+            {"We write your article about anything..."}
           </h1>
-          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            {"The exact 5-step system that puts you on Google \nwhile your competitors are still waiting for \'organic\' results."}
-          </p>
+
+          <div className="max-w-3xl mx-auto space-y-3 mb-8 text-left">
+            <div className="flex items-center gap-3 justify-center">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
+              <p className="text-xl text-slate-700 text-left">You control how your story looks </p>
+            </div>
+            <div className="flex items-center gap-3 justify-center">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
+              <p className="text-slate-700 text-left text-xl">
+                Unlimited revisions until you love it
+              </p>
+            </div>
+            <div className="flex items-center gap-3 justify-center">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
+              <p className="text-xl text-slate-700 text-left">
+                You get to pick from 15+ US outlets 
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <MovingBorderButton
+              borderRadius="1.75rem"
+              onClick={handleContinue}
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
+            >
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing →"
+              )}
+            </MovingBorderButton>
+          </div>
         </div>
       </div>
+
+      <section className="bg-white py-11">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{"You are not paying for PR. You are buying access."}</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Your articles unlock doors that stay closed to everyone else. Here's what opens up:
+            </p>
+          </div>
+
+          <div className="space-y-4 mb-12">
+            {accessSteps.map((step, index) => {
+              const Icon = step.icon
+              return (
+                <div
+                  key={index}
+                  className={`bg-gradient-to-br ${step.gradient} rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border border-slate-200`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                        <Icon className="w-6 h-6 text-slate-700" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="inline-block bg-white px-3 py-1 rounded-full text-xs font-bold text-slate-700 mb-2 shadow-sm">
+                        {step.timeline}
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">{step.headline}</h3>
+                      <p className="text-slate-700 leading-relaxed">{step.copy}</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="text-center">
+            <p className="text-2xl font-bold text-slate-900 mb-1">The article costs $47.</p>
+            <p className="text-2xl font-bold text-blue-600">The access compounds forever.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* iPhone Mockup Carousel Section */}
 
       {/* Pricing Explainer Section */}
       <PricingExplainerSection ctaText="See Packages & Pricing →" />
 
-      <section className="bg-slate-50 py-px">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-8"></div>
-          <WhatYouGetSection />
-        </div>
-      </section>
-
       {/* Why This Works Section */}
-      <section className="py-16 bg-white">
+      <section className="bg-white py-11">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 text-center">
-            Why This Works (The Science Behind It)
-          </h2>
-
-          
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 text-center">Why This Works</h2>
 
           <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white mb-8">
-            <h3 className="text-2xl font-bold mb-4">Our articles appear on 100+ high-authority U.S. outlets</h3>
+            <h3 className="text-2xl font-bold mb-4 text-center">You get published on major U.S. outlets</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-                <p className="text-lg">These sites have Domain Authority 50-70 (Google trusts them)</p>
+                <p className="text-lg">{"They have Domain Authority 50-70 & Google ranks them high"}</p>
               </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-                <p className="text-lg">Your article ranks within 48 hours</p>
-              </div>
+
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
                 <p className="text-lg">Prospects see you as credible, established, legitimate</p>
@@ -292,44 +397,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Guarantee Section */}
-      <section className="py-16 bg-gradient-to-br from-slate-900 to-blue-900 text-white">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-700/50">
-            <Shield className="w-8 h-8 text-white" />
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">100% Money-Back Guarantee</h2>
-
-          <div className="bg-blue-600 rounded-2xl p-8 mb-8">
-            <p className="text-2xl font-semibold leading-relaxed">
-              If we don't publish your article within 48 hours of your approval, you get a full refund.
-            </p>
-            <p className="text-xl mt-4">No questions asked.</p>
-          </div>
-
-          <div className="bg-slate-800/50 rounded-lg p-6 mb-8">
-            <p className="text-lg">We've published 4,847+ articles. We know this works.</p>
-          </div>
-
-          <MovingBorderButton
-            borderRadius="1.75rem"
-            onClick={handleContinue}
-            disabled={isLoading}
-            containerClassName="h-14 w-auto"
-            className="bg-white hover:bg-slate-100 text-slate-900 px-8 text-lg font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-            duration={3000}
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See Packages & Pricing →"
-            )}
-          </MovingBorderButton>
-        </div>
-      </section>
+      <GuaranteeSection />
     </div>
   )
 }

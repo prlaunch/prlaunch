@@ -108,26 +108,7 @@ export default function CheckoutStartPage() {
           showStickyCTA ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <span className="text-sm font-semibold text-slate-900">Get Famous on Google in 48 Hours</span>
-          <MovingBorderButton
-            borderRadius="1.75rem"
-            onClick={scrollToPricing}
-            disabled={isLoading}
-            containerClassName="h-12 w-auto"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 text-sm font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-            duration={3000}
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See How It Works"
-            )}
-          </MovingBorderButton>
-        </div>
+        
       </div>
 
       {/* HERO SECTION */}
@@ -220,13 +201,22 @@ export default function CheckoutStartPage() {
         </div>
       </div>
 
-      <section className="py-16 bg-slate-50">
+      <section className="bg-slate-50 py-11">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
             You're credible. Your work is solid.
             <br />
             But when prospects Google you... nothing.
           </h2>
+
+          <div className="mb-8 max-w-2xl mx-auto">
+            <img
+              src="/images/before-after/google-no-results.jpg"
+              alt="Empty Google search results"
+              className="w-full rounded-2xl shadow-lg"
+            />
+          </div>
+
           <p className="text-xl text-slate-600 leading-relaxed mb-8">
             You lose deals to competitors who <span className="font-bold text-slate-900">LOOK bigger</span>.
           </p>
@@ -250,10 +240,10 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-slate-50">
+      <section className="bg-slate-50 py-11">
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
-            They all have proof of credibility. Why not you?
+            They all look legit online. <span className="bg-blue-100 px-2 rounded">Why not you?</span>
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -309,13 +299,13 @@ export default function CheckoutStartPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-6">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="md:text-3xl font-bold text-slate-900 mb-12 text-center text-3xl">
-            Your Current Options (Both Terrible)
+      <section className="bg-white my-0 py-11">
+        <div className="container mx-auto px-4 max-w-5xl py-0">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
+            Your Current Options 
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
             {/* Traditional PR Agency */}
             <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 border-2 border-red-200">
               <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Traditional PR Agency</h3>
@@ -326,7 +316,7 @@ export default function CheckoutStartPage() {
                     <DollarSign className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
-                    <p className="text-4xl font-bold text-red-600">$30,000</p>
+                    <p className="text-4xl font-bold text-red-600">$3,000</p>
                     <p className="text-sm text-slate-600">Upfront retainer</p>
                   </div>
                 </div>
@@ -350,16 +340,6 @@ export default function CheckoutStartPage() {
                     <p className="text-sm text-slate-600">If you're lucky</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl">🎲</span>
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold text-slate-900">No guarantee</p>
-                    <p className="text-sm text-slate-600">Pay regardless of results</p>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -373,7 +353,7 @@ export default function CheckoutStartPage() {
                     <Timer className="w-6 h-6 text-yellow-600" />
                   </div>
                   <div>
-                    <p className="text-4xl font-bold text-yellow-600">2-5 years</p>
+                    <p className="text-4xl font-bold text-yellow-600">2-3 years</p>
                     <p className="text-sm text-slate-600">To build real authority</p>
                   </div>
                 </div>
@@ -397,97 +377,54 @@ export default function CheckoutStartPage() {
                     <p className="text-sm text-slate-600">Opportunity cost adds up</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl">🐌</span>
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold text-slate-900">While competitors win</p>
-                    <p className="text-sm text-slate-600">They close your prospects</p>
-                  </div>
-                </div>
               </div>
             </div>
-          </div>
 
-          <p className="md:text-2xl font-bold text-slate-900 text-center text-3xl">There&#39;s a third option 👇 </p>
-        </div>
-      </section>
+            {/* The Third Option - PR Launch */}
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-300">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">PR Launch</h3>
 
-      <section className="py-16 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="space-y-6 mb-12">
-            {/* Benefit 1 */}
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                <CheckCircle2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-start gap-2">
-                  <span className="text-2xl">📰</span>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
                   <div>
                     <p className="text-xl font-bold text-slate-900">Published in 4-7 major outlets</p>
-                    <p className="text-lg text-slate-600">48 hours, not 6 months</p>
+                    <p className="text-sm text-slate-600">48 hours, not 6 months</p>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Benefit 2 */}
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                <CheckCircle2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-start gap-2">
-                  <span className="text-2xl">💰</span>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
                   <div>
                     <p className="text-xl font-bold text-slate-900">$47 per article, not $1,000</p>
-                    <p className="text-lg text-slate-600">Same outlets PR agencies use</p>
+                    <p className="text-sm text-slate-600">Same outlets PR agencies use</p>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Benefit 3 */}
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                <CheckCircle2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-start gap-2">
-                  <span className="text-2xl">🎯</span>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
                   <div>
                     <p className="text-xl font-bold text-slate-900">Own Google's pages</p>
-                    <p className="text-lg text-slate-600">When prospects search your name</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Benefit 4 */}
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                <CheckCircle2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-start gap-2">
-                  <span className="text-2xl">⚔️</span>
-                  <div>
-                    <p className="text-xl font-bold text-slate-900">Beat competitors who waited</p>
-                    <p className="text-lg text-slate-600">While they plan, you're published</p>
+                    <p className="text-sm text-slate-600">When prospects search your name</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center">Ready to see how it works?</p>
+          <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-0">Ready to see how it works?</p>
         </div>
       </section>
 
-      <section className="bg-white py-11">
+      
+
+      <section className="bg-white my-0 py-11">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             {/* Primary CTA */}

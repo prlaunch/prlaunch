@@ -232,7 +232,7 @@ export default function Step5Page() {
                   <h4 className="font-semibold text-slate-900 text-sm">Marcus T.</h4>
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star key={i} className="w-3.5 h-3.5 fill-[#00B67A] text-[#00B67A]" />
                     ))}
                   </div>
                 </div>
@@ -254,73 +254,6 @@ export default function Step5Page() {
 
           <div className="mb-8">
             <WhatsIncludedSection />
-          </div>
-
-          <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50 border-2 border-slate-200 rounded-2xl p-6 mb-8 shadow-sm hover:shadow-md transition-shadow">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/2" />
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center relative">
-              The Real ROI: What One Client Is Worth
-            </h2>
-            <p className="text-center text-slate-600 text-sm mb-6 relative">
-              This investment pays for itself with just one new client
-            </p>
-
-            <div className="space-y-4 mb-6 relative">
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100">
-                <p className="font-bold text-slate-900 mb-3 text-sm uppercase tracking-wide text-slate-600">
-                  If you're a:
-                </p>
-                <div className="space-y-3 text-slate-800">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                    <p className="text-sm">
-                      <span className="font-bold text-slate-900">Coach:</span> One client ={" "}
-                      <span className="font-semibold text-blue-600">$2,000-10,000</span>
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-purple-500 flex-shrink-0" />
-                    <p className="text-sm">
-                      <span className="font-bold text-slate-900">Lawyer:</span> One client ={" "}
-                      <span className="font-semibold text-purple-600">$5,000-50,000</span>
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
-                    <p className="text-sm">
-                      <span className="font-bold text-slate-900">Business Owner:</span> One deal ={" "}
-                      <span className="font-semibold text-emerald-600">$10,000-100,000+</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white shadow-lg">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold uppercase tracking-wide text-blue-100">Investment</span>
-                  <span className="text-2xl font-black">$197</span>
-                </div>
-                <div className="h-px bg-blue-400 mb-3" />
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold uppercase tracking-wide text-blue-100">Return</span>
-                  <span className="text-2xl font-black">10-500x ROI</span>
-                </div>
-                <p className="text-xs text-blue-100 mt-3 text-center">From just ONE client</p>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 border-2 border-purple-200 rounded-xl p-5 text-center shadow-sm relative">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Star className="w-5 h-5 fill-purple-500 text-purple-500" />
-                <p className="text-slate-900 font-bold text-base">Real Customer Data</p>
-                <Star className="w-5 h-5 fill-purple-500 text-purple-500" />
-              </div>
-              <p className="text-slate-700 font-medium text-sm">
-                73% of our customers report <span className="font-bold text-purple-700">2-4 qualified leads</span>{" "}
-                within 30 days
-              </p>
-            </div>
           </div>
 
           <div className="text-center mb-6">
@@ -411,6 +344,23 @@ export default function Step5Page() {
                             <span>{feature}</span>
                           </p>
                         ))}
+                        <div className="flex items-center gap-1.5 flex-wrap mt-2 pl-5">
+                          {[
+                            { src: "/images/logos/successxl.png", alt: "Success XL" },
+                            { src: "/images/logos/usawire.png", alt: "USA Wire" },
+                            { src: "/images/logos/medium.png", alt: "Medium" },
+                            { src: "/images/logos/la-tabloid.webp", alt: "LA Tabloid" },
+                            { src: "/images/logos/sf-tribune.png", alt: "SF Tribune" },
+                            { src: "/images/logos/bosses-mag.png", alt: "Bosses Mag" },
+                          ].map((logo, idx) => (
+                            <img
+                              key={idx}
+                              src={logo.src || "/placeholder.svg"}
+                              alt={logo.alt}
+                              className="h-4 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all"
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -455,7 +405,7 @@ export default function Step5Page() {
                         <h4 className="font-semibold text-slate-900 text-sm">{review.name}</h4>
                         <div className="flex items-center gap-0.5">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                            <Star key={i} className="w-3.5 h-3.5 fill-[#00B67A] text-[#00B67A]" />
                           ))}
                         </div>
                       </div>

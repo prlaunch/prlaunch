@@ -922,7 +922,7 @@ function PaymentContent() {
                     </div>
                     <div className="flex gap-0.5 mb-2">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-blue-500 text-blue-500" />
+                        <Star key={i} className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
                       ))}
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">{review.review}</p>
