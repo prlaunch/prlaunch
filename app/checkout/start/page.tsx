@@ -149,7 +149,7 @@ export default function CheckoutStartPage() {
             Get Famous on Google in 48 Hours and Close More Deals
           </h1>
 
-          <p className="text-slate-600 text-lg mb-6">Get featured on 100+ Google-ranking articles.</p>
+          <p className="text-slate-600 text-lg mb-6">Pick from 15+ Google-ranking articles.</p>
 
           <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
             {logos.map((logo, i) => (

@@ -57,7 +57,7 @@ export default function HowItWorksPage() {
       timeline: "MONTH 1",
       icon: BadgeCheck,
       headline: "Verified on All Platforms",
-      copy: "Apply for Instagram, LinkedIn, and X verification with proof of press",
+      copy: "Your press qualifies you for verified badges on all major platforms",
       gradient: "from-purple-50 to-purple-100",
     },
     {
@@ -95,22 +95,18 @@ export default function HowItWorksPage() {
             {"We write your article about anything..."}
           </h1>
 
-          <div className="max-w-3xl mx-auto space-y-3 mb-8 text-left">
+          <div className="max-w-3xl mx-auto space-y-3 mb-8 text-center">
             <div className="flex items-center gap-3 justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
               <p className="text-xl text-slate-700 text-left">You control how your story looks </p>
             </div>
             <div className="flex items-center gap-3 justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-              <p className="text-slate-700 text-left text-xl">
-                Unlimited revisions until you love it
-              </p>
+              <p className="text-slate-700 text-left text-xl">Unlimited revisions until you love it</p>
             </div>
             <div className="flex items-center gap-3 justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-              <p className="text-xl text-slate-700 text-left">
-                You get to pick from 15+ US outlets 
-              </p>
+              <p className="text-xl text-slate-700 text-left">You get to pick from 15+ US outlets</p>
             </div>
           </div>
 
@@ -139,9 +135,11 @@ export default function HowItWorksPage() {
       <section className="bg-white py-11">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{"You are not paying for PR. You are buying access."}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              {"You are not paying for PR. You are buying access."}
+            </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Your articles unlock doors that stay closed to everyone else. Here's what opens up:
+              Your articles unlock doors that stay closed to everyone else.
             </p>
           </div>
 
@@ -172,9 +170,29 @@ export default function HowItWorksPage() {
             })}
           </div>
 
-          <div className="text-center">
+          <div className="text-center mb-8">
             <p className="text-2xl font-bold text-slate-900 mb-1">The article costs $47.</p>
             <p className="text-2xl font-bold text-blue-600">The access compounds forever.</p>
+          </div>
+
+          <div className="text-center">
+            <MovingBorderButton
+              borderRadius="1.75rem"
+              onClick={handleContinue}
+              disabled={isLoading}
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              duration={3000}
+            >
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                "See Packages & Pricing →"
+              )}
+            </MovingBorderButton>
           </div>
         </div>
       </section>
@@ -194,7 +212,7 @@ export default function HowItWorksPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-                <p className="text-lg">{"They have Domain Authority 50-70 & Google ranks them high"}</p>
+                <p className="text-lg">{"They have Domain Authority 50+ & Google ranks them high"}</p>
               </div>
 
               <div className="flex items-center gap-3">
