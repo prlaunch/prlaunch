@@ -1,4 +1,4 @@
-import { Check } from "lucide-react"
+import { Check } from 'lucide-react'
 
 export function WhatsIncludedSection() {
   return (
@@ -16,14 +16,9 @@ export function WhatsIncludedSection() {
         <div className="flex items-center gap-1.5">
           <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
           <span className="text-sm md:text-base text-slate-700 flex-1">Unlimited revisions</span>
-          <span className="text-sm md:text-base text-slate-600 font-semibold">$25</span>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
-          <span className="text-sm md:text-base text-slate-700 flex-1">Custom Press Kit PDF</span>
           <span className="text-sm md:text-base text-slate-600 font-semibold">$75</span>
         </div>
+
 
         <div className="flex items-center gap-1.5">
           <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
@@ -36,7 +31,7 @@ export function WhatsIncludedSection() {
 
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm md:text-base text-slate-700 font-medium">Regular Price:</span>
-        <span className="text-base md:text-lg text-slate-600 font-bold line-through">$300/article</span>
+        <span className="text-base md:text-lg text-slate-600 font-bold line-through">$275/article</span>
       </div>
 
       <a
@@ -53,7 +48,7 @@ export function WhatsIncludedSection() {
       </a>
 
       <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
-        <p className="text-base md:text-lg font-bold text-green-700 mb-0.5">💰 SAVE $272 PER ARTICLE</p>
+        <p className="text-base md:text-lg font-bold text-green-700 mb-0.5">💰 SAVE $247 PER ARTICLE</p>
       </div>
     </div>
   )
