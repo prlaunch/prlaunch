@@ -153,9 +153,41 @@ function AddMoreContent() {
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 text-center">
               <p className="text-lg font-bold text-green-700">Save $91 (48% OFF)</p>
             </div>
+
+            {/* Buttons */}
+            <div className="space-y-3 pt-2">
+              <button
+                onClick={handleAcceptUpsell}
+                disabled={isProcessing}
+                className="w-full h-14 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isProcessing ? (
+                  <>
+                    <div className="inline-block h-5 w-5 animate-spin rounded-full border-3 border-solid border-white border-r-transparent"></div>
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="h-5 w-5" />
+                    <span>Yes! Add 4 Articles for $97</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handleSkipUpsell}
+                disabled={isProcessing}
+                className="w-full text-sm text-slate-500 hover:text-slate-700 py-2 transition-colors disabled:opacity-50"
+              >
+                No thanks, continue to my order
+              </button>
+
+              <p className="text-center text-xs text-slate-500">
+                🔒 Secure payment using your saved payment method • No additional info needed
+              </p>
+            </div>
           </div>
         </div>
-        {/* End of redesigned price card */}
 
         {/* Benefits */}
         <div className="space-y-3">
@@ -172,38 +204,6 @@ function AddMoreContent() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="space-y-3">
-          <button
-            onClick={handleAcceptUpsell}
-            disabled={isProcessing}
-            className="w-full h-14 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isProcessing ? (
-              <>
-                <div className="inline-block h-5 w-5 animate-spin rounded-full border-3 border-solid border-white border-r-transparent"></div>
-                <span>Processing...</span>
-              </>
-            ) : (
-              <>
-                <Lock className="h-5 w-5" />
-                <span>Yes! Add 4 Articles for $97</span>
-              </>
-            )}
-          </button>
-
-          <button
-            onClick={handleSkipUpsell}
-            disabled={isProcessing}
-            className="w-full text-sm text-slate-500 hover:text-slate-700 py-2 transition-colors disabled:opacity-50"
-          >
-            No thanks, continue to my order
-          </button>
-
-          <p className="text-center text-xs text-slate-500 mt-2">
-            🔒 Secure payment using your saved payment method • No additional info needed
-          </p>
         </div>
       </div>
     </div>
