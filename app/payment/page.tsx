@@ -3,18 +3,19 @@
 import type React from "react"
 
 import { useState, useEffect, Suspense, useRef } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from 'next/navigation'
 import Image from "next/image"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from 'lucide-react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
 import { getOutletImage } from "@/lib/outlet-images"
+import { CheckoutOutletPreview } from "@/components/checkout-outlet-preview"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -747,6 +748,8 @@ function PaymentContent() {
                   <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
                   <span className="font-semibold">Save ${currentPackage.originalPrice - currentPackage.price}</span>
                 </div>
+                
+                <CheckoutOutletPreview />
               </div>
             )}
 

@@ -1,6 +1,6 @@
 "use client"
-import { Check, Loader2, Gift, Star, ArrowUp } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { Check, Loader2, Gift, Star, ArrowUp } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, useRef } from "react"
 import { mainReviews } from "@/lib/reviews-data"
 import { ScrollingLogos } from "@/components/scrolling-logos"
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { WhatsIncludedSection } from "@/components/whats-included-section"
 import { WhatYouGetSection } from "@/components/what-you-get-section"
 import { PricingFAQSection } from "@/components/pricing-faq-section"
+import { OutletShowcase } from "@/components/outlet-showcase"
 
 type Package = "starter" | "growth" | "authority"
 
@@ -23,7 +24,7 @@ const packages = [
     originalPrice: 94,
     savings: 47,
     description: "Perfect for: Testing PR",
-    features: ["You pick your outlets from 100+ sites"],
+    features: ["You'll pick your outlets from 15+ premium sites"],
     borderColor: "border-slate-300",
     soldCount: 8,
   },
@@ -36,7 +37,7 @@ const packages = [
     originalPrice: 376,
     savings: 249,
     description: "Perfect for: Building credibility",
-    features: ["You pick your outlets from 100+ sites"],
+    features: ["You'll pick your outlets from 15+ premium sites"],
     popular: true,
     borderColor: "border-blue-400",
     rewardEligible: true,
@@ -51,7 +52,7 @@ const packages = [
     originalPrice: 658,
     savings: 461,
     description: "Perfect for: Maximum exposure",
-    features: ["You pick your outlets from 100+ sites"],
+    features: ["You'll pick your outlets from 15+ premium sites"],
     borderColor: "border-yellow-400",
     rewardEligible: true,
     soldCount: 31,
@@ -125,9 +126,11 @@ export default function Step5Page() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (whatsIncludedRef.current) {
-        const whatsIncludedBottom = whatsIncludedRef.current.getBoundingClientRect().bottom
-        setShowScrollArrow(whatsIncludedBottom < 0)
+      const outletsSection = document.getElementById('outlets-section')
+      if (outletsSection) {
+        const rect = outletsSection.getBoundingClientRect()
+        // Show arrow when outlets section is in view or has been scrolled past
+        setShowScrollArrow(rect.top <= window.innerHeight)
       }
     }
 
@@ -256,7 +259,7 @@ export default function Step5Page() {
             <WhatsIncludedSection />
           </div>
 
-          <div className="text-center mb-6">
+          <div data-package-section className="text-center mb-6">
             <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
           </div>
 
@@ -382,6 +385,10 @@ export default function Step5Page() {
             })}
           </div>
 
+          <div className="mt-16">
+            <OutletShowcase />
+          </div>
+
           <div ref={whatsIncludedRef} className="mt-12 space-y-8">
             <WhatYouGetSection />
           </div>
@@ -442,7 +449,7 @@ export default function Step5Page() {
       {showScrollArrow && (
         <button
           onClick={scrollToPackages}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4"
+          className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4"
           aria-label="Scroll to packages"
         >
           <ArrowUp className="w-5 h-5" />
