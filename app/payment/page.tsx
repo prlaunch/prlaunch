@@ -480,8 +480,22 @@ function PaymentContent() {
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
     const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
+    const skipUpsell = 
+      selectedPackage === 'agency' || 
+      paymentMethodType === 'apple_pay' || 
+      paymentMethodType === 'google_pay'
+
+    if (skipUpsell) {
+      // Go directly to thank-you without upsell
+      router.push(
+        `/thank-you?order_id=${Date.now()}&package=${currentPackage.name}&articles=${currentPackage.articles}&amount=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}`,
+      )
+      return
+    }
+
+    // Show upsell only for card and Link payments on non-Agency packages
     router.push(
-      `/thank-you?package=${currentPackage.name}&articles=${currentPackage.articles}&price=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}`,
+      `/add-more?order_id=${Date.now()}&package=${currentPackage.name}&articles=${currentPackage.articles}&amount=${discountedPrice}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(fullName)}&customerId=${customerId}&paymentMethodType=${paymentMethodType}`,
     )
   }
 

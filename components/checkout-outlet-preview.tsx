@@ -8,7 +8,13 @@ import outletsData from "@/data/outlets.json"
 export function CheckoutOutletPreview() {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const displayedLogos = isExpanded ? outletsData : outletsData.slice(0, 3)
+  const priorityOutlets = ["USA Wire", "Bosses Mag", "SuccessXL"]
+  const reorderedOutlets = [
+    ...outletsData.filter(outlet => priorityOutlets.includes(outlet.name)),
+    ...outletsData.filter(outlet => !priorityOutlets.includes(outlet.name))
+  ]
+
+  const displayedLogos = isExpanded ? reorderedOutlets : reorderedOutlets.slice(0, 3)
 
   return (
     <div className="border-t border-slate-200 pt-4 mt-4">

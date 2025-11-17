@@ -1,19 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import {
-  Menu,
-  X,
-  Briefcase,
-  TrendingUp,
-  Sparkles,
-  Laptop,
-  Activity,
-  ChevronDown,
-  FileText,
-  ClipboardCheck,
-} from "lucide-react"
-import { usePathname, useRouter } from "next/navigation"
+import { Menu, X, Briefcase, TrendingUp, Sparkles, Laptop, Activity, ChevronDown, FileText, ClipboardCheck } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from "next/link"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
@@ -51,7 +40,8 @@ export function FloatingNav() {
     pathname.startsWith("/checkout") ||
     pathname === "/upsell" ||
     pathname.startsWith("/free-pr-quiz") ||
-    pathname === "/select"
+    pathname === "/select" ||
+    pathname === "/add-more"
   ) {
     return null
   }
