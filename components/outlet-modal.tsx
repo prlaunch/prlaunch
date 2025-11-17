@@ -209,7 +209,7 @@ export function OutletModal({ outlet, isOpen, onClose }: OutletModalProps) {
           <button
             onClick={handleGetArticles}
             disabled={isLoading}
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg disabled:cursor-not-allowed flex flex-col items-center justify-center gap-0.5"
           >
             {isLoading ? (
               <>
@@ -220,7 +220,10 @@ export function OutletModal({ outlet, isOpen, onClose }: OutletModalProps) {
                 <span>Loading...</span>
               </>
             ) : (
-              'Get 7 Articles for $197'
+              <>
+                <span className="text-base font-semibold">Get 7 Articles for $197</span>
+                <span className="text-xs font-normal text-blue-100">Only $28 per each article</span>
+              </>
             )}
           </button>
         </div>
