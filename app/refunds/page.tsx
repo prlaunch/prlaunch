@@ -28,8 +28,8 @@ export default function RefundsPage() {
               <h2 className="text-2xl font-semibold text-black mb-4">1. Overview</h2>
               <p className="text-slate-700 leading-relaxed">
                 At PR Launch (operated by MEQAYIS RAISIA MARKETING AND PR CO. L.L.C), we are committed to delivering
-                high-quality PR services. We offer a 100% money-back guarantee if articles are not published within 7
-                days of client's approval. This Refund Policy outlines the circumstances under which refunds may be
+                high-quality PR services. We offer a 100% money-back guarantee if articles are not published within 48
+                hours of client's approval. This Refund Policy outlines the circumstances under which refunds may be
                 issued.
               </p>
             </section>
@@ -42,7 +42,7 @@ export default function RefundsPage() {
               <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-6">
                 <p className="text-slate-700 font-semibold mb-2">Eligible for Refund:</p>
                 <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                  <li>Articles are not published within 7 days after client approval</li>
+                  <li>Articles are not published within 48 hours after client approval</li>
                   <li>We are unable to fulfill the service as described</li>
                 </ul>
               </div>
@@ -53,9 +53,8 @@ export default function RefundsPage() {
               <div className="bg-red-50 border-l-4 border-red-500 p-6 my-6">
                 <p className="text-slate-700 font-semibold mb-2">NOT Eligible for Refund:</p>
                 <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                  <li>Discounted items or promotional packages</li>
                   <li>Free gifts or bonus services</li>
-                  <li>Articles published within 7 days of approval</li>
+                  <li>Articles published within 48 hours of approval</li>
                   <li>Orders where the article has been successfully published within the guaranteed timeframe</li>
                   <li>Change of mind after article approval and publication</li>
                 </ul>
@@ -65,10 +64,10 @@ export default function RefundsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-black mb-4">4. Order Finality</h2>
               <p className="text-slate-700 leading-relaxed">
-                All orders are considered final once the article has been approved by the client and published within 7
-                days. By approving an article, you acknowledge that you have reviewed the content and agree to
-                publication. If the article is not published within 7 days of your approval, you are eligible for a full
-                refund.
+                All orders are considered final once the article has been approved by the client and published within 48
+                hours. By approving an article, you acknowledge that you have reviewed the content and agree to
+                publication. If the article is not published within 48 hours of your approval, you are eligible for a
+                full refund.
               </p>
             </section>
 
@@ -76,10 +75,10 @@ export default function RefundsPage() {
               <h2 className="text-2xl font-semibold text-black mb-4">5. Revision Policy</h2>
               <p className="text-slate-700 leading-relaxed mb-4">Before requesting a refund, please note:</p>
               <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                <li>Every order includes ONE free revision</li>
+                <li>Every order includes UNLIMITED free revisions</li>
                 <li>You have the right to review and approve articles before publication</li>
-                <li>We encourage clients to use their free revision to ensure satisfaction</li>
-                <li>Additional revisions beyond the first free revision may incur additional fees</li>
+                <li>We encourage clients to request as many revisions as needed to ensure complete satisfaction</li>
+                <li>Our team will work with you until the article meets your expectations</li>
               </ul>
             </section>
 

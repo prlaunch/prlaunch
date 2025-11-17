@@ -1,7 +1,6 @@
 "use client"
-
-import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
 export function FinalCTASection() {
   return (
@@ -18,15 +17,17 @@ export function FinalCTASection() {
             Join 500+ founders, coaches, and entrepreneurs who've built credibility with PR Launch.
           </p>
 
-          {/* CTA Button */}
-          <div className="mb-8">
-            <Button
-              size="lg"
-              asChild
-              className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+          <div className="mb-10 flex justify-center">
+            <MovingBorderButton
+              borderRadius="1.75rem"
+              as="a"
+              href="/checkout/step-5"
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+              duration={3000}
             >
-              <a href="/checkout">Get Featured — $47</a>
-            </Button>
+              Get Featured — $47
+            </MovingBorderButton>
           </div>
 
           {/* Trust Badges */}

@@ -3,38 +3,44 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export function FAQSection() {
   const faqs = [
     {
-      question: "Which publications will I be featured in?",
+      question: "Will this help me close more deals?",
       answer:
-        "We place articles in reputable USA publications like USA Wire, Success XL, LA Tabloid, and 100+ more. You'll have a chance to pick your preferred outlets before we publish.",
+        "Absolutely. Here's how you'll use these articles:\n- Instagram highlights & posts (instant authority)\n- Website homepage (\"As Featured In\" section)\n- Email signature (every email builds credibility)\n- LinkedIn profile (featured section)\n- Portfolio presentations (show prospects before meetings)\n- Pitch decks & proposals (social proof on every slide)\n- Social media content (share your features regularly)\n\nEven if prospects don't Google you, YOU control where they see your credibility. Every touchpoint becomes proof you're the real deal.",
     },
     {
-      question: "How is this so affordable?",
+      question: 'Will people think I "paid for this"?',
       answer:
-        "We've built relationships and systems that make PR placement efficient. Traditional agencies charge $500-$1,000 for the same service because they're inefficient. We're not.",
+        'Here\'s what people actually think when they see media coverage:\n\n"The media wrote about them → They must be successful"\n"They\'re featured in publications → They must be legitimate"\n"They\'re published → They must be the real deal"\n\nNobody questions HOW you got featured. They just see authority. The same way nobody asks if someone "paid" to be in Forbes or Inc. Magazine. Media coverage = instant validation in people\'s minds. That\'s the power of third-party credibility.',
     },
     {
-      question: "What if I'm not satisfied?",
+      question: "Where will I be published?",
       answer:
-        "We offer a 100% money-back guarantee if articles are not published within 7 days of your approval. Once you approve your article, we guarantee publication within 7 days or you get a full refund.",
+        'Clean, credible outlets like USA Wire, Success XL, Medium, and 100+ more professional publications. They\'re indexed on Google, look completely legitimate, and give you the "As Featured In" credibility that makes people take you seriously.',
     },
     {
-      question: "Do I need to be an expert or have a big company?",
+      question: "What happens when someone Googles me right now vs. after this?",
       answer:
-        "No. We've placed articles for solopreneurs, coaches, consultants, and small businesses. If you have a story or expertise, we can place it.",
+        'RIGHT NOW: Either nothing comes up, or just your LinkedIn and basic stuff. No proof. No credibility. No reason to believe you\'re the expert you say you are.\n\nAFTER: Published articles about your expertise. Your story. Your achievements. Instant credibility. They think "This person is established" before you even talk.',
     },
     {
-      question: "How fast do you actually deliver?",
-      answer: "Most placements happen within 3-5 days. Guaranteed within 7 days or you pay nothing.",
+      question: "How long does this actually take?",
+      answer:
+        "2-4 business days total. We write your articles within 24-48 hours, you review and approve them (unlimited revisions), then we publish. Most people waste MONTHS trying to get featured. You'll be published by next week.",
     },
     {
-      question: "What happens after I order?",
+      question: "Can you write about anything I want?",
       answer:
-        "You'll receive a simple questionnaire to gather your information. We handle everything else—pitching, writing, placement, and delivery of your published link.",
+        "Absolutely. This is YOUR story. Want to be known as the top consultant in your industry? Done. Want to highlight a specific achievement? Done. We create the exact narrative you want the world to see and remember. You control how you're positioned.",
     },
     {
-      question: "Is this legitimate? How can you do this so fast?",
+      question: 'What if I\'m not a "big name" yet? Will this still work?',
       answer:
-        "Yes, 100% legitimate. We have direct relationships with editorial teams and know exactly what they're looking for. Speed comes from experience and systems, not shortcuts.",
+        "Even better. This is how you BECOME a big name. Every expert you see with \"As Featured In\" badges started exactly where you are. They just took action. You're 48 hours away from having the same credibility they have. That's it.",
+    },
+    {
+      question: "What if I don't like what you write?",
+      answer:
+        "Unlimited revisions until you love it. Plus 100% money-back guarantee if you're not satisfied. We've published thousands of professionals with a 98% first-draft approval rate. But if you want changes, we'll rewrite it as many times as needed.",
     },
   ]
 
@@ -56,7 +62,7 @@ export function FAQSection() {
                 <AccordionTrigger className="text-left text-base font-semibold md:text-lg">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-pretty leading-relaxed text-muted-foreground">
+                <AccordionContent className="text-pretty leading-relaxed text-muted-foreground whitespace-pre-line">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

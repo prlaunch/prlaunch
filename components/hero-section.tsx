@@ -2,8 +2,35 @@
 
 import { Button } from "@/components/ui/button"
 import { Check, Star } from "lucide-react"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
+import { useSearchParams, usePathname } from "next/navigation"
+import { mainReviews } from "@/lib/reviews-data"
+import Image from "next/image"
+
+const HEADLINE_VARIANTS = {
+  a: {
+    headline: "Get Famous on Google in 48 Hours and Close More Deals",
+    subheadline:
+      "Elevate your brand and own your Google search. When they Google you, they'll know you're the real deal.",
+  },
+  b: {
+    headline: "The PR Tool Rich Founders Use—Now $47",
+    subheadline:
+      "Get featured in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 48 hours or your money back.",
+  },
+}
 
 export function HeroSection() {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const variant = searchParams?.get("headline") || "a"
+
+  const currentVariant = HEADLINE_VARIANTS[variant as keyof typeof HEADLINE_VARIANTS] || HEADLINE_VARIANTS.a
+
+  const isFastPage = pathname?.startsWith("/fast")
+  const ctaLink = isFastPage ? "/fast/pricing" : "/checkout/step-5"
+  const showSecondaryButton = !isFastPage
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -20,13 +47,13 @@ export function HeroSection() {
               <div className="relative inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 p-[2px] shadow-lg shadow-blue-500/20 animate-gradient-shift">
                 <div className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5">
                   <span className="text-xs font-semibold text-black md:text-sm">
-                    #1 Highest Rated PR Agency for Businesses & Professionals
+                    #1 Highest Rated PR House for Businesses &amp; Professionals
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Trustpilot rating banner */}
+            {/* Rating banner */}
             <div className="mb-8 flex justify-center">
               <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm">
                 <div className="flex items-center gap-0.5">
@@ -46,40 +73,41 @@ export function HeroSection() {
                 <div className="h-3 w-px bg-border" />
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-semibold text-foreground">4.8/5</span>
-                  <span className="text-xs text-muted-foreground">on</span>
-                  <svg className="h-3 w-auto" viewBox="0 0 90 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-                      fill="#00B67A"
-                    />
-                    <text x="22" y="15" fill="currentColor" className="text-[10px] font-bold">
-                      Trustpilot
-                    </text>
-                  </svg>
+                  <span className="text-xs text-muted-foreground">from 231+ reviews</span>
                 </div>
               </div>
             </div>
 
-            {/* Main Headline */}
-            <h2 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
-              Get Featured in USA Publications in 7 Days
+            <h2 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-3xl">
+              {currentVariant.headline}
             </h2>
 
-            {/* Subheadline */}
             <p className="mb-8 text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
-              Real placements in USA Wire, Success XL, LA Tabloid, and more. No $5,000 agency fees. No 3-month waits.
-              Just results in 7 days.
+              {currentVariant.subheadline}
             </p>
 
-            {/* Primary CTA */}
-            <div className="mb-10 flex justify-center">
-              <Button
-                size="lg"
-                asChild
-                className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+            {/* Primary and Secondary CTAs */}
+            <div className="mb-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <MovingBorderButton
+                borderRadius="1.75rem"
+                as="a"
+                href={ctaLink}
+                containerClassName="h-14 w-auto"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+                duration={3000}
               >
-                <a href="/checkout">Get Featured — $47</a>
-              </Button>
+                Get Featured — $47
+              </MovingBorderButton>
+              {showSecondaryButton && (
+                <Button
+                  size="default"
+                  variant="ghost"
+                  asChild
+                  className="h-11 rounded-full bg-white hover:bg-slate-50 border-2 border-blue-600 hover:border-blue-700 text-slate-700 hover:text-blue-600 px-6 text-base font-medium transition-all duration-200 shadow-sm"
+                >
+                  <a href="/pr-quiz">Free PR Check - See If You Qualify</a>
+                </Button>
+              )}
             </div>
 
             <div className="flex flex-col items-center gap-2">
@@ -89,7 +117,7 @@ export function HeroSection() {
                   <div className="flex h-4 w-4 items-center justify-center rounded-full bg-success">
                     <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
                   </div>
-                  <span className="text-xs font-medium text-foreground">7-Day Guarantee</span>
+                  <span className="text-xs font-medium text-foreground">48-Hour Guarantee</span>
                 </div>
                 <div className="flex items-center gap-1.5 rounded-lg bg-success/10 px-2.5 py-1.5">
                   <div className="flex h-4 w-4 items-center justify-center rounded-full bg-success">
@@ -104,6 +132,30 @@ export function HeroSection() {
                   <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
                 </div>
                 <span className="text-xs font-medium text-foreground">Money-Back Promise</span>
+              </div>
+
+              {/* Trust badge below the secondary CTA button */}
+              <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {mainReviews.slice(0, 4).map((review, i) => (
+                      <div key={i} className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white">
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                    ))}
+                  </div>
+                </div>
+                <span className="font-medium text-slate-700">Trusted by 4,847+ entrepreneurs</span>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function RevenueCalculator() {
-  const [monthlyRevenue, setMonthlyRevenue] = useState(50000)
+  const [monthlyRevenue, setMonthlyRevenue] = useState(100000)
 
   const researchersPercent = 25
   const dropoffRate = 40
@@ -36,7 +36,9 @@ export function RevenueCalculator() {
 
       <div className="max-w-2xl mx-auto relative z-10">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">How Much Money Are You Losing Right Now?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+            How Much Money Are You Losing Right Now?
+          </h2>
           <p className="text-lg text-slate-600">Prospects leave when they can't trust you.</p>
         </div>
 
@@ -59,11 +61,11 @@ export function RevenueCalculator() {
                   value={monthlyRevenue}
                   onChange={(e) => setMonthlyRevenue(Number(e.target.value))}
                   min="5000"
-                  max="500000"
+                  max="200000"
                   step="5000"
                   className="w-full h-3 rounded-lg appearance-none cursor-pointer slider-gradient"
                   style={{
-                    background: `linear-gradient(to right, #2563EB 0%, #06B6D4 ${(monthlyRevenue / 500000) * 100}%, #9333EA ${(monthlyRevenue / 500000) * 100}%, #e5e7eb ${(monthlyRevenue / 500000) * 100}%)`,
+                    background: `linear-gradient(to right, #2563EB 0%, #06B6D4 ${(monthlyRevenue / 200000) * 100}%, #9333EA ${(monthlyRevenue / 200000) * 100}%, #e5e7eb ${(monthlyRevenue / 200000) * 100}%)`,
                   }}
                 />
               </div>
@@ -93,7 +95,7 @@ export function RevenueCalculator() {
             asChild
             className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           >
-            <a href="/checkout">Get Featured — $47</a>
+            <a href="/checkout/step-5">Get Featured — $47</a>
           </Button>
         </div>
       </div>

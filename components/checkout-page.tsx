@@ -1,42 +1,29 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import Image from "next/image"
 import {
   X,
   Check,
   Sparkles,
-  Zap,
   Shield,
-  TrendingUp,
-  Clock,
   Award,
   Star,
   BadgeCheck,
   Lock,
   ChevronLeft,
   ChevronRight,
+  Rocket,
+  DollarSign,
+  Search,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function CheckoutPage() {
   const [showPopup, setShowPopup] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState(1)
-  const [timeLeft, setTimeLeft] = useState(15 * 60)
   const [currentReviewPage, setCurrentReviewPage] = useState(0)
   const reviewsPerPage = 4
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
-  }
 
   const packages = [
     {
@@ -71,19 +58,24 @@ export function CheckoutPage() {
 
   const benefits = [
     {
-      icon: Zap,
-      title: "Instant Publishing",
-      description: "Articles go live within 7 days",
-    },
-    {
       icon: Shield,
-      title: "100% Guaranteed",
-      description: "Full refund if not published within 7 days of approval",
+      title: "Live in 7 Days or Free",
+      description: "Full refund if not published within 7 days of draft approval",
     },
     {
-      icon: TrendingUp,
-      title: "SEO Authority",
-      description: "Boost your search rankings",
+      icon: Rocket,
+      title: "Writing Starts in 12 Hours",
+      description: "Professional writers begin your story same day",
+    },
+    {
+      icon: DollarSign,
+      title: "$47 vs $5,000 Agencies",
+      description: "Get the same outlets without the agency markup",
+    },
+    {
+      icon: Search,
+      title: "Push Down Negative Results",
+      description: "Positive PR articles dominate your Google results",
     },
     {
       icon: Award,
@@ -91,149 +83,129 @@ export function CheckoutPage() {
       description: "Featured on major outlets",
     },
     {
-      icon: Sparkles,
+      icon: Check,
       title: "No Pitching Required",
-      description: "Just upload and get featured",
-    },
-    {
-      icon: Clock,
-      title: "Fast Turnaround",
-      description: "See results in days, not months",
+      description: "Answer questions, we handle everything else",
     },
   ]
 
   const allReviews = [
     {
-      name: "Sarah Mitchell",
-      title: "Marketing Consultant",
-      initials: "SM",
-      color: "bg-blue-500",
-      rating: 5,
-      date: "2 weeks ago",
-      verified: true,
-      review:
-        "Absolutely incredible service! I was featured in Forbes within 5 days. The whole process was seamless - just uploaded my content and they handled everything. My LinkedIn engagement has tripled since the article went live.",
-    },
-    {
-      name: "Marcus Chen",
-      title: "Business Coach",
+      name: "Marcus C.",
+      title: "Tech Entrepreneur",
       initials: "MC",
+      color: "bg-blue-500",
+      image: "/testimonials/profile-1.jpg",
+      rating: 5,
+      date: "Jan 15, 2025",
+      verified: true,
+      review:
+        "From the moment we kicked things off, PrLaunch.io was on it. We were building a waitlist for our new app, and they didn't just set up a landing page—they made it look sharp, professional, and ready to convert. Within days, we started seeing signups roll in. The whole process was smooth, no back-and-forth nonsense, just results. If you need to build momentum fast, these guys know what they're doing.",
+    },
+    {
+      name: "Jennifer M.",
+      title: "Marketing Director",
+      initials: "JM",
       color: "bg-purple-500",
+      image: "/testimonials/profile-2.jpg",
       rating: 5,
-      date: "1 month ago",
+      date: "Jan 12, 2025",
       verified: true,
-      review:
-        "Best investment for my personal brand. Got published in Entrepreneur and Business Insider. Now I'm closing more clients just by sharing these links. The credibility boost is unreal.",
+      review: "Great PR firm with high quality articles they write and post. They work quick as well",
     },
     {
-      name: "David Park",
-      title: "Tech Founder",
-      initials: "DP",
-      color: "bg-emerald-500",
-      rating: 5,
-      date: "3 weeks ago",
-      verified: true,
-      review:
-        "I tried traditional PR agencies before - they wanted $10k and 3 months. PR Launch got me in Business Insider in 4 days for $47. The ROI is insane. Highly recommend!",
-    },
-    {
-      name: "Jennifer Lopez",
-      title: "Real Estate Agent",
-      initials: "JL",
-      color: "bg-pink-500",
-      rating: 5,
-      date: "1 week ago",
-      verified: true,
-      review:
-        "Game changer for my business. Featured in Yahoo Finance and MarketWatch. My clients are impressed and it's helped me stand out in a crowded market. Worth every penny!",
-    },
-    {
-      name: "Alex Rodriguez",
-      title: "Fitness Coach",
-      initials: "AR",
-      color: "bg-indigo-500",
-      rating: 5,
-      date: "5 days ago",
-      verified: true,
-      review:
-        "This service is a no-brainer. Got featured in multiple publications and my social media following doubled. The authority it gives you is priceless. My coaching business has never been better!",
-    },
-    {
-      name: "Emily Watson",
-      title: "E-commerce Owner",
-      initials: "EW",
-      color: "bg-teal-500",
-      rating: 5,
-      date: "2 months ago",
-      verified: true,
-      review:
-        "I was skeptical at first, but this exceeded all expectations. Featured in USA Wire and Success XL within a week. My website traffic increased by 300% and sales are through the roof!",
-    },
-    {
-      name: "Michael Brown",
-      title: "Financial Advisor",
-      initials: "MB",
-      color: "bg-orange-500",
-      rating: 5,
-      date: "3 days ago",
-      verified: true,
-      review:
-        "The best marketing investment I've made. Got published in major outlets and now I'm seen as an authority in my field. Clients trust me more and referrals have skyrocketed!",
-    },
-    {
-      name: "Lisa Anderson",
-      title: "Life Coach",
-      initials: "LA",
-      color: "bg-red-500",
-      rating: 5,
-      date: "1 month ago",
-      verified: true,
-      review:
-        "Phenomenal service! I was featured in multiple publications within days. The process was so easy and the results speak for themselves. My coaching practice is now fully booked!",
-    },
-    {
-      name: "James Wilson",
+      name: "David T.",
       title: "SaaS Founder",
-      initials: "JW",
+      initials: "DT",
+      color: "bg-pink-500",
+      image: "/testimonials/profile-3.jpg",
+      rating: 5,
+      date: "Jan 10, 2025",
+      verified: true,
+      review:
+        "Great Experience with PrLaunch. We used their waitlist building services and they were able to get us 1000+ signups in less than a month. Highly recommend!",
+    },
+    {
+      name: "Michelle R.",
+      title: "Product Manager",
+      initials: "MR",
+      color: "bg-indigo-500",
+      image: "/testimonials/profile-4.jpg",
+      rating: 5,
+      date: "Jan 8, 2025",
+      verified: true,
+      review:
+        "Our experience with PrLaunch.io was smooth and effective. They built us a clean, professional landing page and helped us gather over 500 waitlist signups in just a few weeks. The team was responsive, understood our vision, and delivered exactly what we needed to launch with confidence. Highly recommend for anyone looking to build early traction.",
+    },
+    {
+      name: "Robert K.",
+      title: "Business Owner",
+      initials: "RK",
+      color: "bg-emerald-500",
+      image: "/testimonials/profile-5.jpg",
+      rating: 5,
+      date: "Jan 5, 2025",
+      verified: true,
+      review: "Prlaunch.io did a fantastic job",
+    },
+    {
+      name: "Priya P.",
+      title: "Startup Founder",
+      initials: "PP",
+      color: "bg-orange-500",
+      image: "/testimonials/profile-6.jpg",
+      rating: 5,
+      date: "Jan 3, 2025",
+      verified: true,
+      review:
+        "Quick and High Quality service. I had my article published in less than a week. The team was very professional and easy to work with. Highly recommend!",
+    },
+    {
+      name: "Amanda F.",
+      title: "Content Creator",
+      initials: "AF",
       color: "bg-blue-600",
+      image: "/testimonials/profile-7.jpg",
       rating: 5,
-      date: "2 weeks ago",
+      date: "Dec 30, 2024",
       verified: true,
-      review:
-        "This is the real deal. Got featured in top-tier publications and it's helped us close enterprise deals. The credibility boost is worth 10x what we paid. Highly recommend to any founder!",
+      review: "Fast and Easy to use they did a great article",
     },
     {
-      name: "Rachel Green",
-      title: "Interior Designer",
-      initials: "RG",
-      color: "bg-purple-600",
+      name: "James W.",
+      title: "CEO",
+      initials: "JW",
+      color: "bg-teal-500",
+      image: "/testimonials/profile-8.jpg",
       rating: 5,
-      date: "4 weeks ago",
+      date: "Dec 28, 2024",
       verified: true,
       review:
-        "I can't believe how easy this was. Featured in major publications and my business has transformed. Clients are now coming to me instead of me chasing them. Best decision ever!",
+        "Our Seamless Journey with PrLaunch.io. From start to finish, working with PrLaunch.io was effortless. They handled everything—landing page design, waitlist setup, and even helped us refine our messaging. The result? A steady stream of engaged signups and a launch that exceeded our expectations. If you want a team that just gets it done, this is it.",
     },
     {
-      name: "Tom Harris",
-      title: "Real Estate Investor",
-      initials: "TH",
-      color: "bg-emerald-600",
+      name: "Thomas A.",
+      title: "Digital Marketer",
+      initials: "TA",
+      color: "bg-red-500",
+      image: "/testimonials/profile-9.jpg",
       rating: 5,
-      date: "1 week ago",
+      date: "Dec 25, 2024",
       verified: true,
       review:
-        "Outstanding results! Got published in Business Insider and Yahoo Finance. My credibility in the market has skyrocketed and I'm closing bigger deals than ever before.",
+        "Our experience with PrLaunch.io was smooth and effective. They built us a clean, professional landing page and helped us gather over 500 waitlist signups in just a few weeks. The team was responsive, understood our vision, and delivered exactly what we needed to launch with confidence. Highly recommend for anyone looking to build early traction.",
     },
     {
-      name: "Amanda Clark",
-      title: "Digital Marketing Expert",
-      initials: "AC",
-      color: "bg-pink-600",
+      name: "Michael S.",
+      title: "Entrepreneur",
+      initials: "MS",
+      color: "bg-violet-500",
+      image: "/testimonials/profile-10.jpg",
       rating: 5,
-      date: "3 weeks ago",
+      date: "Dec 22, 2024",
       verified: true,
       review:
-        "This service delivers exactly what it promises. Featured in multiple outlets within a week. My personal brand has never been stronger and I'm getting speaking opportunities left and right!",
+        "Prlaunch.io helped me post a article on USAWire within 7 days I highly recommend. The process was straightforward and the results were exactly what I needed.",
     },
   ]
 
@@ -272,12 +244,9 @@ export function CheckoutPage() {
       <div className="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
         {/* Hero Section */}
         <div className="text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-purple-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
-            <Clock className="h-4 w-4 text-cyan-600" />
-            <span className="text-sm text-slate-700">Offer expires in</span>
-            <span className="font-mono text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-purple-600 bg-clip-text text-transparent">
-              {formatTime(timeLeft)}
-            </span>
+          <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mb-6">
+            <span className="text-sm">🔥</span>
+            <span className="text-xs font-medium text-slate-600">73 people claimed 50% off in the last 24 hours</span>
           </div>
 
           <h1 className="md:text-6xl font-bold mb-4 text-black leading-tight text-3xl">
@@ -309,7 +278,7 @@ export function CheckoutPage() {
               </div>
             ))}
           </div>
-          <p className="text-center text-lg font-bold text-slate-700 tracking-wide">AND 100s MORE...</p>
+          <p className="text-center text-lg font-bold text-slate-700 tracking-wide">AND 100+ MORE...</p>
         </div>
 
         <div className="mb-12 md:mb-16 flex justify-center">
@@ -331,16 +300,7 @@ export function CheckoutPage() {
             <div className="h-3 w-px bg-slate-200" />
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-semibold text-slate-900">4.8/5</span>
-              <span className="text-xs text-slate-600">on</span>
-              <svg className="h-3 w-auto" viewBox="0 0 90 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-                  fill="#00B67A"
-                />
-                <text x="22" y="15" fill="currentColor" className="text-[10px] font-bold">
-                  Trustpilot
-                </text>
-              </svg>
+              <span className="text-xs text-slate-600">from 231+ reviews</span>
             </div>
           </div>
         </div>
@@ -350,12 +310,12 @@ export function CheckoutPage() {
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon
             const gradients = [
+              "from-pink-500 via-rose-500 to-pink-600",
               "from-blue-500 via-cyan-500 to-blue-600",
-              "from-purple-500 via-pink-500 to-purple-600",
               "from-emerald-500 via-teal-500 to-emerald-600",
+              "from-purple-500 via-indigo-500 to-purple-600",
               "from-orange-500 via-amber-500 to-orange-600",
               "from-rose-500 via-pink-500 to-rose-600",
-              "from-indigo-500 via-blue-500 to-indigo-600",
             ]
             return (
               <div
@@ -367,8 +327,8 @@ export function CheckoutPage() {
                   backgroundOrigin: "border-box",
                   backgroundClip: "padding-box, border-box",
                   border: "2px solid transparent",
-                  ["--tw-gradient-from" as any]: `rgb(${index === 0 ? "37 99 235" : index === 1 ? "168 85 247" : index === 2 ? "16 185 129" : index === 3 ? "249 115 22" : index === 4 ? "244 63 94" : "99 102 241"})`,
-                  ["--tw-gradient-to" as any]: `rgb(${index === 0 ? "6 182 212" : index === 1 ? "236 72 153" : index === 2 ? "20 184 166" : index === 3 ? "251 191 36" : index === 4 ? "236 72 153" : "59 130 246"})`,
+                  ["--tw-gradient-from" as any]: `rgb(${index === 0 ? "236 72 153" : index === 1 ? "37 99 235" : index === 2 ? "16 185 129" : index === 3 ? "168 85 247" : index === 4 ? "249 115 22" : "244 63 94"})`,
+                  ["--tw-gradient-to" as any]: `rgb(${index === 0 ? "244 63 94" : index === 1 ? "6 182 212" : index === 2 ? "20 184 166" : index === 3 ? "99 102 241" : index === 4 ? "251 191 36" : "236 72 153"})`,
                   ["--tw-gradient-stops" as any]: "var(--tw-gradient-from), var(--tw-gradient-to)",
                 }}
               >
@@ -397,10 +357,14 @@ export function CheckoutPage() {
                 {/* Header with avatar and name */}
                 <div className="flex items-start gap-3 mb-4">
                   <div className="relative">
-                    <div
-                      className={`w-14 h-14 rounded-full ${review.color} flex items-center justify-center text-white font-semibold text-base shrink-0`}
-                    >
-                      {review.initials}
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted shrink-0">
+                      <Image
+                        src={review.image || "/placeholder.svg"}
+                        alt={review.name}
+                        width={56}
+                        height={56}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     {review.verified && (
                       <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
@@ -438,8 +402,22 @@ export function CheckoutPage() {
 
                 {/* Footer with title and date */}
                 <div className="flex items-center justify-between text-sm">
-                  <p className="text-slate-500">{review.title}</p>
-                  <p className="text-slate-400">{review.date}</p>
+                  <div>
+                    <p className="text-slate-500">{review.title}</p>
+                    <p className="text-slate-400">{review.date}</p>
+                  </div>
+                  {review.verified && (
+                    <div className="flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
+                      <svg className="w-3.5 h-3.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-xs font-medium text-green-700">Verified customer</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -637,8 +615,7 @@ export function CheckoutPage() {
                 </a>
               </Button>
               <p className="text-center text-xs text-slate-500 mt-3">
-                You will be redirected to checkout. All purchases are backed by our unconditional 100% money-back
-                guarantee.
+                100% money-back guarantee on every order: Get published in 7 days from approval or full refund.
               </p>
             </div>
           </div>

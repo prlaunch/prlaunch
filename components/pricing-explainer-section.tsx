@@ -2,8 +2,13 @@
 
 import { ClipboardList, PenTool, Eye, Newspaper } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 
-export function PricingExplainerSection() {
+interface PricingExplainerSectionProps {
+  ctaText?: string
+}
+
+export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: PricingExplainerSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -44,22 +49,24 @@ export function PricingExplainerSection() {
   ]
 
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-muted/20 to-background">
+    <section id="how-it-works" ref={sectionRef} className="pt-12 bg-gradient-to-b from-muted/20 to-background pb-11">
       <div className="container px-4 mx-auto">
         <div
           className={`text-center mb-16 max-w-3xl mx-auto transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="md:text-5xl font-bold mb-6 text-balance text-5xl">...but hold on, $47???</h2>
+          <h2 className="md:text-5xl font-bold mb-6 text-balance text-3xl">...but hold on, $47???</h2>
           <div className="flex items-center justify-center gap-2 flex-wrap text-xl text-muted-foreground text-balance">
             <span>Yes.</span>
             <span className="font-bold tracking-tight text-black">
-              
               <span>{""}</span>
             </span>
-            {/* </CHANGE> */}
-            <span>{"PR Launch is designed for small entrepreneurs and companies that are just building out their first social proof."}</span>
+            <span className="">
+              {
+                "You\'re too smart to pay thousands for what should cost \$47."
+              }
+            </span>
           </div>
         </div>
 
@@ -98,7 +105,23 @@ export function PricingExplainerSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-sm text-muted-foreground">Simple, transparent, and designed to get you results fast.</p>
+          <p className="text-sm text-muted-foreground mb-6">
+            Simple, transparent, and designed to get you results fast.
+          </p>
+
+          {/* Get Featured CTA button */}
+          <div className="flex justify-center">
+            <MovingBorderButton
+              borderRadius="1.75rem"
+              as="a"
+              href="/checkout/step-5"
+              containerClassName="h-14 w-auto"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
+              duration={3000}
+            >
+              {ctaText}
+            </MovingBorderButton>
+          </div>
         </div>
       </div>
     </section>

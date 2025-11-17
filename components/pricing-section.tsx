@@ -29,10 +29,10 @@ export function PricingSection() {
   ]
 
   const features = [
-    "All placements guaranteed within 7 days",
+    "All placements guaranteed within 48 hours",
     "Real editorial or contributor articles",
     "Shareable links for social proof",
-    "100% money-back guarantee if not published within 7 days of approval",
+    "100% money-back guarantee if not published within 48 hours of approval",
   ]
 
   return (
@@ -70,7 +70,7 @@ export function PricingSection() {
                     asChild
                     className="w-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                   >
-                    <a href="/checkout">Choose {pkg.name}</a>
+                    <a href="/checkout/step-5">Choose {pkg.name}</a>
                   </Button>
                 </CardFooter>
               </Card>

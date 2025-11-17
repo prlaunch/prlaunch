@@ -1,102 +1,14 @@
+import Image from "next/image"
+import { mainReviews } from "@/lib/reviews-data"
+
 export function SocialProofGrid() {
-  const reviews = [
-    {
-      name: "Jessica M.",
-      title: "Business Coach",
-      initials: "JM",
-      color: "bg-blue-500",
-      rating: 5,
-      date: "Jan 8, 2025",
-      review: "got featured in forbes within 2 weeks. this is exactly what my coaching business needed",
-      verified: true,
-    },
-    {
-      name: "Michael R.",
-      title: "Tech Founder",
-      initials: "MR",
-      color: "bg-purple-500",
-      rating: 5,
-      date: "Dec 15, 2024",
-      review: "Featured in 3 major publications in my first month. Worth every penny",
-      verified: true,
-    },
-    {
-      name: "Sarah K.",
-      title: "Life Coach",
-      initials: "SK",
-      color: "bg-pink-500",
-      rating: 5,
-      date: "Jan 2, 2025",
-      review: "just got my entrepreneur.com feature live!! my DMs are exploding with new opportunities",
-      verified: true,
-    },
-    {
-      name: "David L.",
-      title: "SaaS Founder",
-      initials: "DL",
-      color: "bg-indigo-500",
-      rating: 5,
-      date: "Dec 28, 2024",
-      review: "best investment I've made this year. professional, fast, and delivers real results",
-      verified: true,
-    },
-    {
-      name: "Alex P.",
-      title: "Marketing Consultant",
-      initials: "AP",
-      color: "bg-emerald-500",
-      rating: 5,
-      date: "Jan 5, 2025",
-      review: "Got my inc.com article published. The credibility boost has been incredible for my business",
-      verified: true,
-    },
-    {
-      name: "Rachel P.",
-      title: "Founder & CEO",
-      initials: "RP",
-      color: "bg-blue-600",
-      rating: 5,
-      date: "Dec 20, 2024",
-      review: "featured in business insider! huge thanks to PR Launch. highly recommend to any entrepreneur",
-      verified: true,
-    },
-    {
-      name: "Tom W.",
-      title: "E-commerce Owner",
-      initials: "TW",
-      color: "bg-orange-500",
-      rating: 5,
-      date: "Jan 10, 2025",
-      review: "never thought i'd see my name in fast company. this service changed everything for my brand",
-      verified: true,
-    },
-    {
-      name: "Lisa H.",
-      title: "Consultant",
-      initials: "LH",
-      color: "bg-teal-500",
-      rating: 5,
-      date: "Dec 30, 2024",
-      review: "5 features in 6 weeks. my linkedin is blowing up with partnership requests now",
-      verified: true,
-    },
-    {
-      name: "Nina K.",
-      title: "Fintech Founder",
-      initials: "NK",
-      color: "bg-red-500",
-      rating: 5,
-      date: "Jan 3, 2025",
-      review: "yahoo finance picked up my story. the ROI on this has been absolutely insane",
-      verified: true,
-    },
-  ]
+  const reviews = mainReviews
 
   return (
     <section id="reviews" className="bg-slate-50 relative py-14">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Real Results, Real People</h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">500+ Success Stories Written </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">See what our clients are saying</p>
         </div>
 
@@ -106,15 +18,19 @@ export function SocialProofGrid() {
               {reviews.map((review, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl p-6 pb-10 shadow-sm border border-slate-200 hover:shadow-md transition-shadow relative"
                 >
                   {/* Header with avatar and name */}
                   <div className="flex items-start gap-3 mb-4">
                     <div className="relative">
-                      <div
-                        className={`w-12 h-12 rounded-full ${review.color} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
-                      >
-                        {review.initials}
+                      <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-200">
+                        <Image
+                          src={review.image || "/placeholder.svg"}
+                          alt={review.name}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       {review.verified && (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
@@ -130,6 +46,7 @@ export function SocialProofGrid() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-lg text-slate-900 truncate">{review.name}</h3>
+                      <p className="text-slate-500 text-sm mb-2">{review.title}</p>
                     </div>
                   </div>
 
@@ -152,6 +69,19 @@ export function SocialProofGrid() {
 
                   {/* Date */}
                   <p className="text-slate-400 text-sm">{review.date}</p>
+
+                  {review.verified && (
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                      <svg className="w-2.5 h-2.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-[10px] font-medium text-green-700">Verified customer</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -1,5 +1,5 @@
-import { CheckoutPage } from "@/components/checkout-page"
+import { redirect } from "next/navigation"
 
 export default function Checkout() {
-  return <CheckoutPage />
+  redirect("/checkout/start")
 }
