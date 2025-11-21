@@ -1,7 +1,7 @@
 "use client"
-import { Check, Loader2, Gift, Star, ArrowUp } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, useEffect, useRef } from "react"
+import { Check, Loader2, Gift, Star, ArrowUp } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { mainReviews } from "@/lib/reviews-data"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { GuaranteeSection } from "@/components/guarantee-section"
@@ -132,7 +132,7 @@ export default function Step5Page() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const outletsSection = document.getElementById('outlets-section')
+      const outletsSection = document.getElementById("outlets-section")
       if (outletsSection) {
         const rect = outletsSection.getBoundingClientRect()
         // Show arrow when outlets section is in view or has been scrolled past
@@ -151,23 +151,31 @@ export default function Step5Page() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
-  const handlePackageSelect = (pkg: Package) => {
-    setHasClickedPackage(true)
-    setSelectedPackage(pkg)
-    setIsLoading(true)
-    setTimeout(() => {
-      if (variant === 'b' && pkg === 'authority') {
-        router.push(`/payment?package=${pkg}`)
-      } else {
-        const variantParam = getVariantParam()
-        router.push(`/payment?package=${pkg}${variantParam}`)
-      }
-    }, 500)
-  }
+  const handlePackageSelect = useCallback(
+    (pkg: Package) => {
+      setSelectedPackage(pkg)
+      setIsLoading(true)
+
+      setTimeout(() => {
+        if (variant === "b" && pkg === "authority") {
+          window.location.href = "https://pay.prlaunch.io/checkout-new"
+          return
+        }
+
+        if (variant === "b" && pkg === "starter") {
+          router.push(`/payment?package=${pkg}`)
+        } else {
+          const variantParam = getVariantParam()
+          router.push(`/payment?package=${pkg}${variantParam}`)
+        }
+      }, 500)
+    },
+    [variant, router],
+  )
 
   const scrollToPackages = () => {
-    if (variant === 'b') {
-      const target = document.getElementById('scroll-target-above')
+    if (variant === "b") {
+      const target = document.getElementById("scroll-target-above")
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" })
       }
@@ -178,9 +186,9 @@ export default function Step5Page() {
 
   const displayReviews = mainReviews.slice(0, 10)
 
-  const authorityPackage = packages.find(pkg => pkg.id === "authority")
-  const starterPackage = packages.find(pkg => pkg.id === "starter")
-  const displayPackages = variant === 'b' ? (authorityPackage ? [authorityPackage] : []) : packages
+  const authorityPackage = packages.find((pkg) => pkg.id === "authority")
+  const starterPackage = packages.find((pkg) => pkg.id === "starter")
+  const displayPackages = variant === "b" ? (authorityPackage ? [authorityPackage] : []) : packages
 
   return (
     <div className="min-h-screen bg-white">
@@ -201,15 +209,16 @@ export default function Step5Page() {
         />
       </div>
 
-      <div className={`fixed top-14 left-0 right-0 z-40 py-2 px-4 text-center text-white text-sm font-semibold ${
-        variant === 'b' 
-          ? 'bg-gradient-to-r from-black via-red-900 to-black'
-          : 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600'
-      }`}>
-        {variant === 'b' 
+      <div
+        className={`fixed top-14 left-0 right-0 z-40 py-2 px-4 text-center text-white text-sm font-semibold ${
+          variant === "b"
+            ? "bg-gradient-to-r from-black via-red-900 to-black"
+            : "bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600"
+        }`}
+      >
+        {variant === "b"
           ? `🔥 Black Friday Sale: Only $28/article · ${formatTime(timeLeft)} left`
-          : `🎁 Bonus expires in ${formatTime(timeLeft)} · 8 spots left`
-        }
+          : `🎁 Bonus expires in ${formatTime(timeLeft)} · 8 spots left`}
       </div>
 
       <div className="container mx-auto px-4 max-w-2xl py-2.5" style={{ marginTop: "48px" }}>
@@ -288,15 +297,15 @@ export default function Step5Page() {
             <WhatsIncludedSection />
           </div>
 
-          {variant !== 'b' && (
+          {variant !== "b" && (
             <div data-package-section className="text-center mb-6">
               <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
             </div>
           )}
 
-          {variant === 'b' && <div id="scroll-target-above" className="h-0" />}
+          {variant === "b" && <div id="scroll-target-above" className="h-0" />}
 
-          <div ref={packagesRef} id="packages-target" className={variant === 'b' ? '-mt-20 pt-20' : ''} />
+          <div ref={packagesRef} id="packages-target" className={variant === "b" ? "-mt-20 pt-20" : ""} />
 
           <div className="space-y-6">
             {displayPackages.map((pkg) => {
@@ -308,23 +317,27 @@ export default function Step5Page() {
                   key={pkg.id}
                   onClick={() => handlePackageSelect(pkg.id)}
                   disabled={isLoading}
-                  className={`w-full rounded-2xl border-2 ${variant === 'b' ? 'border-transparent bg-gradient-to-r from-black via-red-900 to-black p-[2px]' : pkg.borderColor} bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
+                  className={`w-full rounded-2xl border-2 ${variant === "b" ? "border-transparent bg-gradient-to-r from-black via-red-900 to-black p-[2px]" : pkg.borderColor} bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                   } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_6px_rgba(34,197,94,0.1)] shadow-lg" : "shadow-lg"} overflow-visible`}
                 >
                   {pkg.bonus > 0 && (
-                    <div className={`absolute -top-4 left-1/2 -translate-x-1/2 ${variant === 'b' ? 'bg-gradient-to-r from-black via-red-900 to-black' : 'bg-gradient-to-r from-green-500 to-emerald-500'} text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20 whitespace-nowrap`}>
-                      {variant === 'b' ? '🔥 BLACK FRIDAY ULTIMATE DEAL' : `🎁 +${pkg.bonus} FREE`}
+                    <div
+                      className={`absolute -top-4 left-1/2 -translate-x-1/2 ${variant === "b" ? "bg-gradient-to-r from-black via-red-900 to-black" : "bg-gradient-to-r from-green-500 to-emerald-500"} text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20 whitespace-nowrap`}
+                    >
+                      {variant === "b" ? "🔥 BLACK FRIDAY ULTIMATE DEAL" : `🎁 +${pkg.bonus} FREE`}
                     </div>
                   )}
 
-                  <div className={`${variant === 'b' ? 'bg-white rounded-2xl' : ''} p-3.5`}>
+                  <div className={`${variant === "b" ? "bg-white rounded-2xl" : ""} p-3.5`}>
                     <div className="flex items-start justify-between gap-3 mb-2.5">
                       <div className="flex-1 min-w-0">
-                        <h3 className={`${variant === 'b' ? 'text-2xl' : 'text-lg'} font-bold text-slate-900 leading-tight mb-1`}>
+                        <h3
+                          className={`${variant === "b" ? "text-2xl" : "text-lg"} font-bold text-slate-900 leading-tight mb-1`}
+                        >
                           {totalArticles} Article{totalArticles > 1 ? "s" : ""}
                           {pkg.bonus > 0 && (
-                            <span className={`text-slate-700 font-normal ${variant === 'b' ? 'text-base' : 'text-sm'}`}>
+                            <span className={`text-slate-700 font-normal ${variant === "b" ? "text-base" : "text-sm"}`}>
                               {" "}
                               ({pkg.articles} + {pkg.bonus} Free Bonus)
                             </span>
@@ -356,7 +369,7 @@ export default function Step5Page() {
 
                       <div
                         className={`flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 ${
-                          variant === 'b'
+                          variant === "b"
                             ? "border-red-900"
                             : pkg.id === "growth"
                               ? "border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
@@ -365,10 +378,16 @@ export default function Step5Page() {
                                 : "border-slate-300 shadow-sm"
                         }`}
                       >
-                        <span className={`${variant === 'b' ? 'text-lg' : 'text-base'} font-bold text-slate-700 tracking-tight`}>
+                        <span
+                          className={`${variant === "b" ? "text-lg" : "text-base"} font-bold text-slate-700 tracking-tight`}
+                        >
                           ${pricePerArticle.toFixed(2)}/article
                         </span>
-                        <span className={`${variant === 'b' ? 'text-base' : 'text-sm'} font-semibold text-slate-600 tracking-tight`}>Claim now</span>
+                        <span
+                          className={`${variant === "b" ? "text-base" : "text-sm"} font-semibold text-slate-600 tracking-tight`}
+                        >
+                          Claim now
+                        </span>
                       </div>
 
                       <div className="space-y-1.5">
@@ -415,7 +434,7 @@ export default function Step5Page() {
               )
             })}
 
-            {variant === 'b' && starterPackage && (
+            {variant === "b" && starterPackage && (
               <div className="pt-0">
                 <div className="relative flex items-center justify-center py-6">
                   <div className="absolute inset-0 flex items-center">
@@ -425,9 +444,9 @@ export default function Step5Page() {
                     <span className="text-sm text-gray-500">or try one article</span>
                   </div>
                 </div>
-                
+
                 <button
-                  onClick={() => handlePackageSelect('starter')}
+                  onClick={() => handlePackageSelect("starter")}
                   disabled={isLoading}
                   className="w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
                 >
@@ -442,7 +461,7 @@ export default function Step5Page() {
                       className="h-[40px] text-xs text-gray-600 border-gray-300 bg-white hover:bg-gray-50"
                       onClick={(e) => {
                         e.stopPropagation()
-                        handlePackageSelect('starter')
+                        handlePackageSelect("starter")
                       }}
                     >
                       Try 1 Article
@@ -518,7 +537,7 @@ export default function Step5Page() {
       {showScrollArrow && (
         <button
           onClick={scrollToPackages}
-          className={`fixed ${variant === 'b' ? 'bottom-4' : 'bottom-6'} right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4`}
+          className={`fixed ${variant === "b" ? "bottom-4" : "bottom-6"} right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4`}
           aria-label="Scroll to packages"
         >
           <ArrowUp className="w-5 h-5" />
