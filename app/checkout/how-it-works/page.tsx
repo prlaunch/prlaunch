@@ -1,8 +1,21 @@
 "use client"
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { CheckCircle2, Loader2, TrendingUp, Users, Award, Newspaper, BadgeCheck, Crown, Globe, Key, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  CheckCircle2,
+  Loader2,
+  TrendingUp,
+  Users,
+  Award,
+  Newspaper,
+  BadgeCheck,
+  Crown,
+  Globe,
+  Key,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { ScrollingLogos } from "@/components/scrolling-logos"
@@ -15,11 +28,31 @@ export default function HowItWorksPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [timeLeft, setTimeLeft] = useState(7980)
   const variant = useVariant()
 
   useEffect(() => {
     console.log("[v0] Current variant:", variant)
   }, [variant])
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => Math.max(0, prev - 1))
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [timeLeft])
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600)
+    const mins = Math.floor((seconds % 3600) / 60)
+    const secs = seconds % 60
+    if (hours > 0) {
+      return `${hours}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+    }
+    return `${mins}:${secs.toString().padStart(2, "0")}`
+  }
 
   const handleContinue = () => {
     setIsLoading(true)
@@ -28,53 +61,43 @@ export default function HowItWorksPage() {
 
   const articles = [
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.01-wTHFPjZIg1WkKOGI4wkB1p44kE75tS.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "USA Wire",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-FlIZUm81yUn6F58xxGAORvMWPMJXrz.jpg",
+      image: "/images/img-9027-20-281-29-281-29.jpg",
       outlet: "New York Tech",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9032%20%281%29%281%29-OyadhHGUz7w9UwzeCUxUEHbNsIi1gh.jpg",
+      image: "/images/img-9032-20-281-29-281-29.jpg",
       outlet: "Bosses Mag",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.49-qgSl2doDDEQV6jGrQC4zU29cMZQ0W2.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Rolling Hype",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-UZZ2N3wUSNMZ36PXqimYdSONJtFiPB.jpg",
+      image: "/images/img-9028-20-281-29-281-29.jpg",
       outlet: "SF Tribune",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.59-hruHenKSPmJGFI0MU27Z6bdofAo811.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Bosses Mag",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.58-ApbgOZddkr31vGsgnwGOye2wIZSnpb.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "LA Tabloid",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9031%20%281%29%281%29-B3E7oIGHmSTkDTfiqhDrsxZ4U8Ifk9.jpg",
+      image: "/images/img-9031-20-281-29-281-29.jpg",
       outlet: "Success XL",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.18-Od1CX39qIbrprwPwSRGyYpf90uGCMl.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Success XL",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.19-lfedMm5vxCYOQlNDFBZm1EXLCrBMCI.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "SF Tribune",
     },
   ]
@@ -165,8 +188,12 @@ export default function HowItWorksPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="fixed top-14 left-0 right-0 z-40 py-2 px-4 text-center text-white text-sm font-semibold bg-gradient-to-r from-black via-red-900 to-black">
+        🔥 Black Friday Sale: Only $28/article · {formatTime(timeLeft)} left
+      </div>
+
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-11">
+      <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-11" style={{ marginTop: "48px" }}>
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-4 py-2">
             <span className="text-sm font-semibold text-blue-900">Your Unfair Advantage</span>
@@ -281,8 +308,9 @@ export default function HowItWorksPage() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="md:text-4xl font-bold text-slate-900 mb-4 text-2xl">{"You Decide What Your Articles Look Like and the Options are Limitless..."}</h2>
-            
+            <h2 className="md:text-4xl font-bold text-slate-900 mb-4 text-2xl">
+              {"You Decide What Your Articles Look Like and the Options are Limitless..."}
+            </h2>
           </div>
 
           {/* Mobile: Single iPhone with Horizontal Scroll */}

@@ -82,7 +82,7 @@ export default function Step5Page() {
   const category = searchParams.get("category")
   const hasReward = searchParams.get("reward") === "free_article"
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
-  const [timeLeft, setTimeLeft] = useState(15 * 60)
+  const [timeLeft, setTimeLeft] = useState(7980)
   const [isLoading, setIsLoading] = useState(false)
   const [showScrollArrow, setShowScrollArrow] = useState(false)
   const [showExitModal, setShowExitModal] = useState(false)
@@ -105,30 +105,45 @@ export default function Step5Page() {
   }, !hasClickedPackage)
 
   useEffect(() => {
-    const timerStart = localStorage.getItem("campaignTimerStart")
-    if (timerStart) {
-      const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
-      const remaining = Math.max(0, 15 * 60 - elapsed)
-      setTimeLeft(remaining)
+    const TIMER_KEY = "blackFridayTimerEnd"
+    const TIMER_DURATION = 7980 // 2 hours 13 minutes in seconds
+
+    // Initialize or retrieve the end time
+    let endTime = localStorage.getItem(TIMER_KEY)
+
+    if (!endTime) {
+      // First visit - set end time
+      const now = Date.now()
+      const end = now + TIMER_DURATION * 1000
+      localStorage.setItem(TIMER_KEY, end.toString())
+      endTime = end.toString()
     }
+
+    const calculateTimeLeft = () => {
+      const now = Date.now()
+      const end = Number.parseInt(endTime!)
+      const remaining = Math.floor((end - now) / 1000)
+
+      if (remaining <= 0) {
+        // Timer expired - reset it
+        const newEnd = Date.now() + TIMER_DURATION * 1000
+        localStorage.setItem(TIMER_KEY, newEnd.toString())
+        return TIMER_DURATION
+      }
+
+      return remaining
+    }
+
+    // Set initial time
+    setTimeLeft(calculateTimeLeft())
+
+    // Update every second
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft())
+    }, 1000)
+
+    return () => clearInterval(timer)
   }, [])
-
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => Math.max(0, prev - 1))
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [timeLeft])
-
-  useEffect(() => {
-    if (timeLeft === 0) {
-      const newStartTime = Date.now()
-      localStorage.setItem("campaignTimerStart", newStartTime.toString())
-      setTimeLeft(15 * 60)
-    }
-  }, [timeLeft])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -146,8 +161,12 @@ export default function Step5Page() {
   }, [])
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
+    const hours = Math.floor(seconds / 3600)
+    const mins = Math.floor((seconds % 3600) / 60)
     const secs = seconds % 60
+    if (hours > 0) {
+      return `${hours}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+    }
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
@@ -288,7 +307,7 @@ export default function Step5Page() {
               return (
                 <button
                   key={pkg.id}
-                  onClick={() => handlePackageSelect(pkg.id)}
+                  onClick={() => handlePackageSelect("authority")}
                   disabled={isLoading}
                   className={`w-full rounded-2xl border-2 border-transparent bg-gradient-to-r from-black via-red-900 to-black p-[2px] bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
@@ -339,7 +358,7 @@ export default function Step5Page() {
                       <div
                         onClick={(e) => {
                           e.stopPropagation()
-                          handlePackageSelect(pkg.id)
+                          handlePackageSelect("authority")
                         }}
                         className="flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 border-red-900 cursor-pointer hover:bg-slate-50 transition-colors"
                       >
@@ -379,7 +398,7 @@ export default function Step5Page() {
                     <Button
                       onClick={(e) => {
                         e.stopPropagation()
-                        handlePackageSelect(pkg.id)
+                        handlePackageSelect("authority")
                       }}
                       disabled={isLoading}
                       className="w-full h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-sm"
