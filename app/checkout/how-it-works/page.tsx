@@ -32,17 +32,49 @@ export default function HowItWorksPage() {
   const variant = useVariant()
 
   useEffect(() => {
-    console.log("[v0] Current variant:", variant)
-  }, [variant])
+    const TIMER_KEY = "blackFridayTimerEnd"
+    const TIMER_DURATION = 7980 // 2 hours 13 minutes in seconds
+
+    // Initialize or retrieve the end time
+    let endTime = localStorage.getItem(TIMER_KEY)
+
+    if (!endTime) {
+      // First visit - set end time
+      const now = Date.now()
+      const end = now + TIMER_DURATION * 1000
+      localStorage.setItem(TIMER_KEY, end.toString())
+      endTime = end.toString()
+    }
+
+    const calculateTimeLeft = () => {
+      const now = Date.now()
+      const end = Number.parseInt(endTime!)
+      const remaining = Math.floor((end - now) / 1000)
+
+      if (remaining <= 0) {
+        // Timer expired - reset it
+        const newEnd = Date.now() + TIMER_DURATION * 1000
+        localStorage.setItem(TIMER_KEY, newEnd.toString())
+        return TIMER_DURATION
+      }
+
+      return remaining
+    }
+
+    // Set initial time
+    setTimeLeft(calculateTimeLeft())
+
+    // Update every second
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft())
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
 
   useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => Math.max(0, prev - 1))
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [timeLeft])
+    console.log("[v0] Current variant:", variant)
+  }, [variant])
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600)
