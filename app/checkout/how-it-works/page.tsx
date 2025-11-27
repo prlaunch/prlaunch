@@ -281,10 +281,8 @@ export default function HowItWorksPage() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">See Real Articles From Real Clients</h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Published on major outlets, ranking on Google, building credibility that lasts.
-            </p>
+            <h2 className="md:text-4xl font-bold text-slate-900 mb-4 text-2xl">{"You Decide What Your Articles Look Like and the Options are Limitless..."}</h2>
+            
           </div>
 
           {/* Mobile: Single iPhone with Horizontal Scroll */}

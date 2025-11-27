@@ -158,7 +158,8 @@ export default function Step5Page() {
 
       setTimeout(() => {
         const variantParam = getVariantParam()
-        router.push(`/payment?package=${pkg}${variantParam}`)
+        // Always redirect to authority package
+        router.push(`/payment?package=authority${variantParam}`)
       }, 500)
     },
     [router],
@@ -335,7 +336,13 @@ export default function Step5Page() {
                         <span>{pkg.soldCount} sold in the last 24 hours</span>
                       </div>
 
-                      <div className="flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 border-red-900">
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handlePackageSelect(pkg.id)
+                        }}
+                        className="flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 border-red-900 cursor-pointer hover:bg-slate-50 transition-colors"
+                      >
                         <span className="text-lg font-bold text-slate-700 tracking-tight">
                           ${pricePerArticle.toFixed(2)}/article
                         </span>
