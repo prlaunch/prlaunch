@@ -11,6 +11,7 @@ export default function CheckoutStartPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
+  const [timeLeft, setTimeLeft] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,45 @@ export default function CheckoutStartPage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  useEffect(() => {
+    const timerStart = localStorage.getItem("blackFridayTimerStart")
+    if (timerStart) {
+      const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
+      const totalSeconds = 2 * 3600 + 13 * 60 // 2 hours 13 minutes
+      const remaining = Math.max(0, totalSeconds - elapsed)
+      setTimeLeft(remaining)
+    } else {
+      // First time, set the start time
+      const newStartTime = Date.now()
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60) // 2 hours 13 minutes in seconds
+    }
+  }, [])
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => Math.max(0, prev - 1))
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [timeLeft])
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      const newStartTime = Date.now()
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60)
+    }
+  }, [timeLeft])
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600)
+    const m = Math.floor((seconds % 3600) / 60)
+    const s = seconds % 60
+    return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
+  }
 
   const logos = [
     { src: "/images/logos/sf-tribune.png", alt: "The San Francisco Tribune" },
@@ -103,13 +143,15 @@ export default function CheckoutStartPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
+        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
+      </div>
+
       <div
         className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-lg transition-transform duration-300 ${
           showStickyCTA ? "translate-y-0" : "-translate-y-full"
         }`}
-      >
-        
-      </div>
+      ></div>
 
       {/* HERO SECTION */}
       <div className="flex items-start justify-center p-4 pt-8 pb-16">
@@ -301,9 +343,7 @@ export default function CheckoutStartPage() {
 
       <section className="bg-white my-0 py-11">
         <div className="container mx-auto px-4 max-w-5xl py-0">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
-            Your Current Options 
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">Your Current Options</h2>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {/* Traditional PR Agency */}
@@ -421,8 +461,6 @@ export default function CheckoutStartPage() {
           <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-0">Ready to see how it works?</p>
         </div>
       </section>
-
-      
 
       <section className="bg-white my-0 py-11">
         <div className="container mx-auto px-4 max-w-2xl">

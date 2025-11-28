@@ -27,61 +27,91 @@ export default function HowItWorksPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [timeLeft, setTimeLeft] = useState(0)
 
   const handleContinue = () => {
     setIsLoading(true)
     router.push("/checkout/step-5")
   }
 
+  useEffect(() => {
+    const timerStart = localStorage.getItem("blackFridayTimerStart")
+    if (timerStart) {
+      const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
+      const totalSeconds = 2 * 3600 + 13 * 60 // 2 hours 13 minutes
+      const remaining = Math.max(0, totalSeconds - elapsed)
+      setTimeLeft(remaining)
+    } else {
+      // First time, set the start time
+      const newStartTime = Date.now()
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60) // 2 hours 13 minutes in seconds
+    }
+  }, [])
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => Math.max(0, prev - 1))
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [timeLeft])
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      const newStartTime = Date.now()
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60)
+    }
+  }, [timeLeft])
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600)
+    const m = Math.floor((seconds % 3600) / 60)
+    const s = seconds % 60
+    return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
+  }
+
   const articles = [
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.01-wTHFPjZIg1WkKOGI4wkB1p44kE75tS.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "USA Wire",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9027%20%281%29%281%29-FlIZUm81yUn6F58xxGAORvMWPMJXrz.jpg",
+      image: "/images/img-9027-20-281-29-281-29.jpg",
       outlet: "New York Tech",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9032%20%281%29%281%29-OyadhHGUz7w9UwzeCUxUEHbNsIi1gh.jpg",
+      image: "/images/img-9032-20-281-29-281-29.jpg",
       outlet: "Bosses Mag",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.49-qgSl2doDDEQV6jGrQC4zU29cMZQ0W2.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Rolling Hype",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9028%20%281%29%281%29-UZZ2N3wUSNMZ36PXqimYdSONJtFiPB.jpg",
+      image: "/images/img-9028-20-281-29-281-29.jpg",
       outlet: "SF Tribune",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.59-hruHenKSPmJGFI0MU27Z6bdofAo811.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Bosses Mag",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.53.58-ApbgOZddkr31vGsgnwGOye2wIZSnpb.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "LA Tabloid",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_9031%20%281%29%281%29-B3E7oIGHmSTkDTfiqhDrsxZ4U8Ifk9.jpg",
+      image: "/images/img-9031-20-281-29-281-29.jpg",
       outlet: "Success XL",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.18-Od1CX39qIbrprwPwSRGyYpf90uGCMl.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "Success XL",
     },
     {
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2025-10-18%2001.54.19-lfedMm5vxCYOQlNDFBZm1EXLCrBMCI.jpeg",
+      image: "/images/photo-2025-10-18-2001.jpeg",
       outlet: "SF Tribune",
     },
   ]
@@ -172,6 +202,10 @@ export default function HowItWorksPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
+        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
+      </div>
+
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-11">
         <div className="container mx-auto px-4 max-w-4xl text-center">
@@ -189,7 +223,7 @@ export default function HowItWorksPage() {
             </div>
             <div className="flex items-center gap-3 justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-              <p className="text-slate-700 text-left text-xl">Unlimited revisions until you love it</p>
+              <p className="text-xl text-slate-700 text-left">Unlimited revisions until you love it</p>
             </div>
             <div className="flex items-center gap-3 justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />

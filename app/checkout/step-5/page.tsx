@@ -1,6 +1,6 @@
 "use client"
-import { Check, Loader2, Gift, Star, ArrowUp } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Check, Loader2, Gift, Star, ArrowUp } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect, useRef } from "react"
 import { mainReviews } from "@/lib/reviews-data"
 import { ScrollingLogos } from "@/components/scrolling-logos"
@@ -81,7 +81,7 @@ export default function Step5Page() {
   const category = searchParams.get("category")
   const hasReward = searchParams.get("reward") === "free_article"
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
-  const [timeLeft, setTimeLeft] = useState(15 * 60)
+  const [timeLeft, setTimeLeft] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [showScrollArrow, setShowScrollArrow] = useState(false)
   const [showExitModal, setShowExitModal] = useState(false)
@@ -99,11 +99,17 @@ export default function Step5Page() {
   }, !hasClickedPackage)
 
   useEffect(() => {
-    const timerStart = localStorage.getItem("campaignTimerStart")
+    const timerStart = localStorage.getItem("blackFridayTimerStart")
     if (timerStart) {
       const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
-      const remaining = Math.max(0, 15 * 60 - elapsed)
+      const totalSeconds = 2 * 3600 + 13 * 60 // 2 hours 13 minutes
+      const remaining = Math.max(0, totalSeconds - elapsed)
       setTimeLeft(remaining)
+    } else {
+      // First time, set the start time
+      const newStartTime = Date.now()
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60) // 2 hours 13 minutes in seconds
     }
   }, [])
 
@@ -119,17 +125,16 @@ export default function Step5Page() {
   useEffect(() => {
     if (timeLeft === 0) {
       const newStartTime = Date.now()
-      localStorage.setItem("campaignTimerStart", newStartTime.toString())
-      setTimeLeft(15 * 60)
+      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
+      setTimeLeft(2 * 3600 + 13 * 60)
     }
   }, [timeLeft])
 
   useEffect(() => {
     const handleScroll = () => {
-      const outletsSection = document.getElementById('outlets-section')
+      const outletsSection = document.getElementById("outlets-section")
       if (outletsSection) {
         const rect = outletsSection.getBoundingClientRect()
-        // Show arrow when outlets section is in view or has been scrolled past
         setShowScrollArrow(rect.top <= window.innerHeight)
       }
     }
@@ -140,9 +145,10 @@ export default function Step5Page() {
   }, [])
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
+    const hours = Math.floor(seconds / 3600)
+    const mins = Math.floor((seconds % 3600) / 60)
     const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, "0")}`
+    return `${hours}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
   }
 
   const handlePackageSelect = (pkg: Package) => {
@@ -179,8 +185,8 @@ export default function Step5Page() {
         />
       </div>
 
-      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🎁 Bonus expires in {formatTime(timeLeft)} · 8 spots left
+      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
+        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
       </div>
 
       <div className="container mx-auto px-4 max-w-2xl py-2.5" style={{ marginTop: "48px" }}>
