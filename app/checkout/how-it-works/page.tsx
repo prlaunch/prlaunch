@@ -27,50 +27,10 @@ export default function HowItWorksPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [timeLeft, setTimeLeft] = useState(0)
 
   const handleContinue = () => {
     setIsLoading(true)
     router.push("/checkout/step-5")
-  }
-
-  useEffect(() => {
-    const timerStart = localStorage.getItem("blackFridayTimerStart")
-    if (timerStart) {
-      const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
-      const totalSeconds = 2 * 3600 + 13 * 60 // 2 hours 13 minutes
-      const remaining = Math.max(0, totalSeconds - elapsed)
-      setTimeLeft(remaining)
-    } else {
-      // First time, set the start time
-      const newStartTime = Date.now()
-      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
-      setTimeLeft(2 * 3600 + 13 * 60) // 2 hours 13 minutes in seconds
-    }
-  }, [])
-
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => Math.max(0, prev - 1))
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [timeLeft])
-
-  useEffect(() => {
-    if (timeLeft === 0) {
-      const newStartTime = Date.now()
-      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
-      setTimeLeft(2 * 3600 + 13 * 60)
-    }
-  }, [timeLeft])
-
-  const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600)
-    const m = Math.floor((seconds % 3600) / 60)
-    const s = seconds % 60
-    return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
   }
 
   const articles = [
@@ -202,10 +162,6 @@ export default function HowItWorksPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
-      </div>
-
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-50 to-slate-50 py-11">
         <div className="container mx-auto px-4 max-w-4xl text-center">

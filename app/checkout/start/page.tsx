@@ -3,15 +3,13 @@
 import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from "lucide-react"
+import { Star, CheckCircle2, Clock, DollarSign } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
 
-export default function CheckoutStartPage() {
+export default function StartPage() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,45 +18,6 @@ export default function CheckoutStartPage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  useEffect(() => {
-    const timerStart = localStorage.getItem("blackFridayTimerStart")
-    if (timerStart) {
-      const elapsed = Math.floor((Date.now() - Number.parseInt(timerStart)) / 1000)
-      const totalSeconds = 2 * 3600 + 13 * 60 // 2 hours 13 minutes
-      const remaining = Math.max(0, totalSeconds - elapsed)
-      setTimeLeft(remaining)
-    } else {
-      // First time, set the start time
-      const newStartTime = Date.now()
-      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
-      setTimeLeft(2 * 3600 + 13 * 60) // 2 hours 13 minutes in seconds
-    }
-  }, [])
-
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => Math.max(0, prev - 1))
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [timeLeft])
-
-  useEffect(() => {
-    if (timeLeft === 0) {
-      const newStartTime = Date.now()
-      localStorage.setItem("blackFridayTimerStart", newStartTime.toString())
-      setTimeLeft(2 * 3600 + 13 * 60)
-    }
-  }, [timeLeft])
-
-  const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600)
-    const m = Math.floor((seconds % 3600) / 60)
-    const s = seconds % 60
-    return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
-  }
 
   const logos = [
     { src: "/images/logos/sf-tribune.png", alt: "The San Francisco Tribune" },
@@ -70,17 +29,14 @@ export default function CheckoutStartPage() {
   ]
 
   const handleStart = () => {
-    setIsLoading(true)
     router.push("/checkout/how-it-works")
   }
 
   const scrollToPricing = () => {
-    setIsLoading(true)
     router.push("/checkout/how-it-works")
   }
 
   const handleClaimBonuses = () => {
-    setIsLoading(true)
     router.push("/checkout/step-5")
   }
 
@@ -143,10 +99,6 @@ export default function CheckoutStartPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
-      </div>
-
       <div
         className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-lg transition-transform duration-300 ${
           showStickyCTA ? "translate-y-0" : "-translate-y-full"
@@ -208,19 +160,11 @@ export default function CheckoutStartPage() {
           <MovingBorderButton
             borderRadius="1.75rem"
             onClick={scrollToPricing}
-            disabled={isLoading}
             containerClassName="h-14 w-auto"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
           >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See How It Works"
-            )}
+            "See How It Works"
           </MovingBorderButton>
 
           <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">
@@ -265,19 +209,11 @@ export default function CheckoutStartPage() {
           <MovingBorderButton
             borderRadius="1.75rem"
             onClick={scrollToPricing}
-            disabled={isLoading}
             containerClassName="h-14 w-auto"
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
           >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              "See How It Works"
-            )}
+            "See How It Works"
           </MovingBorderButton>
         </div>
       </section>
@@ -323,19 +259,11 @@ export default function CheckoutStartPage() {
             <MovingBorderButton
               borderRadius="1.75rem"
               onClick={scrollToPricing}
-              disabled={isLoading}
               containerClassName="h-14 w-auto"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
               duration={3000}
             >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                "See How It Works"
-              )}
+              "See How It Works"
             </MovingBorderButton>
           </div>
         </div>
@@ -390,7 +318,7 @@ export default function CheckoutStartPage() {
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                    <Timer className="w-6 h-6 text-yellow-600" />
+                    <Clock className="w-6 h-6 text-yellow-600" />
                   </div>
                   <div>
                     <p className="text-4xl font-bold text-yellow-600">2-3 years</p>
@@ -470,19 +398,11 @@ export default function CheckoutStartPage() {
               <MovingBorderButton
                 borderRadius="1.75rem"
                 onClick={scrollToPricing}
-                disabled={isLoading}
                 containerClassName="h-16 w-auto"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-10 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-10 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                 duration={3000}
               >
-                {isLoading ? (
-                  <span className="flex items-center gap-2">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Loading...
-                  </span>
-                ) : (
-                  "See How It Works →"
-                )}
+                "See How It Works →"
               </MovingBorderButton>
               <span className="text-sm text-slate-500 mt-2">2-minute explainer</span>
             </div>
@@ -491,17 +411,9 @@ export default function CheckoutStartPage() {
             <div className="flex flex-col items-center">
               <button
                 onClick={handleClaimBonuses}
-                disabled={isLoading}
-                className="h-16 px-10 rounded-full border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:border-slate-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="h-16 px-10 rounded-full border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:border-slate-400"
               >
-                {isLoading ? (
-                  <span className="flex items-center gap-2">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Loading...
-                  </span>
-                ) : (
-                  "Skip to Pricing →"
-                )}
+                "Skip to Pricing →"
               </button>
               <span className="text-sm text-slate-500 mt-2">Already convinced?</span>
             </div>
