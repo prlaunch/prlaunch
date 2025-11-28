@@ -1,9 +1,9 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation'
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from "lucide-react"
+import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from 'lucide-react'
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
 import { useVariant, getVariantParam } from "@/lib/use-variant"
@@ -12,49 +12,7 @@ export default function CheckoutStartPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(7980)
   const variant = useVariant()
-
-  useEffect(() => {
-    const TIMER_KEY = "blackFridayTimerEnd"
-    const TIMER_DURATION = 7980 // 2 hours 13 minutes in seconds
-
-    // Initialize or retrieve the end time
-    let endTime = localStorage.getItem(TIMER_KEY)
-
-    if (!endTime) {
-      // First visit - set end time
-      const now = Date.now()
-      const end = now + TIMER_DURATION * 1000
-      localStorage.setItem(TIMER_KEY, end.toString())
-      endTime = end.toString()
-    }
-
-    const calculateTimeLeft = () => {
-      const now = Date.now()
-      const end = Number.parseInt(endTime!)
-      const remaining = Math.floor((end - now) / 1000)
-
-      if (remaining <= 0) {
-        // Timer expired - reset it
-        const newEnd = Date.now() + TIMER_DURATION * 1000
-        localStorage.setItem(TIMER_KEY, newEnd.toString())
-        return TIMER_DURATION
-      }
-
-      return remaining
-    }
-
-    // Set initial time
-    setTimeLeft(calculateTimeLeft())
-
-    // Update every second
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft())
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,16 +21,6 @@ export default function CheckoutStartPage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const mins = Math.floor((seconds % 3600) / 60)
-    const secs = seconds % 60
-    if (hours > 0) {
-      return `${hours}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
-    }
-    return `${mins}:${secs.toString().padStart(2, "0")}`
-  }
 
   const logos = [
     { src: "/images/logos/sf-tribune.png", alt: "The San Francisco Tribune" },
@@ -165,12 +113,8 @@ export default function CheckoutStartPage() {
         {/* Sticky CTA content can be added here */}
       </div>
 
-      <div className="fixed top-14 left-0 right-0 z-40 py-2 px-4 text-center text-white text-sm font-semibold bg-gradient-to-r from-black via-red-900 to-black">
-        🔥 Black Friday Sale: Only $28/article · {formatTime(timeLeft)} left
-      </div>
-
       {/* HERO SECTION */}
-      <div className="flex items-start justify-center p-4 pt-8 pb-16" style={{ marginTop: "48px" }}>
+      <div className="flex items-start justify-center p-4 pt-8 pb-16">
         <div className="text-center max-w-2xl">
           <div className="mb-6 inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3 py-1">
             <span className="text-xs">🔥</span>
@@ -359,7 +303,9 @@ export default function CheckoutStartPage() {
 
       <section className="bg-white my-0 py-11">
         <div className="container mx-auto px-4 max-w-5xl py-0">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">Your Current Options</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
+            Your Current Options 
+          </h2>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {/* Traditional PR Agency */}

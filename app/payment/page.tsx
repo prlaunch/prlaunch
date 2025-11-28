@@ -3,12 +3,12 @@
 import type React from "react"
 
 import { useState, useEffect, Suspense, useRef } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from 'next/navigation'
 import Image from "next/image"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from 'lucide-react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
@@ -394,8 +394,6 @@ function PaymentContent() {
 
   const [timeLeft, setTimeLeft] = useState(600)
 
-  const [isOutletPreviewExpanded, setIsOutletPreviewExpanded] = useState(false)
-
   const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
   const upsellPackage = currentPackage?.upsellTo ? packages[currentPackage.upsellTo as keyof typeof packages] : null
   const upsellDifference = upsellPackage ? upsellPackage.price - currentPackage.price : 0
@@ -484,8 +482,10 @@ function PaymentContent() {
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
     const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
-    const skipUpsell =
-      selectedPackage === "agency" || paymentMethodType === "apple_pay" || paymentMethodType === "google_pay"
+    const skipUpsell = 
+      selectedPackage === 'agency' || 
+      paymentMethodType === 'apple_pay' || 
+      paymentMethodType === 'google_pay'
 
     if (skipUpsell) {
       // Go directly to thank-you without upsell
@@ -555,7 +555,7 @@ function PaymentContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {variant === "b" ? (
+      {variant === 'b' ? (
         <>
           {showCelebration && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
@@ -577,7 +577,7 @@ function PaymentContent() {
           <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
               <Link
-                href={variant === "b" ? "/checkout/start?variant=b" : "/checkout/start"}
+                href={variant === 'b' ? '/checkout/start?variant=b' : '/checkout/start'}
                 scroll={true}
                 className="text-2xl font-bold tracking-tight text-black inline-block hover:opacity-80 transition-opacity cursor-pointer"
               >
@@ -597,10 +597,7 @@ function PaymentContent() {
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-1.5">
                     {reviews.slice(0, 3).map((review, index) => (
-                      <div
-                        key={index}
-                        className="w-6 h-6 rounded-full border-2 border-white overflow-hidden bg-slate-100"
-                      >
+                      <div key={index} className="w-6 h-6 rounded-full border-2 border-white overflow-hidden bg-slate-100">
                         <Image
                           src={review.image || "/placeholder.svg"}
                           alt={review.name}
@@ -661,9 +658,7 @@ function PaymentContent() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className="lg:text-lg text-sm text-slate-400 line-through">
-                          ${customOutlets.length * 47}
-                        </div>
+                        <div className="lg:text-lg text-sm text-slate-400 line-through">${customOutlets.length * 47}</div>
                         {/* removed discounted price display */}
                         <div className="lg:text-3xl text-2xl font-bold text-slate-900">${basePrice}</div>
                       </div>
@@ -740,7 +735,6 @@ function PaymentContent() {
                           }
                         : {}
                     }
-                    onClick={() => setIsOutletPreviewExpanded(!isOutletPreviewExpanded)}
                   >
                     {upgradeApplied && (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 lg:px-4 py-0.5 lg:py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 text-white text-[10px] lg:text-xs font-bold rounded-full shadow-lg">
@@ -749,9 +743,7 @@ function PaymentContent() {
                     )}
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h2 className="lg:text-2xl text-lg font-bold text-slate-900 mb-1">
-                          {currentPackage.name} Package
-                        </h2>
+                        <h2 className="lg:text-2xl text-lg font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
                         <p className="text-slate-600 text-sm lg:text-base">
                           {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
                           {currentPackage.hasBonus && currentPackage.bonusText && (
@@ -774,12 +766,8 @@ function PaymentContent() {
                       <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
                       <span className="font-semibold">Save ${currentPackage.originalPrice - currentPackage.price}</span>
                     </div>
-
-                    <CheckoutOutletPreview
-                      hideButton={true}
-                      isExpanded={isOutletPreviewExpanded}
-                      onToggle={() => setIsOutletPreviewExpanded(!isOutletPreviewExpanded)}
-                    />
+                    
+                    <CheckoutOutletPreview />
                   </div>
                 )}
 
@@ -1067,10 +1055,7 @@ function PaymentContent() {
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-1.5">
                     {reviews.slice(0, 3).map((review, index) => (
-                      <div
-                        key={index}
-                        className="w-6 h-6 rounded-full border-2 border-white overflow-hidden bg-slate-100"
-                      >
+                      <div key={index} className="w-6 h-6 rounded-full border-2 border-white overflow-hidden bg-slate-100">
                         <Image
                           src={review.image || "/placeholder.svg"}
                           alt={review.name}
@@ -1131,9 +1116,7 @@ function PaymentContent() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className="lg:text-lg text-sm text-slate-400 line-through">
-                          ${customOutlets.length * 47}
-                        </div>
+                        <div className="lg:text-lg text-sm text-slate-400 line-through">${customOutlets.length * 47}</div>
                         {/* removed discounted price display */}
                         <div className="lg:text-3xl text-2xl font-bold text-slate-900">${basePrice}</div>
                       </div>
@@ -1218,9 +1201,7 @@ function PaymentContent() {
                     )}
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h2 className="lg:text-2xl text-lg font-bold text-slate-900 mb-1">
-                          {currentPackage.name} Package
-                        </h2>
+                        <h2 className="lg:text-2xl text-lg font-bold text-slate-900 mb-1">{currentPackage.name} Package</h2>
                         <p className="text-slate-600 text-sm lg:text-base">
                           {currentPackage.articles} {currentPackage.articles === 1 ? "Article" : "Articles"}
                           {currentPackage.hasBonus && currentPackage.bonusText && (
@@ -1243,12 +1224,8 @@ function PaymentContent() {
                       <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
                       <span className="font-semibold">Save ${currentPackage.originalPrice - currentPackage.price}</span>
                     </div>
-
-                    <CheckoutOutletPreview
-                      hideButton={true}
-                      isExpanded={isOutletPreviewExpanded}
-                      onToggle={() => setIsOutletPreviewExpanded(!isOutletPreviewExpanded)}
-                    />
+                    
+                    <CheckoutOutletPreview />
                   </div>
                 )}
 

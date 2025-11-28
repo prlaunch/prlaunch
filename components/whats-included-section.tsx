@@ -5,7 +5,7 @@ import { useVariant } from "@/lib/use-variant"
 
 export function WhatsIncludedSection() {
   const variant = useVariant()
-  const packageLink = "/payment?package=authority"
+  const packageLink = variant === "b" ? "https://pay.prlaunch.io/checkout-new" : "/payment?package=authority"
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-4 md:p-6 shadow-sm">
@@ -49,6 +49,7 @@ export function WhatsIncludedSection() {
             $28/article
           </span>
         </div>
+        <p className="text-[10px] md:text-xs text-blue-100 text-right">(with 7-article package)</p>
       </a>
 
       <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
