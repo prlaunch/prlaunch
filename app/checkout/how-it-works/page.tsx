@@ -1,29 +1,36 @@
 "use client"
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { CheckCircle2, Loader2, TrendingUp, Users, Award, Newspaper, BadgeCheck, Crown, Globe, Key, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  CheckCircle2,
+  Loader2,
+  TrendingUp,
+  Users,
+  Award,
+  Newspaper,
+  BadgeCheck,
+  Crown,
+  Globe,
+  Key,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { PricingExplainerSection } from "@/components/pricing-explainer-section"
 import { GuaranteeSection } from "@/components/guarantee-section"
-import { useVariant, getVariantParam } from "@/lib/use-variant"
 
 export default function HowItWorksPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const variant = useVariant()
-
-  useEffect(() => {
-    console.log("[v0] Current variant:", variant)
-  }, [variant])
 
   const handleContinue = () => {
     setIsLoading(true)
-    router.push(`/checkout/step-5${getVariantParam()}`)
+    router.push("/checkout/step-5")
   }
 
   const articles = [

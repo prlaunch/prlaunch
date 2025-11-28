@@ -1,9 +1,9 @@
 "use client"
 
-import { X, Check } from "lucide-react"
+import { X, Check } from 'lucide-react'
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation'
 
 interface Outlet {
   name: string
@@ -20,13 +20,12 @@ interface OutletModalProps {
   outlet: Outlet
   isOpen: boolean
   onClose: () => void
-  variant?: "control" | "b"
 }
 
-export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: OutletModalProps) {
+export function OutletModal({ outlet, isOpen, onClose }: OutletModalProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-
+  
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
@@ -47,11 +46,7 @@ export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: Ou
 
   const handleGetArticles = () => {
     setIsLoading(true)
-    if (variant === "b") {
-      window.location.href = "https://pay.prlaunch.io/checkout-new"
-    } else {
-      router.push("/payment?package=authority")
-    }
+    router.push('/payment?package=authority')
   }
 
   return (
@@ -118,7 +113,9 @@ export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: Ou
                 className="object-cover object-top"
               />
             </div>
-            <p className="text-sm text-gray-600 text-center mt-2">Example article showcase</p>
+            <p className="text-sm text-gray-600 text-center mt-2">
+              Example article showcase 
+            </p>
           </div>
 
           {/* About Section */}
@@ -126,12 +123,17 @@ export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: Ou
             <h3 id="modal-title" className="text-2xl font-bold text-gray-900 mb-3">
               About {outlet.name}
             </h3>
-            <p className="text-gray-700 leading-relaxed mb-4">{outlet.description}</p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              {outlet.description}
+            </p>
             <div>
               <p className="text-sm text-gray-600 mb-2">Trusted by:</p>
               <div className="flex flex-wrap gap-2">
                 {outlet.industries.map((industry) => (
-                  <span key={industry} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                  <span
+                    key={industry}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                  >
                     {industry}
                   </span>
                 ))}
@@ -141,30 +143,42 @@ export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: Ou
 
           {/* Why This Works Section */}
           <div className="mb-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Why This Outlet Works</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              Why This Outlet Works
+            </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">Ranks on Google for business searches</span>
+                <span className="text-gray-700">
+                  Ranks on Google for business searches
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">Professional design prospects recognize</span>
+                <span className="text-gray-700">
+                  Professional design prospects recognize
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">High domain authority = credibility signal</span>
+                <span className="text-gray-700">
+                  High domain authority = credibility signal
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">Permanent placement (stays live forever)</span>
+                <span className="text-gray-700">
+                  Permanent placement (stays live forever)
+                </span>
               </li>
             </ul>
           </div>
 
           {/* Sample Articles Section */}
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Recent Articles on {outlet.name}</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              Recent Articles on {outlet.name}
+            </h3>
             <ul className="space-y-2">
               {outlet.sample_headlines.map((headline, index) => (
                 <li key={index}>
@@ -199,18 +213,9 @@ export function OutletModal({ outlet, isOpen, onClose, variant = "control" }: Ou
           >
             {isLoading ? (
               <>
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 <span>Loading...</span>
               </>

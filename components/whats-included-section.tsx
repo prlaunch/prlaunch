@@ -1,12 +1,6 @@
-"use client"
-
-import { Check } from "lucide-react"
-import { useVariant } from "@/lib/use-variant"
+import { Check } from 'lucide-react'
 
 export function WhatsIncludedSection() {
-  const variant = useVariant()
-  const packageLink = variant === "b" ? "https://pay.prlaunch.io/checkout-new" : "/payment?package=authority"
-
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-4 md:p-6 shadow-sm">
       <h2 className="text-lg md:text-xl font-bold text-slate-900 mb-1 text-center">WHAT YOU GET</h2>
@@ -25,6 +19,7 @@ export function WhatsIncludedSection() {
           <span className="text-sm md:text-base text-slate-600 font-semibold">$75</span>
         </div>
 
+
         <div className="flex items-center gap-1.5">
           <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
           <span className="text-sm md:text-base text-slate-700 flex-1">Publishing on major outlets</span>
@@ -40,7 +35,7 @@ export function WhatsIncludedSection() {
       </div>
 
       <a
-        href={packageLink}
+        href="/payment?package=authority"
         className="block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg p-3 md:p-4 mb-3 transition-all cursor-pointer group"
       >
         <div className="flex items-center justify-between mb-1">

@@ -1,18 +1,16 @@
 "use client"
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import Image from "next/image"
-import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from 'lucide-react'
+import { Star, Loader2, CheckCircle2, Clock, DollarSign, Timer } from "lucide-react"
 import { mainReviews } from "@/lib/reviews-data"
 import { useState, useEffect } from "react"
-import { useVariant, getVariantParam } from "@/lib/use-variant"
 
 export default function CheckoutStartPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
-  const variant = useVariant()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,17 +31,17 @@ export default function CheckoutStartPage() {
 
   const handleStart = () => {
     setIsLoading(true)
-    router.push(`/checkout/how-it-works${getVariantParam()}`)
+    router.push("/checkout/how-it-works")
   }
 
   const scrollToPricing = () => {
     setIsLoading(true)
-    router.push(`/checkout/how-it-works${getVariantParam()}`)
+    router.push("/checkout/how-it-works")
   }
 
   const handleClaimBonuses = () => {
     setIsLoading(true)
-    router.push(`/checkout/step-5${getVariantParam()}`)
+    router.push("/checkout/step-5")
   }
 
   const verifiedTestimonials = [
@@ -110,7 +108,7 @@ export default function CheckoutStartPage() {
           showStickyCTA ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {/* Sticky CTA content can be added here */}
+        
       </div>
 
       {/* HERO SECTION */}
@@ -423,6 +421,8 @@ export default function CheckoutStartPage() {
           <p className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-0">Ready to see how it works?</p>
         </div>
       </section>
+
+      
 
       <section className="bg-white my-0 py-11">
         <div className="container mx-auto px-4 max-w-2xl">

@@ -1,7 +1,7 @@
 "use client"
-import { Check, Loader2, Gift, Star, ArrowUp } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { Check, Loader2, Gift, Star, ArrowUp } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect, useRef } from "react"
 import { mainReviews } from "@/lib/reviews-data"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { GuaranteeSection } from "@/components/guarantee-section"
@@ -11,7 +11,6 @@ import { WhatsIncludedSection } from "@/components/whats-included-section"
 import { WhatYouGetSection } from "@/components/what-you-get-section"
 import { PricingFAQSection } from "@/components/pricing-faq-section"
 import { OutletShowcase } from "@/components/outlet-showcase"
-import { useVariant, getVariantParam } from "@/lib/use-variant"
 
 type Package = "starter" | "growth" | "authority"
 
@@ -90,11 +89,6 @@ export default function Step5Page() {
   const reviewsRef = useRef<HTMLDivElement>(null)
   const packagesRef = useRef<HTMLDivElement>(null)
   const whatsIncludedRef = useRef<HTMLDivElement>(null)
-  const variant = useVariant()
-
-  useEffect(() => {
-    // Removed console log for variant
-  }, [variant])
 
   useExitIntent(() => {
     const hasShownModal = sessionStorage.getItem("exitModalShown")
@@ -132,7 +126,7 @@ export default function Step5Page() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const outletsSection = document.getElementById("outlets-section")
+      const outletsSection = document.getElementById('outlets-section')
       if (outletsSection) {
         const rect = outletsSection.getBoundingClientRect()
         // Show arrow when outlets section is in view or has been scrolled past
@@ -151,44 +145,20 @@ export default function Step5Page() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
-  const handlePackageSelect = useCallback(
-    (pkg: Package) => {
-      setSelectedPackage(pkg)
-      setIsLoading(true)
-
-      setTimeout(() => {
-        if (variant === "b" && pkg === "authority") {
-          window.location.href = "https://pay.prlaunch.io/checkout-new"
-          return
-        }
-
-        if (variant === "b" && pkg === "starter") {
-          router.push(`/payment?package=${pkg}`)
-        } else {
-          const variantParam = getVariantParam()
-          router.push(`/payment?package=${pkg}${variantParam}`)
-        }
-      }, 500)
-    },
-    [variant, router],
-  )
+  const handlePackageSelect = (pkg: Package) => {
+    setHasClickedPackage(true)
+    setSelectedPackage(pkg)
+    setIsLoading(true)
+    setTimeout(() => {
+      router.push(`/payment?package=${pkg}`)
+    }, 500)
+  }
 
   const scrollToPackages = () => {
-    if (variant === "b") {
-      const target = document.getElementById("scroll-target-above")
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" })
-      }
-    } else {
-      packagesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
+    packagesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   const displayReviews = mainReviews.slice(0, 10)
-
-  const authorityPackage = packages.find((pkg) => pkg.id === "authority")
-  const starterPackage = packages.find((pkg) => pkg.id === "starter")
-  const displayPackages = variant === "b" ? (authorityPackage ? [authorityPackage] : []) : packages
 
   return (
     <div className="min-h-screen bg-white">
@@ -209,16 +179,8 @@ export default function Step5Page() {
         />
       </div>
 
-      <div
-        className={`fixed top-14 left-0 right-0 z-40 py-2 px-4 text-center text-white text-sm font-semibold ${
-          variant === "b"
-            ? "bg-gradient-to-r from-black via-red-900 to-black"
-            : "bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600"
-        }`}
-      >
-        {variant === "b"
-          ? `🔥 Black Friday Sale: Only $28/article · ${formatTime(timeLeft)} left`
-          : `🎁 Bonus expires in ${formatTime(timeLeft)} · 8 spots left`}
+      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
+        🎁 Bonus expires in {formatTime(timeLeft)} · 8 spots left
       </div>
 
       <div className="container mx-auto px-4 max-w-2xl py-2.5" style={{ marginTop: "48px" }}>
@@ -297,18 +259,12 @@ export default function Step5Page() {
             <WhatsIncludedSection />
           </div>
 
-          {variant !== "b" && (
-            <div data-package-section className="text-center mb-6">
-              <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
-            </div>
-          )}
+          <div data-package-section className="text-center mb-6">
+            <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
+          </div>
 
-          {variant === "b" && <div id="scroll-target-above" className="h-0" />}
-
-          <div ref={packagesRef} id="packages-target" className={variant === "b" ? "-mt-20 pt-20" : ""} />
-
-          <div className="space-y-6">
-            {displayPackages.map((pkg) => {
+          <div ref={packagesRef} className="space-y-6">
+            {packages.map((pkg) => {
               const totalArticles = pkg.articles + pkg.bonus
               const pricePerArticle = pkg.price / totalArticles
 
@@ -317,27 +273,29 @@ export default function Step5Page() {
                   key={pkg.id}
                   onClick={() => handlePackageSelect(pkg.id)}
                   disabled={isLoading}
-                  className={`w-full rounded-2xl border-2 ${variant === "b" ? "border-transparent bg-gradient-to-r from-black via-red-900 to-black p-[2px]" : pkg.borderColor} bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
+                  className={`w-full rounded-2xl border-2 ${pkg.borderColor} bg-white hover:scale-[1.01] hover:shadow-xl transition-all duration-200 text-left relative disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer ${
                     selectedPackage === pkg.id ? "ring-2 ring-offset-2 ring-blue-500" : ""
                   } ${hasReward && pkg.rewardEligible ? "shadow-[0_0_0_6px_rgba(34,197,94,0.1)] shadow-lg" : "shadow-lg"} overflow-visible`}
                 >
                   {pkg.bonus > 0 && (
-                    <div
-                      className={`absolute -top-4 left-1/2 -translate-x-1/2 ${variant === "b" ? "bg-gradient-to-r from-black via-red-900 to-black" : "bg-gradient-to-r from-green-500 to-emerald-500"} text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20 whitespace-nowrap`}
-                    >
-                      {variant === "b" ? "🔥 BLACK FRIDAY ULTIMATE DEAL" : `🎁 +${pkg.bonus} FREE`}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl flex items-center gap-1 z-20">
+                      🎁 +{pkg.bonus} FREE
                     </div>
                   )}
 
-                  <div className={`${variant === "b" ? "bg-white rounded-2xl" : ""} p-3.5`}>
+                  {hasReward && pkg.rewardEligible && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xl z-20">
+                      🎁 FREE ARTICLE
+                    </div>
+                  )}
+
+                  <div className="p-3.5">
                     <div className="flex items-start justify-between gap-3 mb-2.5">
                       <div className="flex-1 min-w-0">
-                        <h3
-                          className={`${variant === "b" ? "text-2xl" : "text-lg"} font-bold text-slate-900 leading-tight mb-1`}
-                        >
+                        <h3 className="text-lg font-bold text-slate-900 leading-tight mb-1">
                           {totalArticles} Article{totalArticles > 1 ? "s" : ""}
                           {pkg.bonus > 0 && (
-                            <span className={`text-slate-700 font-normal ${variant === "b" ? "text-base" : "text-sm"}`}>
+                            <span className="text-slate-700 font-normal text-sm">
                               {" "}
                               ({pkg.articles} + {pkg.bonus} Free Bonus)
                             </span>
@@ -369,25 +327,17 @@ export default function Step5Page() {
 
                       <div
                         className={`flex items-center justify-between bg-white border-2 rounded-lg px-3 py-1.5 ${
-                          variant === "b"
-                            ? "border-red-900"
-                            : pkg.id === "growth"
-                              ? "border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
-                              : pkg.id === "authority"
-                                ? "border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.5)]"
-                                : "border-slate-300 shadow-sm"
+                          pkg.id === "growth"
+                            ? "border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+                            : pkg.id === "authority"
+                              ? "border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.5)]"
+                              : "border-slate-300 shadow-sm"
                         }`}
                       >
-                        <span
-                          className={`${variant === "b" ? "text-lg" : "text-base"} font-bold text-slate-700 tracking-tight`}
-                        >
+                        <span className="text-base font-bold text-slate-700 tracking-tight">
                           ${pricePerArticle.toFixed(2)}/article
                         </span>
-                        <span
-                          className={`${variant === "b" ? "text-base" : "text-sm"} font-semibold text-slate-600 tracking-tight`}
-                        >
-                          Claim now
-                        </span>
+                        <span className="text-sm font-semibold text-slate-600 tracking-tight">Claim now</span>
                       </div>
 
                       <div className="space-y-1.5">
@@ -433,44 +383,6 @@ export default function Step5Page() {
                 </button>
               )
             })}
-
-            {variant === "b" && starterPackage && (
-              <div className="pt-0">
-                <div className="relative flex items-center justify-center py-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative bg-white px-4">
-                    <span className="text-sm text-gray-500">or try one article</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => handlePackageSelect("starter")}
-                  disabled={isLoading}
-                  className="w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <p className="text-xs text-gray-500 mb-0.5">Single article</p>
-                      <p className="text-base font-semibold text-gray-900">${starterPackage.price}</p>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="h-[40px] text-xs text-gray-600 border-gray-300 bg-white hover:bg-gray-50"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handlePackageSelect("starter")
-                      }}
-                    >
-                      Try 1 Article
-                    </Button>
-                  </div>
-                  <p className="text-[10px] text-gray-400">No bulk discount</p>
-                </button>
-              </div>
-            )}
           </div>
 
           <div className="mt-16">
@@ -537,7 +449,7 @@ export default function Step5Page() {
       {showScrollArrow && (
         <button
           onClick={scrollToPackages}
-          className={`fixed ${variant === "b" ? "bottom-4" : "bottom-6"} right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4`}
+          className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 animate-in fade-in slide-in-from-bottom-4"
           aria-label="Scroll to packages"
         >
           <ArrowUp className="w-5 h-5" />

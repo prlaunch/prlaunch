@@ -5,7 +5,6 @@ import Image from "next/image"
 import { OutletModal } from "./outlet-modal"
 import outletsData from "@/data/outlets.json"
 import { Button as MovingBorderButton } from "@/components/ui/moving-border"
-import { useVariant } from "@/lib/use-variant"
 
 interface Outlet {
   name: string
@@ -21,7 +20,6 @@ interface Outlet {
 export function OutletShowcase() {
   const [selectedOutlet, setSelectedOutlet] = useState<Outlet | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const variant = useVariant()
 
   const handleOutletClick = (outlet: Outlet) => {
     setSelectedOutlet(outlet)
@@ -34,9 +32,9 @@ export function OutletShowcase() {
   }
 
   const scrollToPackages = () => {
-    const targetText = document.querySelector("[data-package-section]")
+    const targetText = document.querySelector('[data-package-section]')
     if (targetText) {
-      targetText.scrollIntoView({ behavior: "smooth", block: "start" })
+      targetText.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -49,7 +47,8 @@ export function OutletShowcase() {
             You'll Choose Your Premium Outlets
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto text-pretty">
-            After purchase, browse our full catalog and select your favorites. Click any outlet to preview details.
+            After purchase, browse our full catalog and select your favorites. Click any
+            outlet to preview details.
           </p>
         </div>
 
@@ -68,13 +67,17 @@ export function OutletShowcase() {
                   className="object-cover group-hover:scale-105 transition-transform duration-200"
                 />
               </div>
-
+              
               <div className="p-3 md:p-4 flex-1 flex flex-col justify-between bg-slate-50/50">
                 <div>
-                  <p className="text-xs md:text-sm font-semibold text-slate-900 truncate mb-1">{outlet.name}</p>
-                  <p className="text-[10px] md:text-xs text-slate-500 truncate">DA {outlet.domain_authority}</p>
+                  <p className="text-xs md:text-sm font-semibold text-slate-900 truncate mb-1">
+                    {outlet.name}
+                  </p>
+                  <p className="text-[10px] md:text-xs text-slate-500 truncate">
+                    DA {outlet.domain_authority}
+                  </p>
                 </div>
-
+                
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
@@ -105,7 +108,12 @@ export function OutletShowcase() {
 
       {/* Modal */}
       {selectedOutlet && (
-        <OutletModal outlet={selectedOutlet} isOpen={isModalOpen} onClose={handleCloseModal} variant={variant} />
+        <OutletModal
+          outlet={selectedOutlet}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          style={{ zIndex: 1000 }} // Increased z-index to prevent arrow overlay on modal
+        />
       )}
     </section>
   )

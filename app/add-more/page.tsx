@@ -129,7 +129,7 @@ function AddMoreContent() {
           {/* Hero Image - Full Width */}
           <div className="relative w-full aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
             <img 
-              src="/images/design-mode/eac11d0d-d1a0-4319-83f8-6e891303ce8e%20%281%29.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/eac11d0d-d1a0-4319-83f8-6e891303ce8e%20%281%29-PWtIal1g4QPs7R2SypQ4l3wzSWlwY2.jpg"
               alt="Premium article preview"
               className="w-full h-full object-cover"
             />

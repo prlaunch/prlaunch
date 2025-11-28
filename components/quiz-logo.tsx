@@ -1,16 +1,9 @@
-"use client"
-
 import Link from "next/link"
-import { useVariant } from "@/lib/use-variant"
 
 export function Logo() {
-  const variant = useVariant()
-  
-  const href = variant === 'b' ? '/checkout/start?variant=b' : '/checkout/start'
-  
   return (
     <Link
-      href={href}
+      href="/checkout/start"
       scroll={true}
       className="text-2xl font-bold tracking-tight text-black cursor-pointer hover:opacity-80 transition-opacity"
     >
