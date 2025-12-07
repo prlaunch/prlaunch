@@ -14,7 +14,7 @@ const HEADLINE_VARIANTS = {
       "Elevate your brand and own your Google search. When they Google you, they'll know you're the real deal.",
   },
   b: {
-    headline: "The PR Tool Rich Founders Use—Now $47",
+    headline: "The PR Tool Rich Founders Use—Now $67",
     subheadline:
       "Get featured in USA Wire, Success XL, LA Tabloid, SF Tribune, Bosses Mag, Medium, and 100+ online publications. Real press coverage that builds real credibility. Same service, accessible price. Published in 48 hours or your money back.",
   },
@@ -96,7 +96,7 @@ export function HeroSection() {
                 className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                 duration={3000}
               >
-                Get Featured — $47
+                Get Featured — $67
               </MovingBorderButton>
               {showSecondaryButton && (
                 <Button

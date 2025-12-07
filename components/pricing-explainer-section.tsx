@@ -56,7 +56,7 @@ export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: Pr
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="md:text-5xl font-bold mb-6 text-balance text-3xl">...but hold on, $47???</h2>
+          <h2 className="md:text-5xl font-bold mb-6 text-balance text-3xl">...but hold on, $67???</h2>
           <div className="flex items-center justify-center gap-2 flex-wrap text-xl text-muted-foreground text-balance">
             <span>Yes.</span>
             <span className="font-bold tracking-tight text-black">
@@ -64,7 +64,7 @@ export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: Pr
             </span>
             <span className="">
               {
-                "You\'re too smart to pay thousands for what should cost \$47."
+                "You\'re too smart to pay thousands for what should cost \$67."
               }
             </span>
           </div>

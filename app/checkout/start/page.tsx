@@ -368,7 +368,7 @@ export default function StartPage() {
                     <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-xl font-bold text-slate-900">$47 per article, not $1,000</p>
+                    <p className="text-xl font-bold text-slate-900">$67 per article, not $1,000</p>
                     <p className="text-sm text-slate-600">Same outlets PR agencies use</p>
                   </div>
                 </div>

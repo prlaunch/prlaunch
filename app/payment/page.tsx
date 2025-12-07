@@ -3,12 +3,12 @@
 import type React from "react"
 
 import { useState, useEffect, Suspense, useRef } from "react"
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from 'lucide-react'
+import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
@@ -69,7 +69,7 @@ function CheckoutForm({
   }, [stripe, elements])
 
   const packages = {
-    starter: { name: "Starter", articles: 1, price: 47 },
+    starter: { name: "Starter", articles: 1, price: 67 },
     growth: { name: "Growth", articles: 3, price: 127 },
     authority: { name: "Authority", articles: 5, price: 197 },
     agency: { name: "Agency", articles: 40, price: 997 },
@@ -283,9 +283,9 @@ function PaymentContent() {
     starter: {
       name: "Starter",
       articles: 1,
-      price: 47,
-      originalPrice: 94,
-      perArticle: 47,
+      price: 67,
+      originalPrice: 134,
+      perArticle: 67,
       upsellTo: "growth",
       hasBonus: false,
       bonusText: "",
@@ -480,10 +480,8 @@ function PaymentContent() {
   const handlePaymentComplete = (customerId: string, paymentMethodType: string) => {
     const currentPackage = packages[selectedPackage as keyof typeof packages] || packages.starter
 
-    const skipUpsell = 
-      selectedPackage === 'agency' || 
-      paymentMethodType === 'apple_pay' || 
-      paymentMethodType === 'google_pay'
+    const skipUpsell =
+      selectedPackage === "agency" || paymentMethodType === "apple_pay" || paymentMethodType === "google_pay"
 
     if (skipUpsell) {
       // Go directly to thank-you without upsell
@@ -762,7 +760,7 @@ function PaymentContent() {
                   <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
                   <span className="font-semibold">Save ${currentPackage.originalPrice - currentPackage.price}</span>
                 </div>
-                
+
                 <CheckoutOutletPreview />
               </div>
             )}

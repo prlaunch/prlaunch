@@ -159,7 +159,7 @@ export default function SelectPage() {
   const calculateTotal = () => {
     const count = selectedOutlets.length
     const paidOutlets = count - Math.floor(count / 4)
-    return paidOutlets * 47
+    return paidOutlets * 67
   }
 
   const getFreeOutletsCount = () => {
@@ -258,7 +258,7 @@ export default function SelectPage() {
               </div>
 
               <h1 className="mb-6 text-balance font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl text-4xl">
-                Select Your PR Article – Only $47
+                Select Your PR Article – Only $67
               </h1>
 
               <p className="mb-4 text-pretty text-base md:text-lg lg:text-xl text-muted-foreground">
@@ -416,7 +416,7 @@ export default function SelectPage() {
                           Added
                         </>
                       ) : (
-                        <>Add to Cart ($47)</>
+                        <>Add to Cart ($67)</>
                       )}
                     </Button>
                   </div>
@@ -730,7 +730,7 @@ export default function SelectPage() {
                           <p
                             className={`text-xs font-bold mt-0.5 ${isFree ? "text-green-600 line-through" : "text-blue-600"}`}
                           >
-                            {isFree ? "$0 (was $47)" : "$47"}
+                            {isFree ? "$0 (was $67)" : "$67"}
                           </p>
                         </div>
 
@@ -750,12 +750,12 @@ export default function SelectPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-600">Subtotal ({selectedOutlets.length} articles)</span>
-                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 47}</span>
+                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 67}</span>
                     </div>
                     {getFreeOutletsCount() > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-green-600 font-medium">🎁 Free articles ({getFreeOutletsCount()})</span>
-                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 47}</span>
+                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 67}</span>
                       </div>
                     )}
                     <div className="pt-2 border-t border-slate-300 flex justify-between">
@@ -869,7 +869,7 @@ export default function SelectPage() {
                           <p
                             className={`text-xs font-bold mt-0.5 ${isFree ? "text-green-600 line-through" : "text-blue-600"}`}
                           >
-                            {isFree ? "$0 (was $47)" : "$47"}
+                            {isFree ? "$0 (was $67)" : "$67"}
                           </p>
                         </div>
 
@@ -889,12 +889,12 @@ export default function SelectPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-600">Subtotal ({selectedOutlets.length} articles)</span>
-                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 47}</span>
+                      <span className="font-semibold text-slate-900">${selectedOutlets.length * 67}</span>
                     </div>
                     {getFreeOutletsCount() > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-green-600 font-medium">🎁 Free articles ({getFreeOutletsCount()})</span>
-                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 47}</span>
+                        <span className="font-semibold text-green-600">-${getFreeOutletsCount() * 67}</span>
                       </div>
                     )}
                     <div className="pt-2 border-t border-slate-300 flex justify-between">

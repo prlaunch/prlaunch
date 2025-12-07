@@ -194,7 +194,7 @@ export function OutletSelectionSection() {
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
           >
-            Get Featured — $47
+            Get Featured — $67
           </MovingBorderButton>
         </div>
       </div>

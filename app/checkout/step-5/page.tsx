@@ -20,9 +20,9 @@ const packages = [
     name: "Starter",
     articles: 1,
     bonus: 0,
-    price: 47,
-    originalPrice: 94,
-    savings: 47,
+    price: 67,
+    originalPrice: 134,
+    savings: 67,
     description: "Perfect for: Testing PR",
     features: ["You'll pick your outlets from 15+ premium sites"],
     borderColor: "border-slate-300",
@@ -185,8 +185,8 @@ export default function Step5Page() {
         />
       </div>
 
-      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-black to-red-600 py-2 px-4 text-center text-white text-sm font-semibold">
-        🔥 BLACK FRIDAY SALE ENDS IN {formatTime(timeLeft)}
+      <div className="fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 py-2 px-4 text-center text-white text-sm font-semibold">
+        🔥 END OF YEAR SALE ENDS IN {formatTime(timeLeft)}
       </div>
 
       <div className="container mx-auto px-4 max-w-2xl py-2.5" style={{ marginTop: "48px" }}>

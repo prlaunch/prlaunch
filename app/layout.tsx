@@ -1,12 +1,23 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
+import { Inter, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
 import { Suspense } from "react"
 import { ConditionalNav } from "@/components/conditional-nav"
 import { ScrollToTop } from "@/components/scroll-to-top"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "PR Launch - Get Featured in Major Publications in 7 Days",
@@ -53,7 +64,7 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <Suspense fallback={null}>
           <ScrollToTop />
         </Suspense>

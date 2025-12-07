@@ -248,7 +248,7 @@ export default function HowItWorksPage() {
           </div>
 
           <div className="text-center mb-8">
-            <p className="text-2xl font-bold text-slate-900 mb-1">The article costs $47.</p>
+            <p className="text-2xl font-bold text-slate-900 mb-1">The article costs $67.</p>
             <p className="text-2xl font-bold text-blue-600">The access compounds forever.</p>
           </div>
 
