@@ -76,14 +76,14 @@ export function ExitIntentPopup({ cartCount, onContinue, onClose }: ExitIntentPo
             <>
               <p className="text-lg text-gray-700 mb-2 font-semibold">Your FREE article is waiting!</p>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">
-                You've unlocked a free outlet worth $47. Complete checkout to claim it.
+                You've unlocked a free outlet worth $67. Complete checkout to claim it.
               </p>
             </>
           ) : (
             <>
               <p className="text-lg text-gray-700 mb-2 font-semibold">You're close to a FREE article!</p>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">
-                Add {itemsNeeded} more outlet{itemsNeeded > 1 ? "s" : ""} to get your 4th FREE and save $47 on your
+                Add {itemsNeeded} more outlet{itemsNeeded > 1 ? "s" : ""} to get your 4th FREE and save $67 on your
                 order.
               </p>
             </>

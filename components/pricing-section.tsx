@@ -8,8 +8,8 @@ export function PricingSection() {
     {
       name: "Starter",
       articles: "1 article",
-      price: "$47",
-      perArticle: "$47",
+      price: "$67",
+      perArticle: "$67",
       popular: false,
     },
     {

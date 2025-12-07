@@ -8,7 +8,7 @@ interface PricingExplainerSectionProps {
   ctaText?: string
 }
 
-export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: PricingExplainerSectionProps) {
+export function PricingExplainerSection({ ctaText = "Get Featured — $67" }: PricingExplainerSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -62,11 +62,7 @@ export function PricingExplainerSection({ ctaText = "Get Featured — $47" }: Pr
             <span className="font-bold tracking-tight text-black">
               <span>{""}</span>
             </span>
-            <span className="">
-              {
-                "You\'re too smart to pay thousands for what should cost \$67."
-              }
-            </span>
+            <span className="">{"You're too smart to pay thousands for what should cost $67."}</span>
           </div>
         </div>
 

@@ -266,7 +266,7 @@ export function PRQuizLanding() {
               href="/checkout/step-5"
               className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 text-white font-bold text-base px-8 py-4 rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              Get Published for $47 →
+              Get Published for $67 →
             </Link>
             <p className="text-xs text-slate-600 mt-3">Professional writers • USA outlets • 5-7 day turnaround</p>
             <p className="text-xs text-slate-500 mt-2">💳 Secure checkout • Money-back guarantee</p>

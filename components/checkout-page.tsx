@@ -48,11 +48,11 @@ export function CheckoutPage() {
     {
       name: "Starter",
       articles: 1,
-      originalPrice: "$94",
-      originalPricePerArticle: "$94",
-      pricePerArticle: "$47",
-      totalPrice: "$47",
-      description: "Total: $47 for 1 article",
+      originalPrice: "$134",
+      originalPricePerArticle: "$134",
+      pricePerArticle: "$67",
+      totalPrice: "$67",
+      description: "Total: $67 for 1 article",
     },
   ]
 
@@ -69,7 +69,7 @@ export function CheckoutPage() {
     },
     {
       icon: DollarSign,
-      title: "$47 vs $5,000 Agencies",
+      title: "$67 vs $5,000 Agencies",
       description: "Get the same outlets without the agency markup",
     },
     {

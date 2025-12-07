@@ -117,7 +117,7 @@ export function PRQuizSection() {
     } else if (heldBack === "story") {
       results.push("Every business has a story worth telling - our writers know how to find it")
     } else if (heldBack === "cost") {
-      results.push("At $47, this is 95% less expensive than traditional PR agencies")
+      results.push("At $67, this is 95% less expensive than traditional PR agencies")
     } else if (heldBack === "time") {
       results.push("You invest just 5 minutes - we do all the writing and publishing")
     } else {
@@ -207,7 +207,7 @@ export function PRQuizSection() {
                     size="sm"
                     className="bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 hover:opacity-90 text-white font-semibold px-5 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    Get Published for $47 →
+                    Get Published for $67 →
                   </Button>
                 </Link>
                 <p className="text-xs text-slate-500 mt-1.5">Professional writers • USA outlets • 5-7 day turnaround</p>
