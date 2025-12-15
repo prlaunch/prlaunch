@@ -280,7 +280,7 @@ export default function Step5Page() {
             <WhatsIncludedSection />
           </div>
 
-          <div data-package-section className="text-center mb-6">
+          <div className="text-center mb-6">
             <p className="text-sm text-slate-600 font-bold">Select more and pay less per each article.</p>
           </div>
 
@@ -412,11 +412,13 @@ export default function Step5Page() {
                 <div key={index} className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
                   <div className="relative aspect-[9/16] bg-slate-100">
                     <iframe
-                      src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                      src={`https://player.vimeo.com/video/${video.videoId}?h=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=0&controls=1&portrait=1&byline=1&title=1&dnt=1`}
                       frameBorder="0"
                       allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                       className="absolute inset-0 w-full h-full"
                       title={`Video testimonial ${index + 1}`}
+                      loading="eager"
+                      referrerPolicy="no-referrer-when-downgrade"
                     />
                   </div>
                   <div className="p-2 bg-white">

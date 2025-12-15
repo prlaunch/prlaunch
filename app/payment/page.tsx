@@ -941,11 +941,13 @@ function PaymentContent() {
                     >
                       <div className="relative aspect-[9/16] bg-slate-100">
                         <iframe
-                          src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                          src={`https://player.vimeo.com/video/${video.videoId}?h=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=0&controls=1&portrait=1&byline=1&title=1&dnt=1`}
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                           className="absolute inset-0 w-full h-full"
                           title={`Video testimonial ${index + 1}`}
+                          loading="eager"
+                          referrerPolicy="no-referrer-when-downgrade"
                         />
                       </div>
 
@@ -962,7 +964,7 @@ function PaymentContent() {
 
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-slate-900 text-sm">Join 500+ action takers </h3>
+                <h3 className="font-bold text-slate-900 text-sm">Join 4,847+ action takers </h3>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />

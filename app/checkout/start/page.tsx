@@ -164,7 +164,7 @@ export default function StartPage() {
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
           >
-            "See How It Works"
+            See How It Works
           </MovingBorderButton>
 
           <div className="flex flex-col items-center gap-2 text-sm text-gray-600 mt-6">
@@ -213,7 +213,7 @@ export default function StartPage() {
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
             duration={3000}
           >
-            "See How It Works"
+            See How It Works
           </MovingBorderButton>
         </div>
       </section>
@@ -263,7 +263,7 @@ export default function StartPage() {
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
               duration={3000}
             >
-              "See How It Works"
+              See How It Works
             </MovingBorderButton>
           </div>
         </div>
@@ -402,7 +402,7 @@ export default function StartPage() {
                 className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-10 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
                 duration={3000}
               >
-                "See How It Works →"
+                See How It Works →
               </MovingBorderButton>
               <span className="text-sm text-slate-500 mt-2">2-minute explainer</span>
             </div>
@@ -413,7 +413,7 @@ export default function StartPage() {
                 onClick={handleClaimBonuses}
                 className="h-16 px-10 rounded-full border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:border-slate-400"
               >
-                "Skip to Pricing →"
+                Skip to Pricing →
               </button>
               <span className="text-sm text-slate-500 mt-2">Already convinced?</span>
             </div>
