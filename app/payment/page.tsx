@@ -551,15 +551,13 @@ function PaymentContent() {
 
   const videoTestimonials = [
     {
-      videoId: "1146466317",
-      thumbnail: "/video-testimonial-1.jpg",
+      videoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jahan%20Captions%20%281%29-JC5zSJbMdnWuDfhHR9raixFIs8slB4.mp4",
       name: "Jahan",
       role: "Founder",
       company: "Derby Digital",
     },
     {
-      videoId: "1146466337",
-      thumbnail: "/video-testimonial-2.jpg",
+      videoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Michael%20Captions%20%281%29-PwNa4xC2hwf4l9tpSv4ESdHOBWyVAb.mp4",
       name: "Michael",
       role: "Founder",
       company: "MTS Management Group",
@@ -940,17 +938,16 @@ function PaymentContent() {
                       className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow py-0 my-0"
                     >
                       <div className="relative aspect-[9/16] bg-slate-100">
-                        <iframe
-                          src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479&dnt=1`}
-                          frameBorder="0"
-                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-                          allowFullScreen
-                          loading="eager"
-                          referrerPolicy="strict-origin-when-cross-origin"
-                          className="absolute inset-0 w-full h-full"
-                          title={video.name}
-                          style={{ border: "0" }}
-                        />
+                        <video
+                          src={video.videoUrl}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          className="absolute inset-0 w-full h-full object-cover"
+                          aria-label={`Testimonial video from ${video.name}`}
+                        >
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                       <div className="p-4 bg-white">
                         <h4 className="font-bold text-slate-900 text-sm mb-1">{video.name}</h4>
