@@ -18,6 +18,7 @@ import Image from "next/image"
 import { ScrollingLogos } from "@/components/scrolling-logos"
 import { PricingExplainerSection } from "@/components/pricing-explainer-section"
 import { GuaranteeSection } from "@/components/guarantee-section"
+import Script from "next/script"
 
 export default function HowItWorksPage() {
   const router = useRouter()
@@ -95,14 +96,14 @@ export default function HowItWorksPage() {
   const videoTestimonials = [
     {
       videoId: "1146466317",
-      thumbnail: "/video-testimonial-1.jpg",
+      padding: "182.78%",
       name: "Jahan",
       role: "Founder",
       company: "Derby Digital",
     },
     {
       videoId: "1146466337",
-      thumbnail: "/video-testimonial-2.jpg",
+      padding: "177.78%",
       name: "Michael",
       role: "Founder",
       company: "MTS Management Group",
@@ -439,15 +440,14 @@ export default function HowItWorksPage() {
                   key={index}
                   className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow py-0 my-0"
                 >
-                  <div className="relative aspect-[9/16] bg-slate-100">
+                  <div style={{ padding: `${video.padding} 0 0 0`, position: "relative" }}>
                     <iframe
-                      src={`https://player.vimeo.com/video/${video.videoId}?h=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=0&controls=1&portrait=1&byline=1&title=1&dnt=1`}
+                      src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
                       frameBorder="0"
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                      className="absolute inset-0 w-full h-full"
-                      title={`Video testimonial ${index + 1}`}
-                      loading="eager"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                      title={video.name}
                     />
                   </div>
 
@@ -576,6 +576,8 @@ export default function HowItWorksPage() {
 
       {/* Guarantee Section */}
       <GuaranteeSection />
+
+      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
     </div>
   )
 }

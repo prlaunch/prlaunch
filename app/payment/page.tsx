@@ -6,11 +6,9 @@ import { useState, useEffect, Suspense, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Lock, Star, Check, Sparkles, Shield, Clock, Gift } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
 import { PolicyModal } from "@/components/policy-modal"
 import { getReviewsSubset } from "@/lib/reviews-data"
@@ -552,14 +550,14 @@ function PaymentContent() {
   const videoTestimonials = [
     {
       videoId: "1146466317",
-      thumbnail: "/video-testimonial-1.jpg",
+      padding: "182.78%",
       name: "Jahan",
       role: "Founder",
       company: "Derby Digital",
     },
     {
       videoId: "1146466337",
-      thumbnail: "/video-testimonial-2.jpg",
+      padding: "177.78%",
       name: "Michael",
       role: "Founder",
       company: "MTS Management Group",
@@ -781,147 +779,6 @@ function PaymentContent() {
                 <CheckoutOutletPreview />
               </div>
             )}
-
-            <div className="lg:order-none order-2">
-              <div
-                ref={informationCardRef}
-                className="bg-white rounded-2xl border border-slate-200 lg:p-6 p-4 shadow-sm"
-              >
-                <h3 className="lg:text-xl text-lg font-bold text-slate-900 mb-4">Your Information</h3>
-                <div className="space-y-4 mb-8">
-                  <div>
-                    <Label htmlFor="email" className="text-slate-700 font-medium text-sm">
-                      Email Address <span className="text-slate-500">(required for card payments)</span>
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value)
-                        if (emailError) setEmailError("")
-                      }}
-                      className={`mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 ${
-                        emailError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
-                      }`}
-                    />
-                    {emailError && <p className="text-xs text-red-600 mt-1.5">{emailError}</p>}
-                  </div>
-                  <div>
-                    <Label htmlFor="fullname" className="text-slate-700 font-medium text-sm">
-                      Full Name <span className="text-slate-500">(required for card payments)</span>
-                    </Label>
-                    <Input
-                      id="fullname"
-                      type="text"
-                      placeholder="John Doe"
-                      value={fullName}
-                      onChange={(e) => {
-                        setFullName(e.target.value)
-                        if (fullNameError) setFullNameError("")
-                      }}
-                      className={`mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 ${
-                        fullNameError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
-                      }`}
-                    />
-                    {fullNameError && <p className="text-xs text-red-600 mt-1.5">{fullNameError}</p>}
-                  </div>
-
-                  {isCompany && (
-                    <div className="space-y-4 pt-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                      <div>
-                        <Label htmlFor="companyname" className="text-slate-700 font-medium">
-                          Company Name
-                        </Label>
-                        <Input
-                          id="companyname"
-                          type="text"
-                          placeholder="Acme Inc."
-                          value={companyName}
-                          onChange={(e) => setCompanyName(e.target.value)}
-                          className="mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="companynumber" className="text-slate-700 font-medium">
-                          Company Number (Optional)
-                        </Label>
-                        <Input
-                          id="companynumber"
-                          type="text"
-                          placeholder="12345678"
-                          value={companyNumber}
-                          onChange={(e) => setCompanyNumber(e.target.value)}
-                          className="mt-1.5 h-11 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="border-t border-slate-200 my-6"></div>
-
-                <h3 className="lg:text-xl text-lg font-bold text-slate-900 mb-4">Payment</h3>
-                {clientSecret ? (
-                  <Elements
-                    key={clientSecret}
-                    stripe={stripePromise}
-                    options={{
-                      clientSecret,
-                      appearance: {
-                        theme: "stripe",
-                        variables: {
-                          colorPrimary: "#3b82f6",
-                          borderRadius: "12px",
-                        },
-                      },
-                      loader: "auto",
-                      paymentMethodOrder: ["apple_pay", "google_pay", "link", "card"],
-                    }}
-                  >
-                    <CheckoutForm
-                      selectedPackage={selectedPackage}
-                      email={email}
-                      fullName={fullName}
-                      companyName={companyName}
-                      companyNumber={companyNumber}
-                      emailError={emailError}
-                      fullNameError={fullNameError}
-                      setEmailError={setEmailError}
-                      setFullNameError={setFullNameError}
-                      informationCardRef={informationCardRef}
-                      onRecreatePaymentIntent={initializePayment}
-                      onPaymentComplete={handlePaymentComplete}
-                      discountedPrice={discountedPrice}
-                    />
-                  </Elements>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
-                    <p className="mt-4 text-slate-600">Loading payment form...</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-500 animate-gradient-shift shadow-lg shadow-blue-500/20 order-4 lg:order-none">
-              <div className="bg-white rounded-xl lg:p-4 p-3 shadow-sm">
-                <h3 className="text-xs lg:text-sm font-bold text-slate-900 mb-3 text-center">Your Free Bonuses</h3>
-                <ul className="space-y-2">
-                  {[
-                    "Professional editing & unlimited revisions",
-                    "Fast track to Google Knowledge Panel",
-                    "Backlinks from high-authority sites",
-                  ].map((bonus, index) => (
-                    <li key={index} className="flex items-start gap-2 text-[11px] lg:text-xs text-slate-700">
-                      <Check className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-green-500 shrink-0 mt-0.5" />
-                      <span>{bonus}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
 
           <div className="space-y-6">
@@ -939,15 +796,14 @@ function PaymentContent() {
                       key={index}
                       className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow py-0 my-0"
                     >
-                      <div className="relative aspect-[9/16] bg-slate-100">
+                      <div style={{ padding: `${video.padding} 0 0 0`, position: "relative" }}>
                         <iframe
-                          src={`https://player.vimeo.com/video/${video.videoId}?h=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=0&controls=1&portrait=1&byline=1&title=1&dnt=1`}
+                          src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
                           frameBorder="0"
-                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                          className="absolute inset-0 w-full h-full"
-                          title={`Video testimonial ${index + 1}`}
-                          loading="eager"
-                          referrerPolicy="no-referrer-when-downgrade"
+                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                          title={video.name}
                         />
                       </div>
 

@@ -77,12 +77,14 @@ const goals = [
 const videoTestimonials = [
   {
     videoId: "1146466317",
+    padding: "182.78%",
     name: "Jahan",
     role: "Founder",
     company: "Derby Digital",
   },
   {
     videoId: "1146466337",
+    padding: "177.78%",
     name: "Michael",
     role: "Founder",
     company: "MTS Management Group",
@@ -410,15 +412,14 @@ export default function Step5Page() {
             <div className="grid grid-cols-2 gap-3">
               {videoTestimonials.map((video, index) => (
                 <div key={index} className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                  <div className="relative aspect-[9/16] bg-slate-100">
+                  <div style={{ padding: `${video.padding} 0 0 0`, position: "relative" }}>
                     <iframe
-                      src={`https://player.vimeo.com/video/${video.videoId}?h=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=0&controls=1&portrait=1&byline=1&title=1&dnt=1`}
+                      src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
                       frameBorder="0"
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                      className="absolute inset-0 w-full h-full"
-                      title={`Video testimonial ${index + 1}`}
-                      loading="eager"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                      title={video.name}
                     />
                   </div>
                   <div className="p-2 bg-white">
