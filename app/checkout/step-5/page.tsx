@@ -74,6 +74,21 @@ const goals = [
   { id: "reviews", title: "Overcome Bad Reviews" },
 ]
 
+const videoTestimonials = [
+  {
+    videoId: "1146466317",
+    name: "Jahan",
+    role: "Founder",
+    company: "Derby Digital",
+  },
+  {
+    videoId: "1146466337",
+    name: "Michael",
+    role: "Founder",
+    company: "MTS Management Group",
+  },
+]
+
 export default function Step5Page() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -389,6 +404,29 @@ export default function Step5Page() {
                 </button>
               )
             })}
+          </div>
+
+          <div className="mt-8 mb-8">
+            <div className="grid grid-cols-2 gap-3">
+              {videoTestimonials.map((video, index) => (
+                <div key={index} className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                  <div className="relative aspect-[9/16] bg-slate-100">
+                    <iframe
+                      src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                      className="absolute inset-0 w-full h-full"
+                      title={`Video testimonial ${index + 1}`}
+                    />
+                  </div>
+                  <div className="p-2 bg-white">
+                    <h4 className="text-xs font-bold text-slate-900">{video.name}</h4>
+                    <p className="text-[10px] text-slate-600">{video.role}</p>
+                    <p className="text-[10px] text-slate-500">{video.company}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="mt-16">

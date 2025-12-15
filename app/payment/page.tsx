@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Lock, Star, Check, Sparkles, Shield, Mail, FileText, Edit3, Eye, Newspaper, Clock, Gift } from "lucide-react"
+import { Lock, Star, Check, Sparkles, Shield, Clock, Gift } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { createPaymentIntent, getPaymentIntentCustomer, getPaymentMethodType } from "../actions/payment-stripe"
@@ -549,8 +549,25 @@ function PaymentContent() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
+  const videoTestimonials = [
+    {
+      videoId: "1146466317",
+      thumbnail: "/video-testimonial-1.jpg",
+      name: "Jahan",
+      role: "Founder",
+      company: "Derby Digital",
+    },
+    {
+      videoId: "1146466337",
+      thumbnail: "/video-testimonial-2.jpg",
+      name: "Michael",
+      role: "Founder",
+      company: "MTS Management Group",
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {showCelebration && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md mx-4 animate-in zoom-in-95 duration-300">
@@ -908,9 +925,44 @@ function PaymentContent() {
           </div>
 
           <div className="space-y-6">
+            {/* Video Testimonials Section */}
+            <div className="mt-8 mb-8">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">See What Our Clients Say</h2>
+                <p className="text-slate-600">Real results from real entrepreneurs</p>
+              </div>
+
+              <div className="max-w-2xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {videoTestimonials.map((video, index) => (
+                    <div
+                      key={index}
+                      className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow py-0 my-0"
+                    >
+                      <div className="relative aspect-[9/16] bg-slate-100">
+                        <iframe
+                          src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                          className="absolute inset-0 w-full h-full"
+                          title={`Video testimonial ${index + 1}`}
+                        />
+                      </div>
+
+                      <div className="p-3 bg-white py-3">
+                        <h4 className="text-sm font-bold text-slate-900">{video.name}</h4>
+                        <p className="text-xs text-slate-600">{video.role}</p>
+                        <p className="text-xs text-slate-500">{video.company}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-slate-900 text-sm">What Our Customers Say</h3>
+                <h3 className="font-bold text-slate-900 text-sm">Join 500+ action takers </h3>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
@@ -950,59 +1002,6 @@ function PaymentContent() {
                 ))}
               </div>
             </div>
-
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h3 className="font-bold text-slate-900 text-sm mb-4">What Happens After Purchase</h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <Mail className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">1. Instant Confirmation</h4>
-                    <p className="text-xs text-slate-600">
-                      Receive your order confirmation and questionnaire via email
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <FileText className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">2. Share Your Story</h4>
-                    <p className="text-xs text-slate-600">Complete a simple questionnaire about your business</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <Edit3 className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">3. Professional Writing</h4>
-                    <p className="text-xs text-slate-600">Our team crafts your article with expert editing</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <Eye className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">4. Review & Approve</h4>
-                    <p className="text-xs text-slate-600">Review your article and request unlimited revisions</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                    <Newspaper className="h-4 w-4 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">5. Publication & Links</h4>
-                    <p className="text-xs text-slate-600">Your article goes live with backlinks and social proof</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1014,7 +1013,7 @@ export default function PaymentPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
           <div className="text-center">
             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
             <p className="mt-4 text-slate-600">Loading payment page...</p>

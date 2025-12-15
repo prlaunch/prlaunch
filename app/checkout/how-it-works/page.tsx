@@ -5,9 +5,6 @@ import { Button as MovingBorderButton } from "@/components/ui/moving-border"
 import {
   CheckCircle2,
   Loader2,
-  TrendingUp,
-  Users,
-  Award,
   Newspaper,
   BadgeCheck,
   Crown,
@@ -25,8 +22,8 @@ import { GuaranteeSection } from "@/components/guarantee-section"
 export default function HowItWorksPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [currentSlide, setCurrentSlide] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const handleContinue = () => {
     setIsLoading(true)
@@ -95,30 +92,20 @@ export default function HowItWorksPage() {
     setCurrentSlide((prev) => (prev + 1) % articles.length)
   }
 
-  const testimonials = [
+  const videoTestimonials = [
     {
-      name: "David K.",
-      role: "Coach",
-      image: "/testimonials/profile-3.jpg",
-      quote:
-        "I was losing clients to competitors with bigger online presence. After getting published, I closed 2 clients at $1,500 each.",
-      verified: true,
+      videoId: "1146466317",
+      thumbnail: "/video-testimonial-1.jpg",
+      name: "Jahan",
+      role: "Founder",
+      company: "Derby Digital",
     },
     {
-      name: "Michelle L.",
-      role: "Lawyer",
-      image: "/testimonials/profile-4.jpg",
-      quote:
-        "Prospects Google me before hiring—I needed credibility. Got 2 deals, ~$50k commission after my articles went live.",
-      verified: true,
-    },
-    {
-      name: "Priya W.",
-      role: "Business Owner",
-      image: "/testimonials/profile-6.jpg",
-      quote:
-        "I needed to look as established as my competitors. Featured on USA Wire. Closed 3 deals at $2,000 that month.",
-      verified: true,
+      videoId: "1146466337",
+      thumbnail: "/video-testimonial-2.jpg",
+      name: "Michael",
+      role: "Founder",
+      company: "MTS Management Group",
     },
   ]
 
@@ -441,51 +428,38 @@ export default function HowItWorksPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">
             "But Will This Work For Someone Like Me?"
           </h2>
-          <p className="text-xl text-slate-600 mb-12 text-center">
-            Yes. Here's why this works regardless of your industry:
+          <p className="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-7">
+            No matter where you're starting from, our system works if you follow the steps. Here's proof:
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {testimonials.map((testimonial, i) => (
-              <div
-                key={i}
-                className="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow flex flex-col"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-xl mb-1">{testimonial.role}</h3>
-                    <div className="flex items-center gap-2">
-                      <div className="relative w-8 h-8 rounded-full overflow-hidden bg-slate-200">
-                        <Image
-                          src={testimonial.image || "/placeholder.svg"}
-                          alt={testimonial.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <p className="font-semibold text-slate-700 text-sm">{testimonial.name}</p>
-                    </div>
+          <div className="container mx-auto px-4 max-w-2xl my-0 py-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {videoTestimonials.map((video, index) => (
+                <div
+                  key={index}
+                  className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow py-0 my-0"
+                >
+                  <div className="relative aspect-[9/16] bg-slate-100">
+                    <iframe
+                      src={`https://player.vimeo.com/video/${video.videoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                      className="absolute inset-0 w-full h-full"
+                      title={`Video testimonial ${index + 1}`}
+                    />
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    {i === 0 && <Users className="w-5 h-5 text-blue-600" />}
-                    {i === 1 && <Award className="w-5 h-5 text-blue-600" />}
-                    {i === 2 && <TrendingUp className="w-5 h-5 text-blue-600" />}
+
+                  <div className="p-3 bg-white py-3">
+                    <h4 className="text-sm font-bold text-slate-900">{video.name}</h4>
+                    <p className="text-xs text-slate-600">{video.role}</p>
+                    <p className="text-xs text-slate-500">{video.company}</p>
                   </div>
                 </div>
-
-                <p className="text-slate-700 leading-relaxed text-base flex-1 mb-4">"{testimonial.quote}"</p>
-
-                {testimonial.verified && (
-                  <div className="flex items-center gap-1.5 text-sm text-green-600 pt-3 border-t border-slate-100">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span className="font-medium">Verified customer</span>
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8 text-center">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8 text-center py-8 my-12">
             <p className="text-xl font-bold text-slate-900 mb-2">The process is the same.</p>
             <p className="text-xl font-bold text-slate-900 mb-2">The outlets are the same.</p>
             <p className="text-xl font-bold text-green-700">The results are proven.</p>
