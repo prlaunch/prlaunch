@@ -76,14 +76,14 @@ const goals = [
 
 const videoTestimonials = [
   {
-    videoUrl: "/images/jahan-20captions-20-281-29.mp4",
+    videoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jahan%20Captions%20%281%29-JC5zSJbMdnWuDfhHR9raixFIs8slB4.mp4",
     posterUrl: "/images/jahan.jpg",
     name: "Jahan",
     role: "Founder",
     company: "Derby Digital",
   },
   {
-    videoUrl: "/images/michael-20captions-20-281-29.mp4",
+    videoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Michael%20Captions%20%281%29-PwNa4xC2hwf4l9tpSv4ESdHOBWyVAb.mp4",
     posterUrl: "/images/michael.jpg",
     name: "Michael",
     role: "Founder",
