@@ -85,7 +85,7 @@ export default function BookACallPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24">
+      <section className="md:py-24 py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-3xl text-center">
             {/* Badge */}
@@ -108,45 +108,13 @@ export default function BookACallPage() {
             </p>
 
             {/* Meta Tags */}
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Clock className="h-4 w-4" />
-                <span>30 minutes</span>
-              </div>
-              <div className="h-4 w-px bg-border hidden md:block" />
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Calendar className="h-4 w-4" />
-                <span>No commitment</span>
-              </div>
-              <div className="h-4 w-px bg-border hidden md:block" />
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Shield className="h-4 w-4" />
-                <span>Free — no card required</span>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
 
       {/* Publication Logo Bar */}
-      <section className="border-y border-border bg-secondary/50 py-8">
-        <div className="container mx-auto px-4 md:px-6">
-          <p className="mb-6 text-center text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            Publications we place clients in
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {publications.map((pub) => (
-              <span
-                key={pub.name}
-                className="text-xl font-semibold text-muted-foreground/60 hover:text-foreground transition-colors cursor-default md:text-2xl"
-                style={{ fontFamily: pub.serif ? "Georgia, serif" : "inherit" }}
-              >
-                {pub.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Two Column Section */}
       <section className="py-16 md:py-24">
