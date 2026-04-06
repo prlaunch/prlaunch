@@ -7,7 +7,7 @@ import { FloatingNavSimple } from "./floating-nav-simple"
 export function ConditionalNav() {
   const pathname = usePathname()
 
-  if (pathname === "/payment" || pathname === "/thank-you") {
+  if (pathname === "/payment" || pathname === "/thank-you" || pathname === "/book-a-call") {
     return null
   }
 
