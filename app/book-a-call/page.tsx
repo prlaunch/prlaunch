@@ -81,12 +81,7 @@ export default function BookACallPage() {
     <main className="min-h-screen bg-background">
       {/* Top Security Bar */}
       <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-b border-emerald-100">
-        <div className="container mx-auto px-4 py-2.5 text-center">
-          <div className="flex items-center justify-center gap-2 text-sm text-emerald-700 font-medium">
-            <Shield className="h-4 w-4" />
-            <span>This call is 100% free — no card needed</span>
-          </div>
-        </div>
+        
       </div>
 
       {/* Hero Section */}
