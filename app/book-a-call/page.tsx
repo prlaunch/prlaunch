@@ -158,9 +158,11 @@ export default function BookACallPage() {
                   &ldquo;The strategy call alone gave me more clarity than 3 months of trying to figure out PR on my own. They mapped out exactly how to position myself for Forbes and explained the Knowledge Panel process step by step.&rdquo;
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
-                    JM
-                  </div>
+                  <img
+                    src="/images/testimonials/james-mitchell.jpg"
+                    alt="James Mitchell"
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
                   <div>
                     <p className="font-semibold text-foreground text-sm">James Mitchell</p>
                     <p className="text-muted-foreground text-sm">Founder & CEO, TechVentures</p>
