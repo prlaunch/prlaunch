@@ -78,16 +78,16 @@ export default function BookACallPage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background py-2">
       {/* Top Security Bar */}
       <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-b border-emerald-100">
         
       </div>
 
       {/* Hero Section */}
-      <section className="md:py-24 py-12">
+      <section className="py-0 my-0 md:py-0">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-3xl text-center my-10">
             {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5">
               <span className="relative flex h-2 w-2">
@@ -104,7 +104,7 @@ export default function BookACallPage() {
 
             {/* Subhead */}
             <p className="mb-8 text-pretty text-lg text-muted-foreground md:text-xl">
-              Book a free 30-minute strategy call with our PR team. No commitment — just a clear roadmap to get you featured in top-tier publications.
+              Our PR team will map out exactly how to get you published in top-tier media and show up as a verified entity on Google.
             </p>
 
             {/* Meta Tags */}
@@ -117,7 +117,7 @@ export default function BookACallPage() {
       
 
       {/* Two Column Section */}
-      <section className="md:py-24 py-1">
+      <section className="md:py-6 py-1">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left Column - What Happens */}
@@ -158,9 +158,11 @@ export default function BookACallPage() {
                   &ldquo;The strategy call alone gave me more clarity than 3 months of trying to figure out PR on my own. They mapped out exactly how to position myself for Forbes and explained the Knowledge Panel process step by step.&rdquo;
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
-                    JM
-                  </div>
+                  <img
+                    src="/images/testimonials/james-mitchell.jpg"
+                    alt="James Mitchell"
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
                   <div>
                     <p className="font-semibold text-foreground text-sm">James Mitchell</p>
                     <p className="text-muted-foreground text-sm">Founder & CEO, TechVentures</p>
@@ -195,22 +197,7 @@ export default function BookACallPage() {
                 </div>
 
                 {/* Calendar Footer */}
-                <div className="border-t border-border bg-secondary/30 px-6 py-4">
-                  <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Instant confirmation</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Calendar invite sent</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Zoom link included</span>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -218,7 +205,7 @@ export default function BookACallPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="border-t border-border bg-secondary/50 py-16 md:py-24">
+      <section className="border-t border-border bg-secondary/50 py-16 md:py-24 my-9">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-xl">
             <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">
