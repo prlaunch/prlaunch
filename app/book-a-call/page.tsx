@@ -195,22 +195,7 @@ export default function BookACallPage() {
                 </div>
 
                 {/* Calendar Footer */}
-                <div className="border-t border-border bg-secondary/30 px-6 py-4">
-                  <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Instant confirmation</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Calendar invite sent</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="h-4 w-4 text-emerald-500" />
-                      <span>Zoom link included</span>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
