@@ -2,64 +2,97 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import Glass3DCard from "./Glass3DCard"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const features = [
   {
     headline: "Look Instantly Established",
     subhead: "Even one media feature makes you look like a name people should know.",
     id: "effortless",
-    imagePath: "/images/features/upload-transform.jpg",
+    imagePath: "/images/features/google-knowledge-panel.jpg",
   },
   {
     headline: "Built-In Social Proof",
     subhead: "Post it on your site or socials and let credibility speak for you.",
     id: "money-back",
-    imagePath: "/images/features/coin-shield.jpg",
+    imagePath: "/images/features/social-proof-devices.jpg",
   },
   {
-    headline: "Strengthen Your Online Presence",
-    subhead: "Helps your name surface more on Google and AI platforms.",
+    headline: "Boost Your AI Search",
+    subhead: "AI search is the new SEO. If you want to rank high, you will need mentions.",
     id: "seo",
-    imagePath: "/images/features/seo-graph.jpg",
+    imagePath: "/images/features/search-ranking-interface.jpg",
   },
   {
-    headline: "Open Doors to Bigger Media",
-    subhead: "Small press builds the foundation that major outlets look for.",
+    headline: "Kill Bad Reviews",
+    subhead: "Burry bad reviews with positive PR articles and grow.",
     id: "credibility",
-    imagePath: "/images/features/newspaper.jpg",
+    imagePath: "/images/features/bad-press-to-positive-pr.jpg",
   },
 ]
 
 export function FeatureCardsSection() {
-  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set())
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
 
-  useEffect(() => {
-    const observers = cardRefs.current.map((card, index) => {
-      if (!card) return null
+  const infiniteFeatures = [...features, ...features, ...features]
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setVisibleCards((prev) => new Set(prev).add(index))
-            }
-          })
-        },
-        {
-          threshold: 0.2,
-          rootMargin: "0px 0px -50px 0px",
-        },
-      )
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current || isScrolling) return
 
-      observer.observe(card)
-      return observer
+    setIsScrolling(true)
+    const container = scrollContainerRef.current
+    const cardWidth = container.querySelector(".feature-card")?.clientWidth || 0
+    const gap = 32 // gap-8 = 32px
+    const scrollAmount = cardWidth + gap // Scroll by 1 card
+
+    container.scrollBy({
+      left: direction === "right" ? scrollAmount : -scrollAmount,
+      behavior: "smooth",
     })
 
-    return () => {
-      observers.forEach((observer) => observer?.disconnect())
+    setTimeout(() => setIsScrolling(false), 500)
+  }
+
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      const { scrollLeft } = container
+      const cardWidth = container.querySelector(".feature-card")?.clientWidth || 0
+      const gap = 32
+      const singleSetWidth = (cardWidth + gap) * features.length
+
+      // Calculate which set we're in (0 = first, 1 = middle, 2 = last)
+      const currentSet = Math.floor(scrollLeft / singleSetWidth)
+
+      // If we're in the last set, jump back to middle set
+      if (currentSet >= 2) {
+        const offsetInSet = scrollLeft - singleSetWidth * 2
+        container.scrollLeft = singleSetWidth + offsetInSet
+      }
+      // If we're in the first set, jump to middle set
+      else if (currentSet < 1 && scrollLeft < singleSetWidth * 0.9) {
+        const offsetInSet = scrollLeft
+        container.scrollLeft = singleSetWidth + offsetInSet
+      }
     }
+
+    container.addEventListener("scroll", handleScroll)
+
+    // Initialize scroll position to middle set
+    const initializePosition = () => {
+      const cardWidth = container.querySelector(".feature-card")?.clientWidth || 0
+      const gap = 32
+      const singleSetWidth = (cardWidth + gap) * features.length
+      container.scrollLeft = singleSetWidth
+    }
+
+    // Wait for images to load before initializing
+    setTimeout(initializePosition, 100)
+
+    return () => container.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
@@ -72,7 +105,7 @@ export function FeatureCardsSection() {
         }}
       />
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Benefits PR Articles Bring You</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
@@ -80,59 +113,87 @@ export function FeatureCardsSection() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-6 md:gap-8 items-center mb-8">
-          <Glass3DCard />
-        </div>
-        <div className="flex flex-col gap-6 md:gap-8 items-center">
-          {features.map((feature, index) => {
-            const isVisible = visibleCards.has(index)
+        <div className="relative">
+          {/* Left Arrow */}
+          <button
+            onClick={() => scroll("left")}
+            disabled={isScrolling}
+            className="
+              hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20
+              w-12 h-12 items-center justify-center rounded-full
+              bg-white shadow-lg border border-slate-200
+              transition-all duration-300
+              hover:bg-blue-50 hover:border-blue-300 hover:scale-110
+              disabled:opacity-50 disabled:cursor-not-allowed
+            "
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-6 h-6 text-slate-700" />
+          </button>
 
-            return (
-              <div
-                key={feature.id}
-                ref={(el) => {
-                  cardRefs.current[index] = el
-                }}
-                className={`
-                  group w-full max-w-md
-                  transition-all duration-700 ease-out
-                  ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
-                  hover:scale-[1.03]
-                `}
-                style={{
-                  transitionDelay: `${index * 150}ms`,
-                }}
-              >
-                <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 animate-gradient-shift bg-[length:200%_200%] overflow-hidden">
-                  <div className="relative rounded-xl p-6 md:p-8 bg-white h-full transition-shadow duration-500 group-hover:shadow-2xl">
-                    <div className="mb-6 group-hover:scale-105 transition-transform duration-500 relative h-32 w-full">
+          {/* Right Arrow */}
+          <button
+            onClick={() => scroll("right")}
+            disabled={isScrolling}
+            className="
+              hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20
+              w-12 h-12 items-center justify-center rounded-full
+              bg-white shadow-lg border border-slate-200
+              transition-all duration-300
+              hover:bg-blue-50 hover:border-blue-300 hover:scale-110
+              disabled:opacity-50 disabled:cursor-not-allowed
+            "
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-6 h-6 text-slate-700" />
+          </button>
+
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            <div className="flex gap-6 md:gap-8 pb-4">
+              {infiniteFeatures.map((feature, index) => (
+                <div
+                  key={`${feature.id}-${index}`}
+                  className="
+                    feature-card group flex-shrink-0
+                    w-[85vw] md:w-[380px]
+                  "
+                >
+                  <div
+                    className="
+                    relative rounded-xl overflow-hidden
+                    bg-white border-2 border-slate-200
+                    transition-all duration-300
+                    hover:border-blue-400 hover:shadow-lg
+                    h-[420px] flex flex-col
+                  "
+                  >
+                    {/* Image container with fixed height */}
+                    <div className="relative h-48 w-full overflow-hidden flex-shrink-0">
                       <Image
                         src={feature.imagePath || "/placeholder.svg"}
                         alt=""
                         fill
-                        className="object-contain"
-                        sizes="(max-width: 768px) 100vw, 400px"
+                        className="object-cover"
+                        sizes="(max-width: 768px) 85vw, 380px"
                       />
                     </div>
 
-                    {/* Content */}
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 leading-tight text-center">
-                      {feature.headline}
-                    </h3>
-                    <p className="text-base md:text-lg text-slate-600 leading-relaxed text-center">{feature.subhead}</p>
-
-                    {/* Subtle gradient overlay on hover */}
-                    <div
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: "linear-gradient(135deg, #2563EB 0%, #06B6D4 50%, #9333EA 100%)",
-                      }}
-                    />
+                    {/* Content container with flex-grow to fill remaining space */}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="text-xl font-bold text-slate-900 mb-3 leading-tight text-center">
+                        {feature.headline}
+                      </h3>
+                      <p className="text-base text-slate-600 leading-relaxed text-center">{feature.subhead}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

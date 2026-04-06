@@ -1,6 +1,4 @@
 "use client"
-
-import { Button } from "@/components/ui/button"
 import { FileText, Send, CheckCircle } from "lucide-react"
 
 export function HowItWorksSection() {
@@ -31,11 +29,9 @@ export function HowItWorksSection() {
       icon: CheckCircle,
       title: "You Get Published",
       subtitle: "(Guaranteed)",
-      description: "Your article goes live within 7 days or you pay nothing. Link to share everywhere.",
+      description: "Your article goes live within 48 hours or you pay nothing. Link to share everywhere.",
     },
   ]
 
-  return (
-    null
-  )
+  return null
 }

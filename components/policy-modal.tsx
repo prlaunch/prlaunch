@@ -80,7 +80,6 @@ function TermsContent() {
         </p>
         <ul className="list-disc pl-6 space-y-1 text-slate-700">
           <li>Articles are not published within 7 days after client approval</li>
-          <li>Refunds are NOT provided on discounted items or promotional gifts</li>
           <li>All refund requests must be submitted to hello@prlaunch.io</li>
         </ul>
       </section>

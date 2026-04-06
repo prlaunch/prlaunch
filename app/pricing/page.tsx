@@ -16,14 +16,11 @@ export default function PricingPage() {
       popular: false,
       isAgency: false,
       features: [
-        "Guaranteed placement within 7 days",
+        "Pro writing included",
         "Real editorial or contributor articles",
-        "Published on major news sites",
+        "Published on U.S. news sites",
         "Shareable links for social proof",
-        "Boost credibility & trust instantly",
-        "Increase conversion rates",
-        "Improve SEO with quality backlinks",
-        "100% money-back guarantee if not published within 7 days of approval",
+        "Backlinks and social media links included",
       ],
     },
     {
@@ -38,11 +35,8 @@ export default function PricingPage() {
         "Everything in Starter, plus:",
         "3 premium publication placements",
         "Better value per article",
-        "Build stronger authority",
         "Multiple backlinks for SEO",
-        "Diversified media presence",
-        "Priority support",
-        "100% money-back guarantee if not published within 7 days of approval",
+        "More prominent Google presence",
       ],
     },
     {
@@ -60,8 +54,7 @@ export default function PricingPage() {
         "Maximum authority building",
         "Comprehensive media coverage",
         "Strongest SEO impact",
-        "VIP priority support",
-        "100% money-back guarantee if not published within 7 days of approval",
+        "Priority support",
       ],
     },
     {
@@ -75,14 +68,9 @@ export default function PricingPage() {
       features: [
         "Everything in Authority, plus:",
         "40 premium publication placements",
-        "Best value per article ($24.93)",
+        "Agency deal per article ($24.93)",
         "Enterprise-level media coverage",
         "Dedicated account manager",
-        "Custom publication selection",
-        "White-label reporting available",
-        "Bulk content management",
-        "Priority placement queue",
-        "100% money-back guarantee if not published within 7 days of approval",
       ],
     },
   ]
@@ -117,9 +105,9 @@ export default function PricingPage() {
                   <div className="rounded-3xl p-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600 shadow-2xl h-full">
                     <div className="rounded-[22px] p-8 bg-gradient-to-br from-gray-900 to-gray-800 h-full flex flex-col">
                       {/* Plan Name */}
-                      <div className="mb-4">
+                      <div className="mb-6 text-center">
+                        <p className="text-2xl font-bold text-blue-400 mb-2">{pkg.articles}</p>
                         <h2 className="text-2xl font-bold text-white">{pkg.name}</h2>
-                        <p className="text-sm mt-1 text-gray-300">{pkg.articles}</p>
                       </div>
 
                       <div className="mb-6">
@@ -135,13 +123,12 @@ export default function PricingPage() {
                         <p className="mt-2 text-gray-300">{pkg.perArticle} per article</p>
                       </div>
 
-                      {/* CTA Button */}
                       <Button
                         asChild
                         size="lg"
                         className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                       >
-                        <a href={`/payment?package=${pkg.name.toLowerCase()}`}>Get Featured — {pkg.price}</a>
+                        <a href="/checkout/step-5">Get Featured</a>
                       </Button>
 
                       {/* Features List */}
@@ -165,11 +152,11 @@ export default function PricingPage() {
                     }`}
                   >
                     {/* Plan Name */}
-                    <div className="mb-4">
-                      <h2 className={`text-2xl font-bold ${pkg.isAgency ? "text-black" : "text-white"}`}>{pkg.name}</h2>
-                      <p className={`text-sm mt-1 ${pkg.isAgency ? "text-gray-600" : "text-gray-300"}`}>
+                    <div className="mb-6 text-center">
+                      <p className={`text-2xl font-bold mb-2 ${pkg.isAgency ? "text-blue-600" : "text-blue-400"}`}>
                         {pkg.articles}
                       </p>
+                      <h2 className={`text-2xl font-bold ${pkg.isAgency ? "text-black" : "text-white"}`}>{pkg.name}</h2>
                     </div>
 
                     <div className="mb-6">
@@ -191,13 +178,14 @@ export default function PricingPage() {
                       </p>
                     </div>
 
-                    {/* CTA Button */}
                     <Button
                       asChild
                       size="lg"
                       className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 mb-8"
                     >
-                      <a href={`/payment?package=${pkg.name.toLowerCase()}`}>Get Featured — {pkg.price}</a>
+                      <a href={pkg.isAgency ? `/payment?package=${pkg.name.toLowerCase()}` : "/checkout/step-5"}>
+                        Get Featured
+                      </a>
                     </Button>
 
                     {/* Features List */}
@@ -244,7 +232,7 @@ export default function PricingPage() {
             size="lg"
             className="h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           >
-            <a href="/payment?package=starter">Get Featured — $47</a>
+            <a href="/checkout/step-5">Get Featured</a>
           </Button>
         </div>
       </section>

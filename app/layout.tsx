@@ -1,26 +1,45 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script";
-import "./globals.css";
-import { Suspense } from "react";
-import { ConditionalNav } from "@/components/conditional-nav";
-import { ScrollToTop } from "@/components/scroll-to-top";
-import { StatsigClient } from "./StatsigClient";
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter, JetBrains_Mono } from "next/font/google"
+import Script from "next/script"
+import "./globals.css"
+import { Suspense } from "react"
+import { ConditionalNav } from "@/components/conditional-nav"
+import { ScrollToTop } from "@/components/scroll-to-top"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "PR Launch - Get Featured in Major Publications in 7 Days",
   description:
     "Real placements in Forbes, Entrepreneur, Business Insider. No PR agency fees. No waiting months. Starting at $47.",
   generator: "v0.app",
-};
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
     <html lang="en">
       <head>
+        <Script
+          async
+          defer
+          src="https://tools.luckyorange.com/core/lo.js?site-id=f909d981"
+          strategy="afterInteractive"
+        />
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -45,14 +64,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </noscript>
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <StatsigClient>
+      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+        <Suspense fallback={null}>
           <ScrollToTop />
-          <ConditionalNav />
-          <Suspense fallback={null}>{children}</Suspense>
-          <Analytics />
-        </StatsigClient>
+        </Suspense>
+        <ConditionalNav />
+        <Suspense fallback={null}>{children}</Suspense>
       </body>
     </html>
-  );
+  )
 }

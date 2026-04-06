@@ -1,0 +1,198 @@
+[
+  {
+    "name": "New York Business Now",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/new%20york%20business%20now-GoO1dsCx0fka2jaYk7sqlXRSeTjrBG.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/new%20york%20business%20now-goHRt6w3tm8xYwkRgCSY8hsT7ybeJ9.jpg",
+    "domain_authority": 68,
+    "founded": 2015,
+    "description": "Recognized business publication covering entrepreneurship, innovation, and industry leadership.",
+    "industries": ["Consulting", "Legal", "Coaching", "SaaS", "E-commerce"],
+    "sample_headlines": [
+      "How Sarah Chen Built a $5M Consulting Practice",
+      "Tech Founder Disrupts Traditional Insurance Industry",
+      "Attorney Launches AI-Powered Legal Research Platform"
+    ]
+  },
+  {
+    "name": "Thrive Insider",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/thrive%20insider-j5QbVahv2PeSJOEHeOYxJZQYUk7tVl.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/thrive%20insider-ELQz0MqodY47BRnnuy34eXaC9zIhjj.jpg",
+    "domain_authority": 62,
+    "founded": 2017,
+    "description": "Business media outlet focused on entrepreneur success stories and growth strategies.",
+    "industries": ["Business Owners", "Startups", "Coaches", "Consultants"],
+    "sample_headlines": [
+      "Entrepreneur Scales Agency to 7 Figures",
+      "How This Coach Built a Waitlist of 500+ Clients",
+      "From Solopreneur to Team of 20 in 18 Months"
+    ]
+  },
+  {
+    "name": "Successful Daily",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/successful%20daily-oW8U2grILvNgRup3ye5hafIKeyRpDF.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/successful%20daily-mB8DAiHHUj1Vge8JgU0h4Ui7qd3poH.jpg",
+    "domain_authority": 65,
+    "founded": 2014,
+    "description": "Daily publication covering business success, lifestyle, and growth trends.",
+    "industries": ["Entertainment", "Business", "Real Estate", "Technology"],
+    "sample_headlines": [
+      "LA Startup Raises $10M Series A",
+      "Real Estate Mogul Shares Investment Strategy",
+      "Tech Leader Revolutionizes Remote Work"
+    ]
+  },
+  {
+    "name": "Hustle Weekly",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hustle%20weekly-VJbF6Uswyozo2bUovjbCVbWJwkyuID.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hustle%20weekly-YkcJDndLLBjIXGQEjy238eSByYK49i.jpg",
+    "domain_authority": 71,
+    "founded": 2012,
+    "description": "Weekly insights and strategies for hustlers and entrepreneurs building their empires.",
+    "industries": ["Finance", "Technology", "Healthcare", "Manufacturing"],
+    "sample_headlines": [
+      "CFO Reveals Strategy Behind 300% Revenue Growth",
+      "Healthcare Innovation Saves Millions in Costs",
+      "Manufacturing Leader Adopts AI for Production"
+    ]
+  },
+  {
+    "name": "Medium",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/medium-I0rwwMuyGfYTkuFcD94BC65OLOyKBJ.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/medium-DX2GO2TFkgwmVammZcMi7RTOpOfGHJ.jpg",
+    "domain_authority": 69,
+    "founded": 2013,
+    "description": "Leading platform for thought leadership, stories, and insights from top entrepreneurs.",
+    "industries": ["Startups", "E-commerce", "SaaS", "Consulting"],
+    "sample_headlines": [
+      "E-commerce Brand Hits $50M in Year Three",
+      "SaaS Founder Shares Product-Market Fit Journey",
+      "Consultant Builds 6-Figure Practice in 90 Days"
+    ]
+  },
+  {
+    "name": "The SF Tribune",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the%20sf%20tribune-WiIYhgvrur2ZIwm7ZUDUTL9iypXYZ2.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the%20sf%20tribune-rXusATRfbNO0g9RINKqmlT5uyFdO4I.jpg",
+    "domain_authority": 74,
+    "founded": 2010,
+    "description": "San Francisco-based publication covering business leaders, tech innovation, and industry trends.",
+    "industries": ["Business", "Technology", "Finance", "Real Estate"],
+    "sample_headlines": [
+      "CEO Transforms Traditional Industry with Innovation",
+      "PropTech Founder Revolutionizes Real Estate",
+      "Fintech Leader Disrupts Banking Sector"
+    ]
+  },
+  {
+    "name": "LA Tabloid",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/la%20tabloid-6YN0qN23CCoyYJ6ulb048RHLU8kiB2.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/la%20tabloid-bxNZsKlcXNWsvAfHtKRJM2PnW34yAp.jpg",
+    "domain_authority": 72,
+    "founded": 2011,
+    "description": "Los Angeles-based publication covering business, entertainment, and cultural trends.",
+    "industries": ["Technology", "SaaS", "AI", "Blockchain"],
+    "sample_headlines": [
+      "AI Startup Secures $25M Series B Funding",
+      "Blockchain Solution Transforms Supply Chain",
+      "Developer Tools Company Reaches 1M Users"
+    ]
+  },
+  {
+    "name": "Bosses Mag",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bosses%20mag-BO35uFrutXHtKyTYE0GZeFfMD5ab0n.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bosses%20mag-bdAPsFWfg9U1Wl1tm1vusIyj4NsvOr.jpg",
+    "domain_authority": 70,
+    "founded": 2009,
+    "description": "Magazine featuring boss-level insights and strategies from industry leaders.",
+    "industries": ["Growth Companies", "Startups", "Small Business", "Leadership"],
+    "sample_headlines": [
+      "Fast-Growing Company Doubles Revenue Annually",
+      "Leadership Lessons from a 10-Year Overnight Success",
+      "Small Business Owner Expands to 50 Locations"
+    ]
+  },
+  {
+    "name": "NY Tech Media",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ny%20tech%20media-taWwGFIH3ms0yR249nBMXbYTzSxTO3.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ny%20tech%20media-dynLUlqy3nqE92vFQG0n45xjcSjVjG.jpg",
+    "domain_authority": 76,
+    "founded": 2008,
+    "description": "New York-based tech publication covering innovation, startups, and digital transformation.",
+    "industries": ["Finance", "Banking", "Investment", "Corporate"],
+    "sample_headlines": [
+      "Investment Firm Launches Innovative Fund Strategy",
+      "Banking Executive Pioneers Digital Transformation",
+      "Corporate Leader Drives Sustainable Growth Initiative"
+    ]
+  },
+  {
+    "name": "SuccessXL",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/successxl-xtbjN44GdXQutAhSgI8BylW6jBjkk3.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/successxl-N4UreSHiVYeCAhdo2B7CB2lykrSBOJ.jpg",
+    "domain_authority": 73,
+    "founded": 2011,
+    "description": "Extra-large success stories from entrepreneurs scaling their businesses to new heights.",
+    "industries": ["Innovation", "Design", "Technology", "Leadership"],
+    "sample_headlines": [
+      "Designer Creates Award-Winning User Experience",
+      "Innovation Lab Develops Breakthrough Product",
+      "Creative Agency Wins Major Brand Partnership"
+    ]
+  },
+  {
+    "name": "US Features",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/us%20features-ZRL3NB9ewKb7eojOSrOoFAyw0AsjmW.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/US%20Features-XqBltqQVmbuDWgdYe4RkMD6ORJQNp1.jpg",
+    "domain_authority": 67,
+    "founded": 2016,
+    "description": "National publication featuring business leaders, entrepreneurs, and success stories across America.",
+    "industries": ["Business", "Entrepreneurship", "Technology", "Healthcare"],
+    "sample_headlines": [
+      "Healthcare Tech Startup Reaches 100K Users",
+      "Entrepreneur Launches Multi-State Business Empire",
+      "Business Leader Transforms Industry Standards"
+    ]
+  },
+  {
+    "name": "Top Hustler",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/top%20hustler-UN0lT0gs6n6YhhB7N0E3HWefFa9ke6.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/top%20hustler-lxAmsdAHsozGxXCC1kxpc4smwsL28K.jpg",
+    "domain_authority": 64,
+    "founded": 2018,
+    "description": "Platform celebrating ambitious entrepreneurs and their journey to the top of their industries.",
+    "industries": ["Startups", "E-commerce", "Consulting", "Coaching"],
+    "sample_headlines": [
+      "E-commerce Store Grows from $0 to $2M in Year One",
+      "Consultant Books Out 6 Months in Advance",
+      "Coach Helps 1000+ Clients Achieve Goals"
+    ]
+  },
+  {
+    "name": "USA Wire",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/usa%20wire-bNEjhgJSX4i3USJzaYnj45vyQbXPte.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/usa%20wire-qyUz2LNKrLW5d3jFoT10yiuDQjz3lR.jpg",
+    "domain_authority": 75,
+    "founded": 2009,
+    "description": "National wire service covering breaking business news and industry developments.",
+    "industries": ["Finance", "Technology", "Legal", "Corporate"],
+    "sample_headlines": [
+      "Legal Tech Firm Disrupts Traditional Law Practice",
+      "Financial Services Company Expands Nationwide",
+      "Corporate Executive Named Industry Leader of Year"
+    ]
+  },
+  {
+    "name": "Washington Guardian",
+    "logo_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/washington%20guardian-KRFpNEknIPX7hCwfSz1mS7wSIldr1t.png",
+    "screenshot_url": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/washington%20guardian-uoeHSlSsiPBcX1N9lMf29jcVULXCmW.jpg",
+    "domain_authority": 77,
+    "founded": 2007,
+    "description": "Prestigious publication covering business, policy, and leadership from the nation's capital.",
+    "industries": ["Government", "Policy", "Business", "Security"],
+    "sample_headlines": [
+      "Security Firm Wins Major Government Contract",
+      "Policy Expert Launches Advisory Practice",
+      "Business Leader Influences National Standards"
+    ]
+  }
+]

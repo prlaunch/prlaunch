@@ -1,0 +1,86 @@
+"use client"
+
+import { Button as MovingBorderButton } from "@/components/ui/moving-border"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import confetti from "canvas-confetti"
+import { Loader2, ArrowLeft } from "lucide-react"
+
+export default function Step4Page() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const goal = searchParams.get("goal")
+  const category = searchParams.get("category")
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    // Trigger confetti on mount
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    })
+  }, [])
+
+  const handleClaimBonuses = () => {
+    setIsLoading(true)
+    const timerStart = Date.now()
+    localStorage.setItem("campaignTimerStart", timerStart.toString())
+    router.push(`/checkout/step-5?goal=${goal}`)
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
+          style={{ width: "66.66%" }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <button
+          onClick={() => router.push(`/checkout/step-1`)}
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors relative z-[101]"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+      </div>
+
+      <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-8 max-w-lg w-full text-center space-y-6">
+          <div className="text-6xl mb-4">🎉</div>
+          <h2 className="text-3xl font-bold text-slate-900">CONGRATULATIONS!</h2>
+          <p className="text-xl text-slate-700 mb-6">You've unlocked exclusive bonuses:</p>
+          <div className="space-y-4 text-left">
+            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-4">
+              <p className="font-bold text-slate-900 mb-1">🎁 +1 BONUS Article (on 3+ article packages)</p>
+            </div>
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4">
+              <p className="font-bold text-slate-900 mb-1">🎁 Unlimited Writing Revisions</p>
+            </div>
+          </div>
+          <MovingBorderButton
+            borderRadius="1.75rem"
+            onClick={handleClaimBonuses}
+            disabled={isLoading}
+            containerClassName="h-14 w-full"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 text-lg font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+            duration={3000}
+          >
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Loading...
+              </span>
+            ) : (
+              "Claim My Bonuses →"
+            )}
+          </MovingBorderButton>
+        </div>
+      </div>
+    </div>
+  )
+}

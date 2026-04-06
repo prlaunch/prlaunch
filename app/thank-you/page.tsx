@@ -1,10 +1,9 @@
 "use client"
 
 import { Suspense } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams } from 'next/navigation'
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Check, FileText, ArrowRight } from "lucide-react"
+import { Check, FileText, ArrowRight } from 'lucide-react'
 
 function ThankYouContent() {
   const searchParams = useSearchParams()
@@ -14,6 +13,18 @@ function ThankYouContent() {
   const price = Number.parseInt(searchParams.get("price") || "47")
   const email = searchParams.get("email") || ""
   const fullName = searchParams.get("name") || ""
+  const upsellStatus = searchParams.get("upsell") || null
+  
+  const upsellPrice = Number.parseInt(searchParams.get("upsellPrice") || "0")
+  const upsellArticles = Number.parseInt(searchParams.get("upsellArticles") || "0")
+  
+  // Determine if old upsell (EverybodyWiki) or new upsell (articles)
+  const isArticleUpsell = upsellArticles > 0
+  const isWikiUpsell = upsellStatus === "accepted" && upsellPrice > 0 && !isArticleUpsell
+
+  const totalPrice = upsellStatus === "accepted" ? price : price
+  const totalArticles = isArticleUpsell ? articles : articles
+  const savings = isArticleUpsell ? 91 : 0
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -45,6 +56,19 @@ function ThankYouContent() {
             <span className="font-semibold text-slate-900">{email}</span>
           </p>
 
+          <div className="mb-8">
+            <a
+              href="https://tally.so/r/nrzxWo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8 no-underline"
+            >
+              <FileText className="mr-2 h-5 w-5" />
+              Fill Out Questionnaire
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
+          </div>
+
           {/* Order Summary */}
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 mb-8 text-left">
             <h2 className="text-xl font-bold text-slate-900 mb-4 text-center">Order Summary</h2>
@@ -55,18 +79,74 @@ function ThankYouContent() {
               </div>
               <div className="flex items-center justify-between pb-3 border-b border-blue-200">
                 <span className="text-slate-600">Articles:</span>
-                <span className="font-semibold text-slate-900">{articles}</span>
+                <span className="font-semibold text-slate-900">{totalArticles}</span>
               </div>
+              <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                <span className="text-slate-600">Package Price:</span>
+                <span className="font-semibold text-slate-900">${price - (isArticleUpsell ? upsellPrice : 0)}</span>
+              </div>
+              
+              {isArticleUpsell && (
+                <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                  <span className="text-slate-600">✓ {upsellArticles} Additional Articles:</span>
+                  <span className="font-semibold text-green-600">${upsellPrice}</span>
+                </div>
+              )}
+              
+              {isWikiUpsell && (
+                <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                  <span className="text-slate-600">✓ EverybodyWiki Page:</span>
+                  <span className="font-semibold text-green-600">${upsellPrice}</span>
+                </div>
+              )}
+              
               <div className="flex items-center justify-between pb-3 border-b border-blue-200">
                 <span className="text-slate-600">Customer:</span>
                 <span className="font-semibold text-slate-900">{fullName}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-600">Total Paid:</span>
-                <span className="text-2xl font-bold text-slate-900">${price}</span>
+                <span className="text-2xl font-bold text-slate-900">${totalPrice}</span>
               </div>
             </div>
           </div>
+
+          {isArticleUpsell && savings > 0 && (
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-500 p-6 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 shrink-0">
+                  <Check className="h-6 w-6 text-white stroke-[3]" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{upsellArticles} Additional Articles Added!</h3>
+                  <p className="text-sm text-slate-700 mb-2">
+                    You saved ${savings} on this upgrade! Your additional articles will be written and published with
+                    your original order.
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    You'll select outlets for ALL {totalArticles} articles in the questionnaire.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isWikiUpsell && (
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-500 p-6 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 shrink-0">
+                  <Check className="h-6 w-6 text-white stroke-[3]" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">EverybodyWiki Page Added!</h3>
+                  <p className="text-sm text-slate-700">
+                    Your EverybodyWiki page will be created and delivered within 5-7 days. We'll include this in your
+                    questionnaire.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Next Steps */}
           <div className="bg-white rounded-2xl border-2 border-blue-500 p-6 mb-8">
@@ -87,7 +167,9 @@ function ThankYouContent() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-slate-900">Review your articles</p>
-                  <p className="text-xs text-slate-600 mt-1">We'll send you articles for approval within 48 hours</p>
+                  <p className="text-xs text-slate-600 mt-1">
+                    We'll send you {totalArticles} article{totalArticles > 1 ? "s" : ""} for approval within 48 hours
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -101,18 +183,6 @@ function ThankYouContent() {
               </div>
             </div>
           </div>
-
-          {/* CTA Button */}
-          <Link href="https://tally.so/r/nrzxWo" target="_blank" rel="noopener noreferrer" className="inline-block">
-            <Button
-              size="lg"
-              className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8"
-            >
-              <FileText className="mr-2 h-5 w-5" />
-              Fill Out Questionnaire
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
 
           <p className="text-sm text-slate-500 mt-6">
             Need help? Contact us at{" "}
