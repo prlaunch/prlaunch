@@ -78,16 +78,16 @@ export default function BookACallPage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background py-2">
       {/* Top Security Bar */}
       <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-b border-emerald-100">
         
       </div>
 
       {/* Hero Section */}
-      <section className="md:py-24 py-12">
+      <section className="py-0 my-0 md:py-0">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-3xl text-center my-10">
             {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5">
               <span className="relative flex h-2 w-2">
@@ -117,7 +117,7 @@ export default function BookACallPage() {
       
 
       {/* Two Column Section */}
-      <section className="md:py-24 py-1">
+      <section className="py-1 md:py-6">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left Column - What Happens */}
