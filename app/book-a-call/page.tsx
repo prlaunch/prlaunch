@@ -104,7 +104,7 @@ export default function BookACallPage() {
 
             {/* Subhead */}
             <p className="mb-8 text-pretty text-lg text-muted-foreground md:text-xl">
-              Book a free 30-minute strategy call with our PR team below. We will show you how to take things to the next leve.
+              Our PR team will map out exactly how to get you published in top-tier media and show up as a verified entity on Google.
             </p>
 
             {/* Meta Tags */}
