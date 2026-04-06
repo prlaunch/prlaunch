@@ -117,7 +117,7 @@ export default function BookACallPage() {
       
 
       {/* Two Column Section */}
-      <section className="py-1 md:py-6">
+      <section className="md:py-6 py-1">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left Column - What Happens */}
@@ -205,7 +205,7 @@ export default function BookACallPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="border-t border-border bg-secondary/50 py-16 md:py-24">
+      <section className="border-t border-border bg-secondary/50 py-16 md:py-24 my-9">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-xl">
             <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">
