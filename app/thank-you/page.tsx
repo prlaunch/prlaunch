@@ -3,7 +3,7 @@
 import { Suspense } from "react"
 import { useSearchParams } from 'next/navigation'
 import Link from "next/link"
-import { Check, FileText, ArrowRight } from 'lucide-react'
+import { Check, FileText, ArrowRight, Clock, AlertCircle } from 'lucide-react'
 
 function ThankYouContent() {
   const searchParams = useSearchParams()
@@ -43,30 +43,46 @@ function ThankYouContent() {
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-xl text-center">
           {/* Success Icon */}
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/30 animate-in zoom-in-95 duration-500">
-              <Check className="h-10 w-10 text-white stroke-[3]" />
+          <div className="mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/30 animate-in zoom-in-95 duration-500">
+              <Check className="h-8 w-8 text-white stroke-[3]" />
             </div>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Thank You for Your Order!</h1>
-          <p className="text-lg text-slate-600 mb-8">
-            Your payment has been processed successfully. We've sent a confirmation email to{" "}
-            <span className="font-semibold text-slate-900">{email}</span>
+          {/* Payment Confirmed - Smaller */}
+          <p className="text-sm font-medium text-green-600 uppercase tracking-wide mb-2">Payment Confirmed</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Thank You, {fullName || "there"}!</h1>
+          <p className="text-slate-600 mb-6">
+            Confirmation sent to <span className="font-semibold text-slate-900">{email}</span>
           </p>
 
-          <div className="mb-8">
+          {/* Critical Action Box */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border-2 border-amber-400 p-6 mb-8">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <AlertCircle className="h-5 w-5 text-amber-600" />
+              <h2 className="text-lg font-bold text-slate-900">Action Required to Continue</h2>
+            </div>
+            <p className="text-slate-700 mb-4 text-balance">
+              To write articles that truly capture <span className="font-semibold">your story</span> and meet your expectations, 
+              we need a few details from you. Without the questionnaire, we cannot begin working on your order.
+            </p>
+            <div className="flex items-center justify-center gap-2 text-sm text-slate-600 mb-5">
+              <Clock className="h-4 w-4" />
+              <span>Only takes <span className="font-bold text-slate-900">5 minutes</span> to complete</span>
+            </div>
             <a
               href="https://tally.so/r/nrzxWo"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8 no-underline"
+              className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] h-14 px-8 no-underline"
             >
               <FileText className="mr-2 h-5 w-5" />
-              Fill Out Questionnaire
+              Fill Out Questionnaire Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
+            <p className="text-xs text-slate-500 mt-3">
+              This helps us write personalized, high-quality articles about you
+            </p>
           </div>
 
           {/* Order Summary */}
